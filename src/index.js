@@ -1,24 +1,18 @@
 import Vue from 'vue';
-import Hello from './app/Hello.vue';
+import router from './router.js';
+import store from './store/store.js';
+import BootstrapVue from 'bootstrap-vue';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import './index.scss';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
 
-const router = new VueRouter({
-  mode: 'history',
-  routes: [
-    {
-      path: '/',
-      components: {
-        default: Hello
-      }
-    }
-  ]
-});
+Vue.use(BootstrapVue);
+
+store.dispatch('user/syncRouter', router);
 
 export default new Vue({
   el: '#root',
   router,
+  store,
   render: h => h('router-view')
 });

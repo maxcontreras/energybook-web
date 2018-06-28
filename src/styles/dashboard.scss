@@ -1,0 +1,55 @@
+$egreen1: #87ad36;
+
+#dashboard {
+
+    .card>div.row {
+        margin: 0;
+
+        div.col-7 {
+            .card-text {
+                font-size: 2rem;
+                margin-top: 4rem;
+
+                span {
+                    font-size: 1.5rem;
+                }
+            }
+
+            >div {
+                position: absolute;
+                bottom: 0;
+                margin: 0 40%;
+
+                .card-text {
+                    font-size: 2.5rem;
+                    color: red;
+                }
+            }
+        }
+    }
+
+    .card-title {
+        color: $egreen1;
+        margin-top: 1rem;
+        text-transform: uppercase;
+    }
+
+    .t-info {
+        background-color: $egreen1;
+        color: #FFF;
+        padding: 15px;
+        font-weight: 300;
+
+        .card-text span {
+            font-size: 1.5rem;
+
+            span {
+                font-size: 1.15rem;
+            }
+        }
+
+        hr {
+            border-color: #FFF;
+        }
+    }
+}

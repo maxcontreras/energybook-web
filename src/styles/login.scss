@@ -1,0 +1,114 @@
+$egreen: #96c13d;
+$egreen1: #87ad36;
+$lightgray: rgb(253, 254, 255);
+
+@media only screen and (max-width: 1023px) {
+    #login-view{
+        >div:first-child{
+            display: none;
+        }
+        >div{
+            width: 100%;
+
+            #login-container {
+                width: 100%;
+            }
+        }
+
+        #login-container >div.row {
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 15%;
+
+            div.fixed-bottom {
+                background-color: $lightgray;
+            }
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    #login-view {
+        margin: 0;
+
+        #login-container  >div.row{
+            margin-top: 8rem;
+
+            div.fixed-bottom {
+                width: 50%;
+                left: 51%;
+                bottom: 2%;
+            }
+        }
+    }
+}
+#login-view {
+    background-color: $egreen;
+    height: 100vh;
+
+    .header {
+        text-align: center;
+        margin-top: 45%;
+
+        h3{
+            text-transform: uppercase;
+            font-weight: 400;
+            color: #FFF;
+        }
+    }
+}
+
+#login-container{
+    background-color: $lightgray;
+    position: fixed;
+    width: 50%;
+    height: 100vh;
+    text-align: center;
+
+    .form-group {
+        margin-bottom: 2rem;
+    }
+
+    .btn-primary, .form-control {
+        font-size: 0.9rem;
+        padding: 0.575rem 0.85rem;
+    }
+
+    .form-control {
+        border-radius: 1rem;
+        color: #424242; 
+        
+    }
+
+    .btn-primary {
+        width: 100%;
+        background-color: #0084a1;
+        margin-bottom: 0.5rem;
+        border-radius: 0.5rem;
+        border-radius: 1.5rem;
+    }
+
+    ::placeholder { /* Most modern browsers support this now. */
+        color: rgba(0,0,0,0.54);
+    }
+
+    form {
+        
+        a {
+            font-size: 0.9rem;
+            text-transform: none;
+        }
+
+        .logo img {
+            width: 150px;
+            margin-bottom: 1rem;
+        }
+    }
+
+    a {
+        text-transform: uppercase;
+        font-size: 1rem;
+        color: rgba(0,0,0,0.64);
+        cursor: pointer;
+    }
+}

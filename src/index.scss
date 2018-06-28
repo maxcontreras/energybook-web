@@ -1,3 +1,72 @@
-body {
-  background-color: lightgrey;
+@import 'styles/clients.scss';
+
+$egreen: #96c13d;
+
+html, body {
+  background-color: #f7f7f7;
+  font-family: 'Roboto' !important;
+}
+
+@media (min-width: 768px) {
+  #main {
+    margin-left: 200px;
+
+    >div.row:first-child {
+      margin: 1rem;
+
+      >div.col:first-child {
+        padding: 0;
+      }
+    }
+  }
+
+  .header {
+    h3 {
+      font-size: 1.2rem;
+      color: #424242;
+      display: inline-block;
+    }
+
+    .btn {
+      float: right;
+    }
+
+    .card-body {
+      padding-bottom: 2.5rem;
+    }
+  }
+}
+
+.btn-outline-success {
+  color: $egreen;
+  border-color: $egreen;
+
+  &:hover {
+    background-color: $egreen;
+    border-color: $egreen;
+  }
+}
+
+.list {
+
+  margin-top: 1rem;
+
+  .b-table {
+
+    font-size: 0.85rem;
+
+    tr:hover {
+      cursor: pointer;
+    }
+
+    th {
+      border: none;
+      color: #424242;
+      font-weight: 500;
+    }
+
+    td {
+      color: #424242;
+    }
+  }
 }
