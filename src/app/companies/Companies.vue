@@ -4,14 +4,9 @@
             <b-row class="header">
                 <b-col md="12">
                 <b-card>
-                    <h3>Listado de Clientes</h3>
-                    <select class="selectpicker">
-                        <option>Mustard</option>
-                        <option>Ketchup</option>
-                        <option>Relish</option>
-                    </select>
+                    <h3>Listado de Compañías</h3>
                     <b-button :variant="'outline-success'">
-                        Nuevo Cliente
+                        Agregar Compañía
                     </b-button>
                 </b-card>
                 </b-col>
@@ -19,7 +14,7 @@
             <b-row class="list">
                 <b-col>
                     <b-card>
-                        <b-table responsive hover :items="items"></b-table>
+                        <b-table responsive hover :items="companies"></b-table>
                     </b-card>
                 </b-col>
             </b-row>
@@ -27,4 +22,4 @@
     </b-row>
 </template>
 
-<script src="./clients"></script>
+<script src="./companies"></script>

@@ -1,6 +1,7 @@
 $egreen: #96c13d;
 $egreen1: #87ad36;
 $lightgray: rgb(253, 254, 255);
+$darkgray: #4b4b4b;
 
 #top-nav{
     background-color: #FFF;
@@ -25,34 +26,27 @@ $lightgray: rgb(253, 254, 255);
 }
 
 #side-nav{
-    background-color: #FFF;
-    width: 200px;
+    background-color: $darkgray;
+    width: 55px;
     position: fixed;
     height: 100vh;
     top: 0;
-    border-right: 1px solid rgba(0, 0, 0, 0.125);
 
     .nav-item{
         
-        border-left: 5px solid #FFF;
+        border-right: 3px solid $darkgray;
 
         &:hover, &.current-view {
-            background-color: rgba(0,0,0,0.03);
+            background-color: rgba(0,0,0,0.2);
             border-color: $egreen;
         }
 
         i {
-            color: $egreen;
-            margin-right: 1rem;
+            color: #FFF;
         }
-    }
-
-    .nav-item:first-child {
-        background-color: $egreen;
-        border-left: 5px solid $egreen;
 
         .nav-link {
-            color: #FFF;
+            margin: 0.375rem 0.4rem;
         }
     }
 

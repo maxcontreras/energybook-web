@@ -1,15 +1,16 @@
-@import 'styles/clients.scss';
+@import 'styles/companies.scss';
 
 $egreen: #96c13d;
 
 html, body {
   background-color: #f7f7f7;
   font-family: 'Roboto' !important;
+  font-size: 13px;
 }
 
 @media (min-width: 768px) {
   #main {
-    margin-left: 200px;
+    margin-left: 55px;
 
     >div.row:first-child {
       margin: 1rem;
@@ -21,6 +22,13 @@ html, body {
   }
 
   .header {
+
+    margin-left: -13px;
+
+    >div {
+      padding: 0;
+    }
+
     h3 {
       font-size: 1.2rem;
       color: #424242;
@@ -31,8 +39,14 @@ html, body {
       float: right;
     }
 
+    .card {
+      border-left: none;
+      border-top: none;
+      border-radius: 0;
+    }
+
     .card-body {
-      padding-bottom: 2.5rem;
+      padding-bottom: 37px;;
     }
   }
 }
@@ -53,7 +67,7 @@ html, body {
 
   .b-table {
 
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 
     tr:hover {
       cursor: pointer;
@@ -61,12 +75,17 @@ html, body {
 
     th {
       border: none;
-      color: #424242;
-      font-weight: 500;
+      color: rgba(0,0,0,0.54);
+      font-weight: 600;
+      cursor: default;
     }
 
     td {
       color: #424242;
     }
   }
+}
+
+.btn {
+  border-radius: 1.25rem;
 }

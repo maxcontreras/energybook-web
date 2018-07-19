@@ -12,12 +12,13 @@ export default {
     actions: {
         syncToken({ state, commit, dispatch }) {
             if (loopback.token) {
-                commit('setAccessToken', loopback.token)
+                commit('setAccessToken', loopback.token);
+                dispatch('loadAccount', state.access_token.userId);
             }
         },
 
         syncRouter({ state, commit, dispatch }, myRouter) {
-            dispatch('syncToken')
+            dispatch('syncToken');
 
             myRouter.beforeEach((to, from, next) => {
                 if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -26,11 +27,11 @@ export default {
                             name: 'login',
                         })
                     } else {
-                        commit('setCurrentView', to, { root: true })
-                        next()
+                        commit('setCurrentView', to, { root: true });
+                        next();
                     }
                 } else {
-                    next()
+                    next();
                 }
             })
         },
@@ -53,10 +54,11 @@ export default {
         },
         loadAccount({ commit }, id) {
             return eUsers.findById({ id }).then(user => {
-                commit('setUser', user)
+                commit('setUser', user);
+                commit('setRole', user, { root: true });
             }).catch(() => {
-                loopback.removeToken()
-                router.push({ name: 'login' })
+                loopback.removeToken();
+                router.push({ name: 'login' });
             })
         }
     },

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue';
 import router from './router.js';
 import store from './store/store.js';

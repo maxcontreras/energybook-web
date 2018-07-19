@@ -8,7 +8,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		currentView: ''
+		currentView: '',
+		isAdmin: false,
+        isManager: false,
+        isUser: false,
+        isAccounting: false
 	},
 
 	modules: {
@@ -18,6 +22,24 @@ export default new Vuex.Store({
 	mutations: {
 		setCurrentView(state, route) {
             state.currentView = route.name
-        }
+		},
+		setRole(state, user) {
+			console.log(user);
+            switch(user.role_id) {
+                case 1: 
+                    state.isAdmin = true;
+                    break;
+                case 2:
+                    state.isUser = true;
+                    break;
+                case 3:
+                    state.isManager = true;
+                    break;
+                case 4:
+                    state.isAccounting = true;
+                    break;
+			} 
+			console.log(state);
+        } 
 	}
 });

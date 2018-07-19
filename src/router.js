@@ -5,7 +5,7 @@ import VueRouter from 'vue-router';
 import Login from '@/app/login/Login.vue';
 import Dashboard from '@/app/dashboard/Dashboard.vue';
 import Layout from '@/app/layout/Layout.vue';
-import Clients from '@/app/clients/Clients.vue';
+import Companies from '@/app/companies/Companies.vue';
 
 Vue.use(VueRouter);
 
@@ -18,7 +18,7 @@ const router = new VueRouter({
             component: Layout,
             children: [
                 {
-                    path: '/dashboard',
+                    path: '/reportes',
                     name: 'dashboard',
                     components: {
                         default: Dashboard
@@ -26,10 +26,10 @@ const router = new VueRouter({
                     meta: { requiresAuth: true }
                 },
                 {
-                    path: '/clientes',
-                    name: 'clients',
+                    path: '/companias',
+                    name: 'companies',
                     components: {
-                        default: Clients
+                        default: Companies
                     },
                     meta: { requiresAuth: true }
                 }
