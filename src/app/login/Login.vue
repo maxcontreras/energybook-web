@@ -1,6 +1,6 @@
 <template>
     <b-row id="login-view">
-        <b-col lg="6">
+        <b-col lg="6" class="header-img">
             <b-row align-h="center">
                 <div class="header">
                     <h3>Software de Gestión y Eficiencia <br/> Energética</h3>

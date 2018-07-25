@@ -1,4 +1,4 @@
-$egreen: #96c13d;
+$egreen: #84b92e;
 $egreen1: #87ad36;
 $lightgray: rgb(253, 254, 255);
 
@@ -43,7 +43,8 @@ $lightgray: rgb(253, 254, 255);
     }
 }
 #login-view {
-    background-color: $egreen;
+    background-color: $lightgray;
+    padding-left: 0px !important;
     height: 100vh;
 
     .header {
@@ -57,6 +58,13 @@ $lightgray: rgb(253, 254, 255);
             font-size: 1.5rem;
         }
     }
+}
+
+.header-img{
+    background-image: url("/assets/images/header2.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto;
 }
 
 #login-container{
@@ -77,13 +85,14 @@ $lightgray: rgb(253, 254, 255);
 
     .form-control {
         border-radius: 1rem;
-        color: #424242; 
-        
+        color: #424242;
+
     }
 
     .btn-primary {
         width: 100%;
-        background-color: #0084a1;
+        border: none;
+        background-color: $egreen;
         margin-bottom: 0.5rem;
         border-radius: 0.5rem;
         border-radius: 1.5rem;
@@ -94,7 +103,7 @@ $lightgray: rgb(253, 254, 255);
     }
 
     form {
-        
+
         a {
             font-size: 0.9rem;
             text-transform: none;

@@ -1,4 +1,4 @@
-$egreen: #96c13d;
+$egreen: #84b92e;
 $egreen1: #87ad36;
 $lightgray: rgb(253, 254, 255);
 $darkgray: #4b4b4b;
@@ -12,12 +12,12 @@ $darkgray: #4b4b4b;
         justify-content: space-evenly;
 
         .nav-item {
-    
+
             &.current-view {
                 background-color: rgba(0,0,0,0.03);
             }
         }
-    
+
         i {
             color: $egreen;
         }
@@ -33,7 +33,7 @@ $darkgray: #4b4b4b;
     top: 0;
 
     .nav-item{
-        
+
         border-right: 3px solid $darkgray;
 
         &:hover, &.current-view {
