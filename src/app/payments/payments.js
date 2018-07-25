@@ -1,5 +1,5 @@
 /* eslint-disable */
-import companies from '@/services/companies';
+import payments from '@/services/payments';
 import Header from '@/app/components/header/Header.vue';
 
 export default {
@@ -8,17 +8,17 @@ export default {
     },
     data() {
         return {
-            companies: []
+            payments: []
         }
     },
 
     beforeMount() {
-        this.getCompanies();
+        this.getPayments();
     },
 
     methods: {
-        getCompanies() {
-            companies.find({}).then(res => this.companies = res);
+        getPayments() {
+            payments.find({}).then(res => this.payments = res);
         }
     }
 }

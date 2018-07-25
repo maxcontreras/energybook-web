@@ -8,6 +8,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import './index.scss';
 
 Vue.use(BootstrapVue);
+Vue.use(require('vue-chartist'))
 
 store.dispatch('user/syncRouter', router);
 

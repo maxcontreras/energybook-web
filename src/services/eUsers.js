@@ -14,8 +14,8 @@ let eUsers = Object.assign({}, {
     login(data) {
         return loopback.post(`/eUsers/login`, data);
     },
-    logout(data) {
-        return loopback.post(`/eUsers/logout`, data);
+    logout() {
+        return loopback.post(`/eUsers/logout`);
     }
 
 }, modelObject);

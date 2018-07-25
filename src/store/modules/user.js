@@ -60,6 +60,13 @@ export default {
                 loopback.removeToken();
                 router.push({ name: 'login' });
             })
+        },
+        logout({}) {
+            console.log("store");
+            eUsers.logout().then(res => {
+                loopback.removeToken();
+                router.push({ name: 'login' });
+            });
         }
     },
     mutations: {

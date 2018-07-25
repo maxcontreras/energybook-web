@@ -19,11 +19,15 @@ html, body {
         padding: 0;
       }
     }
+
+    div.row.main {
+      margin-top:0 !important;
+    }
   }
 
   .header {
 
-    margin-left: -13px;
+    margin-left: -10px;
 
     >div {
       padding: 0;
@@ -35,10 +39,6 @@ html, body {
       display: inline-block;
     }
 
-    .btn {
-      float: right;
-    }
-
     .card {
       border-left: none;
       border-top: none;
@@ -47,6 +47,17 @@ html, body {
 
     .card-body {
       padding-bottom: 37px;;
+    }
+
+    .custom-select {
+      width: 200px;
+      margin-top: 13px;
+      margin-bottom: 0px !important;
+      margin-right: 18px;
+    }
+
+    .filters-container .btn {
+      margin-top: 13px;
     }
   }
 }
@@ -88,4 +99,39 @@ html, body {
 
 .btn {
   border-radius: 1.25rem;
+}
+
+.right {
+  float: right;
+}
+
+.ct-legend {
+  position: relative;
+  z-index: 10;
+
+  li {
+      position: relative;
+      padding-left: 23px;
+      margin-bottom: 3px;
+  }
+
+  li:before {
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      left: 0;
+      content: '';
+      border: 3px solid transparent;
+      border-radius: 2px;
+  }
+
+  li.inactive:before {
+      background: transparent;
+  }
+
+  &.ct-legend-inside {
+      position: absolute;
+      top: 0;
+      right: 0;
+  }
 }

@@ -2,13 +2,17 @@
   <div id="app-layout">
         <div id="side-nav" class="menu d-none d-sm-block d-xs-block">
 			<b-nav vertical class="w-100">
-				<b-nav-item v-if="!isUser" v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')" v-b-tooltip.hover.right="'Reportes'"><i class="fas fa-chart-line"></i></b-nav-item>
+				<b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')" v-b-tooltip.hover.right="'Reportes'"><i class="fas fa-chart-line"></i></b-nav-item>
 				<b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies'}" @click="goTo('companies')" v-b-tooltip.hover.right="'Compañías'"><i class="far fa-building"></i></b-nav-item>
-                <b-nav-item v-if="isAdmin" v-b-tooltip.hover.right="'Medidores'"><i class="fas fa-solar-panel"></i></b-nav-item>
-                <b-nav-item v-if="isAdmin" v-b-tooltip.hover.right="'Análisis'"><i class="far fa-file-alt"></i></b-nav-item>
-                <b-nav-item v-if="!isUser" v-b-tooltip.hover.right="'Calendario'"><i class="far fa-calendar-alt"></i></b-nav-item>
-                <b-nav-item v-if="isManager" v-b-tooltip.hover.right="'Usuarios'"><i class="far fa-user"></i></b-nav-item>
-                <b-nav-item v-if="isAdmin" v-b-tooltip.hover.right="'Alertas'"><i class="far fa-bell"></i></b-nav-item>
+                <b-nav-item v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')" v-b-tooltip.hover.right="'Medidores'"><i class="fas fa-solar-panel"></i></b-nav-item>
+                <b-nav-item v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')" v-if="isAdmin" v-b-tooltip.hover.right="'Pagos'"><i class="fas fa-dollar-sign"></i></b-nav-item>
+                <!--<b-nav-item v-if="isAdmin" v-b-tooltip.hover.right="'Análisis'"><i class="far fa-file-alt"></i></b-nav-item>-->
+                <b-nav-item v-if="isManager || isAccounting" v-b-tooltip.hover.right="'Calendario'"><i class="far fa-calendar-alt"></i></b-nav-item>
+                <b-nav-item v-if="isManager" v-b-tooltip.hover.right="'Facturación'"><i class="fas fa-solar-panel"></i></b-nav-item>
+                <b-nav-item v-if="isAccounting" v-b-tooltip.hover.right="'Mi compañía'"><i class="fas fa-users"></i></b-nav-item>
+                <b-nav-item v-b-tooltip.hover.right="'Notificaciones'"><i class="far fa-bell"></i></b-nav-item>
+                <b-nav-item v-if="!isAccounting" v-b-tooltip.hover.right="'Perfil'"><i class="far fa-user"></i></b-nav-item>
+                <b-nav-item v-b-tooltip.hover.right="'Cerrar Sesión'" @click="logout()"><i class="fas fa-sign-out-alt"></i></b-nav-item>
 			</b-nav>
 		</div>
 		<div id="top-nav" class="menu d-md-none d-lg-none .d-xl-none mobile">
@@ -36,7 +40,6 @@ export default {
 
     computed: {
         isAdmin() {
-            console.log(this.$store.state);
             return this.$store.state.isAdmin;
         },
         isUser() {
@@ -64,6 +67,10 @@ export default {
     methods: {
         goTo(route) {
             this.$router.push({name: route});
+        },
+        logout() {
+            console.log("logut");
+            this.$store.dispatch('user/logout');
         }
     }
 }

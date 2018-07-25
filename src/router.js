@@ -6,6 +6,8 @@ import Login from '@/app/login/Login.vue';
 import Dashboard from '@/app/dashboard/Dashboard.vue';
 import Layout from '@/app/layout/Layout.vue';
 import Companies from '@/app/companies/Companies.vue';
+import Meters from '@/app/meters/Meters.vue';
+import Payments from '@/app/payments/Payments.vue';
 
 Vue.use(VueRouter);
 
@@ -30,6 +32,22 @@ const router = new VueRouter({
                     name: 'companies',
                     components: {
                         default: Companies
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/medidores',
+                    name: 'meters',
+                    components: {
+                        default: Meters
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/pagos',
+                    name: 'payments',
+                    components: {
+                        default: Payments
                     },
                     meta: { requiresAuth: true }
                 }

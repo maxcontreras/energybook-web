@@ -32,6 +32,12 @@ $darkgray: #4b4b4b;
     height: 100vh;
     top: 0;
 
+    ul.w-100 .nav-item:last-child{
+        position: absolute;
+        width: 100%;
+        bottom: 4%;
+    }
+
     .nav-item{
 
         border-right: 3px solid $darkgray;

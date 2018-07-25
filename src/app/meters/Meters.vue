@@ -1,11 +1,11 @@
 <template>
-    <b-row id="clients">
+    <b-row id="meters" class="main">
         <b-col>
-            <Header :title="'Listado de compañías'" :action="'Agregar Compañía'"/>
+            <Header :title="'Listado de Medidores'" :action="'Agregar Medidor'"/>
             <b-row class="list">
                 <b-col>
                     <b-card>
-                        <b-table responsive hover :items="companies"></b-table>
+                        <b-table responsive hover :items="meters"></b-table>
                     </b-card>
                 </b-col>
             </b-row>
@@ -13,4 +13,4 @@
     </b-row>
 </template>
 
-<script src="./companies"></script>
+<script src="./meters"></script>

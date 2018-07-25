@@ -1,47 +1,35 @@
 <template>
     <b-row id="dashboard">
-        <!--<b-col sm="12" lg="6">
-            <b-card no-body bg-variant="light">
-                <b-row>
-                    <b-col cols="7">
-                        <p class="card-title">Transformador 1</p>
-                        <p class="card-text">580<span>.00 $</span></p>
-                        <div>
-                            <p class="card-text"><i class="fas fa-power-off"></i></p>
-                        </div>
-                    </b-col>
-                    <b-col class="t-info" cols="5">
-                        <p class="card-text">Consumo </br><span>580 <span>kWh</span></span></p>
-                        <hr/>
-                        <p class="card-text">Consumo </br><span>580 <span>kWh</span></span></p>
-                        <hr/>
-                        <p class="card-text">Consumo </br><span>580 <span>kWh</span></span></p>
-                    </b-col>
-                </b-row>
-            </b-card>
-        </b-col>
         <b-col>
-            <b-card no-body bg-variant="light">
-                <b-row>
-                    <b-col cols="7">
-                        <p class="card-title">Transformador 1</p>
-                        <p class="card-text">580<span>.00 $</span></p>
-                        <div>
-                            <p class="card-text"><i class="fas fa-power-off"></i></p>
-                        </div>
-                    </b-col>
-                    <b-col class="t-info" cols="5">
-                        <p class="card-text">Consumo </br><span>580 <span>kWh</span></span></p>
-                        <hr/>
-                        <p class="card-text">Consumo </br><span>580 <span>kWh</span></span></p>
-                        <hr/>
-                        <p class="card-text">Consumo </br><span>580 <span>kWh</span></span></p>
-                    </b-col>
-                </b-row>
-            </b-card>
-        </b-col>-->
+            <Header :title="'Reportes'" :filters="filters" @SearchData="displayChart" />
+            <b-row class="list" v-if="showChart || !isAdmin">
+                <b-col md="12">
+                    <b-card>
+                        <chartist
+                            ratio="ct-major-twelfth"
+                            type="Line"
+                            :data="chartData"
+                            :options="chartOptions" >
+                        </chartist>
+                    </b-card>
+                </b-col>
+                <!--<b-col md="4">
+                    <b-card>
+                        <chartist
+                            ratio="ct-major-second"
+                            type="Pie"
+                            :data="pieChartData"
+                            :options="pieChartOptions" >
+                        </chartist>
+                    </b-card>
+                </b-col>-->
+            </b-row>
+            <b-alert class="list" v-if="isAdmin && !showChart" show variant="info">Utiliza los filtros para seleccionar los datos requeridos y da clic en Buscar.</b-alert>
+        </b-col>
     </b-row>
 </template>
+
+<script src="./dashboard"></script>
 
 <style lang="scss">
 @import '../../styles/dashboard.scss';
