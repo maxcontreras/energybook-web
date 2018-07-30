@@ -6,6 +6,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FailPlugin = require('webpack-fail-plugin');
 const autoprefixer = require('autoprefixer');
 
+var moment = require('moment');
+
 module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -85,6 +87,11 @@ module.exports = {
         postcss: () => [autoprefixer]
       },
       debug: true
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      moment: "moment"
     })
   ],
   devtool: 'source-map',

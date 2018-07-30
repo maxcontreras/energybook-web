@@ -1,14 +1,14 @@
 /* eslint-disable */
 import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
-require('chartist-plugin-legend');
+import Chart from './chart';
 
-let companiesArr;
 let companiesVal = {
     selected: null,
     options: [{ value: null, text: 'Selecciona una compañía' }]
 }
 
+let companiesArr;
 companies.find({}).then(res => {
     companiesArr = res;
     companiesArr.forEach(company => {
@@ -23,83 +23,105 @@ const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep
 
 export default {
     components: {
-        Header
+        Header, Chart
     },
     computed: {
         isAdmin() {
             return this.$store.state.isAdmin;
         },
+        isManager() {
+            return this.$store.state.isManager;
+        },
+        filters() {
+            return this.isAdmin? [companiesVal]:[];
+        },
+        currentFormattedDate() {
+            return moment(this.currentDate).format('dddd, MMMM Do YYYY');
+        }
     },
     data() {
         return {
             showChart: false,
-            filters: [
-                {
-                    selected: null,
-                    options: [
-                        { value: null, text: 'Periodicidad' },
-                        { value: 0, text: 'Día'},
-                        { value: 1, text: 'Semana' },
-                        { value: 2, text: 'Mes' },
-                        { value: 3, text: 'Año' },
-                    ]
-                },
-                companiesVal
-            ],
+            buttons: [{
+                selected: 0,
+                options: [
+                    { value: 0, text: 'Día' },
+                    { value: 1, text: 'Semana' },
+                    { value: 2, text: 'Mes' },
+                    { value: 3, text: 'Año' },
+                ]
+            }],
             chartData: {
-                labels: ["A", "B", "C", "", ""],
-                series:[{
-                    name: 'kWh',
-                    data: [5, 2, 4, 2, 0],
-                  },{
-                    name: 'Costo',
-                    data: [5.2, 3, 1, 4, 1],
-                  }]
+                labels: todayLabels,
+                datasets: [
+                    {
+                        label: 'kWh',
+                        fill: false,
+                        backgroundColor: '#87ad36',
+                        borderColor: '#87ad36',
+                        data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+                    },
+                    {
+                        label: 'Costo',
+                        fill: false,
+                        backgroundColor: '#00A6A6',
+                        borderColor: '#00A6A6',
+                        data: [44, 50, 22, 69, 15, 44, 19, 70, 50, 30, 32, 21]
+                    }
+                ]
             },
             chartOptions: {
-                lineSmooth: false,
-                axisY: {
-                    onlyInteger: true
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }]
                 }
             },
-            pieChartData: {
-                series: [20, 10, 30, 40]
-            },
-            pieChartOptions: {
-                donut: true,
-                donutWidth: 60,
-                startAngle: 270,
-                total: 200,
-                showLabel: false
-            }
+            currentPeriod: 0,
+            periodText: 'day',
+            currentDate: moment()
         };
     },
     methods: {
-        displayChart(val) {
+        displayChart(period, company) {
             this.showChart = true;
 
-            if(this.filters[0].selected !== null) {
-                let val = this.filters[0].selected;
-                switch(val) {
+            if (period !== null) {
+                this.currentPeriod = period;
+                switch(period) {
                     case 0:
                     this.chartData.labels = todayLabels;
+                    this.periodText = 'day';
                     break;
                     case 1:
                     this.chartData.labels = weekLabels;
+                    this.periodText = 'week';
                     break;
                     case 2:
                     this.chartData.labels = monthLabels;
+                    this.periodText = 'month';
                     break;
                     case 3:
                     this.chartData.labels = yearLabels;
+                    this.periodText = 'year';
                     break;
                 }
             }
 
-            if(this.filters[1].selected !== null){
-                let val = this.filters[1].selected;
-                companies.find({ id: val }).then(res => console.log(res));
+            if (company !== null) {
+                companies.find({ id: company }).then(res => console.log(res));
             }
+
+            this.$refs.mainChart.renderChart(this.chartData, this.chartOptions);
+        },
+        previous() {
+            this.currentDate = moment(this.currentDate).subtract(1, this.periodText);
+        },
+        next() {
+            this.currentDate = moment(this.currentDate).add(1, this.periodText);
         }
     }
 };

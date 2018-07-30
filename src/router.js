@@ -20,7 +20,7 @@ const router = new VueRouter({
             component: Layout,
             children: [
                 {
-                    path: '/reportes',
+                    path: '/',
                     name: 'dashboard',
                     components: {
                         default: Dashboard
