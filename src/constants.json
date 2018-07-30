@@ -1,0 +1,40 @@
+{
+    "Companies":{
+        "status": {
+            "0": "Eliminada",
+            "1": "Activa",
+            "2": "Bloqueada",
+            "3": "Nuevo"
+        }
+    },
+    "Eusers": {
+        "roles": {
+            "Admin": 1,
+            "User": 2,
+            "Manager": 3,
+            "Accounting": 4
+        },
+        "status": {
+            "Nuevo": 0,
+            "Pendiente": 1,
+            "Activo": 2,
+            "Bloqueado": 3,
+            "0": "Nuevo",
+            "1": "Pendiente",
+            "2": "Activo",
+            "3": "Bloqueado"
+        }
+    },
+    "Meters": {
+        "active": {
+            "1":"Activo",
+            "2":"Inactivo"
+        },
+        "designated": {
+            "active": {
+                "Activo": 1,
+                "Inactivo": 0
+            }
+        }
+    }
+}

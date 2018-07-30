@@ -5,7 +5,7 @@
             <b-row class="list">
                 <b-col>
                     <b-card>
-                        <b-table responsive hover :items="companies"></b-table>
+                        <Table :items="items" :fields="fields"/>
                     </b-card>
                 </b-col>
             </b-row>

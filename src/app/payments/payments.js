@@ -1,14 +1,23 @@
 /* eslint-disable */
 import payments from '@/services/payments';
 import Header from '@/app/components/header/Header.vue';
+import Table from '@/app/components/table/Table.vue';
 
 export default {
     components: {
-        Header
+        Header, Table
     },
     data() {
         return {
-            payments: []
+            payments: [],
+            items: [],
+            fields: [{
+                key: 'Compañía',
+                sortable: true
+            }, {
+                key: 'Fecha',
+                sortable: true
+             }, 'Mes', 'Pagado']
         }
     },
 
@@ -18,7 +27,21 @@ export default {
 
     methods: {
         getPayments() {
-            payments.find({}).then(res => this.payments = res);
+            payments.find({
+                filter: {
+                    include: ['company']
+                }
+            }).then(res => {
+                this.payments = res;
+                this.payments.forEach(payment => {
+                    this.items.push({
+                        'Compañía':payment.company.company_name,
+                        'Fecha':moment(payment.created_at).format('LL'),
+                        'Mes':moment(payment.created_at).format('MMMM'),
+                        'Pagado': payment.paid? 'Sí': 'No'
+                    })
+                });
+            });
         }
     }
 }
