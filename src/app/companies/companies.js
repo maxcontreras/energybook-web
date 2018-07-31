@@ -17,7 +17,13 @@ export default {
             fields: [{
                 key: 'Nombre',
                 sortable: true
-            }, 'Razón Social', 'No. de Empleados', 'Tipo', 'Estado']
+            }, 'Razón Social', 'No. de Empleados', 'Tipo', 'Estado'],
+            newCompany: {
+                company_name: '',
+                phone: '',
+                size: 0,
+                businessLine: ''
+            }
         }
     },
 
@@ -39,6 +45,9 @@ export default {
                     })
                 });
             });
+        },
+        createCompany() {
+            console.log('create');
         }
     }
 }

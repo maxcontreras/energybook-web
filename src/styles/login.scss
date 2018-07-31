@@ -55,6 +55,11 @@ $lightgray: rgb(253, 254, 255);
     padding-left: 0px !important;
     height: 100vh;
 
+    .btn-primary {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
     .header {
         text-align: center;
         margin-top: 45%;
@@ -96,30 +101,6 @@ $lightgray: rgb(253, 254, 255);
 
     .form-group {
         margin-bottom: 2rem;
-    }
-
-    .btn-primary, .form-control {
-        font-size: 0.9rem;
-        padding: 0.575rem 0.85rem;
-    }
-
-    .form-control {
-        border-radius: 1rem;
-        color: #424242;
-
-    }
-
-    .btn-primary {
-        width: 100%;
-        border: none;
-        background-color: $egreen;
-        margin-bottom: 0.5rem;
-        border-radius: 0.5rem;
-        border-radius: 1.5rem;
-    }
-
-    ::placeholder { /* Most modern browsers support this now. */
-        color: rgba(0,0,0,0.54);
     }
 
     form {

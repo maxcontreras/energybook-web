@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 export default {
-    props: ['title', 'action','filters','buttons', 'isDashboard'],
+    props: ['title', 'action','filters','buttons', 'isDashboard', 'modalId'],
     data() {
         return {
             dashboardSelected: 0,
