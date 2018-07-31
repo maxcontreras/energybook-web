@@ -3,19 +3,6 @@ import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
 import Chart from './chart';
 
-let companiesVal = {
-    selected: null,
-    options: [{ value: null, text: 'Selecciona una compañía' }]
-}
-
-let companiesArr;
-companies.find({}).then(res => {
-    companiesArr = res;
-    companiesArr.forEach(company => {
-        companiesVal.options.push({ value: company.id, text: company.company_name });
-    });
-});
-
 const todayLabels = ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
 const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const monthLabels = ['1', '5', '10', '15', '20', '25', '30'];
@@ -32,16 +19,28 @@ export default {
         isManager() {
             return this.$store.state.isManager;
         },
-        filters() {
-            return this.isAdmin? [companiesVal]:[];
-        },
         currentFormattedDate() {
             return moment(this.currentDate).format('dddd, MMMM Do YYYY');
+        },
+        filters() {
+            return this.isAdmin? [this.companiesVal]:[];
         }
+    },
+    beforeMount() {
+        companies.find({}).then(res => {
+            let companiesArr = res;
+            companiesArr.forEach(company => {
+                this.companiesVal.options.push({ value: company.id, text: company.company_name });
+            });
+        });
     },
     data() {
         return {
             showChart: false,
+            companiesVal: {
+                selected: null,
+                options: [{ value: null, text: 'Selecciona una compañía' }]
+            },
             buttons: [{
                 selected: 0,
                 options: [

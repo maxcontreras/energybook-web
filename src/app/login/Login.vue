@@ -27,7 +27,7 @@
                             <a>¿Olvidaste tu contraseña?</a>
                         </b-form>
                         <div class="fixed-bottom">
-                            <a>Obtén tu demo <b>GRATIS</b></a>
+                            <a><router-link to="registro">Obtén tu demo <b>GRATIS</b></router-link></a>
                         </div>
                     </b-col>
                 </b-row>
@@ -37,8 +37,3 @@
 </template>
 
 <script src="./login"></script>
-
-<style lang="scss">
-@import '../../styles/login.scss';
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-</style>

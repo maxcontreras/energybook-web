@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '@/app/login/Login.vue';
+import Register from '@/app/register/Register.vue';
 import Dashboard from '@/app/dashboard/Dashboard.vue';
 import Layout from '@/app/layout/Layout.vue';
 import Companies from '@/app/companies/Companies.vue';
@@ -58,6 +59,13 @@ const router = new VueRouter({
 			name: 'login',
 			components: {
 				default: Login
+			}
+		},
+		{
+			path: '/registro',
+			name: 'register',
+			components: {
+				default: Register
 			}
 		}
 	]
