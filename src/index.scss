@@ -145,14 +145,14 @@ html, body {
 }
 
 .btn-primary, .form-control {
-  font-size: 0.9rem;
   padding: 0.575rem 0.85rem;
 }
 
-.form-control {
-  border-radius: 1rem;
+.form-control, .form-control:focus {
+  border-radius: 0.4rem;
   color: #424242;
-
+  background-color: rgba(0,0,0,0.02);
+  border: none;
 }
 
 .btn-primary:not(:disabled):not(.disabled):active{
@@ -163,7 +163,7 @@ html, body {
 .btn-primary, .page-item.active .page-link {
   border: none;
   background-color: $egreen;
-  border-radius: 1.5rem;
+  border-radius: 0.4rem;
 
   &:hover {
     background-color: $egreen;

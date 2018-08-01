@@ -5,7 +5,6 @@
             <b-row class="list">
                 <b-col>
                     <b-card>
-                        <full-calendar :events="events"></full-calendar>
                     </b-card>
                 </b-col>
             </b-row>

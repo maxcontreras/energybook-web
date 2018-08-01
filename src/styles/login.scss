@@ -3,82 +3,28 @@ $egreen1: #87ad36;
 $lightgray: rgb(253, 254, 255);
 
 @media only screen and (max-width: 1023px) {
-    #login-view, #register{
-        >div:first-child{
-            display: none;
-        }
-        >div{
-            width: 100%;
-
-            #login-container {
-                width: 100%;
-            }
-        }
-
-        #login-container >div.row {
-            margin-left: 0;
-            margin-right: 0;
-            margin-top: 15%;
-
-            div.fixed-bottom {
-                background-color: $lightgray;
-            }
-        }
+    #login-container, #register-container {
+        width: 100%;
     }
 }
 
 @media (min-width: 1024px) {
-    #login-view{
-        margin: 0;
 
-        #login-container  >div.row{
-            margin-top: 8rem;
-
-            div.fixed-bottom {
-                width: 50%;
-                left: 51%;
-                bottom: 2%;
-            }
-        }
+    #login-container, #register-container {
+        right: 10%;
+        position: fixed;
     }
 
-    #register {
-        margin: 0;
-
-        #login-container >div.row {
-            margin-top: 2rem;
-        }
-    }
-}
-#login-view, #register {
-    background-color: $lightgray;
-    padding-left: 0px !important;
-    height: 100vh;
-
-    .btn-primary {
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
-
-    .header {
-        text-align: center;
-        margin-top: 45%;
-
-        h3{
-            text-transform: uppercase;
-            font-weight: 400;
-            color: #FFF;
-            font-size: 1.5rem;
-        }
-    }
-}
-
-#register {
     #login-container {
-        width: 70%;
-        text-align: left;
-        padding: 0 30px;
+        width: 350px;
+        top: 20%;
     }
+
+    #register-container {
+        width: 700px;
+        top: 10%;
+    }
+
 }
 
 .header-img{
@@ -88,38 +34,46 @@ $lightgray: rgb(253, 254, 255);
     background-size: auto;
 }
 
-#login-view #login-container {
-    width: 50%;
+#register-container {
+    h5 {
+        text-align: left;
+        font-size: 1.15rem;
+        color: rgba(0,0,0,0.74);
+    }
 }
 
-#login-container{
+#login-container, #register-container{
     background-color: $lightgray;
-    position: fixed;
-    width: 50%;
-    height: 100vh;
     text-align: center;
+    box-shadow: 0 0 30px 0 #c2c2c2;
+    border-radius: 10px;
+
+    .card-body {
+        padding: 3rem;
+    }
+
+    .logo img {
+        width: 150px;
+        margin-bottom: 1rem;
+    }
 
     .form-group {
         margin-bottom: 2rem;
     }
 
-    form {
-
-        a {
-            font-size: 0.9rem;
-            text-transform: none;
-        }
-
-        .logo img {
-            width: 150px;
-            margin-bottom: 1rem;
-        }
-    }
-
-    a {
-        text-transform: uppercase;
-        font-size: 1rem;
-        color: rgba(0,0,0,0.64);
+    form a {
+        text-transform: none;
         cursor: pointer;
+        color: rgba(0,0,0,0.74);
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
+
+    .btn-primary {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
 }
