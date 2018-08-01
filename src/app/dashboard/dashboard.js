@@ -2,6 +2,8 @@
 import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
 import Chart from './chart';
+import GaugeChart from './GaugeChart';
+require('highcharts');
 
 const todayLabels = ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
 const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
@@ -10,7 +12,7 @@ const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep
 
 export default {
     components: {
-        Header, Chart
+        Header, Chart, GaugeChart
     },
     computed: {
         isAdmin() {

@@ -45,7 +45,7 @@ $darkgray: #4b4b4b;
         position: relative;
         margin: auto;
         height: 80vh;
-        width: 80vw;
+        width: 85vw;
       }
 
     /*.card>div.row {
@@ -99,15 +99,4 @@ $darkgray: #4b4b4b;
         }
     }*/
 
-    .ct-line {
-        stroke-width: 0px;
-    }
-
-    .ct-series-b .ct-point {
-        stroke: $egreen1;
-    }
-
-    .ct-series-a .ct-point {
-        stroke: $eblue;
-    }
 }

@@ -22,9 +22,12 @@ export default new Vuex.Store({
 	mutations: {
 		setCurrentView(state, route) {
             state.currentView = route.name
-		},
+        },
 		setRole(state, user) {
-			console.log(user);
+			state.isAdmin = false;
+            state.isManager = false;
+            state.isUser = false;
+            state.isAccounting = false;
             switch(user.role_id) {
                 case 1: 
                     state.isAdmin = true;

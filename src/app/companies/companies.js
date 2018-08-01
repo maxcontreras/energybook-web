@@ -17,12 +17,15 @@ export default {
             fields: [{
                 key: 'Nombre',
                 sortable: true
-            }, 'Razón Social', 'No. de Empleados', 'Tipo', 'Estado'],
+            }, 'Teléfono', 'Fecha de Registro', 'No. de Empleados', 'Tipo', 'Estado'],
             newCompany: {
                 company_name: '',
                 phone: '',
                 size: 0,
-                businessLine: ''
+                businessLine: '',
+                name: '',
+                lastname: '',
+                email: ''
             }
         }
     },
@@ -38,7 +41,8 @@ export default {
                 this.companies.forEach(company => {
                     this.items.push({
                         'Nombre': company.company_name,
-                        'Razón Social': company.legal_name,
+                        'Teléfono': company.phone,
+                        'Fecha de Registro': moment(company.created_at).format('LL'),
                         'No. de Empleados': company.size,
                         'Tipo': company.company_type,
                         'Estado': companyStatus[company.status]

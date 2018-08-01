@@ -13,7 +13,7 @@
         <b-modal id="companyModal" size="lg" title="Compañía Nueva" @ok="createCompany">
             <b-form @submit.stop.prevent="createCompany">
                 <b-row>
-                    <b-col md="12">
+                    <b-col md="6">
                         <b-form-group label="Empresa">
                             <b-form-input type="text" v-model="newCompany.company_name" required></b-form-input>
                         </b-form-group>
@@ -25,6 +25,17 @@
                         </b-form-group>
                         <b-form-group label="Teléfono">
                             <b-form-input type="text" v-model="newCompany.phone" required></b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col md="6">
+                        <b-form-group label="Nombre">
+                            <b-form-input type="text" v-model="newCompany.name" required></b-form-input>
+                        </b-form-group>
+                        <b-form-group label="Apellido">
+                            <b-form-input type="text" v-model="newCompany.lastname" required></b-form-input>
+                        </b-form-group>
+                        <b-form-group label="Email">
+                            <b-form-input type="text" v-model="newCompany.email" required></b-form-input>
                         </b-form-group>
                     </b-col>
                 </b-row>

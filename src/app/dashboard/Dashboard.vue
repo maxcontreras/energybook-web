@@ -17,7 +17,12 @@
                         </div>
                     </b-card>
                 </b-col>
+                <!--<b-col md="4">
+                    <b-card style="height: 45%; margin-bottom: 10%"></b-card>
+                    <b-card style="height: 45%"></b-card>
+                </b-col>-->
             </b-row>
+            <!--<GaugeChart/>-->
             <b-alert class="list" v-if="isAdmin && !showChart" show variant="info">Selecciona una compañía para desplegar información.</b-alert>
         </b-col>
     </b-row>

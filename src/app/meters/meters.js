@@ -17,7 +17,7 @@ export default {
             fields: [{
                 key: 'No. de Serie',
                 sortable: true
-            }, 'Fecha de Registro', 'Activo'],
+            }, 'Fecha de Registro', 'Estado'],
         }
     },
 
@@ -33,7 +33,7 @@ export default {
                     this.items.push({
                         'No. de Serie': meter.serial_number,
                         'Fecha de Registro': moment(meter.created_at).format('LL'),
-                        'Activo': meterActive[meter.active]
+                        'Estado': meterActive[meter.active]
                     });
                 });
             });

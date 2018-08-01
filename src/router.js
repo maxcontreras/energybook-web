@@ -9,6 +9,9 @@ import Layout from '@/app/layout/Layout.vue';
 import Companies from '@/app/companies/Companies.vue';
 import Meters from '@/app/meters/Meters.vue';
 import Payments from '@/app/payments/Payments.vue';
+import Calendar from '@/app/calendar/Calendar.vue';
+import MyCompany from '@/app/myCompany/MyCompany.vue';
+import Analysis from '@/app/analysis/Analysis.vue';
 
 Vue.use(VueRouter);
 
@@ -49,6 +52,30 @@ const router = new VueRouter({
                     name: 'payments',
                     components: {
                         default: Payments
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/calendario',
+                    name: 'calendar',
+                    components: {
+                        default: Calendar
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/mi_empresa',
+                    name: 'myCompany',
+                    components: {
+                        default: MyCompany
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/analisis',
+                    name: 'analysis',
+                    components: {
+                        default: Analysis
                     },
                     meta: { requiresAuth: true }
                 }
