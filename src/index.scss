@@ -4,16 +4,17 @@
 @import 'styles/companies.scss';
 
 $egreen: #96c13d;
+$gray: rgba(0,0,0,0.64);
 
 html, body {
-  background-color: #f7f7f7;
+  background-color: rgb(250,250,250);
   font-family: 'Roboto' !important;
   font-size: 13px;
 }
 
 @media (min-width: 768px) {
   #main {
-    margin-left: 55px;
+    margin-left: 170px;
 
     >div.row:first-child {
       margin: 1rem;
@@ -30,22 +31,19 @@ html, body {
 
   .header {
 
-    margin-left: -10px;
+    margin: 0;
+
+    margin-bottom: 1rem;
 
     >div {
       padding: 0;
     }
 
     h3 {
-      font-size: 1.2rem;
-      color: #424242;
+      font-size: 1.3rem;
+      color: $gray;
       display: inline-block;
-    }
-
-    .card {
-      border-left: none;
-      border-top: none;
-      border-radius: 0;
+      text-transform: uppercase;
     }
 
     .card-body {
@@ -82,14 +80,13 @@ html, body {
 
 .list {
 
-  margin-top: 1rem;
-
   .b-table {
 
     font-size: 0.9rem;
 
     tr:hover {
       cursor: pointer;
+      background-color: rgba(0,0,0,0.02);
     }
 
     th {
@@ -180,4 +177,10 @@ html, body {
 
 .modal-body {
   padding: 2rem;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+  border-radius: 0;
 }

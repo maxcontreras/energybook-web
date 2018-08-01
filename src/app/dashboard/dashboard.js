@@ -3,6 +3,7 @@ import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
 import Chart from './chart';
 import GaugeChart from './GaugeChart';
+import Table from '@/app/components/table/Table.vue';
 require('highcharts');
 
 const todayLabels = ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
@@ -12,7 +13,7 @@ const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep
 
 export default {
     components: {
-        Header, Chart, GaugeChart
+        Header, Chart, GaugeChart, Table
     },
     computed: {
         isAdmin() {
@@ -33,11 +34,20 @@ export default {
             let companiesArr = res;
             companiesArr.forEach(company => {
                 this.companiesVal.options.push({ value: company.id, text: company.company_name });
+                this.items.push({
+                    'Nombre': company.company_name,
+                    'Fecha de Registro': moment(company.created_at).format('LL')
+                });
             });
         });
     },
     data() {
         return {
+            items: [],
+            fields: [{
+                key: 'Nombre',
+                sortable: true
+            }, 'Fecha de Registro'],
             showChart: false,
             companiesVal: {
                 selected: null,

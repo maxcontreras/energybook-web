@@ -27,10 +27,15 @@ $darkgray: #4b4b4b;
 
 #side-nav{
     background-color: $darkgray;
-    width: 55px;
+    width: 170px;
     position: fixed;
     height: 100vh;
     top: 0;
+
+    .menu-icon-container {
+        width: 30px;
+        display: inline-block;
+    }
 
     ul.w-100 .nav-item:last-child{
         position: absolute;
@@ -45,6 +50,10 @@ $darkgray: #4b4b4b;
         &:hover, &.current-view {
             background-color: rgba(0,0,0,0.2);
             border-color: $egreen;
+
+            .nav-link, i {
+                color: $egreen1;
+            }
         }
 
         i {
@@ -57,7 +66,7 @@ $darkgray: #4b4b4b;
     }
 
     .nav-link {
-        color: #424242;
+        color: #FFF;
         margin: 0.375rem 0.75rem;
         font-weight: 300;
     }

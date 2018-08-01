@@ -4,6 +4,7 @@ import router from './router.js';
 import store from './store/store.js';
 import BootstrapVue from 'bootstrap-vue';
 import HighchartsVue from 'highcharts-vue';
+import * as VueGoogleMaps from 'vue2-google-maps';
 
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 

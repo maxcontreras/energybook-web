@@ -7,6 +7,18 @@ $darkgray: #4b4b4b;
 
     margin-top: 0 !important;
 
+    th {
+        font-weight: 500;
+    }
+
+    th, td {
+        text-transform: uppercase;
+    }
+
+    .dashboard-content .card {
+        height: 80vh;
+    }
+
     .dashboard-buttons--container {
         display: inline;
         float: right;
