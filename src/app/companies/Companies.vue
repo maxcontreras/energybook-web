@@ -1,7 +1,7 @@
 <template>
     <b-row id="clients">
         <b-col>
-            <Header :title="'Listado de compañías'" :action="'Agregar Compañía'" :modalId="'companyModal'" />
+            <Header :title="'Compañías'" :action="'Agregar Compañía'" :modalId="'companyModal'" />
             <b-row class="list">
                 <b-col>
                     <b-card>
@@ -14,29 +14,48 @@
             <b-form @submit.stop.prevent="createCompany">
                 <b-row>
                     <b-col md="6">
-                        <b-form-group label="Empresa">
-                            <b-form-input type="text" v-model="newCompany.company_name" required></b-form-input>
+                        <h5>Datos de la Empresa</h5>
+                        <b-form-group>
+                            <b-form-input type="text" v-model="newCompany.company_name" required placeholder="Nombre"></b-form-input>
                         </b-form-group>
-                        <b-form-group label="Giro de la empresa">
-                            <b-form-input type="text" v-model="newCompany.businessLine" required></b-form-input>
+                        <b-form-group>
+                            <b-form-input type="text" v-model="newCompany.legal_name" required placeholder="Razón Social"></b-form-input>
                         </b-form-group>
-                        <b-form-group label="Número de Empleados">
-                            <b-form-input type="number" min="0" v-model="newCompany.size" required></b-form-input>
+                        <b-form-group>
+                            <b-form-input type="text" v-model="newCompany.businessLine" required placeholder="Giro"></b-form-input>
                         </b-form-group>
-                        <b-form-group label="Teléfono">
-                            <b-form-input type="text" v-model="newCompany.phone" required></b-form-input>
+                        <b-form-group>
+                            <b-form-input type="text" v-model="newCompany.size" required placeholder="Número de empleados"></b-form-input>
+                        </b-form-group>
+                        <b-form-group>
+                            <b-form-input type="text" v-model="newCompany.phone" required placeholder="Teléfono"></b-form-input>
                         </b-form-group>
                     </b-col>
                     <b-col md="6">
-                        <b-form-group label="Nombre">
-                            <b-form-input type="text" v-model="newCompany.name" required></b-form-input>
-                        </b-form-group>
-                        <b-form-group label="Apellido">
-                            <b-form-input type="text" v-model="newCompany.lastname" required></b-form-input>
-                        </b-form-group>
-                        <b-form-group label="Email">
-                            <b-form-input type="text" v-model="newCompany.email" required></b-form-input>
-                        </b-form-group>
+                        <div class="company-manager" v-if="toggle.newManager">
+                            <h5>Datos del Manager</h5>
+                            <b-form-group>
+                                <b-form-input type="text" v-model="newManager.name" required placeholder="Nombre"></b-form-input>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input type="text" v-model="newManager.lastname" required placeholder="Apellido"></b-form-input>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input :type="'email'" v-model="newManager.email" required placeholder="Email"></b-form-input>
+                            </b-form-group>
+                        </div>
+                        <div class="company-user" v-if="toggle.newUser">
+                            <h5>Datos del Usuario</h5>
+                            <b-form-group>
+                                <b-form-input type="text" v-model="newUser.name" required placeholder="Nombre"></b-form-input>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input type="text" v-model="newUser.lastname" required placeholder="Apellido"></b-form-input>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input :type="'email'" v-model="newUser.email" required placeholder="Email"></b-form-input>
+                            </b-form-group>
+                        </div>
                     </b-col>
                 </b-row>
             </b-form>

@@ -7,16 +7,28 @@ $darkgray: #4b4b4b;
 
     margin-top: 0 !important;
 
-    th {
-        font-weight: 500;
+    thead {
+        display: none;
     }
 
-    th, td {
+    tr:first-child td {
+        border-top: none;
+    }
+
+    td {
         text-transform: uppercase;
     }
 
-    .dashboard-content .card {
+    .dashboard-content--admin > div.col-md-6:nth-child(2) {
+        padding-left: 0;
+    }
+
+    .dashboard-content--admin .card {
         height: 80vh;
+
+        .table-responsive {
+            height: 70vh;
+        }
     }
 
     .dashboard-buttons--container {

@@ -22,7 +22,7 @@
                 <b-nav-item>
                     <div class="menu-icon-container"><i class="far fa-bell"></i></div> Notificaciones
                 </b-nav-item>
-                <b-nav-item v-if="!isAccounting">
+                <b-nav-item v-if="!isAccounting" v-bind:class="{'current-view': currentView === 'profile'}" @click="goTo('profile')">
                     <div class="menu-icon-container"><i class="far fa-user"></i></div> Perfil
                 </b-nav-item>
                 <b-nav-item @click="logout()">

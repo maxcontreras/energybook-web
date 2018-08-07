@@ -12,6 +12,7 @@ import Payments from '@/app/payments/Payments.vue';
 import Calendar from '@/app/calendar/Calendar.vue';
 import MyCompany from '@/app/myCompany/MyCompany.vue';
 import Analysis from '@/app/analysis/Analysis.vue';
+import UserDetail from '@/app/userDetail/UserDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -76,6 +77,15 @@ const router = new VueRouter({
                     name: 'analysis',
                     components: {
                         default: Analysis
+                    },
+                    meta: { requiresAuth: true }
+                },
+                ,
+                {
+                    path: '/perfil',
+                    name: 'profile',
+                    components: {
+                        default: UserDetail
                     },
                     meta: { requiresAuth: true }
                 }

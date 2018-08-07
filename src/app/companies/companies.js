@@ -15,17 +15,45 @@ export default {
             companies: [],
             items: [],
             fields: [{
-                key: 'Nombre',
-                sortable: true
-            }, 'Teléfono', 'Fecha de Registro', 'No. de Empleados', 'Tipo', 'Estado'],
+                key: 'name',
+                sortable: true,
+                label: 'Nombre'
+            }, { 
+                label :'Teléfono',
+                key: 'phone'
+            }, {
+                label: 'Fecha de Registro',
+                key: 'created_at'
+            }, {
+                label: 'No. de Empleados',
+                key: 'size'
+            }, {
+                label:'Tipo',
+                key: 'type'
+            }, {
+                label:'Estado',
+                key: 'status'}],
             newCompany: {
                 company_name: '',
                 phone: '',
-                size: 0,
+                size: '',
                 businessLine: '',
+                created_at: new Date(),
+                legal_name: ''
+            },
+            newManager: {
                 name: '',
                 lastname: '',
                 email: ''
+            },
+            newUser: {
+                name: '',
+                lastname: '',
+                email: ''
+            },
+            toggle: {
+                newManager: true,
+                newUser: true
             }
         }
     },
@@ -39,19 +67,30 @@ export default {
             companies.find({}).then(res => {
                 this.companies = res;
                 this.companies.forEach(company => {
-                    this.items.push({
-                        'Nombre': company.company_name,
-                        'Teléfono': company.phone,
-                        'Fecha de Registro': moment(company.created_at).format('LL'),
-                        'No. de Empleados': company.size,
-                        'Tipo': company.company_type,
-                        'Estado': companyStatus[company.status]
-                    })
+                    this.addCompany(company);
                 });
             });
         },
-        createCompany() {
-            console.log('create');
+        createCompany(evt) {
+            /*evt.preventDefault();
+            alert('Please enter your name')
+            console.log('create');*/
+            this.newCompany.company_type = 1;
+            delete this.newCompany.businessLine;
+            companies.create({data:this.newCompany}).then(newCompany => {
+                this.addCompany(newCompany);
+                this.newCompany = {};
+            });
+        },
+        addCompany(company) {
+            this.items.push({
+                name : company.company_name,
+                phone: company.phone,
+                created_at: moment(company.created_at).format('LL'),
+                size: company.size,
+                type: company.company_type,
+                status: companyStatus[company.status]
+            });
         }
     }
 }

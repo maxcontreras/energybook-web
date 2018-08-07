@@ -3,14 +3,14 @@
         <b-col>
             <Header :title="'Dashboard'"/>
 
-            <b-row class="dashboard-content">
+            <b-row class="dashboard-content--admin" v-if="isAdmin">
                 <b-col md="6">
                     <b-card class="list">
                         <Table :items="items" :fields="fields" />
                     </b-card>
                 </b-col>
                 <b-col md="6">
-                    <b-card>
+                    <b-card class="map-container">
                     
                     </b-card>
                 </b-col>

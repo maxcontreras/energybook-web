@@ -16,7 +16,8 @@ export default {
             items: [],
             fields: [{
                 key: 'No. de Serie',
-                sortable: true
+                sortable: true,
+                label: 'No. de Serie'
             }, 'Fecha de Registro', 'Estado'],
         }
     },
