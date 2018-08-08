@@ -4,7 +4,7 @@
             <b-nav vertical class="w-100">
                 <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
                     <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div>Dashboard</b-nav-item>
-                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies'}" @click="goTo('companies')">
+                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>
                 <b-nav-item v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">

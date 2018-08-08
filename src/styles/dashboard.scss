@@ -40,15 +40,6 @@ $darkgray: #4b4b4b;
         }
     }
 
-    .dashboard-buttons--container {
-        display: inline;
-        float: right;
-        
-        .btn {
-            margin-right: 5px;
-        }
-    }
-
     .dashboard-curr-date{
         margin: 20px 70px;
 
@@ -73,13 +64,6 @@ $darkgray: #4b4b4b;
             }
         }
     }
-
-    .chart-container {
-        position: relative;
-        margin: auto;
-        height: 80vh;
-        width: 85vw;
-      }
 
     /*.card>div.row {
         margin: 0;

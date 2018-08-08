@@ -2,7 +2,9 @@
 @import 'styles/analysis.scss';
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'styles/companies.scss';
+@import 'styles/company.scss';
 @import 'styles/profile.scss';
+@import 'styles/graphs.scss';
 
 $egreen: #96c13d;
 $gray: rgba(0,0,0,0.64);
@@ -172,4 +174,8 @@ html, body {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: auto;
+}
+
+.tabs .nav-link {
+  color: $egreen;
 }

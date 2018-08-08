@@ -33,6 +33,7 @@ export default {
     },
 
     beforeMount() {
+        console.log(this.$route);
         let userId = eUsers.getCurrentId();
         eUsers.find({
             id: userId,

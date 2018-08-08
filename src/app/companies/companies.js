@@ -89,7 +89,8 @@ export default {
                 created_at: moment(company.created_at).format('LL'),
                 size: company.size,
                 type: company.company_type,
-                status: companyStatus[company.status]
+                status: companyStatus[company.status],
+                id: company.id
             });
         }
     }

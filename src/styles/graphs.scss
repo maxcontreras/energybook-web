@@ -1,0 +1,15 @@
+#graphs {
+    .date-buttons--container {
+        text-align: right;
+        
+        .btn {
+            margin-right: 5px;
+        }
+    }
+    .chart-container {
+        position: relative;
+        margin: auto;
+        height: 80vh;
+        width: 75vw;
+    }
+}

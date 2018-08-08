@@ -10,8 +10,9 @@ import Companies from '@/app/companies/Companies.vue';
 import Meters from '@/app/meters/Meters.vue';
 import Payments from '@/app/payments/Payments.vue';
 import Calendar from '@/app/calendar/Calendar.vue';
-import MyCompany from '@/app/myCompany/MyCompany.vue';
+import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue';
 import UserDetail from '@/app/userDetail/UserDetail.vue';
+import Graphs from '@/app/graphs/Graphs.vue';
 
 Vue.use(VueRouter);
 
@@ -64,10 +65,18 @@ const router = new VueRouter({
                     meta: { requiresAuth: true }
                 },
                 {
-                    path: '/mi_empresa',
-                    name: 'myCompany',
+                    path: '/compania/dashboard/:id',
+                    name: 'companyDetail',
                     components: {
-                        default: MyCompany
+                        default: CompanyDetail
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/compania/profile/:id',
+                    name: 'companyProfile',
+                    components: {
+                        default: UserDetail
                     },
                     meta: { requiresAuth: true }
                 },
@@ -76,6 +85,14 @@ const router = new VueRouter({
                     name: 'profile',
                     components: {
                         default: UserDetail
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/graficas',
+                    name: 'graphs',
+                    components: {
+                        default: Graphs
                     },
                     meta: { requiresAuth: true }
                 }

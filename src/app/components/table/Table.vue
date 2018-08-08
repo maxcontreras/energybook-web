@@ -1,6 +1,11 @@
 <template>
     <div>
-    <b-table responsive hover :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage"></b-table>
+    <b-table responsive hover 
+    :items="items" 
+    :fields="fields" 
+    :current-page="currentPage" 
+    :per-page="perPage"
+    @row-clicked="rowClickHandler"></b-table>
     <b-row class="table-pagination">
             <b-col md="2" class="my-1">
                 <b-form-select :options="pageOptions" v-model="perPage" />
