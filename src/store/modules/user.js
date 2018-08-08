@@ -56,6 +56,7 @@ export default {
             return eUsers.findById({ id }).then(user => {
                 commit('setUser', user);
                 commit('setRole', user, { root: true });
+                commit('setCompanyId', user.company_id, { root: true });
             }).catch(() => {
                 loopback.removeToken();
                 router.push({ name: 'login' });

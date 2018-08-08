@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 export default {
-    props: ['title', 'action','filters','buttons', 'isDashboard', 'modalId'],
+    props: ['title', 'action','filters','buttons', 'isDashboard', 'modalId', 'isMeters'],
     data() {
         return {
             dashboardSelected: 0,
@@ -14,7 +14,10 @@ export default {
         },
         isManager() {
             return this.$store.state.isManager;
-        }  
+        },
+        showAction() {
+            return (this.isAdmin && this.isMeters) || !this.isMeters;
+        }
     },
     methods: {
         filterData(val) {

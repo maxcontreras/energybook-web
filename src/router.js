@@ -11,7 +11,6 @@ import Meters from '@/app/meters/Meters.vue';
 import Payments from '@/app/payments/Payments.vue';
 import Calendar from '@/app/calendar/Calendar.vue';
 import MyCompany from '@/app/myCompany/MyCompany.vue';
-import Analysis from '@/app/analysis/Analysis.vue';
 import UserDetail from '@/app/userDetail/UserDetail.vue';
 
 Vue.use(VueRouter);
@@ -72,15 +71,6 @@ const router = new VueRouter({
                     },
                     meta: { requiresAuth: true }
                 },
-                {
-                    path: '/analisis',
-                    name: 'analysis',
-                    components: {
-                        default: Analysis
-                    },
-                    meta: { requiresAuth: true }
-                },
-                ,
                 {
                     path: '/perfil',
                     name: 'profile',

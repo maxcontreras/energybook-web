@@ -10,6 +10,13 @@ export default {
     components: {
         Header, Table
     },
+
+    computed: {
+        isAdmin() {
+            return this.$store.state.isAdmin;
+        }
+    },
+
     data() {
         return {
             meters: [],

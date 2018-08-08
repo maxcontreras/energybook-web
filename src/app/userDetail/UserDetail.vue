@@ -88,9 +88,12 @@
                 </b-col>
                 <!--<b-col md="3" class="side-card-container">
                     <b-card class="side-card">
-                        <b-button :variant="'warning'">
-                            Cambiar Contraseña
-                        </b-button>
+                        <h5>
+                            Usuarios
+                        </h5>
+                        <ul>
+                            <li>User 1</li>
+                        </ul>
                     </b-card>
                 </b-col>-->
             </b-row>

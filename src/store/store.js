@@ -12,7 +12,8 @@ export default new Vuex.Store({
 		isAdmin: false,
         isManager: false,
         isUser: false,
-        isAccounting: false
+        isAccounting: false,
+        company_id: ''
 	},
 
 	modules: {
@@ -42,7 +43,9 @@ export default new Vuex.Store({
                     state.isAccounting = true;
                     break;
 			} 
-			console.log(state);
+        },
+        setCompanyId(state, id) {
+            state.company_id = id;
         } 
     }
 });

@@ -5,6 +5,15 @@ $darkgray: #4b4b4b;
 
 #dashboard {
 
+    .dashboard-map-container .card-body{
+        padding: 0;
+
+        .vue-map-container {
+            width: 100%;
+            height: 529px;
+        }
+    }
+
     margin-top: 0 !important;
 
     thead {

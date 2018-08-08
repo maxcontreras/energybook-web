@@ -10,9 +10,27 @@
                     </b-card>
                 </b-col>
                 <b-col md="6">
-                    <b-card class="map-container">
-                    
+                    <b-card class="dashboard-map-container">
+                        <GmapMap
+                        :center="{lat:20.663782, lng:-103.3916394}"
+                        :zoom="7"
+                        map-type-id="roadmap"
+                        >
+                        <!--<GmapMarker
+                            :key="index"
+                            v-for="(m, index) in markers"
+                            :position="m.position"
+                            :clickable="true"
+                            :draggable="true"
+                            @click="center=m.position"
+                        />-->
+                        </GmapMap>
                     </b-card>
+                </b-col>
+            </b-row>
+            <b-row class="dashboard-content-user" v-if="!isAdmin">
+                <b-col>
+                    <Analysis :meters="meters"/>
                 </b-col>
             </b-row>
         </b-col>

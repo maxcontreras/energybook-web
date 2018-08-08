@@ -1,19 +1,24 @@
 /* eslint-disable */
 import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
-import Chart from './chart';
-import GaugeChart from './GaugeChart';
+import meters from '@/services/meters';
 import Table from '@/app/components/table/Table.vue';
+import Analysis from '@/app/components/analysis/Analysis.vue';
+import {gmapApi} from 'vue2-google-maps'
+
+/*import Chart from './chart';
+import GaugeChart from './GaugeChart';
 require('highcharts');
 
 const todayLabels = ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
 const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const monthLabels = ['1', '5', '10', '15', '20', '25', '30'];
 const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+*/
 
 export default {
     components: {
-        Header, Chart, GaugeChart, Table
+        Header,Table, Analysis
     },
     computed: {
         isAdmin() {
@@ -27,13 +32,27 @@ export default {
         },
         filters() {
             return this.isAdmin? [this.companiesVal]:[];
+        },
+        companyId() {
+            return this.$store.state.company_id;
+        },
+        google: gmapApi
+    },
+    watch: {
+        companyId() {
+            meters.find({
+                where: { company_id: this.companyId }
+            }).then(meters => {
+                console.log(meters);
+                this.meters = meters;
+            })
         }
     },
     beforeMount() {
         companies.find({}).then(res => {
             let companiesArr = res;
             companiesArr.forEach(company => {
-                this.companiesVal.options.push({ value: company.id, text: company.company_name });
+                //this.companiesVal.options.push({ value: company.id, text: company.company_name });
                 this.items.push({
                     'Nombre': company.company_name,
                     'Fecha de Registro': moment(company.created_at).format('LL')
@@ -48,7 +67,8 @@ export default {
                 key: 'Nombre',
                 sortable: true
             }, 'Fecha de Registro'],
-            showChart: false,
+            meters: [],
+            /*showChart: false,
             companiesVal: {
                 selected: null,
                 options: [{ value: null, text: 'Selecciona una compañía' }]
@@ -90,14 +110,14 @@ export default {
                         }
                     }]
                 }
-            },
+            },*/
             currentPeriod: 0,
             periodText: 'day',
             currentDate: moment()
         };
     },
     methods: {
-        displayChart(period, company) {
+        /*displayChart(period, company) {
             this.showChart = true;
 
             if (period !== null) {
@@ -133,6 +153,6 @@ export default {
         },
         next() {
             this.currentDate = moment(this.currentDate).add(1, this.periodText);
-        }
+        }*/
     }
 };
