@@ -1,8 +1,15 @@
 <template>
-    <b-row id="graphs" class="main">
+    <b-row class="main">
         <b-col>
             <Header :title="'Gráficas'"/>
-            <Chart/>
+            <b-row class="list">
+                <b-col>
+                    <b-card>
+                        <Chart/>
+                    </b-card>
+                </b-col>
+            </b-row>
+            
         </b-col>
     </b-row>
 </template>

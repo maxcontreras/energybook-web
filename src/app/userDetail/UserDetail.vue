@@ -5,10 +5,24 @@
                 <b-row>
                     <b-col md="4" class="user-info">
                         <img src="/assets/images/user-avatar.png"/>
-                        <h5>{{user.fullname}}</h5>
+                        <h5 v-if="!isCompanyProfile">{{user.fullname}}</h5>
                         <p>{{user.company.company_name}}</p>
                     </b-col>
-                    <b-col md="8" class="map-container">
+                    <b-col md="8" class="profile-map-container">
+                        <GmapMap
+                        :center="{lat:20.663782, lng:-103.3916394}"
+                        :zoom="7"
+                        map-type-id="roadmap"
+                        >
+                        <!--<GmapMarker
+                            :key="index"
+                            v-for="(m, index) in markers"
+                            :position="m.position"
+                            :clickable="true"
+                            :draggable="true"
+                            @click="center=m.position"
+                        />-->
+                        </GmapMap>
                         <!--<img src="/assets/images/map-example.jpg"/>-->
                     </b-col>
                 </b-row>
@@ -16,30 +30,33 @@
                     <b-col>
                         MIEMBRO DESDE {{user.created_at}}
                     </b-col>
-                    <b-col>
+                    <b-col v-if="!isCompanyProfile">
                         ÚLTIMO INICIO DE SESIÓN {{user.lastLogin}}
                     </b-col>
                 </b-row>
             </b-card>
             <b-row>
                 <b-col>
-                    <b-card class="profile-main">
+                <b-card class="profile-main">
+                    <b-tabs>
+                            <b-tab title="Información">
+                                
                         <b-row align-h="end">
                             <b-col md="6" class="action" v-if="!edit && !changePassword && !editCompany">
-                                <b-button :variant="'outline-success'" class="right" @click="changePassword = true">
+                                <b-button v-if="!isCompanyProfile" :variant="'outline-success'" class="right" @click="changePassword = true">
                                     Cambiar Contraseña
                                 </b-button>
                                 <b-button v-if="isAdmin || isManager" :variant="'outline-success'" class="right" @click="editCompany = true">
                                     Editar Compañía
                                 </b-button>
-                                <b-button :variant="'outline-success'" class="right" @click="edit = true">
+                                <b-button :variant="'outline-success'" class="right" @click="edit = true" v-if="!isCompanyProfile">
                                     Editar Correo
                                 </b-button>
                             </b-col>
                         </b-row>
                         <b-row>
                             <b-col  md="6">
-                            <b-form-group label="Email" v-if="!changePassword && !editCompany">
+                            <b-form-group label="Email" v-if="!changePassword && !editCompany && !isCompanyProfile">
                                 <b-form-input :readonly="!edit" :type="'email'" v-model="user.email" required placeholder="Email"></b-form-input>
                             </b-form-group>
                             <div v-if="changePassword">
@@ -53,7 +70,7 @@
                             </b-col>
                         </b-row>
                         <b-row class="profile-company"  v-if="!changePassword && !edit">
-                            <h5 v-if="!editCompany">Mi compañía</h5>
+                            <h5 v-if="!editCompany && !isCompanyProfile">Mi compañía</h5>
                             <b-col>
                                 <b-form-group label="Nombre">
                                     <b-form-input :readonly="!editCompany" :type="'text'" v-model="user.company.company_name" required placeholder="Nombre"></b-form-input>
@@ -84,6 +101,15 @@
                                 </b-button>
                             </b-col>
                         </b-row>
+                    
+                            </b-tab>
+                            <b-tab title="Usuarios" v-if="isCompanyProfile">
+                                <Table :items="items.users" :fields="fields.users"/>
+                            </b-tab>
+                            <b-tab title="Medidores" v-if="isCompanyProfile">
+                                <Table :items="items.meters" :fields="fields.meters"/>
+                            </b-tab>
+                        </b-tabs>
                     </b-card>
                 </b-col>
                 <!--<b-col md="3" class="side-card-container">

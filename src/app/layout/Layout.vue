@@ -3,8 +3,8 @@
         <div id="side-nav" class="menu d-none d-sm-block d-xs-block">
             <b-nav vertical class="w-100">
                 <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
-                    <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div>Dashboard</b-nav-item>
-                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail'}" @click="goTo('companies')">
+                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard</b-nav-item>
+                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>
                 <b-nav-item v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
@@ -15,6 +15,9 @@
                 </b-nav-item>
                 <b-nav-item v-bind:class="{'current-view': currentView === 'calendar'}" @click="goTo('calendar')" v-if="isManager || isAccounting">
                     <div class="menu-icon-container"><i class="far fa-calendar-alt"></i></div> Calendario
+                </b-nav-item>
+                <b-nav-item v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')" v-if="!isAdmin">
+                    <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
                 </b-nav-item>
                 <b-nav-item v-if="isManager" v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')">
                    <div class="menu-icon-container"> <i class="fas fa-dollar-sign"></i></div> Facturación

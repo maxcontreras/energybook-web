@@ -3,6 +3,20 @@ $egreen: #96c13d;
 $blue: #29ACD1;
 
 #profile {
+
+    .tab-pane {
+        padding: 1rem;
+    }
+
+    .profile-map-container{
+        padding: 0;
+
+        .vue-map-container {
+            width: 100%;
+            height: 300px;
+        }
+    }
+
     .profile-header {
 
         margin-bottom: 1rem;

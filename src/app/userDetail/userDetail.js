@@ -1,7 +1,16 @@
 /* eslint-disable */
 import eUsers from '@/services/eUsers';
+import companies from '@/services/companies';
+import Table from '@/app/components/table/Table.vue';
+import {gmapApi} from 'vue2-google-maps';
+import Constants from '@/constants';
+
+const meterActive = Constants.Meters.active;
 
 export default {
+    components: {
+        Table
+    },
     computed: {
         isAdmin() {
             return this.$store.state.isAdmin;
@@ -14,7 +23,8 @@ export default {
         },
         isAccounting() {
             return this.$store.state.isAccounting;
-        }
+        },
+        google: gmapApi
     }, 
     data() {
         return {
@@ -28,25 +38,53 @@ export default {
             newPassword: {
                 password: '',
                 confirm: ''
+            },
+            isCompanyProfile: this.$route.name === 'companyProfile',
+            items: { users: [], meters: [] },
+            fields: {
+                users: [{
+                    key: 'Nombre',
+                    sortable: true
+                }, {
+                    key: 'Fecha de Registro',
+                    sortable: true
+                }, 'Email', 'Rol'],
+                meters: [{
+                    key: 'No. de Serie',
+                    sortable: true,
+                    label: 'No. de Serie'
+                }, 'Fecha de Registro', 'Estado']
             }
         }
     },
 
     beforeMount() {
-        console.log(this.$route);
-        let userId = eUsers.getCurrentId();
-        eUsers.find({
-            id: userId,
-            filter: {
-                include: ['company']
-            }
-        }).then(user => {
-            this.user = user;
-            this.user.created_at = moment(this.user.created_at).format('LL');
-            this.user.lastLogin = moment(this.user.lastLogin).format('LL');
-            this.user.fullname = `${this.user.name} ${this.user.lastname}`;
-            this.originalData = JSON.parse(JSON.stringify(this.user));
-        });
+        if(this.$route.name === 'profile') {
+            let userId = eUsers.getCurrentId();
+            eUsers.find({
+                id: userId,
+                filter: {
+                    include: ['company']
+                }
+            }).then(user => {
+                this.user = user;
+                this.setUserValues(this.user);
+            });
+        } else if(this.$route.name === 'companyProfile') {
+            let id = this.$route.params.id;
+            companies.find({
+                id,
+                filter: {
+                    include: ['meters', 'users']
+                }
+            }).then(company => {
+                this.user.company = company;
+                this.user.created_at = company.created_at;
+                this.setUserValues(this.user);
+                this.mapCompanyUsers();
+            })
+        }
+        
     },
 
     methods: {
@@ -77,6 +115,32 @@ export default {
             } else {
                 companyUpdate();
             }
+        },
+        setUserValues(object) {
+                object.created_at = moment(object.created_at).format('LL');
+                object.lastLogin = moment(object.lastLogin).format('LL');
+                object.fullname = `${object.name} ${object.lastname}`;
+                this.originalData = JSON.parse(JSON.stringify(object));
+                console.log(object);
+        },
+        mapCompanyUsers() {
+            this.user.company.users.forEach(user => {
+                this.items.users.push({
+                    'Nombre':`${user.name} ${user.lastname}`,
+                    'Fecha de Registro': moment(user.created_at).format('LL'),
+                    'Email':user.email,
+                    'Rol':user.role_id
+                });
+            })
+        },
+        mapCompanyMeters() {
+            this.user.company.meters.forEach(meter => {
+                this.items.meters.push({
+                    'No. de Serie': meter.serial_number,
+                    'Fecha de Registro': moment(meter.created_at).format('LL'),
+                    'Estado': meterActive[meter.active]
+                });
+            })
         }
     }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable */
-import LineChart from './chartRender';
+import LineChart from './lineChart';
+import BarChart from './barChart';
 
 const todayLabels = ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
 const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
@@ -8,10 +9,11 @@ const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep
 
 export default {
     components: {
-        LineChart
+        LineChart, BarChart
     },
     data() {
         return {
+            currentChart: 0,
             buttons: [{
                 selected: 0,
                 options: [
@@ -19,6 +21,11 @@ export default {
                     { value: 1, text: 'Semana' },
                     { value: 2, text: 'Mes' },
                     { value: 3, text: 'Año' },
+                ]
+            }, {
+                options: [
+                    { value: 0, text: 'Línea' },
+                    { value: 1, text: 'Barra' }  
                 ]
             }],
             chartData: {

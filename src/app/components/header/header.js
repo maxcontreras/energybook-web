@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 export default {
-    props: ['title', 'action','filters','buttons', 'isDashboard', 'modalId', 'isMeters'],
+    props: ['title', 'action','filters','buttons', 'isDashboard', 'modalId', 'isMeters','route','params'],
     data() {
         return {
             dashboardSelected: 0,
@@ -28,6 +28,12 @@ export default {
                 this.$emit('SearchData', this.dashboardSelected, this.filters[0].selected);
             } else {
                 this.$emit('SearchData', this.dashboardSelected)
+            }
+        },
+        goTo() {
+            console.log(this.route);
+            if(this.route) {
+                this.$router.push({name: this.route, params: { id: this.params } });
             }
         }
     }

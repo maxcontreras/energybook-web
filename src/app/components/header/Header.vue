@@ -4,7 +4,7 @@
         <b-card>
             <div>
                 <h3>{{title}}</h3>
-                <b-button class="right" :variant="'outline-success'" v-if="action && !modalId && showAction">
+                <b-button class="right" :variant="'outline-success'" v-if="action && !modalId && showAction" @click="goTo()">
                     {{action}}
                 </b-button>
                 <b-btn class="right" v-b-modal="modalId" variant="outline-success" v-if="modalId && action">{{action}}</b-btn>

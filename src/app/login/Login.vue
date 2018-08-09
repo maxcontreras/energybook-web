@@ -1,10 +1,21 @@
 <template>
     <div id="login">
+        <div class="info-container">
+            <h3>
+                MONITOREA, ANALIZA Y AHORRA <br/>ENERGÍA
+            </h3>
+            <h5>
+                Crea tu cuenta gratis
+            </h5>
+            <b-button variant="primary"><router-link to="registro">Regístrate</router-link></b-button>
+        </div>
+        
         <b-card id="login-container">
             <b-form @submit.prevent="login">
                 <div class="logo">
                     <img src="/assets/logo.svg" />
                 </div>
+                <h5>¡Bienvenido! Ingresa a tu cuenta</h5>
                 <b-form-group id="login-user">
                     <b-form-input type="text" v-model="email" required placeholder="Usuario">
                     </b-form-input>
@@ -16,9 +27,6 @@
                 <b-button type="submit" variant="primary">Iniciar Sesión</b-button>
                 <a>¿Olvidaste tu contraseña?</a>
             </b-form>
-            <!--<div>
-                            <a><router-link to="registro">Obtén tu demo <b>GRATIS</b></router-link></a>
-                        </div>-->
         </b-card>
     </div>
 </template>

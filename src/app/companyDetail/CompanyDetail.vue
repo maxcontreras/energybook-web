@@ -1,7 +1,7 @@
 <template>
     <b-row id="company-details" class="main">
         <b-col>
-            <Header :title="company.company_name"/>
+            <Header :title="company.company_name" :action="'Ver Perfil'" :route="'companyProfile'" :params="company.id"/>
             <b-row class="list">
                 <b-col>
                     <b-card>

@@ -1,6 +1,7 @@
 $egreen: #84b92e;
 $egreen1: #87ad36;
 $lightgray: rgb(253, 254, 255);
+$darkgray: #4b4b4b;
 
 @media only screen and (max-width: 1023px) {
     #login-container, #register-container {
@@ -17,12 +18,19 @@ $lightgray: rgb(253, 254, 255);
 
     #login-container {
         width: 350px;
-        top: 20%;
+        top: 15%;
     }
 
     #register-container {
         width: 700px;
         top: 10%;
+    }
+
+    #login .info-container {
+        display: inline-block;
+        position: absolute;
+        top: 40%;
+        left: 10%;
     }
 
 }
@@ -76,4 +84,33 @@ $lightgray: rgb(253, 254, 255);
         margin-bottom: 0.5rem;
     }
 
+}
+
+#login .btn-primary {
+    text-transform: uppercase;
+    padding: 0.5rem 3rem;
+}
+
+#login .btn-primary a {
+    color: #FFFF;
+    text-decoration: none;
+}
+
+#login .info-container {
+    
+    color: $darkgray;
+
+    h3 {
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 2rem;
+    }
+
+    h5 {
+        margin-bottom: 1rem;
+    }
+}
+
+#login-container h5 {
+    margin-bottom: 1rem;
 }
