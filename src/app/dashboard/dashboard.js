@@ -1,4 +1,7 @@
 /* eslint-disable */
+
+// add meters find to function
+// divide: general, and meters (submenus) or for each meter ??
 import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
 import meters from '@/services/meters';
@@ -33,9 +36,8 @@ export default {
             meters.find({
                 where: { company_id: this.companyId }
             }).then(meters => {
-                console.log(meters);
                 this.meters = meters;
-            })
+            });
         }
     },
     beforeMount() {
@@ -48,6 +50,12 @@ export default {
                     'Fecha de Registro': moment(company.created_at).format('LL')
                 });
             });
+        });
+        meters.find({
+            where: { company_id: this.companyId }
+        }).then(meters => {
+            console.log(meters);
+            this.meters = meters;
         });
     },
     data() {

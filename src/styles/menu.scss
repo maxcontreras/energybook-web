@@ -32,6 +32,15 @@ $darkgray: #4b4b4b;
     height: 100vh;
     top: 0;
 
+    .nav-logo-container {
+        text-align: center;
+        padding: 1rem;
+
+        img {
+            width: 80px;
+        }
+    }
+
     .menu-icon-container {
         width: 30px;
         display: inline-block;

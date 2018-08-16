@@ -95,6 +95,14 @@ const router = new VueRouter({
                         default: Graphs
                     },
                     meta: { requiresAuth: true }
+                },
+                {
+                    path: '/costos',
+                    name: 'costs',
+                    components: {
+                        default: Graphs
+                    },
+                    meta: { requiresAuth: true }
                 }
             ]
         },

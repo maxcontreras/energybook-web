@@ -5,6 +5,33 @@ $darkgray: #4b4b4b;
 
 #dashboard {
 
+    .analysis-item--cat {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-top: 1rem;
+
+        >div {
+            display: inline-block;
+        }
+
+        &:last-child {
+            border: none;
+        }
+
+        .icon-container {
+            width: 30%;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .data-container {
+            width: 50%;
+
+            h5 {
+                margin-bottom: 0;
+            }
+        }
+    }
+
     .dashboard-map-container .card-body{
         padding: 0;
 
@@ -30,6 +57,51 @@ $darkgray: #4b4b4b;
 
     .dashboard-content--admin > div.col-md-6:nth-child(2) {
         padding-left: 0;
+    }
+
+    .dashboard-content-user {
+        .col-md-2 {
+            padding-right: 0;
+
+            .green {
+                color: $egreen1;
+            }
+
+            .blue {
+                color: $eblue;
+            }
+
+            .yellow {
+                color: #ffe500;
+            }
+        }
+
+        .col-md-2:last-child {
+            padding-right: 15px;
+        }
+
+        .dashboard-icon-container {
+            text-align: center;
+            padding-right: 0;
+
+            i {
+                font-size: 24px;
+                margin-top: 25%;
+            }
+        }
+
+        .dashboard-data-container {
+            text-align: right;
+
+            h5 {
+                margin-top: 0.5rem;
+            }
+
+            p {
+                margin-top: 1rem;
+                margin-bottom: 0;
+            }
+        }
     }
 
     .dashboard-content--admin .card {
