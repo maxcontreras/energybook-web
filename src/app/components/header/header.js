@@ -21,7 +21,6 @@ export default {
     },
     methods: {
         filterData(val) {
-            console.log(this.filters[0].selected !== null, this.isDashboard);
             this.dashboardSelected = val;
             this.companySelected = this.filters[0] && this.filters[0].selected !== null;
             if(this.isAdmin) {
@@ -31,7 +30,6 @@ export default {
             }
         },
         goTo() {
-            console.log(this.route);
             if(this.route) {
                 this.$router.push({name: this.route, params: { id: this.params } });
             }

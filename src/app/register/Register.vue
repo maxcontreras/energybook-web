@@ -35,6 +35,11 @@
                         <b-form-group>
                             <b-form-input type="text" v-model="phone" required placeholder="Teléfono"></b-form-input>
                         </b-form-group>
+                        <b-form-group>
+                            <gmap-autocomplete class="form-control"
+                                @place_changed="setPlace">
+                            </gmap-autocomplete>
+                        </b-form-group>
                     </b-col>
                 </b-row>
                 <b-row align-h="end">

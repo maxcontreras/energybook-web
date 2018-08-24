@@ -54,7 +54,8 @@ export default {
                     sortable: true,
                     label: 'No. de Serie'
                 }, 'Fecha de Registro', 'Estado']
-            }
+            },
+            companyPosition: {lat:20.663782, lng:-103.3916394}
         }
     },
 
@@ -69,6 +70,7 @@ export default {
             }).then(user => {
                 this.user = user;
                 this.setUserValues(this.user);
+                this.getPosition();
             });
         } else if(this.$route.name === 'companyProfile') {
             let id = this.$route.params.id;
@@ -82,6 +84,7 @@ export default {
                 this.user.created_at = company.created_at;
                 this.setUserValues(this.user);
                 this.mapCompanyUsers();
+                this.getPosition();
             })
         }
         
@@ -121,7 +124,6 @@ export default {
                 object.lastLogin = moment(object.lastLogin).format('LL');
                 object.fullname = `${object.name} ${object.lastname}`;
                 this.originalData = JSON.parse(JSON.stringify(object));
-                console.log(object);
         },
         mapCompanyUsers() {
             this.user.company.users.forEach(user => {
@@ -141,6 +143,22 @@ export default {
                     'Estado': meterActive[meter.active]
                 });
             })
+        },
+        getPosition() {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                "address": this.user.company.location
+            }, results => {
+                let latlng = results[0].geometry.location;
+                this.companyPosition = {
+                    lat: latlng.lat(),
+                    lng: latlng.lng()
+                }
+                console.log(this.companyPosition);
+            });
+        },
+        setPlace(place) {
+            this.user.company.location = place.formatted_address;
         }
     }
 }

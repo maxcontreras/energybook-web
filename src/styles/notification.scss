@@ -1,0 +1,30 @@
+$darkgray: #4b4b4b;
+
+#notification-link {
+    position: relative;
+}
+
+#notification {
+    width: 400px;
+    position: absolute;
+    right: 10%;
+    //max-height: 350px;
+    //height: 350px;
+    //height: auto;
+    overflow:  hidden auto;
+    box-shadow: 0 0 5px rgba(0,0,0,.0975);
+    border: solid 1px #e6e6e6;
+    background-color: #FFF;
+    color: $darkgray;
+    cursor: default;
+    display: none;
+}
+
+.notification-row {
+    padding: 1rem;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(0,0,0,0.02);
+    }
+}

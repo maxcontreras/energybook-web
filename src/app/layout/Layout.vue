@@ -28,15 +28,12 @@
                 <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'costs'}" @click="goTo('costs')">
                    <div class="menu-icon-container"> <i class="fas fa-coins"></i></div> Costos
                 </b-nav-item>
-                <b-nav-item>
-                    <div class="menu-icon-container"><i class="far fa-bell"></i></div> Notificaciones
-                </b-nav-item>
                 <b-nav-item v-if="!isAccounting" v-bind:class="{'current-view': currentView === 'profile'}" @click="goTo('profile')">
                     <div class="menu-icon-container"><i class="far fa-user"></i></div> Perfil
                 </b-nav-item>
-                <b-nav-item @click="logout()">
+                <!--<b-nav-item @click="logout()">
                     <div class="menu-icon-container"><i class="fas fa-sign-out-alt"></i></div> Cerrar Sesión
-                </b-nav-item>
+                </b-nav-item>-->
             </b-nav>
         </div>
         <div id="top-nav" class="menu d-md-none d-lg-none .d-xl-none mobile">
@@ -56,6 +53,20 @@
             </b-nav>
         </div>
         <div id="main">
+            <b-navbar :sticky="true" type="light" variant="light" toggleable>
+                <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
+                <b-collapse is-nav id="nav_dropdown_collapse">
+                    <b-navbar-nav class="ml-auto">
+                        <b-nav-item id="notification-link">
+                            <i class="far fa-bell" @click="toggleNotificationPanel()"></i>
+                            <Notification/>
+                        </b-nav-item>
+                        <b-nav-item-dropdown :text="user.user.name + ' ' + user.user.lastname" right>
+                        <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
+                        </b-nav-item-dropdown>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-navbar>
             <router-view></router-view>
         </div>
     </div>
@@ -64,7 +75,13 @@
 <script>
 
 //cambiar nombre de archivos de acuerdo a las secciones
+
+import Notification from '@/app/components/notificationPanel/NotificationPanel.vue';
+
 export default {
+    components: {
+        Notification
+    },
     data() {
         return {
             currentView: this.$store.state.currentView,
@@ -84,6 +101,9 @@ export default {
         },
         isAccounting() {
             return this.$store.state.isAccounting;
+        },
+        user() {
+            return this.$store.state.user;
         }
     }, 
 
@@ -103,8 +123,25 @@ export default {
             this.$router.push({name: route});
         },
         logout() {
-            console.log("logut");
             this.$store.dispatch('user/logout');
+        },
+        toggleNotificationPanel() {
+            this.toggle = !this.toggle;
+            let $dropdown = $('#notification');
+
+            if(this.toggle) {
+
+                $dropdown.stop().css({
+                    'display': 'block',
+                    'top': 20,
+                    'opacity': 0
+                }).animate({
+                    top:  35,
+                    opacity: 1
+                }, 300);
+            } else {
+                $dropdown.css({ 'display' : 'none'});
+            }
         }
     }
 }

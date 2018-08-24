@@ -13,7 +13,8 @@ export default {
             size: '',
             phone: '',
             password: '',
-            passwordConfirm: ''
+            passwordConfirm: '',
+            place: ''
 		};
 	},
 	methods: {
@@ -27,13 +28,18 @@ export default {
                     type_id: 1,
                     size: this.size,
                     phone: this.phone,
-                    password: this.password
+                    password: this.password,
+                    location: this.place.formatted_address
                 }
             }).then(res => {
                 if(res.response) {
                     this.$router.push({ name: 'login' });
                 }
             });
-		}
+        },
+        setPlace(place) {
+            this.place = place;
+            console.log(this.place);
+        }
 	}
 };

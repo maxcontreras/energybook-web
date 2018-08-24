@@ -29,67 +29,22 @@
             <b-row class="dashboard-content-user" v-if="!isAdmin">
                 <b-col>
                     <b-row class="margin-bottom-1 margin-top-1">
-                        <b-col md="2">
+                        <b-col md="3">
                             <b-card>
                                 <b-row>
-                                    <b-col md="4" class="dashboard-icon-container">
-                                        <i class="fas fa-bolt green"></i>
-                                    </b-col>
                                     <b-col md="8" class="dashboard-data-container">
                                         <h5 class="green">
                                             1, 400 kWh
                                         </h5>
                                         <p>08-08-2018</p>
                                     </b-col>
-                                </b-row>
-                            </b-card>
-                        </b-col>
-                        <b-col md="2">
-                            <b-card>
-                                <b-row>
-                                    <b-col md="4" class="dashboard-icon-container">
-                                        <i class="fas fa-power-off blue"></i>
-                                    </b-col>
-                                    <b-col md="8" class="dashboard-data-container">
-                                        <h5 class="blue">
-                                            1, 400 kW
-                                        </h5>
-                                        <p>08-08-2018</p>
-                                    </b-col>
-                                </b-row>
-                            </b-card>
-                        </b-col>
-                        <b-col md="2">
-                            <b-card>
-                                <b-row>
-                                    <b-col md="4" class="dashboard-icon-container">
-                                        <i class="fas fa-stream yellow"></i>
-                                    </b-col>
-                                    <b-col md="8" class="dashboard-data-container">
-                                        <h5 class="yellow">
-                                            1, 400 kW
-                                        </h5>
-                                        <p>08-08-2018</p>
-                                    </b-col>
-                                </b-row>
-                            </b-card>
-                        </b-col>
-                        <b-col md="2">
-                            <b-card>
-                                <b-row>
                                     <b-col md="4" class="dashboard-icon-container">
                                         <i class="fas fa-bolt green"></i>
                                     </b-col>
-                                    <b-col md="8" class="dashboard-data-container">
-                                        <h5 class="green">
-                                            1, 400 $
-                                        </h5>
-                                        <p>08-08-2018</p>
-                                    </b-col>
                                 </b-row>
                             </b-card>
                         </b-col>
-                        <b-col md="2">
+                        <!--<b-col md="2">
                             <b-card>
                                 <b-row>
                                     <b-col md="4" class="dashboard-icon-container">
@@ -118,7 +73,7 @@
                                     </b-col>
                                 </b-row>
                             </b-card>
-                        </b-col>
+                        </b-col>-->
                     </b-row>
                     <b-row class="margin-bottom-1">
                         <b-col md="5">
@@ -167,14 +122,14 @@
                                 </b-row>
                             </b-card>
                         </b-col>
-                        <b-col md="4">
+                        <!--<b-col md="4">
                             <b-card></b-card>
                         </b-col>
                         <b-col md="3">
                             <b-card></b-card>
-                        </b-col>
+                        </b-col>-->
                     </b-row>
-                    <Analysis :meters="meters"/>
+                    <!--<Analysis :meters="meters"/>-->
                 </b-col>
             </b-row>
         </b-col>

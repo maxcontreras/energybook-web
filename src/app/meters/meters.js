@@ -1,5 +1,6 @@
 /* eslint-disable */
 import meters from '@/services/meters';
+import companies from '@/services/companies';
 import Header from '@/app/components/header/Header.vue';
 import Table from '@/app/components/table/Table.vue';
 import Constants from '@/constants';
@@ -26,11 +27,18 @@ export default {
                 sortable: true,
                 label: 'No. de Serie'
             }, 'Fecha de Registro', 'Estado'],
+            newMeter: {
+                serial_number: '',
+                created_at: new Date(),
+                company_id: null
+            },
+            companies: [ { value: null, text: 'Selecciona una compañía'} ]
         }
     },
 
     beforeMount() {
         this.getMeters();
+        this.getCompanies();
     },
 
     methods: {
@@ -45,6 +53,18 @@ export default {
                     });
                 });
             });
+        },
+
+        getCompanies() {
+            companies.find({}).then(companies => {
+                companies.forEach(company => {
+                    this.companies.push({ value: company.id, text: company.company_name} );
+                });
+            });
+        },
+        
+        createMeter() {
+
         }
     }
 }

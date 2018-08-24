@@ -5,6 +5,11 @@ $darkgray: #4b4b4b;
 
 #dashboard {
 
+    .card {
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 1px -1px rgba(0, 0, 0, 0.05);
+        border-radius: 5px;
+    }
+
     .analysis-item--cat {
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         padding-top: 1rem;
@@ -91,7 +96,6 @@ $darkgray: #4b4b4b;
         }
 
         .dashboard-data-container {
-            text-align: right;
 
             h5 {
                 margin-top: 0.5rem;

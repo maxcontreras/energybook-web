@@ -13,17 +13,14 @@
                         :center="{lat:20.663782, lng:-103.3916394}"
                         :zoom="7"
                         map-type-id="roadmap"
+                        :options="{ disableDefaultUI : true }"
                         >
-                        <!--<GmapMarker
-                            :key="index"
-                            v-for="(m, index) in markers"
-                            :position="m.position"
-                            :clickable="true"
-                            :draggable="true"
-                            @click="center=m.position"
-                        />-->
+                        <GmapMarker
+                            :position="companyPosition"
+                            :clickable="false"
+                            :draggable="false"
+                        />
                         </GmapMap>
-                        <!--<img src="/assets/images/map-example.jpg"/>-->
                     </b-col>
                 </b-row>
                 <b-row class="header-bottom" align-h="around">
@@ -88,6 +85,10 @@
                                 </b-form-group>
                                 <b-form-group label="Giro">
                                     <b-form-input :readonly="!editCompany" :type="'text'" v-model="user.company.company_type" required placeholder="Giro"></b-form-input>
+                                </b-form-group>
+                                <b-form-group label="Ubicación">
+                                    <b-form-input v-if="!editCompany" :readonly="true" required placeholder="Ubicación" :type="'text'" v-model="user.company.location"></b-form-input>
+                                    <gmap-autocomplete class="form-control" v-if="editCompany"></gmap-autocomplete>
                                 </b-form-group>
                             </b-col>
                         </b-row>
