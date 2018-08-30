@@ -10,7 +10,7 @@
                                 <Analysis :meters="company.meters"/>
                             </b-tab>
                             <b-tab title="Gráficas">
-                                <Chart/>
+                                 <Chart/>
                             </b-tab>
                         </b-tabs>
                     </b-card>

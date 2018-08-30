@@ -4,7 +4,11 @@ $lightgray: rgb(253, 254, 255);
 $darkgray: #4b4b4b;
 
 .navbar {
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 1px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.05), 0 0px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px -1px rgba(0, 0, 0, 0.05);
+}
+
+#top-bar {
+    background-color: #FFF !important;
 }
 
 #top-nav{

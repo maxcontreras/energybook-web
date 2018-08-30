@@ -2,6 +2,7 @@
 import Chart from '@/app/components/chart/Chart.vue';
 import Header from '@/app/components/header/Header.vue';
 import Table from '@/app/components/table/Table.vue';
+import designatedMeters from '@/services/designatedMeters';
 import meters from '@/services/meters';
 
 export default {
@@ -9,6 +10,9 @@ export default {
         Chart, Header, Table
     },
     computed: {
+        isAdmin() {
+            return this.$store.state.isAdmin;
+        },
         companyId() {
             return this.$store.state.company_id;
         },
@@ -17,6 +21,11 @@ export default {
         },
         title() {
             return this.isCosts? 'Costos': 'Gráficas';
+        }
+    },
+    watch: {
+        companyId() {
+            this.getMeters();
         }
     },
     data() {
@@ -31,19 +40,28 @@ export default {
     },
     beforeMount() {
         this.getMeters();
+        this.getByFilter();
     },
     methods: {
         changePeriod(period) {
             this.$refs.mainChart.changePeriod(period);
         },
         getMeters() {
-            meters.find({
-                where: { company_id: this.companyId }
+            designatedMeters.find({
+                filter: {
+                    where: { company_id: this.companyId }
+                }
             }).then(meters => {
                 this.meters = meters;
                 this.meters.forEach(meter => {
-                    this.metersFilter[0].options.push({ value: meter.id, text: meter.serial_number });
+                    this.metersFilter[0].options.push({ value: meter.id, text: meter.device_name });
                 });
+            });
+        },
+        getByFilter() {
+            meters.getReadingsByFilter('5b85b7a58c5a3e1bc0275f6c', 0)
+            .then(res => {
+                console.log(res);
             });
         }
     }

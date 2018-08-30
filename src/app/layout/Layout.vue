@@ -53,7 +53,7 @@
             </b-nav>
         </div>
         <div id="main">
-            <b-navbar :sticky="true" type="light" variant="light" toggleable>
+            <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
                 <b-collapse is-nav id="nav_dropdown_collapse">
                     <b-navbar-nav class="ml-auto">

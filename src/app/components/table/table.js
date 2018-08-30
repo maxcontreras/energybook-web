@@ -13,6 +13,8 @@ export default {
         rowClickHandler(record, index) {
             if(this.route) {
                 this.$router.push({name: this.route, params: {id: record.id}});
+            } else {
+                this.$emit('clicked', {id: record.id, index });
             }
         }
     }

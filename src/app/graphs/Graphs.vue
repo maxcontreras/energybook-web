@@ -5,7 +5,7 @@
             <b-row class="list">
                 <b-col>
                     <b-card class="margin-bottom-1">
-                        <Chart/>
+                        <Chart v-if="metersFilter[0].selected !== null"/>
                     </b-card>
                     <b-card>
                         <Table :items="items" :fields="fields"/>

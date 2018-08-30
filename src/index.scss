@@ -19,6 +19,7 @@ html, body {
 @media (min-width: 768px) {
   #main {
     margin-left: 170px;
+    overflow-x: hidden;
 
     >div.row {
       margin: 1rem;
@@ -26,10 +27,6 @@ html, body {
       >div.col:first-child {
         padding: 0;
       }
-    }
-
-    div.row.main {
-      margin-top:0 !important;
     }
   }
 
@@ -57,9 +54,6 @@ html, body {
 
     .custom-select {
       width: 200px;
-      margin-top: 13px;
-      margin-bottom: 0px !important;
-      margin-right: 18px;
     }
 
     .filters-container .btn {

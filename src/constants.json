@@ -28,7 +28,7 @@
     "Meters": {
         "active": {
             "1":"Activo",
-            "2":"Inactivo"
+            "0":"Inactivo"
         },
         "designated": {
             "active": {

@@ -2,7 +2,7 @@
     <b-row id="clients">
         <b-col>
             <Header :title="'Compañías'" :action="'Agregar Compañía'" :modalId="'companyModal'"/>
-            <b-row class="list">
+            <b-row>
                 <b-col>
                     <b-card>
                         <Table :items="items" :fields="fields"  :route="'companyDetail'"/>

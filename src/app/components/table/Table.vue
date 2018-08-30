@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="list">
     <b-table responsive hover 
     :items="items" 
     :fields="fields" 
