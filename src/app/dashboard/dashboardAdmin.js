@@ -1,7 +1,4 @@
 /* eslint-disable */
-
-// add meters find to function
-// divide: general, and meters (submenus) or for each meter ??
 import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
 import Table from '@/app/components/table/Table.vue';
@@ -14,9 +11,6 @@ export default {
     computed: {
         currentFormattedDate() {
             return moment(this.currentDate).format('dddd, MMMM Do YYYY');
-        },
-        filters() {
-            return this.isAdmin? [this.companiesVal]:[];
         },
         google: gmapApi
     },

@@ -21,12 +21,12 @@ export default {
     },
     methods: {
         filterData(val) {
-            this.dashboardSelected = val;
-            this.companySelected = this.filters[0] && this.filters[0].selected !== null;
+            //this.dashboardSelected = val;
+            //this.companySelected = this.filters[0] && this.filters[0].selected !== null;
             if(this.isAdmin) {
                 this.$emit('SearchData', this.dashboardSelected, this.filters[0].selected);
             } else {
-                this.$emit('SearchData', this.dashboardSelected)
+                this.$emit('SearchData', val)
             }
         },
         goTo() {

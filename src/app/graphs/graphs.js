@@ -40,7 +40,7 @@ export default {
     },
     beforeMount() {
         this.getMeters();
-        this.getByFilter();
+        //this.getByFilter();
     },
     methods: {
         changePeriod(period) {

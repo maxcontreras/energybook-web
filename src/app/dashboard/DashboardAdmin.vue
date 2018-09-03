@@ -13,6 +13,7 @@
                         :center="{lat:20.663782, lng:-103.3916394}"
                         :zoom="7"
                         map-type-id="roadmap"
+                        :options="{ disableDefaultUI : true }"
                         >
                         <!--<GmapMarker
                             :key="index"

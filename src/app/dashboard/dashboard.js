@@ -3,6 +3,7 @@
 import meters from '@/services/meters';
 import designatedMeters from '@/services/designatedMeters';
 import Table from '@/app/components/table/Table.vue';
+import Header from '@/app/components/header/Header.vue';
 import {gmapApi} from 'vue2-google-maps'
 import Weather from 'vue-weather-widget';
 import 'vue-weather-widget/dist/css/vue-weather-widget.css';
@@ -11,7 +12,7 @@ var position = {lat:'20.663782', lng:'-103.3916394'}
 
 export default {
     components: {
-        Table, Weather
+        Table, Weather, Header
     },
     computed: {
         currentFormattedDate() {
@@ -45,8 +46,14 @@ export default {
     },
     data() {
         return {
+            metersFilter: [{
+                selected: null,
+                options: [ { value: null, text: 'Selecciona un dispositivo'} ]
+            }],
             meters: [],
             meterId: '',
+            dpVal: 0,
+            epimpVal: 0,
             bcItems: [{
                 text: 'Dashboard',
                 to: { name: 'dashboard' }
@@ -73,16 +80,28 @@ export default {
 
                 if(this.meterId) {
                     this.bcItems[1].text = this.meters[0].device_name;
+                    this.currentMeter = this.meters[0];
                 }
 
                 this.meters.forEach(meter => {
+                    this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name });
                     /*meters.deviceVariables(meter.meter_id)
-                    .then(res => {
-                       //meter.deviceVars = res.deviceVars;
-                       meter.dp = res.deviceVars.var[1];
-                       meter.epimp = res.deviceVars.var[8];
+                    .then(vars => {
+                       //meter.deviceVars = vars.deviceVars;
+                       meter.dp = vars.deviceVars.var[1];
+                       meter.epimp = vars.deviceVars.var[8];
+                       this.currentMeter = meter;
                     });*/
                 });
+            });
+        },
+        getDeviceVariables(meter_id) {
+            meters.deviceVariables(meter_id)
+            .then(res => {
+                console.log(res);
+                this.dpVal = res.deviceVars.var[1].unitsFactor._text;
+                this.epimpVal = res.deviceVars.var[8].unitsFactor._text;
+                console.log(this.dpVal);
             });
         }
     }
