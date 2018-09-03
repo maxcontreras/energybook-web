@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 export default {
-    props: ['items', 'fields', 'route'],
+    props: ['items', 'fields', 'route', 'alertMessage'],
     data() {
         return {
             currentPage: 1,

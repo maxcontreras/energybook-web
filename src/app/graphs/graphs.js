@@ -57,12 +57,6 @@ export default {
                     this.metersFilter[0].options.push({ value: meter.id, text: meter.device_name });
                 });
             });
-        },
-        getByFilter() {
-            meters.getReadingsByFilter('5b85b7a58c5a3e1bc0275f6c', 0)
-            .then(res => {
-                console.log(res);
-            });
         }
     }
 }

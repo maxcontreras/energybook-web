@@ -10,6 +10,10 @@
 $egreen: #96c13d;
 $gray: rgba(0,0,0,0.64);
 
+.breadcrumb a {
+  color: $egreen;
+}
+
 html, body {
   background-color: #fcfcfc;
   font-family:'Poppins', sans-serif;

@@ -37,7 +37,6 @@ export default {
         },
         login({ commit, dispatch, state }, { email, password }) {
             return eUsers.login({ email, password }).then(token => {
-                console.log(token);
                 commit('setAccessToken', token);
 
                 if (state.access_token === null) {
@@ -46,7 +45,6 @@ export default {
                     loopback.setToken(state.access_token);
                 }
 
-                router.push({ name: 'dashboard' });
                 return dispatch('loadAccount', state.access_token.userId);
             }).catch(e => {
                 console.log(e);
@@ -54,6 +52,13 @@ export default {
         },
         loadAccount({ commit }, id) {
             return eUsers.findById({ id }).then(user => {
+                localStorage.setItem('user', JSON.stringify(user));
+                if(user.role_id === 1) {
+                    router.push({ name: 'dashboardAdmin' });
+                } else {
+                    router.push({ name: 'dashboard' });
+                }
+                
                 commit('setUser', user);
                 commit('setRole', user, { root: true });
                 commit('setCompanyId', user.company_id, { root: true });

@@ -63,7 +63,7 @@ $darkgray: #4b4b4b;
     }
 
     .dashboard-content-user {
-        .col-md-2 {
+        .col-md-2, .col-md-4 {
             padding-right: 0;
 
             .green {
@@ -79,7 +79,7 @@ $darkgray: #4b4b4b;
             }
         }
 
-        .col-md-2:last-child {
+        .col-md-2:last-child,  .col-md-4:last-child{
             padding-right: 15px;
         }
 
@@ -190,4 +190,18 @@ $darkgray: #4b4b4b;
         }
     }*/
 
+}
+
+.fe_container {
+
+    min-width: auto;
+    color: white !important;
+
+    .fe_currently {
+        width: 100%;
+    }
+
+    .fe_daily {
+        display: none;
+    }
 }

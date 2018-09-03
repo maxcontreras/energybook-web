@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import Login from '@/app/login/Login.vue';
 import Register from '@/app/register/Register.vue';
 import Dashboard from '@/app/dashboard/Dashboard.vue';
+import DashboardAdmin from '@/app/dashboard/DashboardAdmin.vue';
 import Layout from '@/app/layout/Layout.vue';
 import Companies from '@/app/companies/Companies.vue';
 import Meters from '@/app/meters/Meters.vue';
@@ -29,6 +30,22 @@ const router = new VueRouter({
                     name: 'dashboard',
                     components: {
                         default: Dashboard
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/:id',
+                    name: 'dashboardMeter',
+                    components: {
+                        default: Dashboard
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/dashboard',
+                    name: 'dashboardAdmin',
+                    components: {
+                        default: DashboardAdmin
                     },
                     meta: { requiresAuth: true }
                 },
