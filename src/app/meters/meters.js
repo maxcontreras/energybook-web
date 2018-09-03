@@ -37,7 +37,7 @@ export default {
                 key: 'Nombre',
                 sortable: true,
                 label: 'Nombre'
-            }, 'Fecha de Registro',  'Compañía', 'Estado'],
+            }, 'Asignado el',  'Compañía', 'Status'],
             newMeter: {
                 serial_number: '',
                 created_at: new Date()
@@ -66,7 +66,7 @@ export default {
     beforeMount() {
         this.getMeters();
         this.getCompanies();
-        if(this.companyId) this.getDesignatedMeters();
+        this.getDesignatedMeters();
     },
 
     methods: {
@@ -74,16 +74,11 @@ export default {
             meters.find({}).then(res => {
                 this.meters = res;
                 this.meters.forEach(meter => {
-                    meters.getOwnerCompany({meter_id: meter.id})
-                    .then(res => {
-                        if(res.company.status === 400) {
-                            this.items.push({
-                                'No. de Serie': meter.serial_number,
-                                'Fecha de Registro': moment(meter.created_at).format('LL'),
-                                'Estado': meterActive[meter.active],
-                                id: meter.id
-                            });
-                        }
+                    this.items.push({
+                        'No. de Serie': meter.serial_number,
+                        'Fecha de Registro': moment(meter.created_at).format('LL'),
+                        'Estado': meterActive[meter.active],
+                        id: meter.id
                     });
                 });
             });
@@ -109,9 +104,9 @@ export default {
                     .then(company => {
                         this.itemsDesignated.push({
                             'Nombre': meter.device_name,
-                            'Fecha de Registro': moment(meter.created_at).format('LL'),
+                            'Asignado el': moment(meter.created_at).format('LL'),
                             'Compañía': company.company.name,
-                            'Estado': meterActive[company.company.meter_status],
+                            'Status': meterActive[company.company.meter_status],
                             id: meter.id
                         });
                     });
@@ -126,7 +121,7 @@ export default {
                 });
             });
         },
-        
+
         createMeter() {
             meters.create({
                 data: this.newMeter

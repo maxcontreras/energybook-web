@@ -18,7 +18,7 @@ export default {
                 key: 'name',
                 sortable: true,
                 label: 'Nombre'
-            }, { 
+            }, {
                 label :'Teléfono',
                 key: 'phone'
             }, {
@@ -79,7 +79,22 @@ export default {
             delete this.newCompany.businessLine;
             companies.create({data:this.newCompany}).then(newCompany => {
                 this.addCompany(newCompany);
+                if(this.newManager || this.newUser){
+                    this.addNewCompanyUsers(newCompany);
+                }
                 this.newCompany = {};
+            });
+        },
+        addNewCompanyUsers(newCompany) {
+            let data = {};
+            data.company = newCompany;
+            data.manager = this.newManager;
+
+            if(this.newUser.email !== ""){
+                data.user = this.newUser;
+            }
+            companies.addUsers({data: data}).then(response => {
+                // TODO: alerta aquí si fue exitÓso o nelson :)
             });
         },
         addCompany(company) {

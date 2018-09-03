@@ -16,24 +16,21 @@
                     <b-col md="6">
                         <h5>Datos de la Empresa</h5>
                         <b-form-group>
-                            <b-form-input type="text" v-model="newCompany.company_name" required placeholder="Nombre"></b-form-input>
+                            <b-form-input type="text" v-model="newCompany.company_name" required placeholder="Nombre comercial"></b-form-input>
                         </b-form-group>
                         <b-form-group>
-                            <b-form-input type="text" v-model="newCompany.legal_name" required placeholder="Razón Social"></b-form-input>
-                        </b-form-group>
-                        <b-form-group>
-                            <b-form-input type="text" v-model="newCompany.businessLine" required placeholder="Giro"></b-form-input>
-                        </b-form-group>
-                        <b-form-group>
-                            <b-form-input type="text" v-model="newCompany.size" required placeholder="Número de empleados"></b-form-input>
+                            <b-form-input type="text" v-model="newCompany.legal_name" required placeholder="Razón social"></b-form-input>
                         </b-form-group>
                         <b-form-group>
                             <b-form-input type="text" v-model="newCompany.phone" required placeholder="Teléfono"></b-form-input>
                         </b-form-group>
+                        <b-form-group>
+                            <b-form-input type="text" v-model="newCompany.businessLine" required placeholder="Giro"></b-form-input>
+                        </b-form-group>
                     </b-col>
                     <b-col md="6">
                         <div class="company-manager" v-if="toggle.newManager">
-                            <h5>Datos del Manager</h5>
+                            <h5>Agrega al gerente</h5>
                             <b-form-group>
                                 <b-form-input type="text" v-model="newManager.name" required placeholder="Nombre"></b-form-input>
                             </b-form-group>
@@ -45,7 +42,7 @@
                             </b-form-group>
                         </div>
                         <div class="company-user" v-if="toggle.newUser">
-                            <h5>Datos del Usuario</h5>
+                            <h5>Agrega un usuario</h5>
                             <b-form-group>
                                 <b-form-input type="text" v-model="newUser.name" required placeholder="Nombre"></b-form-input>
                             </b-form-group>
