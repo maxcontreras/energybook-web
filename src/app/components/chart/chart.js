@@ -8,6 +8,7 @@ const monthLabels = ['1', '5', '10', '15', '20', '25', '30'];
 const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
 export default {
+    props: ['meterId'],
     components: {
         LineChart, BarChart
     },
@@ -17,10 +18,11 @@ export default {
             buttons: [{
                 selected: 0,
                 options: [
-                    { value: 0, text: 'Día' },
-                    { value: 1, text: 'Semana' },
-                    { value: 2, text: 'Mes' },
-                    { value: 3, text: 'Año' },
+                    { value: 0, text: 'Hoy' },
+                    { value: 1, text: 'Ayer' },
+                    { value: 2, text: 'Esta Semana' },
+                    { value: 3, text: 'Este Mes' },
+                    { value: 3, text: 'Este Año' },
                 ]
             }, {
                 options: [
@@ -84,6 +86,7 @@ export default {
                     this.periodText = 'year';
                     break;
                 }
+                this.getByFilter(period)
             }
 
             this.$refs.mainChart.renderChart(this.chartData, this.chartOptions);
@@ -93,6 +96,14 @@ export default {
         },
         next() {
             this.currentDate = moment(this.currentDate).add(1, this.periodText);
+        },
+        getByFilter(filter) {
+            console.log(this.meterId);
+            /*meters.getReadingsByFilter('5b85b7a58c5a3e1bc0275f6c', 0)
+            .then(res => {
+                console.log(res);
+            });*/
+            
         }
-    }
+    },
 }

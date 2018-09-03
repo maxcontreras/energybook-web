@@ -7,13 +7,13 @@
                     <b-card>
                         <b-tabs v-if="isAdmin">
                             <b-tab title="Medidores Asignados" active>
-                                <Table :items="itemsDesignated" :fields="fieldsDesignated"/>
+                                <Table :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'No hay medidores asignados.'"/>
                             </b-tab>
                             <b-tab title="Medidores">
-                                <Table :items="items" :fields="fields" @clicked="openAssignModal"/>
+                                <Table :items="items" :fields="fields" @clicked="openAssignModal" :alertMessage="'No se encuentran medidores sin asignar.'"/>
                             </b-tab>
                         </b-tabs>
-                        <Table v-if="!isAdmin" :items="itemsDesignated" :fields="fieldsDesignated"/>
+                        <Table v-if="!isAdmin" :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'Aún no tienes medidores.'"/>
                     </b-card>
                 </b-col>
             </b-row>

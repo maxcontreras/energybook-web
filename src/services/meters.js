@@ -14,6 +14,18 @@ let meters = Object.assign({}, {
 
     getReadingsByFilter(meter_id, filter) {
         return loopback.post('/Meters/getReadingsByFilter', {id: meter_id, filter: `${filter}`});
+    },
+
+    getDeviceInfo(id) {
+        return loopback.post(`/Meters/getDeviceInfo`, {id: id});
+    },
+
+    deviceVariables(id) {
+        return loopback.post(`/Meters/deviceVariables`, {id: id});
+    },
+
+    getActivesAssigned(companyId) {
+        return loopback.post('Meters/getActivesAssigned', {companyId: companyId});
     }
 
 }, modelObject);

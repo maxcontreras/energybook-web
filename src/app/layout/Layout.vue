@@ -5,7 +5,11 @@
                 <img src="/assets/logo1.png" />
             </div>
             <b-nav vertical class="w-100">
-                <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
+                <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'dashboard' || currentView === 'dashboardMeter'}" @click="goTo('dashboard'); toggleMeters()">
+                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard</b-nav-item>
+                <b-nav-item class="meters-submenu" v-if="!isAdmin" @click="goToMeter(meter.meter_id)" v-for="meter in meters" :key="meter.id">
+                    <div class="menu-icon-container"></div>{{meter.device_name}}</b-nav-item>
+                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'dashboardAdmin'}" @click="goTo('dashboardAdmin')">
                     <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard</b-nav-item>
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
@@ -31,12 +35,9 @@
                 <b-nav-item v-if="!isAccounting" v-bind:class="{'current-view': currentView === 'profile'}" @click="goTo('profile')">
                     <div class="menu-icon-container"><i class="far fa-user"></i></div> Perfil
                 </b-nav-item>
-                <!--<b-nav-item @click="logout()">
-                    <div class="menu-icon-container"><i class="fas fa-sign-out-alt"></i></div> Cerrar Sesión
-                </b-nav-item>-->
             </b-nav>
         </div>
-        <div id="top-nav" class="menu d-md-none d-lg-none .d-xl-none mobile">
+        <div id="top-nav" class="menu d-md-none d-lg-none .d-xl-none mobile" v-if="false">
             <b-nav class="w-100">
                 <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
                     <i class="fas fa-chart-line"></i>
@@ -74,9 +75,8 @@
 
 <script>
 
-//cambiar nombre de archivos de acuerdo a las secciones
-
 import Notification from '@/app/components/notificationPanel/NotificationPanel.vue';
+import designatedMeters from '@/services/designatedMeters'
 
 export default {
     components: {
@@ -85,7 +85,8 @@ export default {
     data() {
         return {
             currentView: this.$store.state.currentView,
-			toggle: false
+			toggle: false,
+            meters: []
         }
     },
 
@@ -118,12 +119,22 @@ export default {
         );
     },
 
+    beforeMount() {
+        this.getMeters();
+    },
+
     methods: {
         goTo(route) {
             this.$router.push({name: route});
         },
+        goToMeter(meter_id) {
+            this.$router.push({name: 'dashboardMeter', params: {id: meter_id}});
+        },
         logout() {
             this.$store.dispatch('user/logout');
+        },
+        toggleMeters() {
+            $('.meters-submenu').toggle();
         },
         toggleNotificationPanel() {
             this.toggle = !this.toggle;
@@ -142,6 +153,18 @@ export default {
             } else {
                 $dropdown.css({ 'display' : 'none'});
             }
+        },
+        getMeters() {
+            let companyId = JSON.parse(localStorage.getItem('user')).company_id;
+            designatedMeters.find({
+                filter: {
+                    where: {
+                        company_id: companyId
+                    }
+                }
+            }).then(designatedMeters => {
+                this.meters = designatedMeters;
+            });
         }
     }
 }

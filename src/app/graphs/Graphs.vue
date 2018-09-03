@@ -4,10 +4,13 @@
             <Header :title="title" :filters="metersFilter"/>
             <b-row class="list">
                 <b-col>
-                    <b-card class="margin-bottom-1">
-                        <Chart v-if="metersFilter[0].selected !== null"/>
+                    <b-card class="margin-bottom-1" v-if="metersFilter[0].selected !== null">
+                        <Chart :meterId="metersFilter[0].selected"/>
                     </b-card>
-                    <b-card>
+                    <b-alert show variant="info" v-if="metersFilter[0].selected === null">
+                        Selecciona un medidor para desplegar la gráfica.
+                    </b-alert>
+                    <b-card v-if="items.length > 0">
                         <Table :items="items" :fields="fields"/>
                     </b-card>
                 </b-col>

@@ -49,7 +49,11 @@ export default {
                 meter_id: ''
             },
             currentIndex: 0,
-            companies: [ { value: null, text: 'Selecciona una compañía'} ]
+            companies: [ { value: null, text: 'Selecciona una compañía'} ],
+            bcItems: [{
+                text: 'Medidores',
+                active: true
+            }]
         }
     },
 
