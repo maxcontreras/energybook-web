@@ -37,7 +37,7 @@ export default {
                 key: 'Nombre',
                 sortable: true,
                 label: 'Nombre'
-            }, 'Fecha de Registro',  'Compañía', 'Estado'],
+            }, 'Activo desde',  'Compañía', 'Status'],
             newMeter: {
                 serial_number: '',
                 created_at: new Date()
@@ -105,9 +105,9 @@ export default {
                     .then(company => {
                         this.itemsDesignated.push({
                             'Nombre': meter.device_name,
-                            'Fecha de Registro': moment(meter.created_at).format('LL'),
+                            'Activo desde': moment(meter.created_at).format('LL'),
                             'Compañía': company.company.name,
-                            'Estado': meterActive[company.company.meter_status],
+                            'Status': meterActive[company.company.meter_status],
                             id: meter.id
                         });
                     });
@@ -122,7 +122,7 @@ export default {
                 });
             });
         },
-        
+
         createMeter() {
             meters.create({
                 data: this.newMeter

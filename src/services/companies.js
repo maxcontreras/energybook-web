@@ -10,6 +10,9 @@ let companies = Object.assign({}, {
 
     register(data) {
         return loopback.post(`/Companies/register`, data);
+    },
+    addUsers(data) {
+        return loopback.post(`/Companies/addUsers`, data);
     }
 
 }, modelObject);
