@@ -3,6 +3,12 @@ $eblue: #00A6A6;
 $lightgray: rgba(0, 0, 0, 0.54);
 $darkgray: #4b4b4b;
 
+@media (max-width: 768px) {
+    .dashboard-content--admin > div.col-md-6{
+        padding-right: 0;
+    }
+}
+
 #dashboard {
 
     .card {

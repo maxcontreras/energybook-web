@@ -2,13 +2,13 @@
 import LineChart from './lineChart';
 import BarChart from './barChart';
 
-const todayLabels = ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'];
+const todayLabels = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24'];
 const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const monthLabels = ['1', '5', '10', '15', '20', '25', '30'];
 const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
 export default {
-    props: ['meterId'],
+    props: ['meterId', 'chartDataValues'],
     components: {
         LineChart, BarChart
     },
@@ -33,19 +33,19 @@ export default {
             chartData: {
                 labels: todayLabels,
                 datasets: [
-                    {
+                    /*{
                         label: 'kWh',
                         fill: false,
                         backgroundColor: '#87ad36',
                         borderColor: '#87ad36',
                         data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-                    },
+                    },*/
                     {
-                        label: 'Costo',
+                        label: 'EPimp',
                         fill: false,
                         backgroundColor: '#00A6A6',
                         borderColor: '#00A6A6',
-                        data: [44, 50, 22, 69, 15, 44, 19, 70, 50, 30, 32, 21]
+                        data: this.chartDataValues
                     }
                 ]
             },
@@ -62,6 +62,12 @@ export default {
             currentPeriod: 0,
             periodText: 'day',
             currentDate: moment()
+        }
+    },
+    watch: {
+        chartDataValues() {
+            console.log("changed");
+            this.$refs.mainChart.renderChart(this.chartData, this.chartOptions);
         }
     },
     methods: {

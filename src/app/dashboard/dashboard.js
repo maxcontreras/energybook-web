@@ -28,7 +28,6 @@ export default {
         google: gmapApi
     },
     beforeMount() {
-        console.log("hola");
         /*navigator.geolocation.getCurrentPosition(function(location) {
             position.lat = location.coords.latitude+'';
             position.lng = location.coords.longitude+'';
@@ -38,7 +37,7 @@ export default {
     },
     beforeRouteEnter (to, from, next) {
         if(JSON.parse(localStorage.getItem('user')).role_id === 1) {
-            router.push({name: 'dashboardAdmin'});
+            //router.push({name: 'dashboardAdmin'});
         }
     },
     data() {

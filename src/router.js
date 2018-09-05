@@ -33,14 +33,14 @@ const router = new VueRouter({
                     },
                     meta: { requiresAuth: true }
                 },
-                {
+                /*{
                     path: '/:id',
                     name: 'dashboardMeter',
                     components: {
                         default: Dashboard
                     },
                     meta: { requiresAuth: true }
-                },
+                },*/
                 {
                     path: '/inicio',
                     name: 'dashboardAdmin',
