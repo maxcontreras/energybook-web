@@ -85,6 +85,21 @@ html, body {
 
   .b-table {
 
+    .btn-primary{
+      background-color: #0076ff;
+      opacity: 0.8;
+      width: 75px;
+      font-size: 12px;
+    }
+
+    .btn-primary:not(:disabled):not(.disabled):active {
+      background-color: #0076ff;
+    }
+
+    .btn-primary:not(:disabled):not(.disabled).active {
+      opacity: 1;
+    }
+
     font-size: 0.9rem;
 
     tbody tr:hover {

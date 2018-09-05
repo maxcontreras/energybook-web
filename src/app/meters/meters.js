@@ -37,7 +37,7 @@ export default {
                 key: 'Nombre',
                 sortable: true,
                 label: 'Nombre'
-            }, 'Asignado el',  'Compañía', 'Status'],
+            }, 'Asignado el',  'Compañía', {key:'Status', label: 'Estado'}],
             newMeter: {
                 serial_number: '',
                 created_at: new Date()
@@ -106,7 +106,7 @@ export default {
                             'Nombre': meter.device_name,
                             'Asignado el': moment(meter.created_at).format('LL'),
                             'Compañía': company.company.name,
-                            'Status': meterActive[company.company.meter_status],
+                            'Status': company.company.meter_status? true : false,
                             id: meter.id
                         });
                     });
@@ -171,6 +171,9 @@ export default {
                 company_id: null,
                 meter_id: ''
             }
+        },
+        statusChange(val) {
+            console.log(val);
         }
     }
 }

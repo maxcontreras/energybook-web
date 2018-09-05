@@ -42,7 +42,7 @@ const router = new VueRouter({
                     meta: { requiresAuth: true }
                 },
                 {
-                    path: '/dashboard',
+                    path: '/inicio',
                     name: 'dashboardAdmin',
                     components: {
                         default: DashboardAdmin

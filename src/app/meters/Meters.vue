@@ -7,7 +7,7 @@
                     <b-card>
                         <b-tabs v-if="isAdmin">
                             <b-tab title="Medidores Asignados" active>
-                                <Table :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'No hay medidores asignados.'"/>
+                                <Table :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'No hay medidores asignados.'" @statusChange="statusChange"/>
                             </b-tab>
                             <b-tab title="Medidores">
                                 <Table :items="items" :fields="fields" @clicked="openAssignModal" :alertMessage="'No se encuentran medidores sin asignar.'"/>

@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+import router from '@/router.js';
 import meters from '@/services/meters';
 import designatedMeters from '@/services/designatedMeters';
 import Table from '@/app/components/table/Table.vue';
@@ -26,23 +27,19 @@ export default {
         },
         google: gmapApi
     },
-    created() {
-        this.$store.watch(
-            () => {
-                return this.$store.state.currentView;
-            },
-            () => {
-                this.meterId = this.$route.params.id;
-                this.getMeters();
-            }
-        );
-    },
     beforeMount() {
+        console.log("hola");
         /*navigator.geolocation.getCurrentPosition(function(location) {
             position.lat = location.coords.latitude+'';
             position.lng = location.coords.longitude+'';
         });*/
+        
         this.getMeters();
+    },
+    beforeRouteEnter (to, from, next) {
+        if(JSON.parse(localStorage.getItem('user')).role_id === 1) {
+            router.push({name: 'dashboardAdmin'});
+        }
     },
     data() {
         return {

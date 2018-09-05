@@ -2,7 +2,7 @@
 import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
 import Table from '@/app/components/table/Table.vue';
-import {gmapApi} from 'vue2-google-maps'
+import {gmapApi} from 'vue2-google-maps';
 
 export default {
     components: {
@@ -22,6 +22,7 @@ export default {
                     'Nombre': company.company_name,
                     'Fecha de Registro': moment(company.created_at).format('LL')
                 });
+                this.getPosition(company.location);
             });
         });
     },
@@ -31,9 +32,22 @@ export default {
             fields: [{
                 key: 'Nombre',
                 sortable: true
-            }, 'Fecha de Registro']
+            }, 'Fecha de Registro'],
+            markers: []
         };
     },
     methods: {
+        getPosition(location) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                "address": location
+            }, results => {
+                let latlng = results[0].geometry.location;
+                this.markers.push({
+                    lat: latlng.lat(),
+                    lng: latlng.lng()
+                });
+            });
+        }
     }
 };
