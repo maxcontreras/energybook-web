@@ -29,7 +29,7 @@ const router = new VueRouter({
                     path: '/',
                     name: 'dashboard',
                     components: {
-                        default: Dashboard
+                        default: JSON.parse(localStorage.getItem('user')).role_id === 1? DashboardAdmin : Dashboard
                     },
                     meta: { requiresAuth: true }
                 },
@@ -41,14 +41,14 @@ const router = new VueRouter({
                     },
                     meta: { requiresAuth: true }
                 },*/
-                {
+                /*{
                     path: '/inicio',
                     name: 'dashboardAdmin',
                     components: {
                         default: DashboardAdmin
                     },
                     meta: { requiresAuth: true }
-                },
+                },*/
                 {
                     path: '/companias',
                     name: 'companies',

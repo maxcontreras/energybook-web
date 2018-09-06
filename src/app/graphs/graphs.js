@@ -66,15 +66,11 @@ export default {
                 .then(res => {
                     let records = res.deviceVars.recordGroup.record;
                     let currentGroup = 0;
-                    records.forEach((record, index) => {
-                        //currentGroup += parseFloat(record.field.value._text);
-                        if(index%8 === 0) {
-                            currentGroup = parseFloat(record.field.value._text);
-                            this.chartData.push(currentGroup);
-                            currentGroup = 0;
-                        }
-                    });
-                    console.log(this.chartData);
+                    for(let i = 0; i < records.length; i += 8) {
+                        currentGroup = parseFloat(records[i].field.value._text);
+                        this.chartData.push(currentGroup);
+                        currentGroup = 0;
+                    }
                 });
             }
         }

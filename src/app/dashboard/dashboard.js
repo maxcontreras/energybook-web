@@ -35,11 +35,6 @@ export default {
         
         this.getMeters();
     },
-    beforeRouteEnter (to, from, next) {
-        if(JSON.parse(localStorage.getItem('user')).role_id === 1) {
-            //router.push({name: 'dashboardAdmin'});
-        }
-    },
     data() {
         return {
             metersFilter: [{

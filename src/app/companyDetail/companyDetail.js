@@ -29,7 +29,8 @@ export default {
                 meters: []
             },
             edit: false,
-            originalData: {}
+            originalData: {},
+            tabIndex: 0
         }
     },
 
@@ -62,6 +63,9 @@ export default {
                 status: companyStatus[company.status],
                 id: user.id
             });
+        },
+        linkClass (idx) {
+            console.log(idx, this.tabIndex)
         }
     }
 }

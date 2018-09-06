@@ -94,6 +94,7 @@ export default {
                 filter.where = {
                     company_id: this.companyId
                 }
+                this.fieldsDesignated.splice(-2,2);
             }
             designatedMeters.find({
                 filter

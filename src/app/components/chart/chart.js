@@ -66,7 +66,6 @@ export default {
     },
     watch: {
         chartDataValues() {
-            console.log("changed");
             this.$refs.mainChart.renderChart(this.chartData, this.chartOptions);
         }
     },
