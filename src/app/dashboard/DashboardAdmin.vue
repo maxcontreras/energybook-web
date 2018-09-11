@@ -13,15 +13,15 @@
                         :center="{lat:20.663782, lng:-103.3916394}"
                         :zoom="7"
                         map-type-id="roadmap"
+                        :options="{ disableDefaultUI : true }"
                         >
-                        <!--<GmapMarker
+                        <GmapMarker
                             :key="index"
                             v-for="(m, index) in markers"
-                            :position="m.position"
+                            :position="m"
                             :clickable="true"
-                            :draggable="true"
-                            @click="center=m.position"
-                        />-->
+                            :draggable="false"
+                        />
                         </GmapMap>
                     </b-card>
                 </b-col>

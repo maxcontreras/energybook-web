@@ -2,6 +2,7 @@
     <b-row id="dashboard" class="main">
         <b-col>
             <b-breadcrumb :items="bcItems" v-if="meterId"/>
+            <Header :filters="metersFilter" @SearchData="getDeviceVariables"/>
             <b-row class="dashboard-content-user">
                 <b-col>
                     <b-row class="margin-bottom-1 margin-top-1">

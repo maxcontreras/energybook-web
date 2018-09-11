@@ -9,7 +9,7 @@
                 <b-btn class="right" v-b-modal="modalId" :variant="'success'" v-if="modalId && action && showAction">{{action}}</b-btn>
             </div>
             <div class="filters-container">
-                <b-form-select v-for="(filter, index) in filters" :key="index" @input="filterData(0)" v-model="filter.selected" :options="filter.options" class="mb-3" />
+                <b-form-select v-for="(filter, index) in filters" :key="index" @input="filterData(filter.selected)" v-model="filter.selected" :options="filter.options" class="mb-3" />
             </div>
         </b-col>
     </b-row>

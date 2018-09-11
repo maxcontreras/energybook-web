@@ -5,13 +5,14 @@
             <b-row class="list">
                 <b-col>
                     <b-card>
-                        <b-tabs>
-                            <b-tab title="Dashboard">
+                        <b-tabs v-model="tabIndex">
+                            <b-tab title="Dashboard"> 
                                 <Analysis :meters="company.meters"/>
                             </b-tab>
                             <b-tab title="Gráficas">
-                                 <Chart/>
+                                 
                             </b-tab>
+                            <Chart v-show="tabIndex === 1"/>
                         </b-tabs>
                     </b-card>
                 </b-col>

@@ -16,6 +16,10 @@ export default {
             } else {
                 this.$emit('clicked', {id: record.id, index });
             }
+        },
+        statusChange(rowId, status) {
+            console.log(rowId, status);
+            this.$emit('statusChange', {id: rowId, status: status? 1: 0});
         }
     }
 }

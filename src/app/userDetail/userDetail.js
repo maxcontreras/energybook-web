@@ -153,7 +153,6 @@ export default {
                     lat: latlng.lat(),
                     lng: latlng.lng()
                 }
-                console.log(this.companyPosition);
             });
         },
         setPlace(place) {

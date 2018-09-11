@@ -6,7 +6,11 @@
     :fields="fields" 
     :current-page="currentPage" 
     :per-page="perPage"
-    @row-clicked="rowClickHandler"></b-table>
+    @row-clicked="rowClickHandler">
+        <template slot="Status" slot-scope="data">
+            <b-button title="Clic para cambiar estado" @click="statusChange(data.item.id, data.item.Status)" :pressed.sync="data.item.Status" variant="primary">{{data.item.Status? 'Activo' : 'Inactivo'}}</b-button>
+        </template>
+    </b-table>
     <b-row class="table-pagination" v-if="items.length > 0">
             <b-col md="2" class="my-1">
                 <b-form-select :options="pageOptions" v-model="perPage" />

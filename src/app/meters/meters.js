@@ -37,7 +37,7 @@ export default {
                 key: 'Nombre',
                 sortable: true,
                 label: 'Nombre'
-            }, 'Num. de serie', 'Hostname', 'Asignado el',  'Compañía', 'Status'],
+            }, 'Num. de serie', 'Hostname', 'Asignado el',  'Compañía',  {key:'Status', label: 'Estado'}],
             newMeter: {
                 serial_number: '',
                 created_at: new Date()
@@ -94,6 +94,7 @@ export default {
                 filter.where = {
                     company_id: this.companyId
                 }
+                this.fieldsDesignated.splice(-2,2);
             }
             designatedMeters.find({
                 filter
@@ -108,7 +109,7 @@ export default {
                             'Hostname': meter.hostname,
                             'Asignado el': moment(meter.created_at).format('LL'),
                             'Compañía': company.company.name,
-                            'Status': meterActive[company.company.meter_status],
+                            'Status': company.company.meter_status? true : false,
                             id: meter.id
                         });
                     });
@@ -174,6 +175,9 @@ export default {
                 company_id: null,
                 meter_id: ''
             }
+        },
+        statusChange(val) {
+            console.log(val);
         }
     }
 }

@@ -53,12 +53,12 @@ export default {
         loadAccount({ commit }, id) {
             return eUsers.findById({ id }).then(user => {
                 localStorage.setItem('user', JSON.stringify(user));
-                if(user.role_id === 1) {
+                /*if(user.role_id === 1) {
                     router.push({ name: 'dashboardAdmin' });
                 } else {
                     router.push({ name: 'dashboard' });
-                }
-                
+                }*/
+                router.push({ name: 'dashboard' });
                 commit('setUser', user);
                 commit('setRole', user, { root: true });
                 commit('setCompanyId', user.company_id, { root: true });

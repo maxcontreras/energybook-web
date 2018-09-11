@@ -35,12 +35,13 @@ export default {
                 options: [ { value: null, text: 'Selecciona un dispositivo'} ]
             }],
             fields: ['Dispositivo', 'Total', 'Máximo', 'Mínimo'],
-            items: []
+            items: [],
+            chartData: []
         }
     },
     beforeMount() {
         this.getMeters();
-        this.getByFilter();
+        //this.getByFilter();
     },
     methods: {
         changePeriod(period) {
@@ -54,9 +55,24 @@ export default {
             }).then(meters => {
                 this.meters = meters;
                 this.meters.forEach(meter => {
-                    this.metersFilter[0].options.push({ value: meter.id, text: meter.device_name });
+                    this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name });
                 });
             });
+        },
+        getData(meter_id) {
+            if(meter_id !== null) {
+                this.chartData = [];
+                meters.getReadingsByFilter(meter_id, 0)
+                .then(res => {
+                    let records = res.deviceVars.recordGroup.record;
+                    let currentGroup = 0;
+                    for(let i = 0; i < records.length; i += 8) {
+                        currentGroup = parseFloat(records[i].field.value._text);
+                        this.chartData.push(currentGroup);
+                        currentGroup = 0;
+                    }
+                });
+            }
         }
     }
 }
