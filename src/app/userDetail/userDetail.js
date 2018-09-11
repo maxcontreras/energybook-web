@@ -25,7 +25,7 @@ export default {
             return this.$store.state.isAccounting;
         },
         google: gmapApi
-    }, 
+    },
     data() {
         return {
             edit: false,
@@ -87,7 +87,6 @@ export default {
                 this.getPosition();
             })
         }
-        
     },
 
     methods: {

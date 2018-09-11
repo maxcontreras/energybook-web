@@ -25,10 +25,13 @@
                 </b-form-group>
             </b-form>
         </b-modal>
-        <b-modal ref="meterModalDesignate" id="meterModalDesignate" title="Asignar Medidor" @ok="assignMeter" @shown="clearNewDesignatedMeter">
+        <b-modal ref="meterModalDesignate" id="meterModalDesignate" title="Asignar Medidor" @ok="assignMeter">
             <b-form @submit.stop.prevent="assignMeter">
                 <b-form-group>
                     <b-form-input type="text" v-model="newDesignatedMeter.device_name" required placeholder="Nombre"></b-form-input>
+                </b-form-group>
+                <b-form-group>
+                    <b-form-input type="text" v-model="newDesignatedMeter.hostname" required placeholder="Hostname"></b-form-input>
                 </b-form-group>
                 <b-form-group>
                     <b-form-select :options="companies" v-model="newDesignatedMeter.company_id" />

@@ -37,7 +37,7 @@ export default {
                 key: 'Nombre',
                 sortable: true,
                 label: 'Nombre'
-            }, 'Asignado el',  'Compañía', 'Status'],
+            }, 'Num. de serie', 'Hostname', 'Asignado el',  'Compañía', 'Status'],
             newMeter: {
                 serial_number: '',
                 created_at: new Date()
@@ -71,8 +71,8 @@ export default {
 
     methods: {
         getMeters() {
-            meters.find({}).then(res => {
-                this.meters = res;
+            meters.unassignedMeters().then(res => {
+                this.meters = res.meters;
                 this.meters.forEach(meter => {
                     this.items.push({
                         'No. de Serie': meter.serial_number,
@@ -100,10 +100,12 @@ export default {
             }).then(designatedMeters => {
                 this.designatedMeters = designatedMeters;
                 this.designatedMeters.forEach(meter => {
-                    meters.getOwnerCompany({meter_id: meter.meter_id})
-                    .then(company => {
+                    console.log(meter);
+                    meters.getOwnerCompany({meter_id: meter.meter_id}).then(company => {
                         this.itemsDesignated.push({
                             'Nombre': meter.device_name,
+                            'Num. de serie': company.company.meter_serial_number,
+                            'Hostname': meter.hostname,
                             'Asignado el': moment(meter.created_at).format('LL'),
                             'Compañía': company.company.name,
                             'Status': meterActive[company.company.meter_status],
@@ -138,14 +140,15 @@ export default {
         assignMeter() {
             designatedMeters.create({
                 data: this.newDesignatedMeter
-            })
-            .then(res => {
+            }).then(res => {
                 meters.getOwnerCompany({meter_id: res.meter_id})
                 .then(meter => {
                     this.items.splice(this.currentIndex, 1);
                     this.itemsDesignated.push({
                         'Nombre': res.device_name,
-                        'Fecha de Registro': moment(res.created_at).format('LL'),
+                        'Num. de serie': res.company.meter_serial_number,
+                        'Hostname': res.hostname,
+                        'Asignado el': moment(res.created_at).format('LL'),
                         'Compañía': meter.company.name,
                         'Estado': meterActive[meter.company.meter_status],
                         id: res.id
@@ -154,9 +157,9 @@ export default {
             })
         },
         openAssignModal(value) {
-            this.$refs.meterModalDesignate.show();
             this.newDesignatedMeter.meter_id = value.id;
             this.currentIndex = value.index;
+            this.$refs.meterModalDesignate.show();
         },
         clearNewMeter() {
             this.newMeter = {
