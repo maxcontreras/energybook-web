@@ -5,6 +5,7 @@ import meters from '@/services/meters';
 import designatedMeters from '@/services/designatedMeters';
 import Table from '@/app/components/table/Table.vue';
 import Header from '@/app/components/header/Header.vue';
+import GaugeChart from '@/app/components/gaugeChart/GaugeChart.vue';
 import {gmapApi} from 'vue2-google-maps'
 import Weather from 'vue-weather-widget';
 import 'vue-weather-widget/dist/css/vue-weather-widget.css';
@@ -13,7 +14,7 @@ var position = {lat:'20.663782', lng:'-103.3916394'}
 
 export default {
     components: {
-        Table, Weather, Header
+        Table, Weather, Header, GaugeChart
     },
     computed: {
         currentFormattedDate() {

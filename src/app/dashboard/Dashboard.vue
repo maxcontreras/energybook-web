@@ -146,6 +146,7 @@
                         </b-col>
                         <b-col md="4">
                             <b-card>
+                                <GaugeChart/>
                             </b-card>
                         </b-col>
                         <b-col md="4">
