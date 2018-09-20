@@ -1,100 +1,72 @@
 /* eslint-disable */
-
-import router from '@/router.js';
-import meters from '@/services/meters';
-import designatedMeters from '@/services/designatedMeters';
-import Table from '@/app/components/table/Table.vue';
-import Header from '@/app/components/header/Header.vue';
-import GaugeChart from '@/app/components/gaugeChart/GaugeChart.vue';
+import designatedMeters from '@/services/designatedMeters'
+import Table from '@/app/components/table/Table.vue'
+import GaugeChart from '@/app/components/gaugeChart/GaugeChart.vue'
+import PieChart from '@/app/components/chart/pieChart'
 import {gmapApi} from 'vue2-google-maps'
-import Weather from 'vue-weather-widget';
-import 'vue-weather-widget/dist/css/vue-weather-widget.css';
+import Weather from 'vue-weather-widget'
+import 'vue-weather-widget/dist/css/vue-weather-widget.css'
 
 var position = {lat:'20.663782', lng:'-103.3916394'}
+moment.locale('es')
 
 export default {
     components: {
-        Table, Weather, Header, GaugeChart
+        Table, Weather,  GaugeChart, PieChart
     },
     computed: {
-        currentFormattedDate() {
-            return moment(this.currentDate).format('dddd, MMMM Do YYYY');
+        billablePeriod() {
+            let start = moment().startOf('month').format('DD/MM/YYYY')
+            let end = moment().endOf('month').format('DD/MM/YYYY')
+            return `${start} - ${end}`
         },
-        filters() {
-            return this.isAdmin? [this.companiesVal]:[];
+        currentFormattedDate() {
+            return moment(this.currentDate).format('LL')
         },
         position() {
-            return position;
+            return position
         },
         google: gmapApi
     },
     beforeMount() {
-        /*navigator.geolocation.getCurrentPosition(function(location) {
-            position.lat = location.coords.latitude+'';
-            position.lng = location.coords.longitude+'';
-        });*/
-        
-        this.getMeters();
+        this.getMeters()
     },
     data() {
         return {
-            metersFilter: [{
-                selected: null,
-                options: [ { value: null, text: 'Selecciona un dispositivo'} ]
-            }],
             meters: [],
-            meterId: '',
             dpVal: 0,
             epimpVal: 0,
-            bcItems: [{
-                text: 'Dashboard',
-                to: { name: 'dashboard' }
-            }, {
-                text: '',
-                active: true
-            }],
-            meterId: this.$route.params.id,
-            companyId: JSON.parse(localStorage.getItem('user')).company_id
-        };
+            companyId: JSON.parse(localStorage.getItem('user')).company_id,
+            chartData: {
+                datasets: [{
+                    data: [100],
+                    backgroundColor: []
+                }],
+                labels: []
+            },
+            chartOptions: {}
+        }
     },
     methods: {
         getMeters() {
-            let filter = { where: { } };
-            if(this.meterId) {
-                filter.where.meter_id = this.meterId;
-            }  else {
-                filter.where.company_id = this.companyId;
-            }
             designatedMeters.find({
-                filter
-            }).then(res => {
-                this.meters = res;
-
-                if(this.meterId) {
-                    this.bcItems[1].text = this.meters[0].device_name;
-                    this.currentMeter = this.meters[0];
+                filter: { 
+                    where: {
+                        company_id: this.companyId
+                    }
                 }
-
+            }).then(res => {
+                this.meters = res
+                let metersCount = this.meters.length
+                let opacityIndex = 1/metersCount
+                let currentOpacity = 1
                 this.meters.forEach(meter => {
-                    this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name });
-                    /*meters.deviceVariables(meter.meter_id)
-                    .then(vars => {
-                       //meter.deviceVars = vars.deviceVars;
-                       meter.dp = vars.deviceVars.var[1];
-                       meter.epimp = vars.deviceVars.var[8];
-                       this.currentMeter = meter;
-                    });*/
-                });
-            });
-        },
-        getDeviceVariables(meter_id) {
-            meters.deviceVariables(meter_id)
-            .then(res => {
-                console.log(res);
-                this.dpVal = res.deviceVars.var[1].unitsFactor._text;
-                this.epimpVal = res.deviceVars.var[8].unitsFactor._text;
-                console.log(this.dpVal);
-            });
+                    this.chartData.labels.push(meter.device_name)
+                    this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
+                    currentOpacity -= opacityIndex
+                })
+                this.$refs.mainChart.renderChart(this.chartData, this.chartOptions);
+            })
         }
     }
-};
+}

@@ -69,7 +69,25 @@ $darkgray: #4b4b4b;
     }
 
     .dashboard-content-user {
-        .col-md-2, .col-md-4 {
+
+        .col-md-7 {
+            padding: 0;
+        }
+
+        .gauge-chart-container .card-body div {
+            text-align: center;
+        }
+
+        #pie-chart{
+            width: 230px !important;
+            height: 230px !important;
+        }
+
+        .col .row:nth-child(2) .card{
+            min-height: 278px;
+        }
+
+        .col-md-2, .col-md-3, .col-md-6 {
             padding-right: 0;
 
             .green {
@@ -85,7 +103,7 @@ $darkgray: #4b4b4b;
             }
         }
 
-        .col-md-2:last-child,  .col-md-4:last-child{
+        .col-md-2:last-child,  .col-md-3:last-child{
             padding-right: 15px;
         }
 
@@ -144,58 +162,6 @@ $darkgray: #4b4b4b;
             }
         }
     }
-
-    /*.card>div.row {
-        margin: 0;
-
-        div.col-7 {
-            .card-text {
-                font-size: 2rem;
-                margin-top: 4rem;
-
-                span {
-                    font-size: 1.5rem;
-                }
-            }
-
-            >div {
-                position: absolute;
-                bottom: 0;
-                margin: 0 40%;
-
-                .card-text {
-                    font-size: 2.5rem;
-                    color: red;
-                }
-            }
-        }
-    }
-
-    .card-title {
-        color: $egreen1;
-        margin-top: 1rem;
-        text-transform: uppercase;
-    }
-
-    .t-info {
-        background-color: $egreen1;
-        color: #FFF;
-        padding: 15px;
-        font-weight: 300;
-
-        .card-text span {
-            font-size: 1.5rem;
-
-            span {
-                font-size: 1.15rem;
-            }
-        }
-
-        hr {
-            border-color: #FFF;
-        }
-    }*/
-
 }
 
 .fe_container {

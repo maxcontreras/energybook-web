@@ -33,13 +33,6 @@ export default {
             chartData: {
                 labels: todayLabels,
                 datasets: [
-                    /*{
-                        label: 'kWh',
-                        fill: false,
-                        backgroundColor: '#87ad36',
-                        borderColor: '#87ad36',
-                        data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-                    },*/
                     {
                         label: 'EPimp',
                         fill: false,

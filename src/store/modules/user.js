@@ -2,6 +2,7 @@
 import loopback from '@/services/loopback'
 import router from '@/router'
 import eUsers from '@/services/eUsers'
+import websockets from '@/services/websockets'
 
 export default {
     namespaced: true,
@@ -12,13 +13,13 @@ export default {
     actions: {
         syncToken({ state, commit, dispatch }) {
             if (loopback.token) {
-                commit('setAccessToken', loopback.token);
-                dispatch('loadAccount', state.access_token.userId);
+                commit('setAccessToken', loopback.token)
+                dispatch('loadAccount', state.access_token.userId)
             }
         },
 
         syncRouter({ state, commit, dispatch }, myRouter) {
-            dispatch('syncToken');
+            dispatch('syncToken')
 
             myRouter.beforeEach((to, from, next) => {
                 if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -27,59 +28,56 @@ export default {
                             name: 'login',
                         })
                     } else {
-                        commit('setCurrentView', to, { root: true });
-                        next();
+                        commit('setCurrentView', to, { root: true })
+                        next()
                     }
                 } else {
-                    next();
+                    next()
                 }
             })
         },
         login({ commit, dispatch, state }, { email, password }) {
             return eUsers.login({ email, password }).then(token => {
-                commit('setAccessToken', token);
+                commit('setAccessToken', token)
 
                 if (state.access_token === null) {
-                    loopback.removeToken();
+                    loopback.removeToken()
                 } else {
-                    loopback.setToken(state.access_token);
+                    loopback.setToken(state.access_token)
                 }
 
-                return dispatch('loadAccount', state.access_token.userId);
+                return dispatch('loadAccount', state.access_token.userId)
             }).catch(e => {
-                console.log(e);
+                console.log(e)
             })
         },
         loadAccount({ commit }, id) {
             return eUsers.findById({ id }).then(user => {
-                localStorage.setItem('user', JSON.stringify(user));
-                /*if(user.role_id === 1) {
-                    router.push({ name: 'dashboardAdmin' });
-                } else {
-                    router.push({ name: 'dashboard' });
-                }*/
-                router.push({ name: 'dashboard' });
-                commit('setUser', user);
-                commit('setRole', user, { root: true });
-                commit('setCompanyId', user.company_id, { root: true });
+                localStorage.setItem('user', JSON.stringify(user))
+                websockets.init();
+                router.push({ name: 'dashboard' })
+                commit('setUser', user)
+                commit('setRole', user, { root: true })
+                commit('setCompanyId', user.company_id, { root: true })
             }).catch(() => {
-                loopback.removeToken();
-                router.push({ name: 'login' });
+                loopback.removeToken()
+                router.push({ name: 'login' })
             })
         },
         logout({}) {
-            eUsers.logout().then(res => {
-                loopback.removeToken();
-                router.push({ name: 'login' });
-            });
+            eUsers.logout().then(() => {
+                websockets.cleanSocket();
+                loopback.removeToken()
+                router.push({ name: 'login' })
+            })
         }
     },
     mutations: {
         setAccessToken(state, token) {
-            state.access_token = token;
+            state.access_token = token
         },
         setUser(state, user) {
-            state.user = user;
+            state.user = user
         }
     }
 }
