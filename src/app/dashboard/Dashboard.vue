@@ -27,7 +27,7 @@
                                 <b-row>
                                     <b-col md="8" class="dashboard-data-container">
                                         <h5 class="blue">
-                                            1, 400 kWh
+                                            {{distribution}} kWh
                                         </h5>
                                         <p>Distribución</p>
                                     </b-col>
@@ -131,8 +131,8 @@
                                                         <i class="fas fa-chart-line green"></i>
                                                     </div>
                                                     <div class="data-container">
-                                                        <h5>580</h5>
-                                                        <p>Demanda</p>
+                                                        <h5>{{distribution}}</h5>
+                                                        <p>Distribución</p>
                                                     </div>
                                                     <span>kW</span>
                                                 </div> 
@@ -142,7 +142,7 @@
                                                     </div>
                                                     <div class="data-container">
                                                         <h5>0.98</h5>
-                                                        <p>F. P.</p>
+                                                        <p>Capacidad</p>
                                                     </div>
                                                     <span>%</span>
                                                 </div> 
@@ -157,8 +157,7 @@
                         </b-col>
                         <b-col md="3">
                             <b-card>
-                                <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
-                                <!--<vue-highcharts :options="pieOptions" ref="pieChart"></vue-highcharts>-->
+                                <!--<PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>-->
                             </b-card>
                         </b-col>
                         <b-col md="3">

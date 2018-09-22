@@ -144,7 +144,7 @@ const dataGauge = {
     // the value axis
     yAxis: {
         min: 0,
-        max: 200,
+        max: 20000,
         minorTickInterval: 'auto',
         minorTickWidth: 1,
         minorTickLength: 10,
@@ -160,30 +160,30 @@ const dataGauge = {
             rotation: 'auto',
         },
         title: {
-            text: 'km/h',
+            text: 'kW',
         },
         plotBands: [
             {
                 from: 0,
-                to: 120,
+                to: 12000,
                 color: '#55BF3B', // green
             },
             {
-                from: 120,
-                to: 160,
+                from: 12000,
+                to: 16000,
                 color: '#DDDF0D', // yellow
             },
             {
-                from: 160,
-                to: 200,
+                from: 16000,
+                to: 20000,
                 color: '#DF5353', // red
             },
         ],
     },
     series: [
         {
-            name: 'Speed',
-            data: [80],
+            name: 'DP',
+            data: [0],
             tooltip: {
                 valueSuffix: ' kW',
             },
@@ -209,18 +209,37 @@ export default {
         Table, Weather, GaugeChart, PieChart, VueHighcharts, VueHighChartsComponent
     },
     computed: {
+        distribution() {
+            return this.$store.state.socket.distribution.toFixed(2)
+        },
+        odometer() {
+            return this.$store.state.socket.odometer
+        },
         billablePeriod() {
             let start = moment().startOf('month').format('DD/MM/YYYY')
             let end = moment().endOf('month').format('DD/MM/YYYY')
             return `${start} - ${end}`
         },
         currentFormattedDate() {
-            return moment(this.currentDate).format('LL')
+            return moment(this.currentDate).format('LLL')
         },
         position() {
             return position
         },
         google: gmapApi
+    },
+    watch: {
+        odometer() {
+            const chart = this.$refs.gaugeChart.getChart()
+
+            if (!chart.renderer.forExport) {
+                let point = chart.series[0].points[0]
+                point.update(this.odometer)
+                /*chart.update({
+                    yAxis: { max: 30000 }
+                });*/
+            }
+        }
     },
     beforeMount() {
         this.getMeters()
@@ -308,27 +327,14 @@ export default {
                     this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
                     currentOpacity -= opacityIndex
                 })
-                //this.$refs.mainChart.renderChart(this.chartData, this.chartOptions);
             })
         }
     },
     mounted() {
-        const chart = this.$refs.gaugeChart.getChart()
         setGaugeChartStyles()
         this.load()
 
-        if (!chart.renderer.forExport) {
-            timer = setInterval(function () {
-                let point = chart.series[0].points[0],
-                    newVal,
-                    inc = Math.round((Math.random() - 0.5) * 20)
-                newVal = point.y + inc
-                if (newVal < 0 || newVal > 200) {
-                    newVal = point.y - inc
-                }
-                point.update(newVal)
-            }, 3000)
-        }
+
     },
     destroyed() {
         if (timer) {
