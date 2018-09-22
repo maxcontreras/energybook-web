@@ -84,7 +84,7 @@ $darkgray: #4b4b4b;
         }
 
         .col .row:nth-child(2) .card{
-            min-height: 278px;
+            min-height: 100%;
         }
 
         .col-md-2, .col-md-3, .col-md-6 {
@@ -121,6 +121,7 @@ $darkgray: #4b4b4b;
 
             h5 {
                 margin-top: 0.5rem;
+                font-size: 1.2rem;
             }
 
             p {

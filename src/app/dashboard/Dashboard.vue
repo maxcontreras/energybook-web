@@ -150,7 +150,7 @@
                                         </b-row>
                                     </b-col>
                                     <b-col md="5" class="gauge-chart-container">
-                                        <GaugeChart/>
+                                        <VueHighChartsComponent :options="gaugeOptions" ref="gaugeChart"></VueHighChartsComponent>
                                     </b-col>
                                 </b-row>
                             </b-card>
@@ -158,6 +158,7 @@
                         <b-col md="3">
                             <b-card>
                                 <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
+                                <!--<vue-highcharts :options="pieOptions" ref="pieChart"></vue-highcharts>-->
                             </b-card>
                         </b-col>
                         <b-col md="3">
@@ -175,7 +176,14 @@
                     </b-row>
                     <b-row>
                         <b-col md="8">
-                            <b-card></b-card>
+                            <b-card>
+                                <b-row class="analysis-card-header">
+                                    <b-col>
+                                        <h5>Historial</h5>
+                                    </b-col>
+                                </b-row>
+                                <vue-highcharts :options="lineOptions" ref="lineCharts"></vue-highcharts>
+                            </b-card>
                         </b-col>
                         <b-col md="4">
                             <b-card></b-card>
