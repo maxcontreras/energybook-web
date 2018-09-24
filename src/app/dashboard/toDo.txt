@@ -6,3 +6,4 @@
 - Recuperar contraseña (vista)
 - routing del dashboard
 - responsividad
+- autenticar rutas

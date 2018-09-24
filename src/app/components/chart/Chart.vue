@@ -6,7 +6,7 @@
             </b-button>
         </div>
         <div class="chart-container">
-            <LineChart :data="chartData" :options="chartOptions" ref="mainChart"/>
+            <vue-highcharts :options="lineOptions" ref="lineCharts"></vue-highcharts>
         </div>
     </div>
      

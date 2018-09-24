@@ -1,25 +1,24 @@
 /* eslint-disable */
-import Header from '@/app/components/header/Header.vue';
-import companies from '@/services/companies';
-import Analysis from '@/app/components/analysis/Analysis.vue';
-import Chart from '@/app/components/chart/Chart.vue';
+import Header from '@/app/components/header/Header.vue'
+import companies from '@/services/companies'
+import Chart from '@/app/components/chart/Chart.vue'
 
 export default {
   components: {
-    Header, Analysis, Chart
+    Header, Chart
   },
   computed: {
     isAdmin() {
-      return this.$store.state.isAdmin;
+      return this.$store.state.isAdmin
     },
     isUser() {
-      return this.$store.state.isUser;
+      return this.$store.state.isUser
     },
     isManager() {
-      return this.$store.state.isManager;
+      return this.$store.state.isManager
     },
     isAccounting() {
-      return this.$store.state.isAccounting;
+      return this.$store.state.isAccounting
     }
   },
   data() {
@@ -31,7 +30,7 @@ export default {
       edit: false,
       originalData: {},
       tabIndex: 0
-    };
+    }
   },
 
   beforeMount() {
@@ -41,15 +40,15 @@ export default {
         include: ['users', 'meters']
       }
     }).then(company => {
-      this.company = company;
-      this.originalData = JSON.parse(JSON.stringify(this.company));
-    });
+      this.company = company
+      this.originalData = JSON.parse(JSON.stringify(this.company))
+    })
   },
 
   methods: {
     cancel() {
-      this.edit = false;
-      this.company = JSON.parse(JSON.stringify(this.originalData));
+      this.edit = false
+      this.company = JSON.parse(JSON.stringify(this.originalData))
     },
     saveChanges() {
 
@@ -62,10 +61,10 @@ export default {
         role: user.role_id,
         status: companyStatus[user.status],
         id: user.id
-      });
+      })
     },
     linkClass(idx) {
-      console.log(idx, this.tabIndex);
+      console.log(idx, this.tabIndex)
     }
   }
-};
+}

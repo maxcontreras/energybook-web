@@ -7,7 +7,7 @@
                     <b-card>
                         <b-tabs v-model="tabIndex">
                             <b-tab title="Dashboard"> 
-                                <Analysis :meters="company.meters"/>
+                                
                             </b-tab>
                             <b-tab title="Gráficas">
                                  
@@ -17,6 +17,7 @@
                     </b-card>
                 </b-col>
             </b-row>
+            <!--<Dashboard/>-->
         </b-col>
     </b-row>
 </template>

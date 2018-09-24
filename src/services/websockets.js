@@ -8,6 +8,7 @@ socket.on('open', function () {
 
     socket.on('message', function (data) {
         let jsonData = JSON.parse(data);
+        console.log(jsonData)
         store.dispatch(`socket/${jsonData.socketEvent}`, jsonData.data)
     })
 

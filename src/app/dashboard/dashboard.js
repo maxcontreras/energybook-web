@@ -1,7 +1,6 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters'
 import Table from '@/app/components/table/Table.vue'
-import GaugeChart from '@/app/components/gaugeChart/GaugeChart.vue'
 import PieChart from '@/app/components/chart/pieChart'
 import { gmapApi } from 'vue2-google-maps'
 import Weather from 'vue-weather-widget'
@@ -9,94 +8,45 @@ import 'vue-weather-widget/dist/css/vue-weather-widget.css'
 import VueHighcharts from 'vue2-highcharts'
 import VueHighChartsComponent from '@/app/components/chart/VueHighCharts.vue'
 import Highcharts from 'highcharts'
+
 const More = require('highcharts-more')
 
-More(Highcharts)
-let timer = null
-
-const pieData = {
+var dataLine = {
     chart: {
-        type: 'pie',
-        options3d: {
-            enabled: true,
-            alpha: 45
-        }
+      type: 'spline'
     },
     title: {
+      text: null
+    },
+    xAxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    yAxis: {
+      title: {
         text: null
+      }
+    },
+    tooltip: {
+      crosshairs: true,
+      shared: true
     },
     credits: {
-        enabled: false
+      enabled: false
     },
     plotOptions: {
-        pie: {
-            innerSize: 100,
-            depth: 45
+      spline: {
+        marker: {
+          radius: 4,
+          lineColor: '#666666',
+          lineWidth: 1
         }
+      }
     },
-    responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 500
-            },
-            chartOptions: {
-                legend: {
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    layout: 'horizontal'
-                },
-                yAxis: {
-                    labels: {
-                        align: 'left',
-                        x: 0,
-                        y: -5
-                    },
-                    title: {
-                        text: null
-                    }
-                },
-                subtitle: {
-                    text: null
-                },
-                credits: {
-                    enabled: false
-                }
-            }
-        }]
-    },
-    legend: {
-        enabled: true,
-        layout: 'vertical',
-        align: 'middle',
-        width: 165,
-        height: 100
-    },
-    series: [{
-        name: 'Delivered amount',
-        data: [
-            ['Bananas', 8],
-            ['Kiwi', 3],
-            ['Mixed nuts', 1],
-            ['Oranges', 6],
-            ['Apples', 8],
-            ['Pears', 4],
-            ['Clementines', 4],
-            ['Reddish (bag)', 1],
-            ['Grapes (bunch)', 1]
-        ]
-    }]
+    series: []
 }
-const asyncData = {
-    name: 'EPimp',
-    marker: {
-      symbol: 'square'
-    },
-    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
-      y: 26.5
-    }, 23.3, 18.3, 13.9, 9.6]
-  }
 
-const dataGauge = {
+var dataGauge = {
     chart: {
         type: 'gauge',
         plotBackgroundColor: null,
@@ -191,6 +141,21 @@ const dataGauge = {
     ],
 }
 
+
+More(Highcharts)
+
+var asyncData = {
+    name: 'EPimp',
+    marker: {
+      symbol: 'square'
+    },
+    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
+      y: 26.5
+    }, 23.3, 18.3, 13.9, 9.6]
+} 
+
+
+
 var position = { lat: '20.663782', lng: '-103.3916394' }
 moment.locale('es')
 
@@ -206,14 +171,17 @@ function setGaugeChartStyles() {
 
 export default {
     components: {
-        Table, Weather, GaugeChart, PieChart, VueHighcharts, VueHighChartsComponent
+        Table, Weather, PieChart, VueHighcharts , VueHighChartsComponent
     },
     computed: {
         distribution() {
-            return this.$store.state.socket.distribution.toFixed(2)
+            return this.$store.state.socket.distribution
         },
         odometer() {
             return this.$store.state.socket.odometer
+        },
+        demand() {
+            return this.$store.state.socket.demand
         },
         billablePeriod() {
             let start = moment().startOf('month').format('DD/MM/YYYY')
@@ -235,14 +203,15 @@ export default {
             if (!chart.renderer.forExport) {
                 let point = chart.series[0].points[0]
                 point.update(this.odometer)
-                /*chart.update({
-                    yAxis: { max: 30000 }
-                });*/
             }
         }
     },
     beforeMount() {
         this.getMeters()
+    },
+    mounted() {
+        setGaugeChartStyles()
+        this.load()
     },
     data() {
         return {
@@ -259,46 +228,7 @@ export default {
             },
             chartOptions: {},
             gaugeOptions: dataGauge,
-            pieOptions: pieData,
-            lineOptions: {
-                chart: {
-                  type: 'spline'
-                },
-                title: {
-                  text: null
-                },
-                xAxis: {
-                  categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                },
-                yAxis: {
-                  title: {
-                    text: null
-                  },
-                  labels: {
-                    formatter: function () {
-                      return this.value + '°';
-                    }
-                  }
-                },
-                tooltip: {
-                  crosshairs: true,
-                  shared: true
-                },
-                credits: {
-                  enabled: false
-                },
-                plotOptions: {
-                  spline: {
-                    marker: {
-                      radius: 4,
-                      lineColor: '#666666',
-                      lineWidth: 1
-                    }
-                  }
-                },
-                series: []
-              }
+            lineOptions: dataLine
         }
     },
     methods: {
@@ -328,17 +258,6 @@ export default {
                     currentOpacity -= opacityIndex
                 })
             })
-        }
-    },
-    mounted() {
-        setGaugeChartStyles()
-        this.load()
-
-
-    },
-    destroyed() {
-        if (timer) {
-            clearInterval(timer)
         }
     }
 }

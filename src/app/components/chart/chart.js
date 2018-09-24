@@ -1,19 +1,63 @@
 /* eslint-disable */
-import LineChart from './lineChart';
-import BarChart from './barChart';
+import VueHighcharts from 'vue2-highcharts'
 
 const todayLabels = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24'];
 const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const monthLabels = ['1', '5', '10', '15', '20', '25', '30'];
 const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
+var dataLine = {
+    chart: {
+      type: 'spline'
+    },
+    title: {
+      text: null
+    },
+    xAxis: {
+      categories: todayLabels
+    },
+    yAxis: {
+      title: {
+        text: null
+      }
+    },
+    tooltip: {
+      crosshairs: true,
+      shared: true
+    },
+    credits: {
+      enabled: false
+    },
+    plotOptions: {
+      spline: {
+        marker: {
+          radius: 4,
+          lineColor: '#666666',
+          lineWidth: 1
+        }
+      }
+    },
+    series: []
+}
+
+var asyncData = {
+    name: 'EPimp',
+    marker: {
+      symbol: 'square'
+    },
+    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
+      y: 26.5
+    }, 23.3, 18.3, 13.9, 9.6]
+} 
+
 export default {
     props: ['meterId', 'chartDataValues'],
     components: {
-        LineChart, BarChart
+        VueHighcharts
     },
     data() {
         return {
+            lineOptions: dataLine,
             currentChart: 0,
             buttons: [{
                 selected: 0,
@@ -24,34 +68,7 @@ export default {
                     { value: 3, text: 'Este Mes' },
                     { value: 3, text: 'Este Año' },
                 ]
-            }, {
-                options: [
-                    { value: 0, text: 'Línea' },
-                    { value: 1, text: 'Barra' }  
-                ]
             }],
-            chartData: {
-                labels: todayLabels,
-                datasets: [
-                    {
-                        label: 'EPimp',
-                        fill: false,
-                        backgroundColor: '#00A6A6',
-                        borderColor: '#00A6A6',
-                        data: this.chartDataValues
-                    }
-                ]
-            },
-            chartOptions: {
-                maintainAspectRatio: false,
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        }
-                    }]
-                }
-            },
             currentPeriod: 0,
             periodText: 'day',
             currentDate: moment()
@@ -59,41 +76,59 @@ export default {
     },
     watch: {
         chartDataValues() {
-            this.$refs.mainChart.renderChart(this.chartData, this.chartOptions);
         }
     },
+    mounted() {
+        this.load()
+    },
     methods: {
+        load() {
+            let lineCharts = this.$refs.lineCharts;
+            lineCharts.delegateMethod('showLoading', 'Loading...');
+            setTimeout(() => {
+                lineCharts.addSeries(asyncData);
+                lineCharts.hideLoading();
+            }, 2000)
+        },
         changePeriod(period) {
             if (period !== null) {
                 this.currentPeriod = period;
+                let xAxis = []
                 switch(period) {
                     case 0:
-                    this.chartData.labels = todayLabels;
+                    xAxis = todayLabels;
                     this.periodText = 'day';
                     break;
                     case 1:
-                    this.chartData.labels = weekLabels;
-                    this.periodText = 'week';
+                    xAxis = todayLabels;
+                    this.periodText = 'day';
                     break;
                     case 2:
-                    this.chartData.labels = monthLabels;
-                    this.periodText = 'month';
+                    xAxis = weekLabels;
+                    this.periodText = 'week';
                     break;
                     case 3:
-                    this.chartData.labels = yearLabels;
+                    xAxis = monthLabels;
+                    this.periodText = 'month';
+                    break;
+                    case 4:
+                    xAxis = yearLabels;
                     this.periodText = 'year';
                     break;
                 }
                 this.getByFilter(period)
+
+                let chart = this.$refs.lineCharts.getChart()
+
+                if (!chart.renderer.forExport) {
+                    chart.update({
+                        xAxis: { categories: xAxis }
+                    })
+                    let point = chart.series[0].points[0]
+                    point.update(0)
+                }
             }
 
-            this.$refs.mainChart.renderChart(this.chartData, this.chartOptions);
-        },
-        previous() {
-            this.currentDate = moment(this.currentDate).subtract(1, this.periodText);
-        },
-        next() {
-            this.currentDate = moment(this.currentDate).add(1, this.periodText);
         },
         getByFilter(filter) {
             console.log(this.meterId);

@@ -1,9 +1,9 @@
 /* eslint-disable */
-import Chart from '@/app/components/chart/Chart.vue';
-import Header from '@/app/components/header/Header.vue';
-import Table from '@/app/components/table/Table.vue';
-import designatedMeters from '@/services/designatedMeters';
-import meters from '@/services/meters';
+import Chart from '@/app/components/chart/Chart.vue'
+import Header from '@/app/components/header/Header.vue'
+import Table from '@/app/components/table/Table.vue'
+import designatedMeters from '@/services/designatedMeters'
+import meters from '@/services/meters'
 
 export default {
     components: {
@@ -11,21 +11,21 @@ export default {
     },
     computed: {
         isAdmin() {
-            return this.$store.state.isAdmin;
+            return this.$store.state.isAdmin
         },
         companyId() {
-            return this.$store.state.company_id;
+            return this.$store.state.company_id
         },
         isCosts() {
-            return this.$route.name === 'costs';
+            return this.$route.name === 'costs'
         },
         title() {
-            return this.isCosts? 'Costos': 'Gráficas';
+            return this.isCosts? 'Costos': 'Gráficas'
         }
     },
     watch: {
         companyId() {
-            this.getMeters();
+            this.getMeters()
         }
     },
     data() {
@@ -40,12 +40,11 @@ export default {
         }
     },
     beforeMount() {
-        this.getMeters();
-        //this.getByFilter();
+        this.getMeters()
     },
     methods: {
         changePeriod(period) {
-            this.$refs.mainChart.changePeriod(period);
+            //this.$refs.mainChart.changePeriod(period)
         },
         getMeters() {
             designatedMeters.find({
@@ -53,25 +52,25 @@ export default {
                     where: { company_id: this.companyId }
                 }
             }).then(meters => {
-                this.meters = meters;
+                this.meters = meters
                 this.meters.forEach(meter => {
-                    this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name });
-                });
-            });
+                    this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name })
+                })
+            })
         },
         getData(meter_id) {
             if(meter_id !== null) {
-                this.chartData = [];
+                this.chartData = []
                 meters.getReadingsByFilter(meter_id, 0)
                 .then(res => {
-                    let records = res.deviceVars.recordGroup.record;
-                    let currentGroup = 0;
+                    let records = res.deviceVars.recordGroup.record
+                    let currentGroup = 0
                     for(let i = 0; i < records.length; i += 8) {
-                        currentGroup = parseFloat(records[i].field.value._text);
-                        this.chartData.push(currentGroup);
-                        currentGroup = 0;
+                        currentGroup = parseFloat(records[i].field.value._text)
+                        this.chartData.push(currentGroup)
+                        currentGroup = 0
                     }
-                });
+                })
             }
         }
     }
