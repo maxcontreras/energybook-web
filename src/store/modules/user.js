@@ -47,18 +47,20 @@ export default {
                 }
 
                 dispatch('loadAccount', state.access_token.userId)
-                websockets.init()
             }).catch(e => {
                 console.log(e)
             })
         },
         loadAccount({ commit }, id) {
             return eUsers.findById({ id }).then(user => {
-                localStorage.setItem('user', JSON.stringify(user))
+                console.log(localStorage.getItem('user'))
+                if(localStorage.getItem('user') === null)
+                    localStorage.setItem('user', JSON.stringify(user))
                 router.push({ name: 'dashboard' })
                 commit('setUser', user)
                 commit('setRole', user, { root: true })
                 commit('setCompanyId', user.company_id, { root: true })
+                websockets.init()
             }).catch(() => {
                 loopback.removeToken()
                 router.push({ name: 'login' })

@@ -186,7 +186,7 @@ export default {
             return this.$store.state.socket.distribution
         },
         odometer() {
-            return this.$store.state.socket.odometer
+            return parseFloat(this.$store.state.socket.odometer)
         },
         demand() {
             return this.$store.state.socket.demand
@@ -206,12 +206,7 @@ export default {
     },
     watch: {
         odometer() {
-            let chart = this.$refs.gaugeChart.getChart()
-            chart.hideLoading()
-            if (!chart.renderer.forExport) {
-                let point = chart.series[0].points[0]
-                point.update(this.odometer)
-            }
+            this.updateOdometerChart()
         },
         epimpHistory() {
             this.updateEpimpHistoryChart()
@@ -245,9 +240,13 @@ export default {
     methods: {
         load(){
             let lineCharts = this.$refs.lineCharts
-            lineCharts.delegateMethod('showLoading', 'Loading...')
             let gaugeChart = this.$refs.gaugeChart
+
+            lineCharts.delegateMethod('showLoading', 'Loading...')
             gaugeChart.delegateMethod('showLoading', 'Loading...')
+            console.log(this.odometer)
+            if(this.odometer > 0) this.updateOdometerChart()
+            if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
         },
         getMeters() {
             designatedMeters.find({
@@ -286,6 +285,14 @@ export default {
                 asyncData.data = data
                 lineCharts.addSeries(asyncData)
                 lineCharts.hideLoading()
+            }
+        },
+        updateOdometerChart() {
+            let chart = this.$refs.gaugeChart.getChart()
+            chart.hideLoading()
+            if (!chart.renderer.forExport) {
+                let point = chart.series[0].points[0]
+                point.update(this.odometer)
             }
         }
     }

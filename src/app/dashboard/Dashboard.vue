@@ -174,7 +174,7 @@
                         </b-col>
                     </b-row>
                     <b-row>
-                        <b-col md="8">
+                        <b-col md="12">
                             <b-card>
                                 <b-row class="analysis-card-header">
                                     <b-col>
@@ -184,9 +184,9 @@
                                 <vue-highcharts :options="lineOptions" ref="lineCharts"></vue-highcharts>
                             </b-card>
                         </b-col>
-                        <b-col md="4">
+                        <!--<b-col md="4">
                             <b-card></b-card>
-                        </b-col>
+                        </b-col>-->
                     </b-row>
                 </b-col>
             </b-row>
