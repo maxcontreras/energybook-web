@@ -26,6 +26,10 @@ export default {
     watch: {
         companyId() {
             this.getMeters()
+        },
+        chartData() {
+            if(this.chartData.length > 0)
+                this.updateChart()
         }
     },
     data() {
@@ -43,9 +47,6 @@ export default {
         this.getMeters()
     },
     methods: {
-        changePeriod(period) {
-            //this.$refs.mainChart.changePeriod(period)
-        },
         getMeters() {
             designatedMeters.find({
                 filter: {
@@ -60,18 +61,23 @@ export default {
         },
         getData(meter_id) {
             if(meter_id !== null) {
+                console.log(meter_id)
+                //this.$refs.chart.showLoading()
+                //this.$refs.chart.changePeriod(0)
+                /*
                 this.chartData = []
                 meters.getReadingsByFilter(meter_id, 0)
                 .then(res => {
+                    console.log(res)
                     let records = res.deviceVars.recordGroup.record
-                    let currentGroup = 0
-                    for(let i = 0; i < records.length; i += 8) {
-                        currentGroup = parseFloat(records[i].field.value._text)
-                        this.chartData.push(currentGroup)
-                        currentGroup = 0
+                    for(let i = 0; i < records.length; i ++) {
+                        this.chartData.push(parseFloat(records[i].field.value._text))
                     }
-                })
+                })*/
             }
+        },
+        updateChart() {
+            this.$refs.chart.updateSeries(this.chartData)
         }
     }
 }

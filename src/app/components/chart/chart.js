@@ -1,41 +1,42 @@
 /* eslint-disable */
 import VueHighcharts from 'vue2-highcharts'
+import meters from '@/services/meters'
 
-const todayLabels = ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24'];
-const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-const monthLabels = ['1', '5', '10', '15', '20', '25', '30'];
-const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+const todayLabels = ['1','2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
+const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
+const monthLabels = ['1','2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
+const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
 
 var dataLine = {
     chart: {
-      type: 'spline'
+        type: 'spline'
     },
     title: {
-      text: null
+        text: null
     },
     xAxis: {
-      categories: todayLabels
+        categories: todayLabels
     },
     yAxis: {
-      title: {
-        text: null
-      }
+        title: {
+            text: null
+        }
     },
     tooltip: {
-      crosshairs: true,
-      shared: true
+        crosshairs: true,
+        shared: true
     },
     credits: {
-      enabled: false
+        enabled: false
     },
     plotOptions: {
-      spline: {
-        marker: {
-          radius: 4,
-          lineColor: '#666666',
-          lineWidth: 1
+        spline: {
+            marker: {
+                radius: 4,
+                lineColor: '#666666',
+                lineWidth: 1
+            }
         }
-      }
     },
     series: []
 }
@@ -43,12 +44,10 @@ var dataLine = {
 var asyncData = {
     name: 'EPimp',
     marker: {
-      symbol: 'square'
+        symbol: 'square'
     },
-    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
-      y: 26.5
-    }, 23.3, 18.3, 13.9, 9.6]
-} 
+    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+}
 
 export default {
     props: ['meterId', 'chartDataValues'],
@@ -58,6 +57,7 @@ export default {
     data() {
         return {
             lineOptions: dataLine,
+            asyncData: asyncData,
             currentChart: 0,
             buttons: [{
                 selected: 0,
@@ -66,77 +66,96 @@ export default {
                     { value: 1, text: 'Ayer' },
                     { value: 2, text: 'Esta Semana' },
                     { value: 3, text: 'Este Mes' },
-                    { value: 3, text: 'Este Año' },
+                    { value: 4, text: 'Este Año' },
                 ]
             }],
             currentPeriod: 0,
-            periodText: 'day',
             currentDate: moment()
         }
     },
     watch: {
-        chartDataValues() {
+        meterId() {
+            console.log(this.meterId)
+            this.changePeriod(0)
         }
     },
     mounted() {
-        this.load()
     },
     methods: {
+        showLoading() {
+            let lineCharts = this.$refs.lineCharts
+            lineCharts.delegateMethod('showLoading', 'Loading...')
+        },
         load() {
-            let lineCharts = this.$refs.lineCharts;
-            lineCharts.delegateMethod('showLoading', 'Loading...');
-            setTimeout(() => {
-                lineCharts.addSeries(asyncData);
-                lineCharts.hideLoading();
-            }, 2000)
+            let lineCharts = this.$refs.lineCharts
+            lineCharts.addSeries(this.asyncData)
+            lineCharts.hideLoading()
         },
         changePeriod(period) {
             if (period !== null) {
-                this.currentPeriod = period;
+                this.currentPeriod = period
                 let xAxis = []
-                switch(period) {
+                switch (period) {
                     case 0:
-                    xAxis = todayLabels;
-                    this.periodText = 'day';
-                    break;
+                        xAxis = todayLabels
+                        break
                     case 1:
-                    xAxis = todayLabels;
-                    this.periodText = 'day';
-                    break;
+                        xAxis = todayLabels
+                        break
                     case 2:
-                    xAxis = weekLabels;
-                    this.periodText = 'week';
-                    break;
+                        xAxis = weekLabels
+                        break
                     case 3:
-                    xAxis = monthLabels;
-                    this.periodText = 'month';
-                    break;
+                        xAxis = monthLabels
+                        break
                     case 4:
-                    xAxis = yearLabels;
-                    this.periodText = 'year';
-                    break;
+                        xAxis = yearLabels
+                        break
                 }
-                this.getByFilter(period)
+
 
                 let chart = this.$refs.lineCharts.getChart()
+                let lineCharts = this.$refs.lineCharts
 
                 if (!chart.renderer.forExport) {
+                    this.showLoading()
+                    lineCharts.removeSeries()
                     chart.update({
                         xAxis: { categories: xAxis }
                     })
-                    let point = chart.series[0].points[0]
-                    point.update(0)
+                    this.getByFilter(period, this.meterId)
                 }
             }
 
         },
-        getByFilter(filter) {
-            console.log(this.meterId);
-            /*meters.getReadingsByFilter('5b85b7a58c5a3e1bc0275f6c', 0)
-            .then(res => {
-                console.log(res);
-            });*/
-            
+        getByFilter(filter, meter_id) {
+            console.log('filter')
+            let chartData = []
+            meters.getReadingsByFilter(meter_id, filter)
+                .then(res => {
+                    console.log(res)
+                    let records = res.deviceVars.recordGroup.record
+                    for(let i = 0; i < records.length; i ++) {
+                        chartData.push(parseFloat(records[i].field.value._text))
+                        if(this.currentPeriod === 4) {
+                            function parseDate(rawDate) {
+                                let day, month, year
+                                day = rawDate.substring(0, 2)
+                                month = rawDate.substring(2, 4)
+                                year = rawDate.substring(4, 8)
+                                return `${day}/${month}/${year}`
+                            }
+                            console.log(records[i].dateTime._text)
+                            console.log(parseDate(records[i].dateTime._text))
+                        }
+                    }
+                    this.updateSeries(chartData)
+                })
+
+        },
+        updateSeries(data) {
+            this.asyncData.data = data
+            this.load()
         }
     },
 }
