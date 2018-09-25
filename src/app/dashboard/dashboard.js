@@ -169,11 +169,19 @@ function setGaugeChartStyles() {
     $('.gauge-chart-container .highcharts-container ').css({ 'height': '200px' })
 }
 
+function parseDate(rawDate) {
+    let hour = rawDate.substring(8, 10)
+    return `${hour}:00 hrs`
+}
+
 export default {
     components: {
         Table, Weather, PieChart, VueHighcharts , VueHighChartsComponent
     },
     computed: {
+        epimpHistory() {
+            return this.$store.state.socket.epimpHistory
+        },
         distribution() {
             return this.$store.state.socket.distribution
         },
@@ -204,6 +212,9 @@ export default {
                 let point = chart.series[0].points[0]
                 point.update(this.odometer)
             }
+        },
+        epimpHistory() {
+            this.updateEpimpHistoryChart()
         }
     },
     beforeMount() {
@@ -258,6 +269,26 @@ export default {
                     currentOpacity -= opacityIndex
                 })
             })
+        },
+        updateEpimpHistoryChart() {
+            let xAxis = []
+            let data = []
+            this.epimpHistory.forEach((obj, index) => {
+                xAxis.push(parseDate(obj.date))
+                data.push(parseFloat(obj.value))
+            })
+            let lineCharts = this.$refs.lineCharts
+            let chart = lineCharts.getChart()
+            if (!chart.renderer.forExport) {
+                lineCharts.delegateMethod('showLoading', 'Loading...');
+                lineCharts.removeSeries()
+                chart.update({
+                    xAxis: { categories: xAxis }
+                })
+                asyncData.data = data
+                lineCharts.addSeries(asyncData)
+                lineCharts.hideLoading()
+            }
         }
     }
 }

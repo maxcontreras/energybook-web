@@ -27,9 +27,9 @@
                                 <b-row>
                                     <b-col md="8" class="dashboard-data-container">
                                         <h5 class="blue">
-                                            {{distribution}} kWh
+                                            {{demand}} kWh
                                         </h5>
-                                        <p>Distribución</p>
+                                        <p>Demanda</p>
                                     </b-col>
                                     <b-col md="4" class="dashboard-icon-container">
                                         <i class="fas fa-power-off blue"></i>

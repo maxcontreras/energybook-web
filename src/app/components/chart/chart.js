@@ -49,6 +49,14 @@ var asyncData = {
     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 }
 
+function parseDate(rawDate) {
+    let day, month, year
+    day = rawDate.substring(0, 2)
+    month = rawDate.substring(2, 4)
+    year = rawDate.substring(4, 8)
+    return `${day}/${month}/${year}`
+}
+
 export default {
     props: ['meterId', 'chartDataValues'],
     components: {
@@ -109,7 +117,6 @@ export default {
                         xAxis = monthLabels
                         break
                     case 4:
-                        xAxis = yearLabels
                         break
                 }
 
@@ -120,34 +127,27 @@ export default {
                 if (!chart.renderer.forExport) {
                     this.showLoading()
                     lineCharts.removeSeries()
-                    chart.update({
-                        xAxis: { categories: xAxis }
-                    })
-                    this.getByFilter(period, this.meterId)
+                    this.getByFilter(period, this.meterId, chart, xAxis)
                 }
             }
 
         },
-        getByFilter(filter, meter_id) {
-            console.log('filter')
+        getByFilter(filter, meter_id, chart, xAxis) {
             let chartData = []
             meters.getReadingsByFilter(meter_id, filter)
                 .then(res => {
-                    console.log(res)
                     let records = res.deviceVars.recordGroup.record
                     for(let i = 0; i < records.length; i ++) {
                         chartData.push(parseFloat(records[i].field.value._text))
                         if(this.currentPeriod === 4) {
-                            function parseDate(rawDate) {
-                                let day, month, year
-                                day = rawDate.substring(0, 2)
-                                month = rawDate.substring(2, 4)
-                                year = rawDate.substring(4, 8)
-                                return `${day}/${month}/${year}`
-                            }
-                            console.log(records[i].dateTime._text)
-                            console.log(parseDate(records[i].dateTime._text))
+                            xAxis.push(parseDate(records[i].dateTime._text))
                         }
+                    }
+                    if(this.currentPeriod === 4) {
+                        console.log(xAxis)
+                        chart.update({
+                            xAxis: { categories: xAxis }
+                        })
                     }
                     this.updateSeries(chartData)
                 })

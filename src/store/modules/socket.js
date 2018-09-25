@@ -4,7 +4,8 @@ export default {
     state: {
         distribution: 0,
         odometer: 0,
-        demand: 0
+        demand: 0,
+        epimpHistory: []
     },
     actions: {
         checkStatus({}, data) {
@@ -24,6 +25,11 @@ export default {
             console.log('demand')
             console.log(data)
             commit('setDemand', data)
+        },
+        epimpHistoryReading({commit}, data) {
+            console.log('epimp')
+            console.log(data)
+            commit('setEpimpHistory', data)
         }
     },
     mutations: {
@@ -35,6 +41,9 @@ export default {
         },
         setDemand(state, value) {
             state.demand = parseFloat(value)
+        },
+        setEpimpHistory(state, value) {
+            state.epimpHistory = value
         }
     }
 }
