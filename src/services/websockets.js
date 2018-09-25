@@ -8,7 +8,6 @@ socket.on('open', function () {
 
     socket.on('message', function (data) {
         let jsonData = JSON.parse(data);
-        console.log(jsonData)
         store.dispatch(`socket/${jsonData.socketEvent}`, jsonData.data)
     })
 
@@ -16,17 +15,20 @@ socket.on('open', function () {
 })
 
 export default {
+    socket: '',
+
     init() {
+        this.socket = socket
         let request = {
             userId: eUsers.getCurrentId(),
             accessToken: JSON.parse(localStorage.getItem('loopback-token')).id,
             socketEvent: 'connection',
         };
         let requestData = JSON.stringify(request)
-        socket.send(requestData);
+        this.socket.send(requestData);
     },
 
     cleanSocket() {
-        socket = null
+        this.socket = null
     }
 }

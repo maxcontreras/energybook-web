@@ -46,7 +46,8 @@ export default {
                     loopback.setToken(state.access_token)
                 }
 
-                return dispatch('loadAccount', state.access_token.userId)
+                dispatch('loadAccount', state.access_token.userId)
+                websockets.init()
             }).catch(e => {
                 console.log(e)
             })
@@ -54,7 +55,6 @@ export default {
         loadAccount({ commit }, id) {
             return eUsers.findById({ id }).then(user => {
                 localStorage.setItem('user', JSON.stringify(user))
-                websockets.init();
                 router.push({ name: 'dashboard' })
                 commit('setUser', user)
                 commit('setRole', user, { root: true })

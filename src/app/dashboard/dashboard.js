@@ -206,8 +206,8 @@ export default {
     },
     watch: {
         odometer() {
-            const chart = this.$refs.gaugeChart.getChart()
-
+            let chart = this.$refs.gaugeChart.getChart()
+            chart.hideLoading()
             if (!chart.renderer.forExport) {
                 let point = chart.series[0].points[0]
                 point.update(this.odometer)
@@ -244,12 +244,10 @@ export default {
     },
     methods: {
         load(){
-            let lineCharts = this.$refs.lineCharts;
-            lineCharts.delegateMethod('showLoading', 'Loading...');
-            setTimeout(() => {
-                lineCharts.addSeries(asyncData);
-                lineCharts.hideLoading();
-            }, 2000)
+            let lineCharts = this.$refs.lineCharts
+            lineCharts.delegateMethod('showLoading', 'Loading...')
+            let gaugeChart = this.$refs.gaugeChart
+            gaugeChart.delegateMethod('showLoading', 'Loading...')
         },
         getMeters() {
             designatedMeters.find({

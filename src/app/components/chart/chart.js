@@ -5,7 +5,6 @@ import meters from '@/services/meters'
 const todayLabels = ['1','2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
 const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
 const monthLabels = ['1','2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
-const yearLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
 
 var dataLine = {
     chart: {
@@ -15,7 +14,7 @@ var dataLine = {
         text: null
     },
     xAxis: {
-        categories: todayLabels
+        categories: []
     },
     yAxis: {
         title: {
@@ -46,7 +45,7 @@ var asyncData = {
     marker: {
         symbol: 'square'
     },
-    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    data: []
 }
 
 function parseDate(rawDate) {
@@ -83,7 +82,6 @@ export default {
     },
     watch: {
         meterId() {
-            console.log(this.meterId)
             this.changePeriod(0)
         }
     },
@@ -136,6 +134,7 @@ export default {
             let chartData = []
             meters.getReadingsByFilter(meter_id, filter)
                 .then(res => {
+                    if(this.currentPeriod === 4)    xAxis = []
                     let records = res.deviceVars.recordGroup.record
                     for(let i = 0; i < records.length; i ++) {
                         chartData.push(parseFloat(records[i].field.value._text))
@@ -144,7 +143,6 @@ export default {
                         }
                     }
                     if(this.currentPeriod === 4) {
-                        console.log(xAxis)
                         chart.update({
                             xAxis: { categories: xAxis }
                         })
