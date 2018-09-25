@@ -8,6 +8,7 @@ import 'vue-weather-widget/dist/css/vue-weather-widget.css'
 import VueHighcharts from 'vue2-highcharts'
 import VueHighChartsComponent from '@/app/components/chart/VueHighCharts.vue'
 import Highcharts from 'highcharts'
+import DashboardAdmin from '@/app/dashboard/DashboardAdmin.vue'
 
 const More = require('highcharts-more')
 
@@ -176,9 +177,12 @@ function parseDate(rawDate) {
 
 export default {
     components: {
-        Table, Weather, PieChart, VueHighcharts , VueHighChartsComponent
+        Table, Weather, PieChart, VueHighcharts , VueHighChartsComponent, DashboardAdmin
     },
     computed: {
+        isAdmin() {
+            return this.$store.state.isAdmin;
+        },
         epimpHistory() {
             return this.$store.state.socket.epimpHistory
         },
@@ -213,9 +217,15 @@ export default {
         }
     },
     beforeMount() {
+        if(this.isAdmin) return
+
         this.getMeters()
     },
     mounted() {
+        if(this.isAdmin) {
+            $('.user-dashboard').remove()
+            return
+        }
         setGaugeChartStyles()
         this.load()
     },

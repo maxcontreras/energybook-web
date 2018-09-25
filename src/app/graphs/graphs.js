@@ -61,19 +61,7 @@ export default {
         },
         getData(meter_id) {
             if(meter_id !== null) {
-                console.log(meter_id)
-                //this.$refs.chart.showLoading()
-                //this.$refs.chart.changePeriod(0)
-                /*
-                this.chartData = []
-                meters.getReadingsByFilter(meter_id, 0)
-                .then(res => {
-                    console.log(res)
-                    let records = res.deviceVars.recordGroup.record
-                    for(let i = 0; i < records.length; i ++) {
-                        this.chartData.push(parseFloat(records[i].field.value._text))
-                    }
-                })*/
+
             }
         },
         updateChart() {

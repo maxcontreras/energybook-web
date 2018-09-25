@@ -1,35 +1,32 @@
 /* eslint-disable */
 
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Login from '@/app/login/Login.vue';
-import Register from '@/app/register/Register.vue';
-import Dashboard from '@/app/dashboard/Dashboard.vue';
-import DashboardAdmin from '@/app/dashboard/DashboardAdmin.vue';
-import Layout from '@/app/layout/Layout.vue';
-import Companies from '@/app/companies/Companies.vue';
-import Meters from '@/app/meters/Meters.vue';
-import Payments from '@/app/payments/Payments.vue';
-import Calendar from '@/app/calendar/Calendar.vue';
-import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue';
-import UserDetail from '@/app/userDetail/UserDetail.vue';
-import Graphs from '@/app/graphs/Graphs.vue';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Login from '@/app/login/Login.vue'
+import Register from '@/app/register/Register.vue'
+import Dashboard from '@/app/dashboard/Dashboard.vue'
+import Layout from '@/app/layout/Layout.vue'
+import Companies from '@/app/companies/Companies.vue'
+import Meters from '@/app/meters/Meters.vue'
+import Payments from '@/app/payments/Payments.vue'
+import Calendar from '@/app/calendar/Calendar.vue'
+import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue'
+import UserDetail from '@/app/userDetail/UserDetail.vue'
+import Graphs from '@/app/graphs/Graphs.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const router = new VueRouter({
 	mode: 'history',
 	routes: [
 		{
             path: '/',
-            name: 'layout',
             component: Layout,
             children: [
                 {
                     path: '/',
                     name: 'dashboard',
                     components: {
-                        //default: JSON.parse(localStorage.getItem('user')).role_id === 1? DashboardAdmin : Dashboard
                         default: Dashboard
                     },
                     meta: { requiresAuth: true }
@@ -123,6 +120,6 @@ const router = new VueRouter({
 			}
 		}
 	]
-});
+})
 
-export default router;
+export default router

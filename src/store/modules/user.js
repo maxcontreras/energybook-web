@@ -47,16 +47,19 @@ export default {
                 }
 
                 dispatch('loadAccount', state.access_token.userId)
+                
             }).catch(e => {
                 console.log(e)
             })
         },
         loadAccount({ commit }, id) {
             return eUsers.findById({ id }).then(user => {
-                console.log(localStorage.getItem('user'))
-                if(localStorage.getItem('user') === null)
+
+                if(localStorage.getItem('user') === null) {
                     localStorage.setItem('user', JSON.stringify(user))
-                router.push({ name: 'dashboard' })
+                    router.push({ name: 'dashboard' })
+                }
+                
                 commit('setUser', user)
                 commit('setRole', user, { root: true })
                 commit('setCompanyId', user.company_id, { root: true })
