@@ -40,14 +40,6 @@ var dataLine = {
     series: []
 }
 
-var asyncData = {
-    name: 'EPimp',
-    marker: {
-        symbol: 'square'
-    },
-    data: []
-}
-
 function parseDate(rawDate) {
     let day, month, year
     day = rawDate.substring(0, 2)
@@ -57,14 +49,20 @@ function parseDate(rawDate) {
 }
 
 export default {
-    props: ['meterId', 'chartDataValues'],
+    props: ['meterId', 'variable'],
     components: {
         VueHighcharts
     },
     data() {
         return {
             lineOptions: dataLine,
-            asyncData: asyncData,
+            asyncData: {
+                name: this.variable,
+                marker: {
+                    symbol: 'square'
+                },
+                data: []
+            },
             currentChart: 0,
             buttons: [{
                 selected: 0,
@@ -84,8 +82,6 @@ export default {
         meterId() {
             this.changePeriod(0)
         }
-    },
-    mounted() {
     },
     methods: {
         showLoading() {
@@ -132,8 +128,9 @@ export default {
         },
         getByFilter(filter, meter_id, chart, xAxis) {
             let chartData = []
-            meters.getReadingsByFilter(meter_id, filter)
+            meters.getReadingsByFilter(meter_id, filter, this.variable)
                 .then(res => {
+                    console.log(res)
                     if(this.currentPeriod === 4)    xAxis = []
                     let records = res.deviceVars.recordGroup.record
                     for(let i = 0; i < records.length; i ++) {

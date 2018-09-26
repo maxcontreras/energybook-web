@@ -1,9 +1,0 @@
-- Cambiar paleta de colores
-- Gráficas en dashboard
-- Rediseño cards
-- Selector de medidores asignados activos(admin)
-- Mostrar dashboard y gráficas en companyDetail (poner selector también) (admin)
-- Recuperar contraseña (vista)
-- routing del dashboard
-- responsividad
-- autenticar rutas

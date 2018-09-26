@@ -1,12 +1,12 @@
 /* eslint-disable */
-import meters from '@/services/meters';
-import designatedMeters from '@/services/designatedMeters';
-import companies from '@/services/companies';
-import Header from '@/app/components/header/Header.vue';
-import Table from '@/app/components/table/Table.vue';
-import Constants from '@/constants';
+import meters from '@/services/meters'
+import designatedMeters from '@/services/designatedMeters'
+import companies from '@/services/companies'
+import Header from '@/app/components/header/Header.vue'
+import Table from '@/app/components/table/Table.vue'
+import Constants from '@/constants'
 
-const meterActive = Constants.Meters.active;
+const meterActive = Constants.Meters.active
 
 export default {
     components: {
@@ -15,10 +15,10 @@ export default {
 
     computed: {
         isAdmin() {
-            return this.$store.state.isAdmin;
+            return this.$store.state.isAdmin
         },
         companyId() {
-            return this.$store.state.company_id;
+            return this.$store.state.company_id
         },
     },
 
@@ -59,29 +59,29 @@ export default {
 
     watch: {
         companyId() {
-            this.getDesignatedMeters();
+            this.getDesignatedMeters()
         }
     },
 
     beforeMount() {
-        this.getMeters();
-        this.getCompanies();
-        this.getDesignatedMeters();
+        this.getMeters()
+        this.getCompanies()
+        this.getDesignatedMeters()
     },
 
     methods: {
         getMeters() {
             meters.unassignedMeters().then(res => {
-                this.meters = res.meters;
+                this.meters = res.meters
                 this.meters.forEach(meter => {
                     this.items.push({
                         'No. de Serie': meter.serial_number,
                         'Fecha de Registro': moment(meter.created_at).format('LL'),
                         'Estado': meterActive[meter.active],
                         id: meter.id
-                    });
-                });
-            });
+                    })
+                })
+            })
         },
 
         getDesignatedMeters() {
@@ -89,19 +89,18 @@ export default {
                 filter: {
                     include: ['meter','company']
                 }
-            };
+            }
             if(!this.isAdmin) {
                 filter.where = {
                     company_id: this.companyId
                 }
-                this.fieldsDesignated.splice(-2,2);
+                this.fieldsDesignated.splice(-2,2)
             }
             designatedMeters.find({
                 filter
             }).then(designatedMeters => {
-                this.designatedMeters = designatedMeters;
+                this.designatedMeters = designatedMeters
                 this.designatedMeters.forEach(meter => {
-                    console.log(meter);
                     meters.getOwnerCompany({meter_id: meter.meter_id}).then(company => {
                         this.itemsDesignated.push({
                             'Nombre': meter.device_name,
@@ -111,18 +110,18 @@ export default {
                             'Compañía': company.company.name,
                             'Status': company.company.meter_status? true : false,
                             id: meter.id
-                        });
-                    });
-                });
-            });
+                        })
+                    })
+                })
+            })
         },
 
         getCompanies() {
             companies.find({}).then(companies => {
                 companies.forEach(company => {
-                    this.companies.push({ value: company.id, text: company.company_name} );
-                });
-            });
+                    this.companies.push({ value: company.id, text: company.company_name} )
+                })
+            })
         },
 
         createMeter() {
@@ -135,7 +134,7 @@ export default {
                     'Fecha de Registro': moment(meter.created_at).format('LL'),
                     'Estado': meterActive[meter.active],
                     id: meter.id
-                });
+                })
             })
         },
         assignMeter() {
@@ -144,7 +143,7 @@ export default {
             }).then(res => {
                 meters.getOwnerCompany({meter_id: res.meter_id})
                 .then(meter => {
-                    this.items.splice(this.currentIndex, 1);
+                    this.items.splice(this.currentIndex, 1)
                     this.itemsDesignated.push({
                         'Nombre': res.device_name,
                         'Num. de serie': res.company.meter_serial_number,
@@ -154,13 +153,13 @@ export default {
                         'Estado': meterActive[meter.company.meter_status],
                         id: res.id
                     })
-                });
+                })
             })
         },
         openAssignModal(value) {
-            this.newDesignatedMeter.meter_id = value.id;
-            this.currentIndex = value.index;
-            this.$refs.meterModalDesignate.show();
+            this.newDesignatedMeter.meter_id = value.id
+            this.currentIndex = value.index
+            this.$refs.meterModalDesignate.show()
         },
         clearNewMeter() {
             this.newMeter = {
@@ -177,7 +176,7 @@ export default {
             }
         },
         statusChange(val) {
-            console.log(val);
+            console.log(val)
         }
     }
 }

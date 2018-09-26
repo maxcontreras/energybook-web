@@ -181,7 +181,7 @@ export default {
     },
     computed: {
         isAdmin() {
-            return this.$store.state.isAdmin;
+            return this.$store.state.isAdmin && this.$route.name === 'dashboard'
         },
         epimpHistory() {
             return this.$store.state.socket.epimpHistory
@@ -254,7 +254,6 @@ export default {
 
             lineCharts.delegateMethod('showLoading', 'Loading...')
             gaugeChart.delegateMethod('showLoading', 'Loading...')
-            console.log(this.odometer)
             if(this.odometer > 0) this.updateOdometerChart()
             if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
         },

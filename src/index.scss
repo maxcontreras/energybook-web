@@ -20,6 +20,10 @@ html, body {
   color: $egreen;
 }
 
+.nav-pills .nav-link.active {
+  background-color: #87ad36;
+}
+
 @media (max-width: 768px) {
   .table-pagination > div.my-1 {
     &:first-child {

@@ -17,7 +17,7 @@
                     </b-card>
                 </b-col>
             </b-row>
-            <!--<Dashboard/>-->
+            <Dashboard/>
         </b-col>
     </b-row>
 </template>

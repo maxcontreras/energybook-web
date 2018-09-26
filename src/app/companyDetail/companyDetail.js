@@ -2,10 +2,12 @@
 import Header from '@/app/components/header/Header.vue'
 import companies from '@/services/companies'
 import Chart from '@/app/components/chart/Chart.vue'
+import Dashboard from '@/app/dashboard/Dashboard.vue'
+
 
 export default {
   components: {
-    Header, Chart
+    Header, Chart, Dashboard
   },
   computed: {
     isAdmin() {

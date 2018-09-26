@@ -26,10 +26,6 @@ export default {
     watch: {
         companyId() {
             this.getMeters()
-        },
-        chartData() {
-            if(this.chartData.length > 0)
-                this.updateChart()
         }
     },
     data() {
@@ -39,8 +35,7 @@ export default {
                 options: [ { value: null, text: 'Selecciona un dispositivo'} ]
             }],
             fields: ['Dispositivo', 'Total', 'Máximo', 'Mínimo'],
-            items: [],
-            chartData: []
+            items: []
         }
     },
     beforeMount() {
@@ -63,9 +58,6 @@ export default {
             if(meter_id !== null) {
 
             }
-        },
-        updateChart() {
-            this.$refs.chart.updateSeries(this.chartData)
         }
     }
 }

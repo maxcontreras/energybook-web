@@ -34,8 +34,8 @@
             </b-card>
             <b-row>
                 <b-col>
-                <b-card class="profile-main">
-                    <b-tabs>
+                <b-card class="profile-main" no-body>
+                    <b-tabs pills card>
                             <b-tab title="Información">
                                 
                         <b-row align-h="end">
