@@ -1,5 +1,6 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters'
+import meters from '@/services/meters'
 import Table from '@/app/components/table/Table.vue'
 import PieChart from '@/app/components/chart/pieChart'
 import { gmapApi } from 'vue2-google-maps'
@@ -245,7 +246,8 @@ export default {
             },
             chartOptions: {},
             gaugeOptions: dataGauge,
-            lineOptions: dataLine
+            lineOptions: dataLine,
+            edsId: ''
         }
     },
     methods: {
@@ -275,6 +277,8 @@ export default {
                     this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
                     currentOpacity -= opacityIndex
                 })
+                this.edsId = this.meters[0].meter_id
+                meters.initializer(this.edsId)
             })
         },
         updateEpimpHistoryChart() {

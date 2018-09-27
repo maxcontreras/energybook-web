@@ -30,6 +30,10 @@ let meters = Object.assign({}, {
 
     unassignedMeters(){
         return loopback.get('Meters/unassignedMeters');
+    },
+
+    initializer(id) {
+        return loopback.post('/Meters/initializer', {id})
     }
 
 }, modelObject);
