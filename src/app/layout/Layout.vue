@@ -54,6 +54,9 @@
         <div id="main">
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
+                <h6>
+                   {{currentFormattedDate}}
+                </h6>
                 <b-collapse is-nav id="nav_dropdown_collapse">
                     <b-navbar-nav class="ml-auto">
                         <b-nav-item id="notification-link">
@@ -103,7 +106,10 @@ export default {
         },
         user() {
             return this.$store.state.user;
-        }
+        },
+        currentFormattedDate() {
+            return moment().format('LLL')
+        },
     }, 
 
     created() {

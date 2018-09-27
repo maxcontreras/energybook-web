@@ -2,9 +2,6 @@
     <div class="dashboard-parent">
         <b-row id="dashboard" class="main user-dashboard" v-show="!isAdmin">
             <b-col>
-                <h5>
-                    {{currentFormattedDate}}
-                </h5>
                 <b-row class="dashboard-content-user">
                     <b-col>
                         <b-row class="margin-bottom-1 margin-top-1">

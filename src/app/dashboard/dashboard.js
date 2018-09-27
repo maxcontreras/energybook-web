@@ -12,6 +12,8 @@ import DashboardAdmin from '@/app/dashboard/DashboardAdmin.vue'
 
 const More = require('highcharts-more')
 
+const monthLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
+
 var dataLine = {
     chart: {
       type: 'spline'
@@ -20,8 +22,7 @@ var dataLine = {
       text: null
     },
     xAxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      categories: monthLabels
     },
     yAxis: {
       title: {
@@ -280,7 +281,7 @@ export default {
             let xAxis = []
             let data = []
             this.epimpHistory.forEach((obj, index) => {
-                xAxis.push(parseDate(obj.date))
+                //xAxis.push(parseDate(obj.date))
                 data.push(parseFloat(obj.value))
             })
             let lineCharts = this.$refs.lineCharts
@@ -288,9 +289,9 @@ export default {
             if (!chart.renderer.forExport) {
                 lineCharts.delegateMethod('showLoading', 'Loading...');
                 lineCharts.removeSeries()
-                chart.update({
+                /*chart.update({
                     xAxis: { categories: xAxis }
-                })
+                })*/
                 asyncData.data = data
                 lineCharts.addSeries(asyncData)
                 lineCharts.hideLoading()

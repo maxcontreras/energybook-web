@@ -7,17 +7,15 @@
                     <b-card>
                         <b-tabs v-model="tabIndex">
                             <b-tab title="Dashboard"> 
-                                
+                                <Dashboard/>
                             </b-tab>
                             <b-tab title="Gráficas">
-                                 
+                                <Chart v-show="tabIndex === 1"/>
                             </b-tab>
-                            <Chart v-show="tabIndex === 1"/>
                         </b-tabs>
                     </b-card>
                 </b-col>
             </b-row>
-            <Dashboard/>
         </b-col>
     </b-row>
 </template>

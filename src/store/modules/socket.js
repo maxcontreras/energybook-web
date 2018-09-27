@@ -9,6 +9,7 @@ function saveInLocalStorage(key, value) {
 function getLocalStorageItem(key) {
     let defaultVal = 0
     if(key === 'epimpHistory') defaultVal = []
+    if(user === null) return defaultVal
     return user[key]? user[key] : defaultVal
 }
 

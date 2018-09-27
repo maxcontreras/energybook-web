@@ -2,9 +2,9 @@
 import VueHighcharts from 'vue2-highcharts'
 import meters from '@/services/meters'
 
-const todayLabels = ['1','2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
+const todayLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
 const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
-const monthLabels = ['1','2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
+const monthLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
 
 var dataLine = {
     chart: {
@@ -96,24 +96,6 @@ export default {
         changePeriod(period) {
             if (period !== null) {
                 this.currentPeriod = period
-                let xAxis = []
-                switch (period) {
-                    case 0:
-                        xAxis = todayLabels
-                        break
-                    case 1:
-                        xAxis = todayLabels
-                        break
-                    case 2:
-                        xAxis = weekLabels
-                        break
-                    case 3:
-                        xAxis = monthLabels
-                        break
-                    case 4:
-                        break
-                }
-
 
                 let chart = this.$refs.lineCharts.getChart()
                 let lineCharts = this.$refs.lineCharts
@@ -121,29 +103,27 @@ export default {
                 if (!chart.renderer.forExport) {
                     this.showLoading()
                     lineCharts.removeSeries()
-                    this.getByFilter(period, this.meterId, chart, xAxis)
+                    this.getByFilter(period, this.meterId, chart)
                 }
             }
 
         },
-        getByFilter(filter, meter_id, chart, xAxis) {
+        getByFilter(filter, meter_id, chart) {
             let chartData = []
-            meters.getReadingsByFilter(meter_id, filter, this.variable)
+            meters.getReadingsByFilter(meter_id, filter)
                 .then(res => {
-                    console.log(res)
-                    if(this.currentPeriod === 4)    xAxis = []
+                    let xAxis = []
+                    if (this.currentPeriod !== 4) xAxis = this.getxAxis()
                     let records = res.deviceVars.recordGroup.record
-                    for(let i = 0; i < records.length; i ++) {
+                    for (let i = 0; i < records.length; i++) {
                         chartData.push(parseFloat(records[i].field.value._text))
-                        if(this.currentPeriod === 4) {
+                        if (this.currentPeriod === 4) {
                             xAxis.push(parseDate(records[i].dateTime._text))
                         }
                     }
-                    if(this.currentPeriod === 4) {
-                        chart.update({
-                            xAxis: { categories: xAxis }
-                        })
-                    }
+                    chart.update({
+                        xAxis: { categories: xAxis }
+                    })
                     this.updateSeries(chartData)
                 })
 
@@ -151,6 +131,24 @@ export default {
         updateSeries(data) {
             this.asyncData.data = data
             this.load()
+        },
+        getxAxis() {
+            let xAxis = []
+            switch (this.currentPeriod) {
+                case 0:
+                    xAxis = todayLabels
+                    break
+                case 1:
+                    xAxis = todayLabels
+                    break
+                case 2:
+                    xAxis = weekLabels
+                    break
+                case 3:
+                    xAxis = monthLabels
+                    break
+            }
+            return xAxis
         }
-    },
+    }
 }
