@@ -10,7 +10,7 @@
                                 <Dashboard/>
                             </b-tab>
                             <b-tab title="Gráficas">
-                                <Chart v-show="tabIndex === 1"/>
+                                <Graphs :companyIdProp="companyId"/>
                             </b-tab>
                         </b-tabs>
                     </b-card>

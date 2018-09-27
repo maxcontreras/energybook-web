@@ -6,6 +6,7 @@ import designatedMeters from '@/services/designatedMeters'
 import meters from '@/services/meters'
 
 export default {
+    props: ['companyIdProp'],
     components: {
         Chart, Header, Table
     },
@@ -14,6 +15,7 @@ export default {
             return this.$store.state.isAdmin
         },
         companyId() {
+            if(this.isAdmin) return this.companyIdProp
             return this.$store.state.company_id
         },
         isCosts() {
