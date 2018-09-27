@@ -97,7 +97,7 @@
                             </b-col>
                         </b-row>
                         <b-row class="margin-bottom-1">
-                            <b-col md="6">
+                            <b-col md="9">
                                 <b-card>
                                     <b-row class="analysis-card-header">
                                         <b-col md="5">
@@ -108,7 +108,7 @@
                                         </b-col>
                                     </b-row>
                                     <b-row>
-                                        <b-col md="7">
+                                        <b-col md="6">
                                             <b-row class="analysis-item--data">
                                                 <b-col>
                                                     <div class="analysis-item--cat">
@@ -147,17 +147,18 @@
                                                 </b-col>
                                             </b-row>
                                         </b-col>
-                                        <b-col md="5" class="gauge-chart-container">
-                                            <VueHighChartsComponent :options="gaugeOptions" ref="gaugeChart"></VueHighChartsComponent>
+                                        <b-col md="6" class="outer">
+                                            <!--<VueHighChartsComponent :options="gaugeOptions" ref="gaugeChart"></VueHighChartsComponent>-->
+                                            <div id="container-odometer" ref="solidGauge" class="container"></div>
                                         </b-col>
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <b-col md="3">
+                            <!--<b-col md="3">
                                 <b-card>
-                                    <!--<PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>-->
+                                    <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
                                 </b-card>
-                            </b-col>
+                            </b-col>-->
                             <b-col md="3">
                                 <b-card bg-variant="info">
                                     <weather 

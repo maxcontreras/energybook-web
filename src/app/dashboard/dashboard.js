@@ -10,10 +10,14 @@ import VueHighcharts from 'vue2-highcharts'
 import VueHighChartsComponent from '@/app/components/chart/VueHighCharts.vue'
 import Highcharts from 'highcharts'
 import DashboardAdmin from '@/app/dashboard/DashboardAdmin.vue'
+import solidGauge from 'highcharts/modules/solid-gauge'
+import highchartsMore from 'highcharts/highcharts-more'
 
-const More = require('highcharts-more')
+highchartsMore(Highcharts);
+solidGauge(Highcharts)
 
 const monthLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
+
 
 var dataLine = {
     chart: {
@@ -49,103 +53,59 @@ var dataLine = {
     series: []
 }
 
-var dataGauge = {
+var gaugeOptions = {
+
     chart: {
-        type: 'gauge',
-        plotBackgroundColor: null,
-        plotBackgroundImage: null,
-        plotBorderWidth: 0,
-        plotShadow: false,
+        type: 'solidgauge'
     },
-    title: {
-        text: null
+
+    title: null,
+
+    pane: {
+        center: ['50%', '85%'],
+        size: '140%',
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+            innerRadius: '60%',
+            outerRadius: '100%',
+            shape: 'arc'
+        }
     },
-    credits: {
+
+    tooltip: {
         enabled: false
     },
-    pane: {
-        startAngle: -150,
-        endAngle: 150,
-        background: [
-            {
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [[0, '#FFF'], [1, '#333']],
-                },
-                borderWidth: 0,
-                outerRadius: '109%',
-            },
-            {
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [[0, '#333'], [1, '#FFF']],
-                },
-                borderWidth: 1,
-                outerRadius: '107%',
-            },
-            {
-                // default background
-            },
-            {
-                backgroundColor: '#DDD',
-                borderWidth: 0,
-                outerRadius: '105%',
-                innerRadius: '103%',
-            },
-        ],
-    },
+
     // the value axis
     yAxis: {
-        min: 0,
-        max: 20000,
-        minorTickInterval: 'auto',
-        minorTickWidth: 1,
-        minorTickLength: 10,
-        minorTickPosition: 'inside',
-        minorTickColor: '#666',
-        tickPixelInterval: 30,
-        tickWidth: 2,
-        tickPosition: 'inside',
-        tickLength: 10,
-        tickColor: '#666',
-        labels: {
-            step: 2,
-            rotation: 'auto',
-        },
-        title: {
-            text: 'kW',
-        },
-        plotBands: [
-            {
-                from: 0,
-                to: 12000,
-                color: '#55BF3B', // green
-            },
-            {
-                from: 12000,
-                to: 16000,
-                color: '#DDDF0D', // yellow
-            },
-            {
-                from: 16000,
-                to: 20000,
-                color: '#DF5353', // red
-            },
+        stops: [
+            [0.1, '#55BF3B'], // green
+            [0.5, '#DDDF0D'], // yellow
+            [0.9, '#DF5353'] // red
         ],
-    },
-    series: [
-        {
-            name: 'DP',
-            data: [0],
-            tooltip: {
-                valueSuffix: ' kW',
-            },
+        lineWidth: 0,
+        minorTickInterval: null,
+        tickAmount: 2,
+        title: {
+            y: -70
         },
-    ],
-}
+        labels: {
+            y: 16
+        }
+    },
 
-
-More(Highcharts)
+    plotOptions: {
+        solidgauge: {
+            dataLabels: {
+                y: 5,
+                borderWidth: 0,
+                useHTML: true
+            }
+        }
+    }
+};
 
 var asyncData = {
     name: 'EPimp',
@@ -161,16 +121,7 @@ var asyncData = {
 
 var position = { lat: '20.663782', lng: '-103.3916394' }
 moment.locale('es')
-
-function setGaugeChartStyles() {
-    $(".gauge-chart-container .highcharts-plot-background").attr("height", "0")
-    $(".gauge-chart-container .highcharts-plot-border").attr("height", "0")
-    $(".gauge-chart-container .highcharts-background").attr("height", "0")
-    $('.gauge-chart-container .highcharts-root').attr('viewBox', '0 100 200 200')
-    $('.gauge-chart-container .highcharts-root').attr('width', '200')
-    $('.gauge-chart-container .highcharts-root').attr('height', '200')
-    $('.gauge-chart-container .highcharts-container ').css({ 'height': '200px' })
-}
+var chartSpeed
 
 function parseDate(rawDate) {
     let hour = rawDate.substring(8, 10)
@@ -228,7 +179,6 @@ export default {
             $('.user-dashboard').remove()
             return
         }
-        setGaugeChartStyles()
         this.load()
     },
     data() {
@@ -245,7 +195,6 @@ export default {
                 labels: []
             },
             chartOptions: {},
-            gaugeOptions: dataGauge,
             lineOptions: dataLine,
             edsId: ''
         }
@@ -253,10 +202,34 @@ export default {
     methods: {
         load(){
             let lineCharts = this.$refs.lineCharts
-            let gaugeChart = this.$refs.gaugeChart
-
             lineCharts.delegateMethod('showLoading', 'Loading...')
-            gaugeChart.delegateMethod('showLoading', 'Loading...')
+            chartSpeed = Highcharts.chart('container-odometer', Highcharts.merge(gaugeOptions, {
+                yAxis: {
+                    min: 0,
+                    max: 200,
+                    title: {
+                        text: 'DP'
+                    }
+                },
+            
+                credits: {
+                    enabled: false
+                },
+            
+                series: [{
+                    name: 'DP',
+                    data: [80],
+                    dataLabels: {
+                        format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                               '<span style="font-size:12px;color:silver">kW</span></div>'
+                    },
+                    tooltip: {
+                        valueSuffix: ' kW'
+                    }
+                }]
+            
+            }));
             if(this.odometer > 0) this.updateOdometerChart()
             if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
         },
@@ -278,7 +251,7 @@ export default {
                     currentOpacity -= opacityIndex
                 })
                 this.edsId = this.meters[0].meter_id
-                meters.initializer(this.edsId)
+                //meters.initializer(this.edsId)
             })
         },
         updateEpimpHistoryChart() {
@@ -302,12 +275,14 @@ export default {
             }
         },
         updateOdometerChart() {
-            let chart = this.$refs.gaugeChart.getChart()
+            /*let chart = this.$refs.gaugeChart.getChart()
             chart.hideLoading()
             if (!chart.renderer.forExport) {
                 let point = chart.series[0].points[0]
                 point.update(this.odometer)
-            }
+            }*/
+            let point = chartSpeed.series[0].points[0]
+            point.update(100)
         }
     }
 }
