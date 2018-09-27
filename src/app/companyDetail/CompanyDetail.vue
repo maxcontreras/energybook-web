@@ -4,8 +4,8 @@
             <Header :title="company.company_name" :action="'Ver Perfil'" :route="'companyProfile'" :params="company.id"/>
             <b-row class="list">
                 <b-col>
-                    <b-card>
-                        <b-tabs v-model="tabIndex">
+                    <b-card no-body>
+                        <b-tabs v-model="tabIndex" pills card>
                             <b-tab title="Dashboard"> 
                                 <Dashboard/>
                             </b-tab>

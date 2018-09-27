@@ -64,7 +64,7 @@ const router = new VueRouter({
                     meta: { requiresAuth: true }
                 },
                 {
-                    path: '/compania/dashboard/:id',
+                    path: '/companiaDetalle',
                     name: 'companyDetail',
                     components: {
                         default: CompanyDetail

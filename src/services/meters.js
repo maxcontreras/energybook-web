@@ -13,7 +13,7 @@ let meters = Object.assign({}, {
     },
 
     getReadingsByFilter(meter_id, filter,) {
-        return loopback.post('/Meters/getReadingsByFilter', {id: meter_id, filter: `${filter}`});
+        return loopback.post('/Meters/getReadingsByFilter', {id: meter_id, filter});
     },
 
     getDeviceInfo(id) {

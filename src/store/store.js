@@ -14,7 +14,8 @@ export default new Vuex.Store({
         isManager: false,
         isUser: false,
         isAccounting: false,
-        company_id: ''
+        company_id: '',
+        currentCompanyDetailId: ''
 	},
 
 	modules: {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
         },
         setCompanyId(state, id) {
             state.company_id = id
-        } 
+        },
+        setCurrentCompanyDetailId(state, id) {
+            state.currentCompanyDetailId = id
+        }
     }
 })

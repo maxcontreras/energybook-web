@@ -22,11 +22,14 @@ export default {
     },
     isAccounting() {
       return this.$store.state.isAccounting
+    },
+    companyId() {
+      return this.$store.state.currentCompanyDetailId
     }
   },
   data() {
     return {
-      companyId: this.$route.params.id,
+      //companyId: this.$route.params.id,
       company: {
         users: [],
         meters: []
@@ -39,7 +42,8 @@ export default {
 
   beforeMount() {
     companies.find({
-      id: this.$route.params.id,
+     // id: this.$route.params.id,
+     id: this.companyId,
       filter: {
         include: ['users', 'meters']
       }
