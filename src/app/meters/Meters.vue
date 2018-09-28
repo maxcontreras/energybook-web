@@ -4,8 +4,8 @@
             <Header :title="'Medidores'" :isMeters="true" :action="'Agregar Medidor'" :modalId="'meterModal'"/>
             <b-row class="list">
                 <b-col>
-                    <b-card>
-                        <b-tabs v-if="isAdmin">
+                    <b-card  v-if="isAdmin" no-body>
+                        <b-tabs pills card>
                             <b-tab title="Medidores Asignados" active>
                                 <Table :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'No hay medidores asignados.'" @statusChange="statusChange"/>
                             </b-tab>
@@ -13,7 +13,9 @@
                                 <Table :items="items" :fields="fields" @clicked="openAssignModal" :alertMessage="'No se encuentran medidores sin asignar.'"/>
                             </b-tab>
                         </b-tabs>
-                        <Table v-if="!isAdmin" :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'Aún no tienes medidores.'"/>
+                    </b-card>
+                    <b-card  v-if="!isAdmin">
+                        <Table :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'Aún no tienes medidores.'"/>
                     </b-card>
                 </b-col>
             </b-row>

@@ -1,5 +1,6 @@
 <template>
     <div id="login">
+        <notifications group="login" />
         <div class="info-container">
             <h3>
                 MONITOREA, ANALIZA Y AHORRA <br/>ENERGÍA

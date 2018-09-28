@@ -1,11 +1,11 @@
 /* eslint-disable */
-import eUsers from '@/services/eUsers';
-import companies from '@/services/companies';
-import Table from '@/app/components/table/Table.vue';
-import {gmapApi} from 'vue2-google-maps';
-import Constants from '@/constants';
+import eUsers from '@/services/eUsers'
+import companies from '@/services/companies'
+import Table from '@/app/components/table/Table.vue'
+import {gmapApi} from 'vue2-google-maps'
+import Constants from '@/constants'
 
-const meterActive = Constants.Meters.active;
+const meterActive = Constants.Meters.active
 
 export default {
     components: {
@@ -13,16 +13,16 @@ export default {
     },
     computed: {
         isAdmin() {
-            return this.$store.state.isAdmin;
+            return this.$store.state.isAdmin
         },
         isUser() {
-            return this.$store.state.isUser;
+            return this.$store.state.isUser
         },
         isManager() {
-            return this.$store.state.isManager;
+            return this.$store.state.isManager
         },
         isAccounting() {
-            return this.$store.state.isAccounting;
+            return this.$store.state.isAccounting
         },
         companyId() {
             return this.$store.state.currentCompanyDetailId
@@ -64,41 +64,41 @@ export default {
 
     beforeMount() {
         if(this.$route.name === 'profile') {
-            let userId = eUsers.getCurrentId();
+            let userId = eUsers.getCurrentId()
             eUsers.find({
                 id: userId,
                 filter: {
                     include: ['company']
                 }
             }).then(user => {
-                this.user = user;
-                this.setUserValues(this.user);
-                this.getPosition();
-            });
+                this.user = user
+                this.setUserValues(this.user)
+                this.getPosition()
+            })
         } else if(this.$route.name === 'companyProfile') {
-            let id = this.companyId;
+            let id = this.companyId
             companies.find({
                 id,
                 filter: {
                     include: ['meters', 'users']
                 }
             }).then(company => {
-                this.user.company = company;
-                this.user.created_at = company.created_at;
-                this.setUserValues(this.user);
-                this.mapCompanyUsers();
-                this.getPosition();
+                this.user.company = company
+                this.user.created_at = company.created_at
+                this.setUserValues(this.user)
+                this.mapCompanyUsers()
+                this.getPosition()
             })
         }
     },
 
     methods: {
         cancel() {
-            this.edit = false;
-            this.changePassword = false;
-            this.editCompany = false;
-            this.user = JSON.parse(JSON.stringify(this.originalData));
-            this.newPassword = { password: '', confirm: '' };
+            this.edit = false
+            this.changePassword = false
+            this.editCompany = false
+            this.user = JSON.parse(JSON.stringify(this.originalData))
+            this.newPassword = { password: '', confirm: '' }
         },
         saveChanges() {
             function userUpdate() {
@@ -114,18 +114,18 @@ export default {
             }
 
             if(this.edit) {
-                userUpdate();
+                userUpdate()
             } else if(this.changePassword) {
-                passwordUpdate();
+                passwordUpdate()
             } else {
-                companyUpdate();
+                companyUpdate()
             }
         },
         setUserValues(object) {
-                object.created_at = moment(object.created_at).format('LL');
-                object.lastLogin = moment(object.lastLogin).format('LL');
-                object.fullname = `${object.name} ${object.lastname}`;
-                this.originalData = JSON.parse(JSON.stringify(object));
+                object.created_at = moment(object.created_at).format('LL')
+                object.lastLogin = moment(object.lastLogin).format('LL')
+                object.fullname = `${object.name} ${object.lastname}`
+                this.originalData = JSON.parse(JSON.stringify(object))
         },
         mapCompanyUsers() {
             this.user.company.users.forEach(user => {
@@ -134,7 +134,7 @@ export default {
                     'Fecha de Registro': moment(user.created_at).format('LL'),
                     'Email':user.email,
                     'Rol':user.role_id
-                });
+                })
             })
         },
         mapCompanyMeters() {
@@ -143,23 +143,23 @@ export default {
                     'No. de Serie': meter.serial_number,
                     'Fecha de Registro': moment(meter.created_at).format('LL'),
                     'Estado': meterActive[meter.active]
-                });
+                })
             })
         },
         getPosition() {
-            var geocoder = new google.maps.Geocoder();
+            var geocoder = new google.maps.Geocoder()
             geocoder.geocode({
                 "address": this.user.company.location
             }, results => {
-                let latlng = results[0].geometry.location;
+                let latlng = results[0].geometry.location
                 this.companyPosition = {
                     lat: latlng.lat(),
                     lng: latlng.lng()
                 }
-            });
+            })
         },
         setPlace(place) {
-            this.user.company.location = place.formatted_address;
+            this.user.company.location = place.formatted_address
         }
     }
 }

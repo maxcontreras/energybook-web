@@ -3,6 +3,7 @@ import loopback from '@/services/loopback'
 import router from '@/router'
 import eUsers from '@/services/eUsers'
 import websockets from '@/services/websockets'
+import Vue from 'vue'
 
 export default {
     namespaced: true,
@@ -49,7 +50,12 @@ export default {
                 dispatch('loadAccount', state.access_token.userId)
                 
             }).catch(e => {
-                console.log(e)
+                Vue.notify({
+                    group: 'login',
+                    title: 'Login fallido',
+                    text: 'El correo o contraseña son incorrectos',
+                    type: 'error'
+                  })
             })
         },
         loadAccount({ commit }, id) {

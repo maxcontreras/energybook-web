@@ -135,7 +135,7 @@ export default {
     },
     computed: {
         isAdmin() {
-            return this.$store.state.isAdmin && this.$route.name === 'dashboard'
+            return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard'
         },
         isCompanyDetail() {
             return this.$route.name === 'companyDetail'
@@ -241,7 +241,6 @@ export default {
             if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
         },
         getMeters() {
-            console.log(this.companyId)
             designatedMeters.find({
                 filter: {
                     where: {
@@ -251,15 +250,17 @@ export default {
             }).then(res => {
                 this.meters = res
                 let metersCount = this.meters.length
-                let opacityIndex = 1 / metersCount
-                let currentOpacity = 1
-                this.meters.forEach(meter => {
-                    this.chartData.labels.push(meter.device_name)
-                    this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
-                    currentOpacity -= opacityIndex
-                })
-                this.edsId = this.meters[0].meter_id
-                meters.initializer(this.edsId)
+                if(metersCount.length > 0) {
+                    let opacityIndex = 1 / metersCount
+                    let currentOpacity = 1
+                    this.meters.forEach(meter => {
+                        this.chartData.labels.push(meter.device_name)
+                        this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
+                        currentOpacity -= opacityIndex
+                    })
+                    this.edsId = this.meters[0].meter_id
+                    meters.initializer(this.edsId)
+                }
             })
         },
         updateEpimpHistoryChart() {
@@ -283,12 +284,6 @@ export default {
             }
         },
         updateOdometerChart() {
-            /*let chart = this.$refs.gaugeChart.getChart()
-            chart.hideLoading()
-            if (!chart.renderer.forExport) {
-                let point = chart.series[0].points[0]
-                point.update(this.odometer)
-            }*/
             let point = chartSpeed.series[0].points[0]
             point.update(this.odometer)
         }

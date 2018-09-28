@@ -30,7 +30,6 @@ export default {
   },
   data() {
     return {
-      //companyId: this.$route.params.id,
       company: {
         users: [],
         meters: []
@@ -42,9 +41,7 @@ export default {
   },
 
   beforeMount() {
-    console.log(this.companyId)
     companies.find({
-     // id: this.$route.params.id,
      id: this.companyId,
       filter: {
         include: ['users', 'meters']

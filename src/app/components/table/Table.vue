@@ -8,7 +8,7 @@
     :per-page="perPage"
     @row-clicked="rowClickHandler">
         <template slot="Status" slot-scope="data">
-            <b-button title="Clic para cambiar estado" @click="statusChange(data.item.id, data.item.Status)" :pressed.sync="data.item.Status" variant="primary">{{data.item.Status? 'Activo' : 'Inactivo'}}</b-button>
+            <b-button title="Click para cambiar estado" @click="statusChange(data.item.id, data.item.Status)" :pressed.sync="data.item.Status" variant="primary">{{data.item.Status? 'Activo' : 'Inactivo'}}</b-button>
         </template>
     </b-table>
     <b-row class="table-pagination" v-if="items.length > 0">
