@@ -31,7 +31,7 @@ export default {
         },
         goTo() {
             if(this.route) {
-                this.$router.push({name: this.route, params: { id: this.params } });
+                this.$router.push({name: this.route});
             }
         }
     }

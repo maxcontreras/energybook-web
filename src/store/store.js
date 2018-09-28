@@ -7,6 +7,19 @@ import socket from './modules/socket'
 
 Vue.use(Vuex)
 
+function saveInLocalStorage(key, value) {
+    var user = JSON.parse(localStorage.getItem('user'))
+    user[key] = value
+    localStorage.setItem('user', JSON.stringify(user))
+}
+
+function getLocalStorageItem(key) {
+    var user = JSON.parse(localStorage.getItem('user'))
+    let defaultVal = false
+    if(user === null) return defaultVal
+    return user[key]? user[key] : defaultVal
+}
+
 export default new Vuex.Store({
 	state: {
 		currentView: '',
@@ -15,11 +28,12 @@ export default new Vuex.Store({
         isUser: false,
         isAccounting: false,
         company_id: '',
-        currentCompanyDetailId: ''
+        currentCompanyDetailId: getLocalStorageItem('currentCompanyDetailId')
 	},
 
 	modules: {
-		user, socket
+        user, 
+        socket
 	},
 
 	mutations: {
@@ -51,6 +65,7 @@ export default new Vuex.Store({
         },
         setCurrentCompanyDetailId(state, id) {
             state.currentCompanyDetailId = id
+            saveInLocalStorage('currentCompanyDetailId', id)
         }
     }
 })

@@ -129,12 +129,16 @@ function parseDate(rawDate) {
 }
 
 export default {
+    props: ['companyIdProp'],
     components: {
         Table, Weather, PieChart, VueHighcharts , VueHighChartsComponent, DashboardAdmin
     },
     computed: {
         isAdmin() {
             return this.$store.state.isAdmin && this.$route.name === 'dashboard'
+        },
+        isCompanyDetail() {
+            return this.$route.name === 'companyDetail'
         },
         epimpHistory() {
             return this.$store.state.socket.epimpHistory
@@ -158,6 +162,10 @@ export default {
         },
         position() {
             return position
+        },
+        companyId() {
+            if(this.isCompanyDetail) return this.companyIdProp
+            return JSON.parse(localStorage.getItem('user')).company_id
         },
         google: gmapApi
     },
@@ -186,7 +194,6 @@ export default {
             meters: [],
             dpVal: 0,
             epimpVal: 0,
-            companyId: JSON.parse(localStorage.getItem('user')).company_id,
             chartData: {
                 datasets: [{
                     data: [100],
@@ -234,6 +241,7 @@ export default {
             if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
         },
         getMeters() {
+            console.log(this.companyId)
             designatedMeters.find({
                 filter: {
                     where: {
@@ -251,7 +259,7 @@ export default {
                     currentOpacity -= opacityIndex
                 })
                 this.edsId = this.meters[0].meter_id
-                //meters.initializer(this.edsId)
+                meters.initializer(this.edsId)
             })
         },
         updateEpimpHistoryChart() {
@@ -282,7 +290,7 @@ export default {
                 point.update(this.odometer)
             }*/
             let point = chartSpeed.series[0].points[0]
-            point.update(100)
+            point.update(this.odometer)
         }
     }
 }

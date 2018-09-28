@@ -24,6 +24,7 @@ export default {
       return this.$store.state.isAccounting
     },
     companyId() {
+      if(!this.$store.state.currentCompanyDetailId) this.$router.push({name: 'companies'})
       return this.$store.state.currentCompanyDetailId
     }
   },
@@ -41,6 +42,7 @@ export default {
   },
 
   beforeMount() {
+    console.log(this.companyId)
     companies.find({
      // id: this.$route.params.id,
      id: this.companyId,

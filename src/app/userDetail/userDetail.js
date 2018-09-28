@@ -24,6 +24,9 @@ export default {
         isAccounting() {
             return this.$store.state.isAccounting;
         },
+        companyId() {
+            return this.$store.state.currentCompanyDetailId
+        },
         google: gmapApi
     },
     data() {
@@ -73,7 +76,7 @@ export default {
                 this.getPosition();
             });
         } else if(this.$route.name === 'companyProfile') {
-            let id = this.$route.params.id;
+            let id = this.companyId;
             companies.find({
                 id,
                 filter: {

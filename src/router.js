@@ -72,7 +72,7 @@ const router = new VueRouter({
                     meta: { requiresAuth: true }
                 },
                 {
-                    path: '/compania/profile/:id',
+                    path: '/companiaPerfil',
                     name: 'companyProfile',
                     components: {
                         default: UserDetail
