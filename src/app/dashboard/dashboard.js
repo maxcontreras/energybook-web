@@ -130,9 +130,17 @@ var position = { lat: '20.663782', lng: '-103.3916394' }
 moment.locale('es')
 var chartSpeed
 
-function parseDate(rawDate) {
+function parseHours(rawDate) {
     let hour = rawDate.substring(8, 10)
     return `${hour}:00 hrs`
+}
+
+function parseDate(rawDate) {
+    let day, month, year
+    day = rawDate.substring(0, 2)
+    month = rawDate.substring(2, 4)
+    year = rawDate.substring(4, 8)
+    return `${day}/${month}/${year}`
 }
 
 function currencyFormat(num) {
@@ -278,8 +286,11 @@ export default {
                     })
                     this.edsId = this.meters[0].meter_id
                     meters.initializer(this.edsId).then((res)=> {
+                        console.log(res)
                         this.$store.commit('socket/setOdometer', res.latestValues.dp.value)
                         this.$store.commit('socket/setDistribution', res.latestValues.distribution)
+                        this.$store.commit('socket/setDemand', res.latestValues.demand.value)
+                        this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
                     })
                 }
             })
@@ -287,8 +298,8 @@ export default {
         updateEpimpHistoryChart() {
             let xAxis = []
             let data = []
-            this.epimpHistory.forEach((obj, index) => {
-                //xAxis.push(parseDate(obj.date))
+            Object.values(this.epimpHistory).forEach(obj => {
+                xAxis.push(parseDate(obj.date))
                 data.push(parseFloat(obj.value))
             })
             let lineCharts = this.$refs.lineCharts
@@ -296,9 +307,9 @@ export default {
             if (!chart.renderer.forExport) {
                 lineCharts.delegateMethod('showLoading', 'Loading...');
                 lineCharts.removeSeries()
-                /*chart.update({
+                chart.update({
                     xAxis: { categories: xAxis }
-                })*/
+                })
                 asyncData.data = data
                 lineCharts.addSeries(asyncData)
                 lineCharts.hideLoading()

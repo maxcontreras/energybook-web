@@ -40,7 +40,7 @@ export default {
         demandReading({commit}, data) {
             console.log('demand')
             console.log(data)
-            commit('setDemand', data)
+            commit('setDemand', data.value)
         },
         epimpHistoryReading({commit}, data) {
             console.log('epimp')
