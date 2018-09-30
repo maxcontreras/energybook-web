@@ -5,7 +5,7 @@
                 <b-row class="dashboard-content-user">
                     <b-col>
                         <b-row class="margin-bottom-2 margin-top-1">
-                            <b-col md="2">
+                            <!--<b-col md="2">
                                 <b-card>
                                     <b-row>
                                         <b-col md="8" class="dashboard-data-container">
@@ -19,23 +19,23 @@
                                         </b-col>
                                     </b-row>
                                 </b-card>
-                            </b-col>
-                            <b-col md="2">
+                            </b-col>-->
+                            <b-col md="6">
                                 <b-card>
                                     <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
+                                        <b-col md="2" class="dashboard-icon-container">
+                                            <i class="fas fa-power-off blue"></i>
+                                        </b-col>
+                                        <b-col md="10" class="dashboard-data-container">
+                                            <p>Demanda</p>
                                             <h5 class="blue">
                                                 {{demand}} kWh
                                             </h5>
-                                            <p>Demanda</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
-                                            <i class="fas fa-power-off blue"></i>
                                         </b-col>
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <b-col md="2">
+                            <!--<b-col md="2">
                                 <b-card>
                                     <b-row>
                                         <b-col md="8" class="dashboard-data-container">
@@ -49,8 +49,8 @@
                                         </b-col>
                                     </b-row>
                                 </b-card>
-                            </b-col>
-                            <b-col md="2">
+                            </b-col>-->
+                            <!--<b-col md="2">
                                 <b-card>
                                     <b-row>
                                         <b-col md="8" class="dashboard-data-container">
@@ -64,23 +64,23 @@
                                         </b-col>
                                     </b-row>
                                 </b-card>
-                            </b-col>
-                            <b-col md="2">
+                            </b-col>-->
+                            <b-col md="6">
                                 <b-card>
                                     <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
-                                            <h5 class="blue">
-                                                {{distributionCharge}} $
-                                            </h5>
-                                            <p>Distribución</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
+                                        <b-col md="2" class="dashboard-icon-container">
                                             <i class="fas fa-power-off blue"></i>
+                                        </b-col>
+                                        <b-col md="10" class="dashboard-data-container">
+                                            <p>Distribución</p>
+                                            <h5 class="blue">
+                                                $ {{distributionCharge}}
+                                            </h5>
                                         </b-col>
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <b-col md="2">
+                            <!--<b-col md="2">
                                 <b-card>
                                     <b-row>
                                         <b-col md="8" class="dashboard-data-container">
@@ -94,24 +94,24 @@
                                         </b-col>
                                     </b-row>
                                 </b-card>
-                            </b-col>
+                            </b-col>-->
                         </b-row>
                         <b-row class="margin-bottom-2">
                             <b-col md="9">
-                                <b-card>
+                                <b-card class="dashboard-general" no-body>
                                     <b-row class="analysis-card-header">
-                                        <b-col md="5">
+                                        <b-col>
                                             <h5>General</h5>
                                         </b-col>
-                                        <b-col md="7">
-                                            <h6>{{billablePeriod}}</h6>
+                                        <b-col>
+                                            <h5 class="billable-period">{{billablePeriod}}</h5>
                                         </b-col>
                                     </b-row>
                                     <b-row>
                                         <b-col md="6">
                                             <b-row class="analysis-item--data">
                                                 <b-col>
-                                                    <div class="analysis-item--cat">
+                                                    <!--<div class="analysis-item--cat">
                                                         <div class="icon-container">
                                                             <i class="fas fa-bolt green"></i>
                                                         </div>
@@ -123,7 +123,7 @@
                                                             <span>kWh</span>
                                                         </div>
                                                         
-                                                    </div> 
+                                                    </div> -->
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
                                                             <i class="fas fa-chart-line green"></i>
@@ -134,7 +134,7 @@
                                                         </div>
                                                         <span>kW</span>
                                                     </div> 
-                                                    <div class="analysis-item--cat">
+                                                    <!--<div class="analysis-item--cat">
                                                         <div class="icon-container">
                                                             <i class="fas fa-battery-full green"></i>
                                                         </div>
@@ -143,7 +143,7 @@
                                                             <p>Capacidad</p>
                                                         </div>
                                                         <span>%</span>
-                                                    </div> 
+                                                    </div> -->
                                                 </b-col>
                                             </b-row>
                                         </b-col>
@@ -174,7 +174,7 @@
                         </b-row>
                         <b-row>
                             <b-col md="12">
-                                <b-card>
+                                <b-card class="dashboard-history" no-body>
                                     <b-row class="analysis-card-header">
                                         <b-col>
                                             <h5>Historial</h5>

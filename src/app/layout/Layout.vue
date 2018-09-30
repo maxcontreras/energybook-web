@@ -18,18 +18,18 @@
                 <b-nav-item v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')" v-if="isAdmin">
                     <div class="menu-icon-container"><i class="fas fa-dollar-sign"></i></div> Pagos
                 </b-nav-item>
-                <b-nav-item v-bind:class="{'current-view': currentView === 'calendar'}" @click="goTo('calendar')" v-if="isManager || isAccounting">
+                <!--<b-nav-item v-bind:class="{'current-view': currentView === 'calendar'}" @click="goTo('calendar')" v-if="isManager || isAccounting">
                     <div class="menu-icon-container"><i class="far fa-calendar-alt"></i></div> Eficiencia
-                </b-nav-item>
+                </b-nav-item>-->
                 <b-nav-item v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')" v-if="!isAdmin">
                     <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
                 </b-nav-item>
                 <b-nav-item v-if="isManager" v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')">
                    <div class="menu-icon-container"> <i class="fas fa-dollar-sign"></i></div> Facturación
                 </b-nav-item>
-                <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'costs'}" @click="goTo('costs')">
+                <!--<b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'costs'}" @click="goTo('costs')">
                    <div class="menu-icon-container"> <i class="fas fa-coins"></i></div> Costos
-                </b-nav-item>
+                </b-nav-item>-->
                 <b-nav-item v-if="!isAccounting" v-bind:class="{'current-view': currentView === 'profile'}" @click="goTo('profile')">
                     <div class="menu-icon-container"><i class="far fa-user"></i></div> Perfil
                 </b-nav-item>

@@ -26,7 +26,7 @@
                     </b-form-input>
                 </b-form-group>
                 <b-button type="submit" variant="primary">Iniciar Sesión</b-button>
-                <a>¿Olvidaste tu contraseña?</a>
+                <!--<a>¿Olvidaste tu contraseña?</a>-->
             </b-form>
         </b-card>
     </div>

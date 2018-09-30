@@ -18,6 +18,13 @@ solidGauge(Highcharts)
 
 const monthLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
 
+Highcharts.setOptions({
+    chart: {
+        style: {
+            fontFamily: 'Poppins'
+        }
+    }
+})
 
 var dataLine = {
     chart: {
@@ -190,6 +197,9 @@ export default {
             $('.user-dashboard').remove()
             return
         }
+
+        $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
+
         this.load()
     },
     data() {
@@ -228,7 +238,7 @@ export default {
             
                 series: [{
                     name: 'DP',
-                    data: [80],
+                    data: [0],
                     dataLabels: {
                         format: '<div style="text-align:center"><span style="font-size:25px;color:' +
                             ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
@@ -263,10 +273,10 @@ export default {
                         currentOpacity -= opacityIndex
                     })
                     this.edsId = this.meters[0].meter_id
-                    meters.initializer(this.edsId).then((res)=> {
+                    /*meters.initializer(this.edsId).then((res)=> {
                         this.$store.commit('socket/setOdometer', res.latestValues.dp.value)
                         this.$store.commit('socket/setDistribution', res.latestValues.distribution)
-                    })
+                    })*/
                 }
             })
         },
