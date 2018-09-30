@@ -286,7 +286,6 @@ export default {
                     })
                     this.edsId = this.meters[0].meter_id
                     meters.initializer(this.edsId).then((res)=> {
-                        console.log(res)
                         this.$store.commit('socket/setOdometer', res.latestValues.dp.value)
                         this.$store.commit('socket/setDistribution', res.latestValues.distribution)
                         this.$store.commit('socket/setDemand', res.latestValues.demand.value)

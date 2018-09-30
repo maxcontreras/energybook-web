@@ -2,9 +2,8 @@
 import VueHighcharts from 'vue2-highcharts'
 import meters from '@/services/meters'
 
-const todayLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
-const weekLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
-const monthLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
+const todayLabels = ['0 hrs','1 hrs', '2 hrs', '3 hrs', '4 hrs', '5 hrs', '6 hrs', '7 hrs', '8 hrs', '9 hrs', '10 hrs', '11 hrs', '12 hrs', '13 hrs', '14 hrs', '15 hrs', '16 hrs', '17 hrs', '18 hrs', '19 hrs', '20 hrs', '21 hrs', '22 hrs', '23 hrs']
+const weekLabels = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 
 var dataLine = {
     chart: {
@@ -50,9 +49,15 @@ function parseDate(rawDate) {
 
 function mapReadings(arr, parse, xAxis) {
     let data = []
-    arr.forEach((obj, index) => {
-        data.push(parseFloat(obj.value))
-        if(parse) xAxis.push(parseDate(obj.date))
+    let val
+    arr.forEach(obj => {
+        val = parseFloat(obj.value)
+        if(parse) {
+            val /= 1000
+            //val = val.toFixed(2)
+            xAxis.push(parseDate(obj.date))
+        }
+        data.push(val)
     })
     return data
 }
@@ -79,7 +84,6 @@ export default {
                 },
                 data: []
             },
-            currentChart: 0,
             buttons: [{
                 selected: 0,
                 options: [
@@ -90,8 +94,7 @@ export default {
                     { value: 4, text: 'Este Año' },
                 ]
             }],
-            currentPeriod: 0,
-            currentDate: moment()
+            currentPeriod: 0
         }
     },
     watch: {
@@ -126,25 +129,18 @@ export default {
 
         },
         getByFilter(filter, meter_id, chart) {
-            let chartData = []
             meters.getReadingsByFilter(meter_id, filter)
                 .then(res => {
                     console.log(res)
                     let xAxis = []
                     let parse = false
-                    if (this.currentPeriod !== 4) {
+                    if (this.currentPeriod < 3) {
                         xAxis = this.getxAxis()
+                    } else {
                         parse = true
                     }
                     let dpData = mapReadings(res.dp, parse, xAxis)
                     let epimpData = mapReadings(res.epimp)
-                    /*let records = res.deviceVars.recordGroup.record
-                    for (let i = 0; i < records.length; i++) {
-                        chartData.push(parseFloat(records[i].field.value._text))
-                        if (this.currentPeriod === 4) {
-                            xAxis.push(parseDate(records[i].dateTime._text))
-                        }
-                    }*/
                     chart.update({
                         xAxis: { categories: xAxis }
                     })
@@ -158,22 +154,8 @@ export default {
             this.load()
         },
         getxAxis() {
-            let xAxis = []
-            switch (this.currentPeriod) {
-                case 0:
-                    xAxis = todayLabels
-                    break
-                case 1:
-                    xAxis = todayLabels
-                    break
-                case 2:
-                    xAxis = weekLabels
-                    break
-                case 3:
-                    xAxis = monthLabels
-                    break
-            }
-            return xAxis
+            if(this.currentPeriod < 2) return todayLabels
+            return weekLabels
         }
     }
 }
