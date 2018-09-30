@@ -40,8 +40,8 @@ $darkgray: #4b4b4b;
     }
 
     .card {
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 1px -1px rgba(0, 0, 0, 0.05);
-        border-radius: 5px;
+        //box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 1px -1px rgba(0, 0, 0, 0.05);
+        //box-shadow: 0 0px 5px 0 #c2c2c2;
     }
 
     .analysis-item--cat {
@@ -196,7 +196,7 @@ $darkgray: #4b4b4b;
 .fe_container {
 
     min-width: auto;
-    color: white !important;
+    color: $darkgray !important;
 
     .fe_currently {
         width: 100%;

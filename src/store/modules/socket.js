@@ -1,12 +1,13 @@
 /* eslint-disable */
-var user = JSON.parse(localStorage.getItem('user'))
 
 function saveInLocalStorage(key, value) {
+    var user = JSON.parse(localStorage.getItem('user'))
     user[key] = value
     localStorage.setItem('user', JSON.stringify(user))
 }
 
 function getLocalStorageItem(key) {
+    var user = JSON.parse(localStorage.getItem('user'))
     let defaultVal = 0
     if(key === 'epimpHistory') defaultVal = []
     if(user === null) return defaultVal
@@ -19,7 +20,8 @@ export default {
         distribution: getLocalStorageItem('distribution'),
         odometer: getLocalStorageItem('odometer'),
         demand: getLocalStorageItem('demand'),
-        epimpHistory: getLocalStorageItem('epimpHistory')
+        epimpHistory: getLocalStorageItem('epimpHistory'),
+        distributionCharge: getLocalStorageItem('distributionCharge')
     },
     actions: {
         checkStatus({}, data) {
@@ -28,7 +30,7 @@ export default {
         odometerReading({commit}, data) {
             console.log('odometer')
             console.log(data);
-            commit('setOdometer', data)
+            commit('setOdometer', data.value)
         },
         distributionReading({commit}, data) {
             console.log('distribution')
@@ -48,8 +50,10 @@ export default {
     },
     mutations: {
         setDistribution(state, value) {
-            state.distribution = value
-            saveInLocalStorage('distribution', value)
+            state.distribution = value.value
+            saveInLocalStorage('distribution', value.value)
+            state.distributionCharge = value.charge
+            saveInLocalStorage('distributionCharge', value.charge)
         },
         setOdometer(state, value) {
             state.odometer = parseFloat(value)

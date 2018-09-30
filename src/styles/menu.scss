@@ -8,7 +8,8 @@ $darkgray: #4b4b4b;
 }
 
 #top-bar {
-    background-color: #FFF !important;
+    background-color: #fcfcfc !important;
+    //box-shadow: 0 0 5px 0 #c2c2c2;
 
     h6 {
         margin-bottom: 0;
@@ -39,11 +40,13 @@ $darkgray: #4b4b4b;
 }
 
 #side-nav{
-    background-color: $darkgray;
-    width: 170px;
+    background-color: #fcfcfc;
+    width: 165px;
     position: fixed;
     height: 100vh;
     top: 0;
+    box-shadow: 0 0 5px 0 #c2c2c2;
+    z-index: 1021;
 
     .nav-logo-container {
         text-align: center;
@@ -67,10 +70,10 @@ $darkgray: #4b4b4b;
 
     .nav-item{
 
-        border-right: 3px solid $darkgray;
+        border-right: 3px solid #fcfcfc;
 
         &:hover, &.current-view {
-            background-color: rgba(0,0,0,0.2);
+            background-color: rgba(0,0,0,0.03);
             border-color: $egreen;
 
             .nav-link, i {
@@ -79,7 +82,7 @@ $darkgray: #4b4b4b;
         }
 
         i {
-            color: #FFF;
+            color: $darkgray;
         }
 
         .nav-link {
@@ -88,13 +91,8 @@ $darkgray: #4b4b4b;
     }
 
     .nav-link {
-        color: #FFF;
+        color: $darkgray;
         margin: 0.375rem 0.75rem;
         font-weight: 300;
     }
-}
-
-.meters-submenu {
-    //display: none;
-    //background-color: rgba(0,0,0,0.2);
 }

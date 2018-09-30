@@ -59,10 +59,10 @@
                 </h6>
                 <b-collapse is-nav id="nav_dropdown_collapse">
                     <b-navbar-nav class="ml-auto">
-                        <b-nav-item id="notification-link">
+                        <!--<b-nav-item id="notification-link">
                             <i class="far fa-bell" @click="toggleNotificationPanel()"></i>
                             <Notification/>
-                        </b-nav-item>
+                        </b-nav-item>-->
                         <b-nav-item-dropdown :text="user.user.name + ' ' + user.user.lastname" right>
                         <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
                         </b-nav-item-dropdown>

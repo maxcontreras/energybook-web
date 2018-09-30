@@ -146,6 +146,9 @@ export default {
         distribution() {
             return this.$store.state.socket.distribution
         },
+        distributionCharge() {
+            return this.$store.state.socket.distributionCharge
+        },
         odometer() {
             return parseFloat(this.$store.state.socket.odometer)
         },
@@ -250,7 +253,8 @@ export default {
             }).then(res => {
                 this.meters = res
                 let metersCount = this.meters.length
-                if(metersCount.length > 0) {
+                if(metersCount > 0) 
+                {
                     let opacityIndex = 1 / metersCount
                     let currentOpacity = 1
                     this.meters.forEach(meter => {
@@ -259,7 +263,10 @@ export default {
                         currentOpacity -= opacityIndex
                     })
                     this.edsId = this.meters[0].meter_id
-                    meters.initializer(this.edsId)
+                    meters.initializer(this.edsId).then((res)=> {
+                        this.$store.commit('socket/setOdometer', res.latestValues.dp.value)
+                        this.$store.commit('socket/setDistribution', res.latestValues.distribution)
+                    })
                 }
             })
         },

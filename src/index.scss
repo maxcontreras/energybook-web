@@ -11,7 +11,7 @@ $egreen: #96c13d;
 $gray: rgba(0,0,0,0.64);
 
 html, body {
-  background-color: #fcfcfc;
+  background-color: #F5F5F5;
   font-family:'Poppins', sans-serif;
   font-size: 13px;
 }
@@ -45,11 +45,11 @@ html, body {
 
 @media (min-width: 768px) {
   #main {
-    margin-left: 170px;
+    margin-left: 165px;
     overflow-x: hidden;
 
     >div.row {
-      margin: 1rem;
+      margin: 2rem;
 
       >div.col:first-child {
         padding: 0;
@@ -57,7 +57,7 @@ html, body {
     }
     
     >div.dashboard-parent {
-      margin: 1rem;
+      margin: 2rem;
     }
   }
 
@@ -198,8 +198,8 @@ html, body {
 }
 
 .card {
-  border: none;
-  border-radius: 2px;
+  border: rgba(0,0,0,0.64);
+  border-radius: 0.4rem;
 }
 
 .modal-body {
@@ -227,6 +227,10 @@ html, body {
 
 .margin-bottom-1 {
   margin-bottom: 1rem;
+}
+
+.margin-bottom-2 {
+  margin-bottom: 2rem;
 }
 
 .margin-top-1 {

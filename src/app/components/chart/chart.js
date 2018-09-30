@@ -48,6 +48,15 @@ function parseDate(rawDate) {
     return `${day}/${month}/${year}`
 }
 
+function mapReadings(arr, parse, xAxis) {
+    let data = []
+    arr.forEach((obj, index) => {
+        data.push(parseFloat(obj.value))
+        if(parse) xAxis.push(parseDate(obj.date))
+    })
+    return data
+}
+
 export default {
     props: ['meterId', 'variable'],
     components: {
@@ -56,8 +65,15 @@ export default {
     data() {
         return {
             lineOptions: dataLine,
-            asyncData: {
-                name: this.variable,
+            dpData: {
+                name: 'DP',
+                marker: {
+                    symbol: 'square'
+                },
+                data: []
+            },
+            epimpData: {
+                name: 'EPimp',
                 marker: {
                     symbol: 'square'
                 },
@@ -90,7 +106,8 @@ export default {
         },
         load() {
             let lineCharts = this.$refs.lineCharts
-            lineCharts.addSeries(this.asyncData)
+            lineCharts.addSeries(this.dpData)
+            lineCharts.addSeries(this.epimpData)
             lineCharts.hideLoading()
         },
         changePeriod(period) {
@@ -112,24 +129,32 @@ export default {
             let chartData = []
             meters.getReadingsByFilter(meter_id, filter)
                 .then(res => {
+                    console.log(res)
                     let xAxis = []
-                    if (this.currentPeriod !== 4) xAxis = this.getxAxis()
-                    let records = res.deviceVars.recordGroup.record
+                    let parse = false
+                    if (this.currentPeriod !== 4) {
+                        xAxis = this.getxAxis()
+                        parse = true
+                    }
+                    let dpData = mapReadings(res.dp, parse, xAxis)
+                    let epimpData = mapReadings(res.epimp)
+                    /*let records = res.deviceVars.recordGroup.record
                     for (let i = 0; i < records.length; i++) {
                         chartData.push(parseFloat(records[i].field.value._text))
                         if (this.currentPeriod === 4) {
                             xAxis.push(parseDate(records[i].dateTime._text))
                         }
-                    }
+                    }*/
                     chart.update({
                         xAxis: { categories: xAxis }
                     })
-                    this.updateSeries(chartData)
+                    this.updateSeries(dpData, epimpData)
                 })
 
         },
-        updateSeries(data) {
-            this.asyncData.data = data
+        updateSeries(dp, epimp) {
+            this.dpData.data = dp
+            this.epimpData.data = epimp
             this.load()
         },
         getxAxis() {

@@ -4,7 +4,7 @@
             <b-col>
                 <b-row class="dashboard-content-user">
                     <b-col>
-                        <b-row class="margin-bottom-1 margin-top-1">
+                        <b-row class="margin-bottom-2 margin-top-1">
                             <b-col md="2">
                                 <b-card>
                                     <b-row>
@@ -70,7 +70,7 @@
                                     <b-row>
                                         <b-col md="8" class="dashboard-data-container">
                                             <h5 class="blue">
-                                                1, 400 kWh
+                                                {{distributionCharge}} $
                                             </h5>
                                             <p>Distribución</p>
                                         </b-col>
@@ -96,7 +96,7 @@
                                 </b-card>
                             </b-col>
                         </b-row>
-                        <b-row class="margin-bottom-1">
+                        <b-row class="margin-bottom-2">
                             <b-col md="9">
                                 <b-card>
                                     <b-row class="analysis-card-header">
@@ -160,7 +160,7 @@
                                 </b-card>
                             </b-col>-->
                             <b-col md="3">
-                                <b-card bg-variant="info">
+                                <b-card>
                                     <weather 
                                         api-key="87a3a340f3f60b932c4b3e378fda841c"
                                         title="Hoy"
@@ -197,7 +197,3 @@
 </template>
 
 <script src="./dashboard"></script>
-
-<style lang="scss">
-@import "../../styles/dashboard.scss";
-</style>
