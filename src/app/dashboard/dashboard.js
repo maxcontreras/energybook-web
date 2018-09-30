@@ -135,6 +135,10 @@ function parseDate(rawDate) {
     return `${hour}:00 hrs`
 }
 
+function currencyFormat(num) {
+    return num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); 
+}
+
 export default {
     props: ['companyIdProp'],
     components: {
@@ -154,7 +158,7 @@ export default {
             return this.$store.state.socket.distribution
         },
         distributionCharge() {
-            return this.$store.state.socket.distributionCharge
+            return currencyFormat(parseFloat(this.$store.state.socket.distributionCharge))
         },
         odometer() {
             return parseFloat(this.$store.state.socket.odometer)
@@ -273,10 +277,10 @@ export default {
                         currentOpacity -= opacityIndex
                     })
                     this.edsId = this.meters[0].meter_id
-                    /*meters.initializer(this.edsId).then((res)=> {
+                    meters.initializer(this.edsId).then((res)=> {
                         this.$store.commit('socket/setOdometer', res.latestValues.dp.value)
                         this.$store.commit('socket/setDistribution', res.latestValues.distribution)
-                    })*/
+                    })
                 }
             })
         },
