@@ -24,27 +24,16 @@ export default {
         distributionCharge: getLocalStorageItem('distributionCharge')
     },
     actions: {
-        checkStatus({}, data) {
-            console.log(data)
-        },
         odometerReading({commit}, data) {
-            console.log('odometer')
-            console.log(data);
             commit('setOdometer', data.value)
         },
         distributionReading({commit}, data) {
-            console.log('distribution')
-            console.log(data)
             commit('setDistribution', data)
         },
         demandReading({commit}, data) {
-            console.log('demand')
-            console.log(data)
             commit('setDemand', data.value)
         },
         epimpHistoryReading({commit}, data) {
-            console.log('epimp')
-            console.log(data)
             commit('setEpimpHistory', data)
         }
     },
