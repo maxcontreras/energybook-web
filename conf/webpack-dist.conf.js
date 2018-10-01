@@ -9,6 +9,17 @@ const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
+  node: {
+    fs: 'empty', child_process: "empty"
+  },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+      '@': path.resolve('src')
+    }
+  },
+  externals: ['axios'],
   module: {
     loaders: [
       {
@@ -39,9 +50,30 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loaders: [
-          'vue-loader'
-        ]
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            scss: 'vue-style-loader!css-loader!sass-loader',
+            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
+          }
+        }
+      },
+      {
+        test: /\.svg$/,
+        loader: 'vue-svg-loader', // `vue-svg` for webpack 1.x
+        options: {
+          // optional [svgo](https://github.com/svg/svgo) options
+          svgo: {
+            plugins: [
+              {removeDoctype: true},
+              {removeComments: true}
+            ]
+          }
+        }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+        use: [{loader: 'file-loader', options: {publicPath: '../', name: '/src/assets/[name].[ext]?[hash]'}}]
       }
     ]
   },
@@ -56,6 +88,11 @@ module.exports = {
       'process.env.NODE_ENV': '"production"'
     }),
     new webpack.optimize.UglifyJsPlugin({
+      test: /\.js($|\?)/i,
+      sourceMap: true,
+      uglifyOptions: {
+          compress: true
+      },
       output: {comments: false},
       compress: {unused: true, dead_code: true, warnings: false} // eslint-disable-line camelcase
     }),
