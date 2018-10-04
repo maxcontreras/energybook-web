@@ -19,38 +19,44 @@ export default {
     state: {
         distribution: getLocalStorageItem('distribution'),
         odometer: getLocalStorageItem('odometer'),
-        demand: getLocalStorageItem('demand'),
+        distributionMonth: getLocalStorageItem('distributionMonth'),
         epimpHistory: getLocalStorageItem('epimpHistory'),
-        distributionCharge: getLocalStorageItem('distributionCharge')
+        distributionCharge: getLocalStorageItem('distributionCharge'),
+        consumption: getLocalStorageItem('consumption'),
+        consumptionMonth: getLocalStorageItem('consumptionMonth')
     },
     actions: {
         odometerReading({commit}, data) {
             commit('setOdometer', data.value)
         },
-        distributionReading({commit}, data) {
+        dailyReading({commit}, data) {
             commit('setDistribution', data)
         },
-        demandReading({commit}, data) {
-            commit('setDemand', data.value)
+        monthlyReading({commit}, data) {
+            commit('setMonthly', data)
         },
         epimpHistoryReading({commit}, data) {
             commit('setEpimpHistory', data)
         }
     },
     mutations: {
-        setDistribution(state, value) {
-            state.distribution = value.value
-            saveInLocalStorage('distribution', value.value)
-            state.distributionCharge = value.charge
-            saveInLocalStorage('distributionCharge', value.charge)
+        setDistribution(state, data) {
+            state.distribution = data.distribution.daily
+            saveInLocalStorage('distribution', data.distribution.daily)
+            state.distributionCharge = data.distribution.charge
+            saveInLocalStorage('distributionCharge', data.distribution.charge)
+            state.consumption = data.consumption.daily
+            saveInLocalStorage('consumption', data.consumption.daily)
         },
         setOdometer(state, value) {
             state.odometer = parseFloat(value)
             saveInLocalStorage('odometer', value)
         },
-        setDemand(state, value) {
-            state.demand = parseFloat(value)
-            saveInLocalStorage('demand', value)
+        setMonthly(state, data) {
+            state.distributionMonth = parseFloat(data.distribution.monthly)
+            saveInLocalStorage('distributionMonth', data.distribution.monthly)
+            state.consumptionMonth = parseFloat(data.consumption.monthly)
+            saveInLocalStorage('consumptionMonth', data.consumption.monthly)
         },
         setEpimpHistory(state, value) {
             state.epimpHistory = value

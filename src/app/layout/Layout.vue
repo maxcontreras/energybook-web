@@ -102,19 +102,19 @@ export default {
 
     computed: {
         isAdmin() {
-            return this.$store.state.isAdmin;
+            return JSON.parse(localStorage.getItem('user')).role_id === 1;
         },
         isUser() {
-            return this.$store.state.isUser;
+            return JSON.parse(localStorage.getItem('user')).role_id === 2;
         },
         isManager() {
-            return this.$store.state.isManager;
+            return JSON.parse(localStorage.getItem('user')).role_id === 3;
         },
         isAccounting() {
-            return this.$store.state.isAccounting;
+            return JSON.parse(localStorage.getItem('user')).role_id === 4;
         },
         user() {
-            return this.$store.state.user;
+            return this.$store.state.user.user? this.$store.state.user : {user: {name: '', lastname: ''}};
         },
         currentFormattedDate() {
             return date

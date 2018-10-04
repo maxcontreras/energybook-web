@@ -7,6 +7,7 @@
 @import 'styles/notification.scss';
 
 $egreen: #AFFC0F;
+$egreen1: rgb(152, 214, 16);
 $gray: rgba(0,0,0,0.64);
 $darkgray: #485658;
 
@@ -22,7 +23,7 @@ html, body {
 }
 
 .nav-pills .nav-link.active {
-  background-color: #87ad36;
+  background-color: $egreen;
 }
 
 @media (max-width: 768px) {
@@ -108,7 +109,7 @@ html, body {
   }
 }
 
-.btn-success, .btn-success {
+.btn-success{
   border-color: $egreen !important;
   background-color: $egreen !important;
 }
@@ -223,7 +224,7 @@ html, body {
 }
 
 .tabs .nav-link {
-  color: $egreen;
+  color: $egreen1;
 }
 
 .tabs .card-header {

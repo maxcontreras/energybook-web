@@ -14,7 +14,7 @@
                                         <b-col md="10" class="dashboard-data-container">
                                             <p>Consumo</p>
                                             <h5 class="green">
-                                                1, 400 kWh
+                                                {{consumption? consumption : 0}} kWh
                                             </h5>
                                         </b-col>
                                     </b-row>
@@ -29,7 +29,7 @@
                                         <b-col md="10" class="dashboard-data-container">
                                             <p>Distribución</p>
                                             <h5 class="blue">
-                                                {{demand}} kW
+                                                {{distribution? distribution : 0}} kW
                                             </h5>
                                         </b-col>
                                     </b-row>
@@ -69,12 +69,12 @@
                                 <b-card>
                                     <b-row>
                                         <b-col md="2" class="dashboard-icon-container">
-                                            <i class="fas fa-power-off blue"></i>
+                                            <i class="fas fa-power-off dark-blue"></i>
                                         </b-col>
                                         <b-col md="10" class="dashboard-data-container">
                                             <p>Distribución</p>
-                                            <h5 class="blue">
-                                                $ {{distributionCharge}}
+                                            <h5 class="dark-blue">
+                                                $ {{distributionCharge? distributionCharge : 0.00}}
                                             </h5>
                                         </b-col>
                                     </b-row>
@@ -116,7 +116,7 @@
                                                             <i class="fas fa-bolt"></i>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>580</h5>
+                                                            <h5>{{consumptionMonth? consumptionMonth : 0}}</h5>
                                                             <p>Consumo</p>
                                                         </div>
                                                         <div>
@@ -128,7 +128,7 @@
                                                             <i class="fas fa-chart-line"></i>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>{{distribution}}</h5>
+                                                            <h5>{{distributionMonth? distributionMonth: 0}}</h5>
                                                             <p>Distribución</p>
                                                         </div>
                                                         <span>kW</span>

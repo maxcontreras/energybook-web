@@ -72,16 +72,10 @@ export default {
             lineOptions: dataLine,
             dpData: {
                 name: 'DP',
-                marker: {
-                    symbol: 'square'
-                },
                 data: []
             },
             epimpData: {
                 name: 'EPimp',
-                marker: {
-                    symbol: 'square'
-                },
                 data: []
             },
             buttons: [{

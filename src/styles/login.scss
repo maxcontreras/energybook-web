@@ -1,5 +1,5 @@
 $egreen: #AFFC0F;
-$egreen1: #87ad36;
+$egreen1: rgb(152, 214, 16);
 $lightgray: #fdfeff;
 $darkgray: #485658;
 
@@ -82,6 +82,7 @@ $darkgray: #485658;
     .btn-primary {
         width: 100%;
         margin-bottom: 0.5rem;
+        
     }
 
 }
@@ -89,6 +90,11 @@ $darkgray: #485658;
 #login .btn-primary {
     text-transform: uppercase;
     padding: 0.5rem 3rem;
+    background-color: $egreen1;
+
+        &:hover {
+            background-color: $egreen1;
+        }
 }
 
 #login .btn-primary a {

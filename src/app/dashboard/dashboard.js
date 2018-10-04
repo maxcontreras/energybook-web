@@ -52,7 +52,7 @@ var dataLine = {
       spline: {
         marker: {
           radius: 4,
-          lineColor: '#485658',
+          lineColor: 'rgb(124, 181, 236)',
           lineWidth: 1
         }
       }
@@ -116,9 +116,6 @@ var gaugeOptions = {
 
 var asyncData = {
     name: 'EPimp',
-    marker: {
-      symbol: 'square'
-    },
     data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
       y: 26.5
     }, 23.3, 18.3, 13.9, 9.6]
@@ -168,11 +165,17 @@ export default {
         distributionCharge() {
             return currencyFormat(parseFloat(this.$store.state.socket.distributionCharge))
         },
+        distributionMonth() {
+            return parseFloat(this.$store.state.socket.distributionMonth)
+        },
         odometer() {
             return parseFloat(this.$store.state.socket.odometer)
         },
-        demand() {
-            return this.$store.state.socket.demand
+        consumption() {
+            return this.$store.state.socket.consumption
+        },
+        consumptionMonth() {
+            return this.$store.state.socket.consumptionMonth
         },
         billablePeriod() {
             let start = moment().startOf('month').format('DD/MM/YYYY')
@@ -287,8 +290,8 @@ export default {
                     this.edsId = this.meters[0].meter_id
                     meters.initializer(this.edsId).then((res)=> {
                         this.$store.commit('socket/setOdometer', res.latestValues.dp.value)
-                        this.$store.commit('socket/setDistribution', res.latestValues.distribution)
-                        this.$store.commit('socket/setDemand', res.latestValues.demand.value)
+                        this.$store.commit('socket/setDistribution', res.latestValues)
+                        this.$store.commit('socket/setMonthly', res.latestValues)
                         this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
                     })
                 }
