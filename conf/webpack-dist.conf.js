@@ -19,7 +19,7 @@ module.exports = {
       '@': path.resolve('src')
     }
   },
-  externals: ['axios'],
+  //externals: ['axios'],
   module: {
     loaders: [
       {
@@ -100,6 +100,11 @@ module.exports = {
       options: {
         postcss: () => [autoprefixer]
       }
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      moment: "moment"
     })
   ],
   output: {
