@@ -14,7 +14,7 @@
         <b-card id="login-container">
             <b-form @submit.prevent="login">
                 <div class="logo">
-                    <img src="/assets/logo1-txt.png" />
+                    <img src="/assets/Logo100x150-02.png" />
                 </div>
                 <h5>¡Bienvenido! Ingresa a tu cuenta</h5>
                 <b-form-group id="login-user">

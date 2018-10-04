@@ -2,7 +2,7 @@
     <div id="app-layout">
         <div id="side-nav" class="menu d-none d-sm-block d-xs-block">
             <div class="nav-logo-container">
-                <img src="/assets/logo1.png" />
+                <img src="/assets/Logo-01.png" />
             </div>
             <b-nav vertical class="w-100">
                 <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
@@ -35,7 +35,7 @@
                 </b-nav-item>
             </b-nav>
         </div>
-        <div id="top-nav" class="menu d-md-none d-lg-none .d-xl-none mobile" v-if="false">
+        <!--<div id="top-nav" class="menu d-md-none d-lg-none .d-xl-none mobile" v-if="false">
             <b-nav class="w-100">
                 <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
                     <i class="fas fa-chart-line"></i>
@@ -50,7 +50,7 @@
                     <i class="fas fa-coins"></i>
                 </b-nav-item>
             </b-nav>
-        </div>
+        </div>-->
         <div id="main">
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>

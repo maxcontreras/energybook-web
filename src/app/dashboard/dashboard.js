@@ -52,7 +52,7 @@ var dataLine = {
       spline: {
         marker: {
           radius: 4,
-          lineColor: '#666666',
+          lineColor: '#485658',
           lineWidth: 1
         }
       }
@@ -88,7 +88,7 @@ var gaugeOptions = {
     // the value axis
     yAxis: {
         stops: [
-            [0.1, '#55BF3B'], // green
+            [0.1, '#AFFC0F'], // green
             [0.5, '#DDDF0D'], // yellow
             [0.9, '#DF5353'] // red
         ],
@@ -253,8 +253,8 @@ export default {
                     data: [0],
                     dataLabels: {
                         format: '<div style="text-align:center"><span style="font-size:25px;color:' +
-                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
-                               '<span style="font-size:12px;color:silver">kW</span></div>'
+                            ('#485658') + '">{y}</span><br/>' +
+                               '<span style="font-size:12px;color:#ADADAD">kW</span></div>'
                     },
                     tooltip: {
                         valueSuffix: ' kW'
@@ -277,13 +277,13 @@ export default {
                 let metersCount = this.meters.length
                 if(metersCount > 0) 
                 {
-                    let opacityIndex = 1 / metersCount
+                    /*let opacityIndex = 1 / metersCount
                     let currentOpacity = 1
                     this.meters.forEach(meter => {
                         this.chartData.labels.push(meter.device_name)
                         this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
                         currentOpacity -= opacityIndex
-                    })
+                    })*/
                     this.edsId = this.meters[0].meter_id
                     meters.initializer(this.edsId).then((res)=> {
                         this.$store.commit('socket/setOdometer', res.latestValues.dp.value)

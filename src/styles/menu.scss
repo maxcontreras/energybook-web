@@ -1,7 +1,7 @@
-$egreen: #84b92e;
-$egreen1: #87ad36;
+$egreen: #AFFC0F;
+$egreen1: rgb(152, 214, 16);
 $lightgray: rgb(253, 254, 255);
-$darkgray: #4b4b4b;
+$darkgray: #485658;
 
 .navbar {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.05), 0 0px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px -1px rgba(0, 0, 0, 0.05);
@@ -51,10 +51,6 @@ $darkgray: #4b4b4b;
     .nav-logo-container {
         text-align: center;
         padding: 1rem;
-
-        img {
-            width: 80px;
-        }
     }
 
     .menu-icon-container {

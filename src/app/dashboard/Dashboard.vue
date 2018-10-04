@@ -5,29 +5,29 @@
                 <b-row class="dashboard-content-user">
                     <b-col>
                         <b-row class="margin-bottom-2 margin-top-1">
-                            <!--<b-col md="2">
+                            <b-col md="4">
                                 <b-card>
                                     <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
+                                        <b-col md="2" class="dashboard-icon-container">
+                                            <i class="fas fa-bolt green"></i>
+                                        </b-col>
+                                        <b-col md="10" class="dashboard-data-container">
+                                            <p>Consumo</p>
                                             <h5 class="green">
                                                 1, 400 kWh
                                             </h5>
-                                            <p>Consumo</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
-                                            <i class="fas fa-bolt green"></i>
                                         </b-col>
                                     </b-row>
                                 </b-card>
-                            </b-col>-->
-                            <b-col md="6">
+                            </b-col>
+                            <b-col md="4">
                                 <b-card>
                                     <b-row>
                                         <b-col md="2" class="dashboard-icon-container">
                                             <i class="fas fa-power-off blue"></i>
                                         </b-col>
                                         <b-col md="10" class="dashboard-data-container">
-                                            <p>Demanda</p>
+                                            <p>Distribución</p>
                                             <h5 class="blue">
                                                 {{demand}} kW
                                             </h5>
@@ -65,7 +65,7 @@
                                     </b-row>
                                 </b-card>
                             </b-col>-->
-                            <b-col md="6">
+                            <b-col md="4">
                                 <b-card>
                                     <b-row>
                                         <b-col md="2" class="dashboard-icon-container">
@@ -111,9 +111,9 @@
                                         <b-col md="6">
                                             <b-row class="analysis-item--data">
                                                 <b-col>
-                                                    <!--<div class="analysis-item--cat">
+                                                    <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <i class="fas fa-bolt green"></i>
+                                                            <i class="fas fa-bolt"></i>
                                                         </div>
                                                         <div class="data-container">
                                                             <h5>580</h5>
@@ -122,11 +122,10 @@
                                                         <div>
                                                             <span>kWh</span>
                                                         </div>
-                                                        
-                                                    </div> -->
+                                                    </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <i class="fas fa-chart-line green"></i>
+                                                            <i class="fas fa-chart-line"></i>
                                                         </div>
                                                         <div class="data-container">
                                                             <h5>{{distribution}}</h5>

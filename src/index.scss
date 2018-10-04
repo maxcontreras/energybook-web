@@ -1,5 +1,4 @@
 @import 'styles/login.scss';
-@import 'styles/analysis.scss';
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'styles/companies.scss';
 @import 'styles/company.scss';
@@ -7,13 +6,15 @@
 @import 'styles/graphs.scss';
 @import 'styles/notification.scss';
 
-$egreen: #96c13d;
+$egreen: #AFFC0F;
 $gray: rgba(0,0,0,0.64);
+$darkgray: #485658;
 
 html, body {
-  background-color: #F5F5F5;
+  background-color: #F2F3F4;
   font-family:'Poppins', sans-serif;
   font-size: 13px;
+  color: $darkgray !important;
 }
 
 .breadcrumb a {

@@ -1,7 +1,8 @@
-$egreen1: #87ad36;
+$egreen1: #AFFC0F;
 $eblue: #00A6A6;
-$lightgray: rgba(0, 0, 0, 0.54);
-$darkgray: #4b4b4b;
+$lightgray: #f2f3f4;
+$darkgray: #485658;
+$gray: #ADADAD;
 
 @media (max-width: 768px) {
     .dashboard-content--admin > div.col-md-6{
@@ -45,7 +46,7 @@ $darkgray: #4b4b4b;
     }
 
     .analysis-item--cat {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid $lightgray;
         padding-top: 1rem;
 
         span {
@@ -124,7 +125,7 @@ $darkgray: #4b4b4b;
             min-height: 100%;
         }
 
-        .col-md-2, .col-md-3, .col-md-6 {
+        .col-md-2, .col-md-3, .col-md-6, .col-md-4 {
             padding-right: 0;
 
             .green {
@@ -140,7 +141,7 @@ $darkgray: #4b4b4b;
             }
         }
 
-        .col-md-2:last-child,  .col-md-3:last-child, .col-md-6:last-child{
+        .col-md-2:last-child,  .col-md-3:last-child, .col-md-6:last-child, .col-md-4:last-child{
             padding-right: 15px;
         }
 
