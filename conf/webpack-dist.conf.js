@@ -44,9 +44,10 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loaders: [
-          'babel-loader'
-        ]
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015'],
+        }
       },
       {
         test: /\.vue$/,
@@ -59,21 +60,18 @@ module.exports = {
         }
       },
       {
-        test: /\.svg$/,
-        loader: 'vue-svg-loader', // `vue-svg` for webpack 1.x
-        options: {
-          // optional [svgo](https://github.com/svg/svgo) options
-          svgo: {
-            plugins: [
-              {removeDoctype: true},
-              {removeComments: true}
-            ]
-          }
-        }
-      },
-      {
         test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
-        use: [{loader: 'file-loader', options: {publicPath: '../', name: '/src/assets/[name].[ext]?[hash]'}}]
+        use: [{ 
+          loader: 'vue-asset-loader', 
+          options: { 
+            publicPath: '', 
+            publicStylePath: '../', 
+            name: 'images/[name].[ext]?[hash]',
+            loaders: {
+              'js': 'babel-loader'
+            } 
+          }
+        }]
       }
     ]
   },
@@ -88,7 +86,7 @@ module.exports = {
       'process.env.NODE_ENV': '"production"'
     }),
     new webpack.optimize.UglifyJsPlugin({
-      test: /\.js($|\?)/i,
+      test: /.*\/app\/.*\.js$/,
       sourceMap: true,
       uglifyOptions: {
           compress: true

@@ -29,7 +29,7 @@
                                         <b-col md="10" class="dashboard-data-container">
                                             <p>Demanda</p>
                                             <h5 class="blue">
-                                                {{demand}} kWh
+                                                {{demand}} kW
                                             </h5>
                                         </b-col>
                                     </b-row>
