@@ -33,11 +33,11 @@ export default {
                 sortable: true,
                 label: 'No. de Serie'
             }, 'Fecha de Registro', 'Estado'],
-            fieldsDesignated: [{
+            fieldsDesignated: [ 'Compañía', {
                 key: 'Nombre',
                 sortable: true,
-                label: 'Nombre'
-            }, 'Num. de serie', 'Hostname', 'Asignado el',  'Compañía',  {key:'Status', label: 'Estado'}],
+                label: 'EDS'
+            }, 'Hostname', 'Num. de serie', 'Asignado el',  'Compañía',  {key:'Status', label: 'Estado'}],
             newMeter: {
                 serial_number: '',
                 created_at: new Date()
@@ -50,6 +50,7 @@ export default {
             },
             currentIndex: 0,
             companies: [ { value: null, text: 'Selecciona una compañía'} ],
+            connectedDevices: [],
             bcItems: [{
                 text: 'Medidores',
                 active: true
@@ -103,11 +104,11 @@ export default {
                 this.designatedMeters.forEach(meter => {
                     meters.getOwnerCompany({meter_id: meter.meter_id}).then(company => {
                         this.itemsDesignated.push({
-                            'Nombre': meter.device_name,
-                            'Num. de serie': company.company.meter_serial_number,
-                            'Hostname': meter.hostname,
-                            'Asignado el': moment(meter.created_at).format('LL'),
                             'Compañía': company.company.name,
+                            'Nombre': meter.device_name,
+                            'Hostname': meter.hostname,
+                            'Num. de serie': company.company.meter_serial_number,
+                            'Asignado el': moment(meter.created_at).format('LL'),
                             'Status': company.company.meter_status? true : false,
                             id: meter.id
                         })
@@ -138,18 +139,18 @@ export default {
             })
         },
         assignMeter() {
-            designatedMeters.create({
+            companies.designateMeter({
                 data: this.newDesignatedMeter
             }).then(res => {
-                meters.getOwnerCompany({meter_id: res.meter_id})
+                meters.getAssigned({id: res.meter_id})
                 .then(meter => {
                     this.items.splice(this.currentIndex, 1)
                     this.itemsDesignated.push({
-                        'Nombre': res.device_name,
-                        'Num. de serie': res.company.meter_serial_number,
-                        'Hostname': res.hostname,
-                        'Asignado el': moment(res.created_at).format('LL'),
                         'Compañía': meter.company.name,
+                        'Nombre': res.device_name,
+                        'Hostname': res.hostname,
+                        'Num. de serie': res.company.meter_serial_number,
+                        'Asignado el': moment(res.created_at).format('LL'),
                         'Estado': meterActive[meter.company.meter_status],
                         id: res.id
                     })
@@ -160,6 +161,17 @@ export default {
             this.newDesignatedMeter.meter_id = value.id
             this.currentIndex = value.index
             this.$refs.meterModalDesignate.show()
+        },
+        openEDSDataModal(value) {
+            this.connectedDevices = {};
+            this.$refs.edsDataModal.show();
+            meters.connectedDevices({
+                id: value.id
+            }).then(devices => {
+                if(devices){
+                    this.connectedDevices = devices;
+                }
+            });
         },
         clearNewMeter() {
             this.newMeter = {

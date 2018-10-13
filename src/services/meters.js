@@ -28,12 +28,20 @@ let meters = Object.assign({}, {
         return loopback.post('Meters/getActivesAssigned', {companyId: companyId});
     },
 
+    getAssigned(id) {
+        return loopback.post('Meters/getAssigned', id);
+    },
+
     unassignedMeters(){
         return loopback.get('Meters/unassignedMeters');
     },
 
     initializer(id) {
         return loopback.post('/Meters/initializer', {id})
+    },
+
+    connectedDevices(id) {
+        return loopback.post('/Meters/connectedDevices', id);
     }
 
 }, modelObject);

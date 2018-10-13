@@ -7,7 +7,7 @@
                     <b-card  v-if="isAdmin" no-body>
                         <b-tabs pills card>
                             <b-tab title="Medidores Asignados" active>
-                                <Table :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'No hay medidores asignados.'" @statusChange="statusChange"/>
+                                <Table :items="itemsDesignated" :fields="fieldsDesignated" @clicked="openEDSDataModal" :alertMessage="'No hay medidores asignados.'" @statusChange="statusChange"/>
                             </b-tab>
                             <b-tab title="Medidores">
                                 <Table :items="items" :fields="fields" @clicked="openAssignModal" :alertMessage="'No se encuentran medidores sin asignar.'"/>
@@ -39,6 +39,16 @@
                     <b-form-select :options="companies" v-model="newDesignatedMeter.company_id" />
                 </b-form-group>
             </b-form>
+        </b-modal>
+        <b-modal ref="edsDataModal" id="edsDataModal" title="Información del EDS">
+            <b-card no-body v-if="connectedDevices">
+                <b-list-group flush>
+                    <b-list-group-item v-for="device in connectedDevices" :key="device"><a href="#" class="card-link">{{device}}</a></b-list-group-item>
+                </b-list-group>
+            </b-card>
+            <b-card v-if="!connectedDevices[0]">
+                <b-alert show class="margin-top-1" variant="warning">Obteniendo la información del EDS...</b-alert>
+            </b-card>
         </b-modal>
     </b-row>
 </template>
