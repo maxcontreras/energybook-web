@@ -1,7 +1,7 @@
 <template>
     <div class="list">
         <b-alert
-            v-if="items.length === 0"
+            v-if="items.length <= 0"
             show
             class="margin-top-1"
             variant="success"
@@ -9,9 +9,9 @@
             {{ alertMessage }}
         </b-alert>
         <b-table
-            v-if="items.length > 0"
+            v-else
             responsive
-            hover 
+            hover
             :items="items"
             :fields="fields"
             :current-page="currentPage"
@@ -25,7 +25,8 @@
                     title="Click para cambiar estado"
                     @click="statusChange(data.item.id, data.item.Status)"
                     :pressed.sync="data.item.Status" variant="primary">
-                    {{ data.item.Status? 'Activo' : 'Inactivo' }}
+                    <!--TODO Update this to computed propertie-->
+                    {{ data.item.Status ? 'Activo' : 'Inactivo' }}
                 </b-button>
             </template>
         </b-table>
@@ -52,7 +53,29 @@
 
 <script>
 export default {
-    props: ['items', 'fields', 'route', 'alertMessage'],
+    props: {
+        items: {
+            type: Array,
+            required: true
+        },
+        fields: {
+            type: Array,
+            required: true
+        },
+        route: {
+            type: String,
+            required: false
+        },
+        alertMessage: {
+            type: String,
+            default: "No hay elementos"
+        },
+        rowClickEvent: {
+            type: Function,
+            default: function() {}
+        }
+    },
+
     data() {
         return {
             currentPage: 1,
@@ -60,7 +83,15 @@ export default {
             pageOptions: [ 5, 10, 15 ]
         }
     },
+
+    computed: {
+        status() {
+            return data.item.Status ? 'Activo' : 'Inactivo';
+        }
+    },
+
     methods: {
+        // TODO delete this method, replace with prop function
         rowClickHandler(record, index) {
             if(this.route) {
                 if(this.route === 'companyDetail') {
