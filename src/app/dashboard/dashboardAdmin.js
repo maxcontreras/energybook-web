@@ -1,12 +1,12 @@
 /* eslint-disable */
 import Header from '@/app/components/header/Header.vue';
 import companies from '@/services/companies';
-import Table from '@/app/components/table/Table.vue';
+import VTable from '@/app/components/VTable.vue';
 import {gmapApi} from 'vue2-google-maps';
 
 export default {
     components: {
-        Header,Table
+        Header,VTable
     },
     computed: {
         currentFormattedDate() {
@@ -22,7 +22,7 @@ export default {
                     'Nombre': company.company_name,
                     'Fecha de Registro': moment(company.created_at).format('LL')
                 });
-                this.getPosition(company.location);
+                // this.getPosition(company.location);
             });
         });
     },
@@ -37,17 +37,19 @@ export default {
         };
     },
     methods: {
-        getPosition(location) {
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({
-                "address": location
-            }, results => {
-                let latlng = results[0].geometry.location;
-                this.markers.push({
-                    lat: latlng.lat(),
-                    lng: latlng.lng()
-                });
-            });
-        }
+        // FIXME Geocoder its not supported by vue module
+        // TODO Verify if we can instantiate geocoder from maps (?)
+        // getPosition(location) {
+        //     var geocoder = new google.maps.Geocoder();
+        //     geocoder.geocode({
+        //         "address": location
+        //     }, results => {
+        //         let latlng = results[0].geometry.location;
+        //         this.markers.push({
+        //             lat: latlng.lat(),
+        //             lng: latlng.lng()
+        //         });
+        //     });
+        // }
     }
 };

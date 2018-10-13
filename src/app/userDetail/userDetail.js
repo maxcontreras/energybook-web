@@ -1,7 +1,7 @@
 /* eslint-disable */
 import eUsers from '@/services/eUsers'
 import companies from '@/services/companies'
-import Table from '@/app/components/table/Table.vue'
+import VTable from '@/app/components/VTable.vue'
 import {gmapApi} from 'vue2-google-maps'
 import Constants from '@/constants'
 
@@ -9,7 +9,7 @@ const meterActive = Constants.Meters.active
 
 export default {
     components: {
-        Table
+        VTable
     },
     computed: {
         isAdmin() {

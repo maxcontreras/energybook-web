@@ -1,14 +1,14 @@
 /* eslint-disable */
 import Chart from '@/app/components/chart/Chart.vue'
 import Header from '@/app/components/header/Header.vue'
-import Table from '@/app/components/table/Table.vue'
+import VTable from '@/app/components/VTable.vue'
 import designatedMeters from '@/services/designatedMeters'
 import meters from '@/services/meters'
 
 export default {
     props: ['companyIdProp'],
     components: {
-        Chart, Header, Table
+        Chart, Header, VTable
     },
     computed: {
         isAdmin() {

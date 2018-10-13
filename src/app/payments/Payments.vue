@@ -5,7 +5,7 @@
             <b-row class="list">
                 <b-col>
                     <b-card>
-                        <Table :items="items" :fields="fields"/>
+                        <v-table :items="items" :fields="fields"/>
                     </b-card>
                 </b-col>
             </b-row>

@@ -7,15 +7,15 @@
                     <b-card  v-if="isAdmin" no-body>
                         <b-tabs pills card>
                             <b-tab title="Medidores Asignados" active>
-                                <Table :items="itemsDesignated" :fields="fieldsDesignated" @clicked="openEDSDataModal" :alertMessage="'No hay medidores asignados.'" @statusChange="statusChange"/>
+                                <v-table :items="itemsDesignated" :fields="fieldsDesignated" @clicked="openEDSDataModal" :alertMessage="'No hay medidores asignados.'" @statusChange="statusChange"/>
                             </b-tab>
                             <b-tab title="Medidores">
-                                <Table :items="items" :fields="fields" @clicked="openAssignModal" :alertMessage="'No se encuentran medidores sin asignar.'"/>
+                                <v-table :items="items" :fields="fields" @clicked="openAssignModal" :alertMessage="'No se encuentran medidores sin asignar.'"/>
                             </b-tab>
                         </b-tabs>
                     </b-card>
                     <b-card  v-if="!isAdmin">
-                        <Table :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'Aún no tienes medidores.'"/>
+                        <v-table :items="itemsDesignated" :fields="fieldsDesignated" :alertMessage="'Aún no tienes medidores.'"/>
                     </b-card>
                 </b-col>
             </b-row>

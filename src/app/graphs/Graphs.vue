@@ -11,11 +11,11 @@
                         Selecciona un medidor para desplegar la gráfica.
                     </b-alert>
                     <b-card v-if="items.length > 0">
-                        <Table :items="items" :fields="fields"/>
+                        <v-table :items="items" :fields="fields"/>
                     </b-card>
                 </b-col>
             </b-row>
-            
+
         </b-col>
     </b-row>
 </template>

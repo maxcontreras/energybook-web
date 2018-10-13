@@ -1,14 +1,14 @@
 /* eslint-disable */
 import companies from '@/services/companies';
 import Header from '@/app/components/header/Header.vue';
-import Table from '@/app/components/table/Table.vue';
+import VTable from '@/app/components/VTable.vue';
 import Constants from '@/constants';
 
 const companyStatus = Constants.Companies.status
 
 export default {
     components: {
-        Header, Table
+        Header, VTable
     },
     data() {
         return {

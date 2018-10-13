@@ -1,7 +1,7 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters'
 import meters from '@/services/meters'
-import Table from '@/app/components/table/Table.vue'
+import VTable from '@/app/components/VTable.vue'
 import PieChart from '@/app/components/chart/pieChart'
 import { gmapApi } from 'vue2-google-maps'
 import Weather from 'vue-weather-widget'
@@ -119,7 +119,7 @@ var asyncData = {
     data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
       y: 26.5
     }, 23.3, 18.3, 13.9, 9.6]
-} 
+}
 
 
 
@@ -141,13 +141,13 @@ function parseDate(rawDate) {
 }
 
 function currencyFormat(num) {
-    return num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); 
+    return num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
 
 export default {
     props: ['companyIdProp'],
     components: {
-        Table, Weather, PieChart, VueHighcharts , VueHighChartsComponent, DashboardAdmin
+        VTable, Weather, PieChart, VueHighcharts , VueHighChartsComponent, DashboardAdmin
     },
     computed: {
         isAdmin() {
@@ -246,11 +246,11 @@ export default {
                         text: 'DP'
                     }
                 },
-            
+
                 credits: {
                     enabled: false
                 },
-            
+
                 series: [{
                     name: 'DP',
                     data: [0],
@@ -263,7 +263,7 @@ export default {
                         valueSuffix: ' kW'
                     }
                 }]
-            
+
             }));
             if(this.odometer > 0) this.updateOdometerChart()
             if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
@@ -278,7 +278,7 @@ export default {
             }).then(res => {
                 this.meters = res
                 let metersCount = this.meters.length
-                if(metersCount > 0) 
+                if(metersCount > 0)
                 {
                     /*let opacityIndex = 1 / metersCount
                     let currentOpacity = 1

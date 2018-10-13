@@ -5,7 +5,7 @@
             <b-row>
                 <b-col>
                     <b-card>
-                        <Table :items="items" :fields="fields"  :route="'companyDetail'"/>
+                        <v-table :items="items" :fields="fields"  :route="'companyDetail'"/>
                     </b-card>
                 </b-col>
             </b-row>

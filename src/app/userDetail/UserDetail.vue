@@ -37,7 +37,7 @@
                 <b-card class="profile-main" no-body>
                     <b-tabs pills card>
                             <b-tab title="Información">
-                                
+
                         <b-row align-h="end">
                             <b-col md="6" class="action" v-if="!edit && !changePassword && !editCompany">
                                 <b-button v-if="!isCompanyProfile" :variant="'outline-success'" class="right" @click="changePassword = true">
@@ -102,13 +102,13 @@
                                 </b-button>
                             </b-col>
                         </b-row>
-                    
+
                             </b-tab>
                             <b-tab title="Usuarios" v-if="isCompanyProfile">
-                                <Table :items="items.users" :fields="fields.users"/>
+                                <v-table :items="items.users" :fields="fields.users"/>
                             </b-tab>
                             <b-tab title="Medidores" v-if="isCompanyProfile">
-                                <Table :items="items.meters" :fields="fields.meters"/>
+                                <v-table :items="items.meters" :fields="fields.meters"/>
                             </b-tab>
                         </b-tabs>
                     </b-card>
