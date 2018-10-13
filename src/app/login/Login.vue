@@ -8,9 +8,11 @@
             <h5>
                 Crea tu cuenta gratis
             </h5>
-            <b-button variant="primary"><router-link to="registro">Regístrate</router-link></b-button>
+            <b-button variant="primary" @click="openRegister">
+                Regístrate
+            </b-button>
         </div>
-        
+
         <b-card id="login-container">
             <b-form @submit.prevent="login">
                 <div class="logo">
