@@ -42,6 +42,10 @@ let meters = Object.assign({}, {
 
     connectedDevices(id) {
         return loopback.post('/Meters/connectedDevices', id);
+    },
+
+    consumptionMaxMinValues(id) {
+        return loopback.post('/Meters/consumptionMaxMinValues', id);
     }
 
 }, modelObject);

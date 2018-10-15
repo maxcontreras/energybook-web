@@ -241,7 +241,7 @@ export default {
             chartSpeed = Highcharts.chart('container-odometer', Highcharts.merge(gaugeOptions, {
                 yAxis: {
                     min: 0,
-                    max: 200,
+                    max: 0,
                     title: {
                         text: 'DP'
                     }
@@ -294,6 +294,15 @@ export default {
                         this.$store.commit('socket/setMonthly', res.latestValues)
                         this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
                     })
+                    meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
+                        console.log('values: ', values.max);
+                        chartSpeed.update({
+                            yAxis: {
+                                min: values.min,
+                                max: values.max
+                            }
+                        });
+                    });
                 }
             })
         },

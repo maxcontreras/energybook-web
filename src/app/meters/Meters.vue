@@ -35,6 +35,18 @@
                 <b-form-group>
                     <b-form-input type="text" v-model="newDesignatedMeter.hostname" required placeholder="Hostname"></b-form-input>
                 </b-form-group>
+                <b-row>
+                    <b-col>
+                        <b-form-group>
+                            <b-form-input type="number" v-model="newDesignatedMeter.max_value" required placeholder="Valor máximo"></b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group>
+                            <b-form-input type="number" v-model="newDesignatedMeter.min_value" required placeholder="Valor mínimo"></b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
                 <b-form-group>
                     <b-form-select :options="companies" v-model="newDesignatedMeter.company_id" />
                 </b-form-group>
