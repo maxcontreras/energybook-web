@@ -36,7 +36,9 @@ export default {
                 selected: null,
                 options: [ { value: null, text: 'Selecciona un dispositivo'} ]
             }],
+            eds: [],
             fields: ['Dispositivo', 'Total', 'Máximo', 'Mínimo'],
+
             items: []
         }
     },
@@ -49,12 +51,27 @@ export default {
                 filter: {
                     where: { company_id: this.companyId }
                 }
-            }).then(meters => {
-                this.meters = meters
-                this.meters.forEach(meter => {
-                    this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name })
-                })
+            }).then(eds => {
+                this.eds = eds[0];
+                meters.connectedDevices({
+                    id: this.eds.id
+                }).then(devices => {
+                    devices.forEach(device => {
+                        this.metersFilter[0].options.push({ value: this.eds.meter_id+" "+device, text: "Dispositivo "+ device })
+                    })
+                });
             })
+
+            // designatedMeters.findOne({
+            //     filter: {
+            //         where: { company_id: this.companyId }
+            //     }
+            // }).then(eds => {
+            //     this.meters = eds;
+            //     this.meters.forEach(meter => {
+            //         this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name })
+            //     })
+            // })
         },
         getData(meter_id) {
             if(meter_id !== null) {

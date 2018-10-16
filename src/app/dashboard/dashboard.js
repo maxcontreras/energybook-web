@@ -295,7 +295,6 @@ export default {
                         this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
                     })
                     meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
-                        console.log('values: ', values.max);
                         chartSpeed.update({
                             yAxis: {
                                 min: values.min,

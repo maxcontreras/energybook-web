@@ -23,6 +23,7 @@ export default {
         filterData(val) {
             //this.dashboardSelected = val;
             //this.companySelected = this.filters[0] && this.filters[0].selected !== null;
+            // TODO: sent meter id and device name to function getByFilter 
             if(this.isAdmin) {
                 this.$emit('SearchData', this.dashboardSelected, this.filters[0].selected);
             } else {
