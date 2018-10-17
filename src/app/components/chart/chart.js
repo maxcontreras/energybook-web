@@ -88,7 +88,8 @@ export default {
                     { value: 4, text: 'Este Año' },
                 ]
             }],
-            currentPeriod: 0
+            currentPeriod: 0,
+            dangerAlert: false
         }
     },
     watch: {
@@ -122,10 +123,13 @@ export default {
             }
 
         },
-        getByFilter(filter, meter_id, chart) {
-            meters.getReadingsByFilter(meter_id, filter)
-                .then(res => {
-                    console.log(res)
+        getByFilter(filter, meter, chart) {
+            // TODO: Receive meter id, filter and device name & send it to the API
+            meter = meter.split(" ");
+            let meter_id = meter[0];
+            let meter_device = meter[1];
+            meters.getReadingsByFilter(meter_id, meter_device, filter).then(res => {
+                if(res){
                     let xAxis = []
                     let parse = false
                     if (this.currentPeriod < 3) {
@@ -139,8 +143,11 @@ export default {
                         xAxis: { categories: xAxis }
                     })
                     this.updateSeries(dpData, epimpData)
-                })
-
+                }
+            }).catch(error => {
+                this.dangerAlert = true;
+                this.load()
+            });
         },
         updateSeries(dp, epimp) {
             this.dpData.data = dp

@@ -6,10 +6,11 @@
             </b-button>
         </div>
         <div class="chart-container">
-            <vue-highcharts :options="lineOptions" ref="lineCharts"></vue-highcharts>
+            <vue-highcharts  v-if="!dangerAlert" :options="lineOptions" ref="lineCharts"></vue-highcharts>
+            <b-alert v-if="dangerAlert" show class="margin-top-1" variant="danger">Hubo un error al obtener los datos del medidor. ¡Refresca la página e intenta de nuevo!</b-alert>
         </div>
     </div>
-     
+
 </template>
 
 <script src="./chart"></script>
