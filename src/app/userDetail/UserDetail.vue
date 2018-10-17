@@ -1,114 +1,210 @@
 <template>
-    <b-row id="profile" class="main">
+    <b-row
+        id="profile"
+        class="main">
         <b-col>
             <b-card class="profile-header">
                 <b-row>
                     <b-col md="4" class="user-info">
-                        <img src="/assets/images/user-avatar.png"/>
-                        <h5 v-if="!isCompanyProfile">{{user.fullname}}</h5>
-                        <p>{{user.company.company_name}}</p>
+                        <img src="/assets/images/user-avatar.png" />
+                        <h5 v-if="!isCompanyProfile">
+                            {{ user.fullname }}
+                        </h5>
+                        <p>
+                            {{ user.company.company_name }}
+                        </p>
                     </b-col>
                     <b-col md="8" class="profile-map-container">
                         <GmapMap
-                        :center="{lat:20.663782, lng:-103.3916394}"
-                        :zoom="7"
-                        map-type-id="roadmap"
-                        :options="{ disableDefaultUI : true }"
-                        >
-                        <GmapMarker
-                            :position="companyPosition"
-                            :clickable="false"
-                            :draggable="false"
-                        />
+                            :center="{lat:20.663782, lng:-103.3916394}"
+                            :zoom="7"
+                            map-type-id="roadmap"
+                            :options="{ disableDefaultUI : true }"
+                            >
+                            <GmapMarker
+                                :position="companyPosition"
+                                :clickable="false"
+                                :draggable="false"
+                            />
                         </GmapMap>
                     </b-col>
                 </b-row>
-                <b-row class="header-bottom" align-h="around">
+                <b-row
+                    class="header-bottom"
+                    align-h="around">
                     <b-col>
-                        MIEMBRO DESDE {{user.created_at}}
+                        MIEMBRO DESDE {{ user.created_at }}
                     </b-col>
                     <b-col v-if="!isCompanyProfile">
-                        ÚLTIMO INICIO DE SESIÓN {{user.lastLogin}}
+                        ÚLTIMO INICIO DE SESIÓN {{ user.lastLogin }}
                     </b-col>
                 </b-row>
             </b-card>
             <b-row>
                 <b-col>
-                <b-card class="profile-main" no-body>
-                    <b-tabs pills card>
+                    <b-card class="profile-main" no-body>
+                        <b-tabs pills card>
                             <b-tab title="Información">
-
-                        <b-row align-h="end">
-                            <b-col md="6" class="action" v-if="!edit && !changePassword && !editCompany">
-                                <b-button v-if="!isCompanyProfile" :variant="'outline-success'" class="right" @click="changePassword = true">
-                                    Cambiar Contraseña
-                                </b-button>
-                                <b-button v-if="isAdmin || isManager" :variant="'outline-success'" class="right" @click="editCompany = true">
-                                    Editar Compañía
-                                </b-button>
-                                <b-button :variant="'outline-success'" class="right" @click="edit = true" v-if="!isCompanyProfile">
-                                    Editar Correo
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col  md="6">
-                            <b-form-group label="Email" v-if="!changePassword && !editCompany && !isCompanyProfile">
-                                <b-form-input :readonly="!edit" :type="'email'" v-model="user.email" required placeholder="Email"></b-form-input>
-                            </b-form-group>
-                            <div v-if="changePassword">
-                                <b-form-group>
-                                    <b-form-input :type="'password'" required placeholder="Nueva Contraseña"></b-form-input>
-                                </b-form-group>
-                                <b-form-group>
-                                    <b-form-input :type="'password'" required placeholder="Confirmar Contraseña"></b-form-input>
-                                </b-form-group>
-                            </div>
-                            </b-col>
-                        </b-row>
-                        <b-row class="profile-company"  v-if="!changePassword && !edit">
-                            <h5 v-if="!editCompany && !isCompanyProfile">Mi compañía</h5>
-                            <b-col>
-                                <b-form-group label="Nombre">
-                                    <b-form-input :readonly="!editCompany" :type="'text'" v-model="user.company.company_name" required placeholder="Nombre"></b-form-input>
-                                </b-form-group>
-                                <b-form-group label="Teléfono">
-                                    <b-form-input :readonly="!editCompany" :type="'text'" v-model="user.company.phone" required placeholder="Teléfono"></b-form-input>
-                                </b-form-group>
-                                <b-form-group label="Número de empleados">
-                                    <b-form-input :readonly="!editCompany" :type="'number'" v-model="user.company.size" required placeholder="Número de empleados"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Razón Social">
-                                    <b-form-input :readonly="!editCompany" :type="'text'" v-model="user.company.legal_name" required placeholder="Razón Social"></b-form-input>
-                                </b-form-group>
-                                <b-form-group label="Giro">
-                                    <b-form-input :readonly="!editCompany" :type="'text'" v-model="user.company.company_type" required placeholder="Giro"></b-form-input>
-                                </b-form-group>
-                                <b-form-group label="Ubicación">
-                                    <b-form-input v-if="!editCompany" :readonly="true" required placeholder="Ubicación" :type="'text'" v-model="user.company.location"></b-form-input>
-                                    <gmap-autocomplete class="form-control" v-if="editCompany"></gmap-autocomplete>
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row class="edit-buttons" v-if="edit || changePassword || editCompany">
-                            <b-col md="6">
-                                <b-button :variant="'primary'" class="right" @click="saveChanges()">
-                                    Guardar
-                                </b-button>
-                                <b-button :variant="'secondary'" @click="cancel()">
-                                    Cancelar
-                                </b-button>
-                            </b-col>
-                        </b-row>
-
+                                <b-row align-h="end">
+                                    <b-col
+                                        v-if="!edit && !changePassword && !editCompany"
+                                        md="6"
+                                        class="action" >
+                                        <b-button
+                                            v-if="!isCompanyProfile"
+                                            :variant="'outline-success'"
+                                            class="right"
+                                            @click="changePassword = true">
+                                            Cambiar Contraseña
+                                        </b-button>
+                                        <b-button
+                                            v-if="isAdmin || isManager"
+                                            :variant="'outline-success'"
+                                            class="right"
+                                            @click="editCompany = true">
+                                            Editar Compañía
+                                        </b-button>
+                                        <b-button
+                                            v-if="!isCompanyProfile"
+                                            :variant="'outline-success'"
+                                            class="right"
+                                            @click="edit = true">
+                                            Editar Correo
+                                        </b-button>
+                                    </b-col>
+                                </b-row>
+                                <b-row>
+                                    <b-col  md="6">
+                                        <b-form-group
+                                            v-if="!changePassword && !editCompany && !isCompanyProfile"
+                                            label="Email">
+                                            <b-form-input
+                                                :readonly="!edit"
+                                                :type="'email'"
+                                                v-model="user.email"
+                                                required
+                                                placeholder="Email">
+                                            </b-form-input>
+                                        </b-form-group>
+                                        <div v-if="changePassword">
+                                            <b-form-group>
+                                                <b-form-input
+                                                    :type="'password'"
+                                                    required
+                                                    placeholder="Nueva Contraseña">
+                                                </b-form-input>
+                                            </b-form-group>
+                                            <b-form-group>
+                                                <b-form-input
+                                                    :type="'password'"
+                                                    required
+                                                    placeholder="Confirmar Contraseña">
+                                                </b-form-input>
+                                            </b-form-group>
+                                        </div>
+                                    </b-col>
+                                </b-row>
+                                <b-row
+                                    class="profile-company"
+                                    v-if="!changePassword && !edit">
+                                    <h5 v-if="!editCompany && !isCompanyProfile">
+                                        Mi compañía
+                                    </h5>
+                                    <b-col>
+                                        <b-form-group label="Nombre">
+                                            <b-form-input
+                                                :readonly="!editCompany"
+                                                :type="'text'"
+                                                v-model="user.company.company_name"
+                                                required
+                                                placeholder="Nombre">
+                                            </b-form-input>
+                                        </b-form-group>
+                                        <b-form-group label="Teléfono">
+                                            <b-form-input
+                                                :readonly="!editCompany"
+                                                :type="'text'"
+                                                v-model="user.company.phone"
+                                                required
+                                                placeholder="Teléfono">
+                                            </b-form-input>
+                                        </b-form-group>
+                                        <b-form-group label="Número de empleados">
+                                            <b-form-input
+                                                :readonly="!editCompany"
+                                                :type="'number'"
+                                                v-model="user.company.size"
+                                                required
+                                                placeholder="Número de empleados">
+                                            </b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col>
+                                        <b-form-group label="Razón Social">
+                                            <b-form-input
+                                                :readonly="!editCompany"
+                                                :type="'text'"
+                                                v-model="user.company.legal_name"
+                                                required
+                                                placeholder="Razón Social">
+                                            </b-form-input>
+                                        </b-form-group>
+                                        <b-form-group label="Giro">
+                                            <b-form-input
+                                                :readonly="!editCompany"
+                                                :type="'text'"
+                                                v-model="user.company.company_type"
+                                                required
+                                                placeholder="Giro">
+                                            </b-form-input>
+                                        </b-form-group>
+                                        <b-form-group label="Ubicación">
+                                            <b-form-input
+                                                v-if="!editCompany"
+                                                :readonly="true"
+                                                required
+                                                placeholder="Ubicación"
+                                                :type="'text'"
+                                                v-model="user.company.location">
+                                            </b-form-input>
+                                            <gmap-autocomplete
+                                                v-if="editCompany"
+                                                class="form-control">
+                                            </gmap-autocomplete>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row
+                                    class="edit-buttons"
+                                    v-if="edit || changePassword || editCompany">
+                                    <b-col md="6">
+                                        <b-button
+                                            :variant="'primary'"
+                                            class="right"
+                                            @click="saveChanges()">
+                                            Guardar
+                                        </b-button>
+                                        <b-button
+                                            :variant="'secondary'"
+                                            @click="cancel()">
+                                            Cancelar
+                                        </b-button>
+                                    </b-col>
+                                </b-row>
                             </b-tab>
-                            <b-tab title="Usuarios" v-if="isCompanyProfile">
-                                <v-table :items="items.users" :fields="fields.users"/>
+                            <b-tab
+                                title="Usuarios"
+                                v-if="isCompanyProfile">
+                                <v-table
+                                    :items="items.users"
+                                    :fields="fields.users"/>
                             </b-tab>
-                            <b-tab title="Medidores" v-if="isCompanyProfile">
-                                <v-table :items="items.meters" :fields="fields.meters"/>
+                            <b-tab
+                                title="Medidores"
+                                v-if="isCompanyProfile">
+                                <v-table
+                                    :items="items.meters"
+                                    :fields="fields.meters"/>
                             </b-tab>
                         </b-tabs>
                     </b-card>
