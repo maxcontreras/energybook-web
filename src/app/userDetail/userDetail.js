@@ -11,6 +11,7 @@ export default {
     components: {
         VTable
     },
+
     data() {
         return {
             edit: false,
@@ -24,21 +25,19 @@ export default {
                 password: '',
                 confirm: ''
             },
-            isCompanyProfile: this.$route.name === 'companyProfile',
             items: { users: [], meters: [] },
             fields: {
-                users: [{
-                    key: 'Nombre',
-                    sortable: true
-                }, {
-                    key: 'Fecha de Registro',
-                    sortable: true
-                }, 'Email', 'Rol'],
-                meters: [{
-                    key: 'No. de Serie',
-                    sortable: true,
-                    label: 'No. de Serie'
-                }, 'Fecha de Registro', 'Estado']
+                users: [
+                    {key: 'Nombre', sortable: true},
+                    {key: 'Fecha de Registro', sortable: true},
+                    'Email',
+                    'Rol'
+                ],
+                meters: [
+                    {key: 'No. de Serie', sortable: true, label: 'No. de Serie'},
+                    'Fecha de Registro',
+                    'Estado'
+                ]
             },
             companyPosition: {lat:20.663782, lng:-103.3916394}
         }
@@ -65,10 +64,26 @@ export default {
             return this.$store.state.currentCompanyDetailId
         },
 
+        isCompanyProfile: function() {
+            return this.$route.name === 'companyProfile'
+        },
+
+        userFullname: function() {
+            return this.user.name + ' ' + this.user.lastname;
+        },
+
+        userCreatedAt: function() {
+            return moment(this.user.created_at).format('LL');
+        },
+
+        userLastLogin: function() {
+            return moment(this.user.lastLogin).format('LL');
+        },
+
         google: gmapApi
     },
 
-    beforeMount() {
+    beforeMount: function() {
         if(this.$route.name === 'profile') {
             this.getUser();
         } else if(this.$route.name === 'companyProfile') {
@@ -84,10 +99,13 @@ export default {
                 filter: {include: ['company']}
             })
             .then(user => {
-                console.log('user', user);
-                this.user = user
-                this.setUserValues(this.user)
+                this.user = user;
+                this.user.company = {};
+                this.originalData = JSON.parse(JSON.stringify(user));
                 this.getPosition()
+            })
+            .catch(err => {
+                console.error(err);
             });
         },
 
@@ -95,10 +113,9 @@ export default {
             let id = this.companyId
             companies.find({id,filter: {include: ['meters', 'users']}})
             .then(company => {
-                console.log('company', company);
                 this.user.company = company
                 this.user.created_at = company.created_at
-                this.setUserValues(this.user)
+                this.originalData = JSON.parse(JSON.stringify(company));
                 this.mapCompanyUsers()
                 this.getPosition()
             })
@@ -135,13 +152,6 @@ export default {
             } else {
                 companyUpdate()
             }
-        },
-
-        setUserValues(object) {
-            object.created_at = moment(object.created_at).format('LL');
-            object.lastLogin = moment(object.lastLogin).format('LL');
-            object.fullname = `${object.name} ${object.lastname}`;
-            this.originalData = JSON.parse(JSON.stringify(object));
         },
 
         mapCompanyUsers() {

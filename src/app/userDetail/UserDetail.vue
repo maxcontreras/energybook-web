@@ -8,7 +8,7 @@
                     <b-col md="4" class="user-info">
                         <img src="/assets/images/user-avatar.png" />
                         <h5 v-if="!isCompanyProfile">
-                            {{ user.fullname }}
+                            {{ userFullname }}
                         </h5>
                         <p>
                             {{ user.company.company_name }}
@@ -33,10 +33,10 @@
                     class="header-bottom"
                     align-h="around">
                     <b-col>
-                        MIEMBRO DESDE {{ user.created_at }}
+                        MIEMBRO DESDE {{ userCreatedAt }}
                     </b-col>
                     <b-col v-if="!isCompanyProfile">
-                        ÚLTIMO INICIO DE SESIÓN {{ user.lastLogin }}
+                        ÚLTIMO INICIO DE SESIÓN {{ userLastLogin }}
                     </b-col>
                 </b-row>
             </b-card>
