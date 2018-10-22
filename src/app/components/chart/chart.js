@@ -71,11 +71,11 @@ export default {
         return {
             lineOptions: dataLine,
             dpData: {
-                name: 'DP',
+                name: 'Demanda',
                 data: []
             },
             epimpData: {
-                name: 'EPimp',
+                name: 'Consumo',
                 data: []
             },
             buttons: [{

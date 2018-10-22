@@ -27,7 +27,7 @@
                                             <i class="fas fa-power-off blue"></i>
                                         </b-col>
                                         <b-col md="10" class="dashboard-data-container">
-                                            <p>Distribución</p>
+                                            <p>Capacidad</p>
                                             <h5 class="blue">
                                                 {{distribution? distribution : 0}} kW
                                             </h5>
@@ -132,7 +132,7 @@
                                                             <p>Distribución</p>
                                                         </div>
                                                         <span>kW</span>
-                                                    </div> 
+                                                    </div>
                                                     <!--<div class="analysis-item--cat">
                                                         <div class="icon-container">
                                                             <i class="fas fa-battery-full green"></i>
@@ -160,7 +160,7 @@
                             </b-col>-->
                             <b-col md="3">
                                 <b-card>
-                                    <weather 
+                                    <weather
                                         api-key="87a3a340f3f60b932c4b3e378fda841c"
                                         title="Hoy"
                                         :latitude="position.lat"
@@ -192,7 +192,7 @@
         </b-row>
         <DashboardAdmin v-if="isAdmin"/>
     </div>
-    
+
 </template>
 
 <script src="./dashboard"></script>
