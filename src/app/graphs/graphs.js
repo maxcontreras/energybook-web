@@ -1,14 +1,14 @@
 /* eslint-disable */
 import Chart from '@/app/components/chart/Chart.vue'
-import Header from '@/app/components/header/Header.vue'
-import Table from '@/app/components/table/Table.vue'
+import VHeader from '@/app/components/VHeader.vue'
+import VTable from '@/app/components/VTable.vue'
 import designatedMeters from '@/services/designatedMeters'
 import meters from '@/services/meters'
 
 export default {
     props: ['companyIdProp'],
     components: {
-        Chart, Header, Table
+        Chart, VHeader, VTable
     },
     computed: {
         isAdmin() {
@@ -32,10 +32,12 @@ export default {
     },
     data() {
         return {
-            metersFilter: [{
-                selected: null,
-                options: [ { value: null, text: 'Selecciona un dispositivo'} ]
-            }],
+            metersFilter: [
+                {selected: null, options: [
+                    {value: null, text: 'Selecciona un dispositivo'}
+                ]}
+            ],
+            eds: [],
             fields: ['Dispositivo', 'Total', 'Máximo', 'Mínimo'],
             items: []
         }
@@ -49,12 +51,34 @@ export default {
                 filter: {
                     where: { company_id: this.companyId }
                 }
-            }).then(meters => {
-                this.meters = meters
-                this.meters.forEach(meter => {
-                    this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name })
-                })
+            }).then(eds => {
+                this.eds = eds[0];
+                meters.connectedDevices({
+                    id: this.eds.id
+                }).then(devices => {
+                    devices.forEach((device, index) => {
+                        // Ignore first device. EDS
+                        if (index === 0) {
+                            return;
+                        }
+                        this.metersFilter[0].options.push({
+                            value:`${this.eds.meter_id} ${device}`,
+                            text: `Dispositivo ${device}`
+                        });
+                    })
+                });
             })
+
+            // designatedMeters.findOne({
+            //     filter: {
+            //         where: { company_id: this.companyId }
+            //     }
+            // }).then(eds => {
+            //     this.meters = eds;
+            //     this.meters.forEach(meter => {
+            //         this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name })
+            //     })
+            // })
         },
         getData(meter_id) {
             if(meter_id !== null) {

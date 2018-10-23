@@ -1,11 +1,11 @@
 <template>
     <b-row id="clients">
         <b-col>
-            <Header :title="'Compañías'" :action="'Agregar Compañía'" :modalId="'companyModal'"/>
+            <v-header :title="'Compañías'" :action="'Agregar Compañía'" :modalId="'companyModal'"/>
             <b-row>
                 <b-col>
                     <b-card>
-                        <Table :items="items" :fields="fields"  :route="'companyDetail'"/>
+                        <v-table :items="items" :fields="fields"  :route="'companyDetail'"/>
                     </b-card>
                 </b-col>
             </b-row>

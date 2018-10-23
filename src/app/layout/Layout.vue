@@ -15,9 +15,10 @@
                 <b-nav-item v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
                     <div class="menu-icon-container"><i class="fas fa-solar-panel"></i></div> Medidores
                 </b-nav-item>
+                <!-- TODO Make payments section
                 <b-nav-item v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')" v-if="isAdmin">
                     <div class="menu-icon-container"><i class="fas fa-dollar-sign"></i></div> Pagos
-                </b-nav-item>
+                </b-nav-item>-->
                 <!--<b-nav-item v-bind:class="{'current-view': currentView === 'calendar'}" @click="goTo('calendar')" v-if="isManager || isAccounting">
                     <div class="menu-icon-container"><i class="far fa-calendar-alt"></i></div> Eficiencia
                 </b-nav-item>-->
@@ -119,7 +120,7 @@ export default {
         currentFormattedDate() {
             return date
         }
-    }, 
+    },
 
     created() {
         this.$store.watch(

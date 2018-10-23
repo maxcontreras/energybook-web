@@ -2,8 +2,8 @@
 export default {
 	data() {
 		return {
-			email: '',
-			password: ''
+			email: 'admin@ecgenergia.com',
+			password: 'Password123'
 		};
 	},
 	methods: {
@@ -12,6 +12,9 @@ export default {
 				email: this.email,
 				password: this.password,
 			});
+		},
+		openRegister() {
+			this.$router.push({name: 'register'})
 		}
 	}
 };

@@ -1,11 +1,11 @@
 <template>
     <b-row id="payments" class="main">
         <b-col>
-            <Header :title="'Pagos'"/>
+            <v-header :title="'Pagos'"/>
             <b-row class="list">
                 <b-col>
                     <b-card>
-                        <Table :items="items" :fields="fields"/>
+                        <v-table :items="items" :fields="fields"/>
                     </b-card>
                 </b-col>
             </b-row>

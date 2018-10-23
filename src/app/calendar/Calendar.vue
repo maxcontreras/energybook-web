@@ -1,7 +1,7 @@
 <template>
     <b-row id="calendar-v" class="main">
         <b-col>
-            <Header :title="'Eficiencia'"/>
+            <v-header :title="'Eficiencia'"/>
             <b-row class="list">
                 <b-col>
                     <b-card>

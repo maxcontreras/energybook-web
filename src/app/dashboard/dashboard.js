@@ -1,7 +1,7 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters'
 import meters from '@/services/meters'
-import Table from '@/app/components/table/Table.vue'
+import VTable from '@/app/components/VTable.vue'
 import PieChart from '@/app/components/chart/pieChart'
 import { gmapApi } from 'vue2-google-maps'
 import Weather from 'vue-weather-widget'
@@ -115,11 +115,11 @@ var gaugeOptions = {
 };
 
 var asyncData = {
-    name: 'EPimp',
+    name: 'Consumo',
     data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
       y: 26.5
     }, 23.3, 18.3, 13.9, 9.6]
-} 
+}
 
 
 
@@ -141,82 +141,26 @@ function parseDate(rawDate) {
 }
 
 function currencyFormat(num) {
-    return num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); 
+    return num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
 
 export default {
-    props: ['companyIdProp'],
     components: {
-        Table, Weather, PieChart, VueHighcharts , VueHighChartsComponent, DashboardAdmin
+        VTable,
+        Weather,
+        PieChart,
+        VueHighcharts ,
+        VueHighChartsComponent,
+        DashboardAdmin
     },
-    computed: {
-        isAdmin() {
-            return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard'
-        },
-        isCompanyDetail() {
-            return this.$route.name === 'companyDetail'
-        },
-        epimpHistory() {
-            return this.$store.state.socket.epimpHistory
-        },
-        distribution() {
-            return this.$store.state.socket.distribution
-        },
-        distributionCharge() {
-            return currencyFormat(parseFloat(this.$store.state.socket.distributionCharge))
-        },
-        distributionMonth() {
-            return parseFloat(this.$store.state.socket.distributionMonth)
-        },
-        odometer() {
-            return parseFloat(this.$store.state.socket.odometer)
-        },
-        consumption() {
-            return this.$store.state.socket.consumption
-        },
-        consumptionMonth() {
-            return this.$store.state.socket.consumptionMonth
-        },
-        billablePeriod() {
-            let start = moment().startOf('month').format('DD/MM/YYYY')
-            let end = moment().endOf('month').format('DD/MM/YYYY')
-            return `${start} - ${end}`
-        },
-        currentFormattedDate() {
-            return moment(this.currentDate).format('LLL')
-        },
-        position() {
-            return position
-        },
-        companyId() {
-            if(this.isCompanyDetail) return this.companyIdProp
-            return JSON.parse(localStorage.getItem('user')).company_id
-        },
-        google: gmapApi
-    },
-    watch: {
-        odometer() {
-            this.updateOdometerChart()
-        },
-        epimpHistory() {
-            this.updateEpimpHistoryChart()
+
+    props: {
+        companyIdProp: {
+            type: String,
+            required: true
         }
     },
-    beforeMount() {
-        if(this.isAdmin) return
-
-        this.getMeters()
-    },
-    mounted() {
-        if(this.isAdmin) {
-            $('.user-dashboard').remove()
-            return
-        }
-
-        $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
-
-        this.load()
-    },
+    
     data() {
         return {
             meters: [],
@@ -234,6 +178,91 @@ export default {
             edsId: ''
         }
     },
+
+    computed: {
+        isAdmin() {
+            return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard'
+        },
+
+        isCompanyDetail() {
+            return this.$route.name === 'companyDetail'
+        },
+
+        epimpHistory() {
+            return this.$store.state.socket.epimpHistory
+        },
+
+        distribution() {
+            return this.$store.state.socket.distribution
+        },
+
+        distributionCharge() {
+            return currencyFormat(parseFloat(this.$store.state.socket.distributionCharge))
+        },
+
+        distributionMonth() {
+            return parseFloat(this.$store.state.socket.distributionMonth)
+        },
+        odometer() {
+            return parseFloat(this.$store.state.socket.odometer)
+        },
+
+        consumption() {
+            return this.$store.state.socket.consumption
+        },
+
+        consumptionMonth() {
+            return this.$store.state.socket.consumptionMonth
+        },
+
+        billablePeriod() {
+            let start = moment().startOf('month').format('DD/MM/YYYY')
+            let end = moment().endOf('month').format('DD/MM/YYYY')
+            return `${start} - ${end}`
+        },
+
+        currentFormattedDate() {
+            return moment(this.currentDate).format('LLL')
+        },
+
+        position() {
+            return position
+        },
+
+        companyId() {
+            if(this.isCompanyDetail) return this.companyIdProp
+            return JSON.parse(localStorage.getItem('user')).company_id
+        },
+
+        google: gmapApi
+    },
+    watch: {
+        odometer() {
+            this.updateOdometerChart()
+        },
+
+        epimpHistory() {
+            this.updateEpimpHistoryChart()
+        }
+    },
+
+    beforeMount() {
+        if(this.isAdmin) return
+
+        this.getMeters()
+    },
+
+    mounted() {
+        if(this.isAdmin) {
+            $('.user-dashboard').remove()
+            return
+        }
+
+        $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
+
+        this.load()
+    },
+
     methods: {
         load(){
             let lineCharts = this.$refs.lineCharts
@@ -241,18 +270,18 @@ export default {
             chartSpeed = Highcharts.chart('container-odometer', Highcharts.merge(gaugeOptions, {
                 yAxis: {
                     min: 0,
-                    max: 200,
+                    max: 0,
                     title: {
-                        text: 'DP'
+                        text: 'Demanda'
                     }
                 },
-            
+
                 credits: {
                     enabled: false
                 },
-            
+
                 series: [{
-                    name: 'DP',
+                    name: 'Demanda',
                     data: [0],
                     dataLabels: {
                         format: '<div style="text-align:center"><span style="font-size:25px;color:' +
@@ -263,7 +292,7 @@ export default {
                         valueSuffix: ' kW'
                     }
                 }]
-            
+
             }));
             if(this.odometer > 0) this.updateOdometerChart()
             if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
@@ -278,7 +307,7 @@ export default {
             }).then(res => {
                 this.meters = res
                 let metersCount = this.meters.length
-                if(metersCount > 0) 
+                if(metersCount > 0)
                 {
                     /*let opacityIndex = 1 / metersCount
                     let currentOpacity = 1
@@ -294,6 +323,14 @@ export default {
                         this.$store.commit('socket/setMonthly', res.latestValues)
                         this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
                     })
+                    meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
+                        chartSpeed.update({
+                            yAxis: {
+                                min: values.min,
+                                max: values.max
+                            }
+                        });
+                    });
                 }
             })
         },

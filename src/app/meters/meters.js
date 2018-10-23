@@ -2,24 +2,15 @@
 import meters from '@/services/meters'
 import designatedMeters from '@/services/designatedMeters'
 import companies from '@/services/companies'
-import Header from '@/app/components/header/Header.vue'
-import Table from '@/app/components/table/Table.vue'
+import VHeader from '@/app/components/VHeader.vue'
+import VTable from '@/app/components/VTable.vue'
 import Constants from '@/constants'
 
 const meterActive = Constants.Meters.active
 
 export default {
     components: {
-        Header, Table
-    },
-
-    computed: {
-        isAdmin() {
-            return this.$store.state.isAdmin
-        },
-        companyId() {
-            return this.$store.state.company_id
-        },
+        VHeader, VTable
     },
 
     data() {
@@ -28,16 +19,19 @@ export default {
             designatedMeters: [],
             items: [],
             itemsDesignated: [],
-            fields: [{
-                key: 'No. de Serie',
-                sortable: true,
-                label: 'No. de Serie'
-            }, 'Fecha de Registro', 'Estado'],
-            fieldsDesignated: [ 'Compañía', {
-                key: 'Nombre',
-                sortable: true,
-                label: 'EDS'
-            }, 'Hostname', 'Num. de serie', 'Asignado el',  'Compañía',  {key:'Status', label: 'Estado'}],
+            fields: [
+                {key: 'No. de Serie',sortable: true, label: 'No. de Serie'},
+                'Fecha de Registro',
+                'Estado'
+            ],
+            fieldsDesignated: [
+                {key: 'Compañía'},
+                {key: 'Nombre', sortable: true, label: 'EDS'},
+                {key: 'Hostname'},
+                {key: 'Num. de serie'},
+                {key: 'Asignado el'},
+                {key: 'Status', label: 'Estado'}
+            ],
             newMeter: {
                 serial_number: '',
                 created_at: new Date()
@@ -49,13 +43,24 @@ export default {
                 meter_id: ''
             },
             currentIndex: 0,
-            companies: [ { value: null, text: 'Selecciona una compañía'} ],
+            companies: [
+                {value: null, text: 'Selecciona una compañía'}
+            ],
             connectedDevices: [],
             bcItems: [{
                 text: 'Medidores',
                 active: true
             }]
         }
+    },
+
+    computed: {
+        isAdmin() {
+            return this.$store.state.isAdmin
+        },
+        companyId() {
+            return this.$store.state.company_id
+        },
     },
 
     watch: {
@@ -95,7 +100,8 @@ export default {
                 filter.where = {
                     company_id: this.companyId
                 }
-                this.fieldsDesignated.splice(-2,2)
+                // FIXME why that ?????
+                //this.fieldsDesignated.splice(-2,2)
             }
             designatedMeters.find({
                 filter
@@ -138,30 +144,42 @@ export default {
                 })
             })
         },
+
         assignMeter() {
-            companies.designateMeter({
-                data: this.newDesignatedMeter
-            }).then(res => {
-                meters.getAssigned({id: res.meter_id})
-                .then(meter => {
-                    this.items.splice(this.currentIndex, 1)
-                    this.itemsDesignated.push({
-                        'Compañía': meter.company.name,
-                        'Nombre': res.device_name,
-                        'Hostname': res.hostname,
-                        'Num. de serie': res.company.meter_serial_number,
-                        'Asignado el': moment(res.created_at).format('LL'),
-                        'Estado': meterActive[meter.company.meter_status],
-                        id: res.id
+            companies.designateMeter({data: this.newDesignatedMeter})
+                .then(res => {
+                    meters.getAssigned({id: res.meter_id})
+                        .then(res => {
+                            this.items.splice(this.currentIndex, 1)
+                            const assigned = res.meters;
+                            if (assigned && assigned.length > 0) {
+                                const meter = assigned[assigned.length - 1];
+                                this.itemsDesignated.push({
+                                    'Compañía': meter.company.company_name,
+                                    'Nombre': meter.device_name,
+                                    'Hostname': meter.hostname,
+                                    'Num. de serie': meter.meter.serial_number,
+                                    'Asignado el': moment(meter.created_at).format('LL'),
+                                    'Estado': meterActive[meter.company.status],
+                                    'id': meter.id
+                                });
+                            }
+                        })
+                        .catch(err =>  {
+                            console.log(err);
+                        })
                     })
-                })
-            })
+                    .catch(err => {
+                        console.log(err);
+                    });
         },
+
         openAssignModal(value) {
             this.newDesignatedMeter.meter_id = value.id
             this.currentIndex = value.index
             this.$refs.meterModalDesignate.show()
         },
+
         openEDSDataModal(value) {
             this.connectedDevices = {};
             this.$refs.edsDataModal.show();
@@ -173,12 +191,14 @@ export default {
                 }
             });
         },
+
         clearNewMeter() {
             this.newMeter = {
                 serial_number: '',
                 created_at: new Date()
             }
         },
+
         clearNewDesignatedMeter() {
             this.newDesignatedMeter = {
                 device_name: '',
@@ -187,6 +207,7 @@ export default {
                 meter_id: ''
             }
         },
+
         statusChange(val) {
             console.log(val)
         }

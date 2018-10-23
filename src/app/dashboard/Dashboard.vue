@@ -1,6 +1,9 @@
 <template>
     <div class="dashboard-parent">
-        <b-row id="dashboard" class="main user-dashboard" v-show="!isAdmin">
+        <b-row
+            id="dashboard"
+            class="main user-dashboard"
+            v-show="!isAdmin">
             <b-col>
                 <b-row class="dashboard-content-user">
                     <b-col>
@@ -8,13 +11,17 @@
                             <b-col md="4">
                                 <b-card>
                                     <b-row>
-                                        <b-col md="2" class="dashboard-icon-container">
+                                        <b-col
+                                            md="2"
+                                            class="dashboard-icon-container">
                                             <i class="fas fa-bolt green"></i>
                                         </b-col>
-                                        <b-col md="10" class="dashboard-data-container">
+                                        <b-col
+                                            md="10"
+                                            class="dashboard-data-container">
                                             <p>Consumo</p>
                                             <h5 class="green">
-                                                {{consumption? consumption : 0}} kWh
+                                                {{ consumption ? consumption : 0 }} kWh
                                             </h5>
                                         </b-col>
                                     </b-row>
@@ -23,13 +30,17 @@
                             <b-col md="4">
                                 <b-card>
                                     <b-row>
-                                        <b-col md="2" class="dashboard-icon-container">
+                                        <b-col
+                                            md="2"
+                                            class="dashboard-icon-container">
                                             <i class="fas fa-power-off blue"></i>
                                         </b-col>
-                                        <b-col md="10" class="dashboard-data-container">
-                                            <p>Distribución</p>
+                                        <b-col
+                                            md="10"
+                                            class="dashboard-data-container">
+                                            <p>Capacidad</p>
                                             <h5 class="blue">
-                                                {{distribution? distribution : 0}} kW
+                                                {{ distribution ? distribution : 0 }} kW
                                             </h5>
                                         </b-col>
                                     </b-row>
@@ -68,13 +79,17 @@
                             <b-col md="4">
                                 <b-card>
                                     <b-row>
-                                        <b-col md="2" class="dashboard-icon-container">
+                                        <b-col
+                                            md="2"
+                                            class="dashboard-icon-container">
                                             <i class="fas fa-power-off dark-blue"></i>
                                         </b-col>
-                                        <b-col md="10" class="dashboard-data-container">
+                                        <b-col
+                                            md="10"
+                                            class="dashboard-data-container">
                                             <p>Distribución</p>
                                             <h5 class="dark-blue">
-                                                $ {{distributionCharge? distributionCharge : 0.00}}
+                                                $ {{ distributionCharge ? distributionCharge : 0.00}}
                                             </h5>
                                         </b-col>
                                     </b-row>
@@ -104,7 +119,9 @@
                                             <h5>General</h5>
                                         </b-col>
                                         <b-col>
-                                            <h5 class="billable-period">{{billablePeriod}}</h5>
+                                            <h5 class="billable-period">
+                                                {{ billablePeriod }}
+                                            </h5>
                                         </b-col>
                                     </b-row>
                                     <b-row>
@@ -116,7 +133,9 @@
                                                             <i class="fas fa-bolt"></i>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>{{consumptionMonth? consumptionMonth : 0}}</h5>
+                                                            <h5>
+                                                                {{ consumptionMonth ? consumptionMonth : 0 }}
+                                                            </h5>
                                                             <p>Consumo</p>
                                                         </div>
                                                         <div>
@@ -128,11 +147,13 @@
                                                             <i class="fas fa-chart-line"></i>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>{{distributionMonth? distributionMonth: 0}}</h5>
+                                                            <h5>
+                                                                {{ distributionMonth ? distributionMonth: 0 }}
+                                                            </h5>
                                                             <p>Distribución</p>
                                                         </div>
                                                         <span>kW</span>
-                                                    </div> 
+                                                    </div>
                                                     <!--<div class="analysis-item--cat">
                                                         <div class="icon-container">
                                                             <i class="fas fa-battery-full green"></i>
@@ -148,7 +169,11 @@
                                         </b-col>
                                         <b-col md="6" class="outer">
                                             <!--<VueHighChartsComponent :options="gaugeOptions" ref="gaugeChart"></VueHighChartsComponent>-->
-                                            <div id="container-odometer" ref="solidGauge" class="container"></div>
+                                            <div
+                                                id="container-odometer"
+                                                ref="solidGauge"
+                                                class="container">
+                                            </div>
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -160,7 +185,7 @@
                             </b-col>-->
                             <b-col md="3">
                                 <b-card>
-                                    <weather 
+                                    <weather
                                         api-key="87a3a340f3f60b932c4b3e378fda841c"
                                         title="Hoy"
                                         :latitude="position.lat"
@@ -179,7 +204,10 @@
                                             <h5>Historial</h5>
                                         </b-col>
                                     </b-row>
-                                    <vue-highcharts :options="lineOptions" ref="lineCharts"></vue-highcharts>
+                                    <vue-highcharts
+                                        :options="lineOptions"
+                                        ref="lineCharts">
+                                    </vue-highcharts>
                                 </b-card>
                             </b-col>
                             <!--<b-col md="4">
@@ -192,7 +220,7 @@
         </b-row>
         <DashboardAdmin v-if="isAdmin"/>
     </div>
-    
+
 </template>
 
 <script src="./dashboard"></script>
