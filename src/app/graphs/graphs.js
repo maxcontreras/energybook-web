@@ -32,13 +32,13 @@ export default {
     },
     data() {
         return {
-            metersFilter: [{
-                selected: null,
-                options: [ { value: null, text: 'Selecciona un dispositivo'} ]
-            }],
+            metersFilter: [
+                {selected: null, options: [
+                    {value: null, text: 'Selecciona un dispositivo'}
+                ]}
+            ],
             eds: [],
             fields: ['Dispositivo', 'Total', 'Máximo', 'Mínimo'],
-
             items: []
         }
     },
@@ -56,8 +56,15 @@ export default {
                 meters.connectedDevices({
                     id: this.eds.id
                 }).then(devices => {
-                    devices.forEach(device => {
-                        this.metersFilter[0].options.push({ value: this.eds.meter_id+" "+device, text: "Dispositivo "+ device })
+                    devices.forEach((device, index) => {
+                        // Ignore first device. EDS
+                        if (index === 0) {
+                            return;
+                        }
+                        this.metersFilter[0].options.push({
+                            value:`${this.eds.meter_id} ${device}`,
+                            text: `Dispositivo ${device}`
+                        });
                     })
                 });
             })
