@@ -145,78 +145,22 @@ function currencyFormat(num) {
 }
 
 export default {
-    props: ['companyIdProp'],
     components: {
-        VTable, Weather, PieChart, VueHighcharts , VueHighChartsComponent, DashboardAdmin
+        VTable,
+        Weather,
+        PieChart,
+        VueHighcharts ,
+        VueHighChartsComponent,
+        DashboardAdmin
     },
-    computed: {
-        isAdmin() {
-            return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard'
-        },
-        isCompanyDetail() {
-            return this.$route.name === 'companyDetail'
-        },
-        epimpHistory() {
-            return this.$store.state.socket.epimpHistory
-        },
-        distribution() {
-            return this.$store.state.socket.distribution
-        },
-        distributionCharge() {
-            return currencyFormat(parseFloat(this.$store.state.socket.distributionCharge))
-        },
-        distributionMonth() {
-            return parseFloat(this.$store.state.socket.distributionMonth)
-        },
-        odometer() {
-            return parseFloat(this.$store.state.socket.odometer)
-        },
-        consumption() {
-            return this.$store.state.socket.consumption
-        },
-        consumptionMonth() {
-            return this.$store.state.socket.consumptionMonth
-        },
-        billablePeriod() {
-            let start = moment().startOf('month').format('DD/MM/YYYY')
-            let end = moment().endOf('month').format('DD/MM/YYYY')
-            return `${start} - ${end}`
-        },
-        currentFormattedDate() {
-            return moment(this.currentDate).format('LLL')
-        },
-        position() {
-            return position
-        },
-        companyId() {
-            if(this.isCompanyDetail) return this.companyIdProp
-            return JSON.parse(localStorage.getItem('user')).company_id
-        },
-        google: gmapApi
-    },
-    watch: {
-        odometer() {
-            this.updateOdometerChart()
-        },
-        epimpHistory() {
-            this.updateEpimpHistoryChart()
+
+    props: {
+        companyIdProp: {
+            type: String,
+            required: true
         }
     },
-    beforeMount() {
-        if(this.isAdmin) return
-
-        this.getMeters()
-    },
-    mounted() {
-        if(this.isAdmin) {
-            $('.user-dashboard').remove()
-            return
-        }
-
-        $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
-
-        this.load()
-    },
+    
     data() {
         return {
             meters: [],
@@ -234,6 +178,91 @@ export default {
             edsId: ''
         }
     },
+
+    computed: {
+        isAdmin() {
+            return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard'
+        },
+
+        isCompanyDetail() {
+            return this.$route.name === 'companyDetail'
+        },
+
+        epimpHistory() {
+            return this.$store.state.socket.epimpHistory
+        },
+
+        distribution() {
+            return this.$store.state.socket.distribution
+        },
+
+        distributionCharge() {
+            return currencyFormat(parseFloat(this.$store.state.socket.distributionCharge))
+        },
+
+        distributionMonth() {
+            return parseFloat(this.$store.state.socket.distributionMonth)
+        },
+        odometer() {
+            return parseFloat(this.$store.state.socket.odometer)
+        },
+
+        consumption() {
+            return this.$store.state.socket.consumption
+        },
+
+        consumptionMonth() {
+            return this.$store.state.socket.consumptionMonth
+        },
+
+        billablePeriod() {
+            let start = moment().startOf('month').format('DD/MM/YYYY')
+            let end = moment().endOf('month').format('DD/MM/YYYY')
+            return `${start} - ${end}`
+        },
+
+        currentFormattedDate() {
+            return moment(this.currentDate).format('LLL')
+        },
+
+        position() {
+            return position
+        },
+
+        companyId() {
+            if(this.isCompanyDetail) return this.companyIdProp
+            return JSON.parse(localStorage.getItem('user')).company_id
+        },
+
+        google: gmapApi
+    },
+    watch: {
+        odometer() {
+            this.updateOdometerChart()
+        },
+
+        epimpHistory() {
+            this.updateEpimpHistoryChart()
+        }
+    },
+
+    beforeMount() {
+        if(this.isAdmin) return
+
+        this.getMeters()
+    },
+
+    mounted() {
+        if(this.isAdmin) {
+            $('.user-dashboard').remove()
+            return
+        }
+
+        $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
+
+        this.load()
+    },
+
     methods: {
         load(){
             let lineCharts = this.$refs.lineCharts
