@@ -1,9 +1,9 @@
 /* eslint-disable */
-import Header from '@/app/components/header/Header.vue';
+import VHeader from '@/app/components/VHeader.vue';
 
 export default {
     components: {
-        Header
+        VHeader
     },
     data() {
         return {

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Chart from '@/app/components/chart/Chart.vue'
-import Header from '@/app/components/header/Header.vue'
+import VHeader from '@/app/components/VHeader.vue'
 import VTable from '@/app/components/VTable.vue'
 import designatedMeters from '@/services/designatedMeters'
 import meters from '@/services/meters'
@@ -8,7 +8,7 @@ import meters from '@/services/meters'
 export default {
     props: ['companyIdProp'],
     components: {
-        Chart, Header, VTable
+        Chart, VHeader, VTable
     },
     computed: {
         isAdmin() {

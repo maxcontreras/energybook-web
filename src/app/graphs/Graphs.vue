@@ -1,7 +1,7 @@
 <template>
     <b-row class="main">
         <b-col>
-            <Header :title="title" :filters="metersFilter"  @SearchData="getData"/>
+            <v-header :title="title" :filters="metersFilter"  @SearchData="getData"/>
             <b-row class="list">
                 <b-col>
                     <b-card class="margin-bottom-1" v-show="metersFilter[0].selected !== null">

@@ -1,7 +1,7 @@
 <template>
     <b-row id="payments" class="main">
         <b-col>
-            <Header :title="'Pagos'"/>
+            <v-header :title="'Pagos'"/>
             <b-row class="list">
                 <b-col>
                     <b-card>

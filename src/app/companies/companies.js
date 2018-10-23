@@ -1,6 +1,6 @@
 /* eslint-disable */
 import companies from '@/services/companies';
-import Header from '@/app/components/header/Header.vue';
+import VHeader from '@/app/components/VHeader.vue';
 import VTable from '@/app/components/VTable.vue';
 import Constants from '@/constants';
 
@@ -8,7 +8,7 @@ const companyStatus = Constants.Companies.status
 
 export default {
     components: {
-        Header, VTable
+        VHeader, VTable
     },
     data() {
         return {

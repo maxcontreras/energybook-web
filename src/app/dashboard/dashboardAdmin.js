@@ -1,12 +1,12 @@
 /* eslint-disable */
-import Header from '@/app/components/header/Header.vue';
+import VHeader from '@/app/components/VHeader.vue';
 import companies from '@/services/companies';
 import VTable from '@/app/components/VTable.vue';
 import {gmapApi} from 'vue2-google-maps';
 
 export default {
     components: {
-        Header,VTable
+        VHeader,VTable
     },
 
     computed: {

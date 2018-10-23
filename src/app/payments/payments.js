@@ -1,11 +1,11 @@
 /* eslint-disable */
 import payments from '@/services/payments';
-import Header from '@/app/components/header/Header.vue';
+import VHeader from '@/app/components/VHeader.vue';
 import VTable from '@/app/components/VTable.vue';
 
 export default {
     components: {
-        Header, VTable
+        VHeader, VTable
     },
     data() {
         return {
