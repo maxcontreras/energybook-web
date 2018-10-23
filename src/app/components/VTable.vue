@@ -23,7 +23,7 @@
                 slot-scope="data">
                 <b-button
                     title="Click para cambiar estado"
-                    @click="statusChange(data.item.id, data.item.Status)"
+                    @click.stop="statusChange(data.item.id, data.item.Status)"
                     :pressed.sync="data.item.Status" variant="primary">
                     <!--TODO Update this to computed propertie-->
                     {{ data.item.Status ? 'Activo' : 'Inactivo' }}
