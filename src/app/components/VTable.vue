@@ -24,7 +24,8 @@
                 <b-button
                     title="Click para cambiar estado"
                     @click.stop="statusChange(data.item.id, data.item.Status)"
-                    :pressed.sync="data.item.Status" variant="primary">
+                    :pressed.sync="data.item.Status"
+                    variant="primary">
                     <!--TODO Update this to computed propertie-->
                     {{ data.item.Status ? 'Activo' : 'Inactivo' }}
                 </b-button>

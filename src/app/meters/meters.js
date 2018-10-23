@@ -25,13 +25,12 @@ export default {
                 'Estado'
             ],
             fieldsDesignated: [
-                'Compañía',
+                {key: 'Compañía'},
                 {key: 'Nombre', sortable: true, label: 'EDS'},
-                'Hostname',
-                'Num. de serie',
-                'Asignado el',
-                'Compañía',
-                {key:'Status', label: 'Estado'}
+                {key: 'Hostname'},
+                {key: 'Num. de serie'},
+                {key: 'Asignado el'},
+                {key: 'Status', label: 'Estado'}
             ],
             newMeter: {
                 serial_number: '',
@@ -101,7 +100,8 @@ export default {
                 filter.where = {
                     company_id: this.companyId
                 }
-                this.fieldsDesignated.splice(-2,2)
+                // FIXME why that ?????
+                //this.fieldsDesignated.splice(-2,2)
             }
             designatedMeters.find({
                 filter
