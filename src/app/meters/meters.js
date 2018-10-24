@@ -100,30 +100,28 @@ export default {
                 }
             }
             if(!this.isAdmin) {
-                filter.where = {
-                    company_id: this.companyId
-                }
+                filter.where = {company_id: this.companyId}
                 // FIXME why that ?????
                 //this.fieldsDesignated.splice(-2,2)
             }
-            designatedMeters.find({
-                filter
-            }).then(designatedMeters => {
-                this.designatedMeters = designatedMeters
-                this.designatedMeters.forEach(meter => {
-                    meters.getOwnerCompany({meter_id: meter.meter_id}).then(company => {
-                        this.itemsDesignated.push({
-                            'Compañía': company.company.name,
-                            'Nombre': meter.device_name,
-                            'Hostname': meter.hostname,
-                            'Num. de serie': company.company.meter_serial_number,
-                            'Asignado el': moment(meter.created_at).format('LL'),
-                            'Status': company.company.meter_status? true : false,
-                            id: meter.id
-                        })
-                    })
+            designatedMeters.find({filter})
+                .then(designatedMeters => {
+                    this.designatedMeters = designatedMeters
+                    this.designatedMeters.forEach(meter => {
+                        meters.getOwnerCompany({meter_id: meter.meter_id})
+                            .then(company => {
+                                this.itemsDesignated.push({
+                                    'Compañía': company.company.name,
+                                    'Nombre': meter.device_name,
+                                    'Hostname': meter.hostname,
+                                    'Num. de serie': company.company.meter_serial_number,
+                                    'Asignado el': moment(meter.created_at).format('LL'),
+                                    'Status': company.company.meter_status? true : false,
+                                    id: meter.id
+                                })
+                            });
+                    });
                 })
-            })
         },
 
         getCompanies() {
@@ -178,22 +176,39 @@ export default {
                     });
         },
 
+        editMeter() {
+            meters.updateDesignatedMeter({data: this.newDesignatedMeter})
+                .then(res => {
+                    this.clearNewDesignatedMeter();
+                    console.log(res)
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        },
+
         openAssignModal(value) {
+            this.clearNewDesignatedMeter();
             this.newDesignatedMeter.meter_id = value.id
             this.currentIndex = value.index
             this.$refs.meterModalDesignate.show()
         },
 
         openEDSDataModal(value) {
+            // Get meter from selected item
+            const index = this.designatedMeters.findIndex(meter => meter.id == value.id);
+            let meterSelected = this.designatedMeters[index];
+            this.newDesignatedMeter = meterSelected;
+
             this.connectedDevices = {};
             this.$refs.edsDataModal.show();
-            meters.connectedDevices({
-                id: value.id
-            }).then(devices => {
-                if(devices){
-                    this.connectedDevices = devices;
-                }
-            });
+
+            meters.connectedDevices({id: value.id})
+                .then(devices => {
+                    if(devices){
+                        this.connectedDevices = devices;
+                    }
+                });
         },
 
         clearNewMeter() {
