@@ -63,7 +63,12 @@
             id="meterModalDesignate"
             title="Asignar Medidor"
             @ok="assignMeter">
-            <b-form @submit.stop.prevent="assignMeter">
+            <meter-form
+                @formSubmit="assignMeter"
+                :companies="companies"
+                :meter="newDesignatedMeter"
+                />
+            <!-- <b-form @submit.stop.prevent="assignMeter">
                 <b-form-group>
                     <b-form-input
                         type="text"
@@ -107,7 +112,7 @@
                         :options="companies"
                         v-model="newDesignatedMeter.company_id" />
                 </b-form-group>
-            </b-form>
+            </b-form> -->
         </b-modal>
         <b-modal
             ref="edsDataModal"

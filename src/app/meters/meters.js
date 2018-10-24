@@ -2,6 +2,7 @@
 import meters from '@/services/meters'
 import designatedMeters from '@/services/designatedMeters'
 import companies from '@/services/companies'
+import MeterForm from '@/app/meters/MeterForm.vue'
 import VHeader from '@/app/components/VHeader.vue'
 import VTable from '@/app/components/VTable.vue'
 import Constants from '@/constants'
@@ -10,7 +11,9 @@ const meterActive = Constants.Meters.active
 
 export default {
     components: {
-        VHeader, VTable
+        VHeader,
+        VTable,
+        MeterForm
     },
 
     data() {
@@ -150,6 +153,7 @@ export default {
                 .then(res => {
                     meters.getAssigned({id: res.meter_id})
                         .then(res => {
+                            this.clearNewDesignatedMeter();
                             this.items.splice(this.currentIndex, 1)
                             const assigned = res.meters;
                             if (assigned && assigned.length > 0) {
