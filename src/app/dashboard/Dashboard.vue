@@ -175,14 +175,17 @@
                                                 class="container">
                                             </div>
                                         </b-col>
+                                        <b-col md="6">
+                                            <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
+                                        </b-col>
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <!--<b-col md="3">
+                            <!-- <b-col md="3">
                                 <b-card>
                                     <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
                                 </b-card>
-                            </b-col>-->
+                            </b-col> -->
                             <b-col md="3">
                                 <b-card>
                                     <weather

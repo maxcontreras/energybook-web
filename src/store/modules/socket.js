@@ -23,7 +23,8 @@ export default {
         epimpHistory: getLocalStorageItem('epimpHistory'),
         distributionCharge: getLocalStorageItem('distributionCharge'),
         consumption: getLocalStorageItem('consumption'),
-        consumptionMonth: getLocalStorageItem('consumptionMonth')
+        consumptionMonth: getLocalStorageItem('consumptionMonth'),
+        consumptionSummary: getLocalStorageItem('consumptionSummary')
     },
     actions: {
         odometerReading({commit}, data) {
@@ -37,6 +38,9 @@ export default {
         },
         epimpHistoryReading({commit}, data) {
             commit('setEpimpHistory', data)
+        },
+        consumptionSummary({commit}, data) {
+            commit('consumptionSummary', data)
         }
     },
     mutations: {
@@ -61,6 +65,10 @@ export default {
         setEpimpHistory(state, value) {
             state.epimpHistory = value
             saveInLocalStorage('epimpHistory', value)
+        },
+        setConsumptionSummary(state, value) {
+            state.consumptionSummary = value
+            saveInLocalStorage('consumptionSummary', value)
         }
     }
 }
