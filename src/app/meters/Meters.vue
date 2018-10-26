@@ -18,7 +18,7 @@
                                 title="Medidores Asignados"
                                 active>
                                 <v-table
-                                    :items="itemsDesignated"
+                                    :items="metersAssignedFormatted"
                                     :fields="fieldsDesignated"
                                     @clicked="openEDSDataModal"
                                     :alertMessage="'No hay medidores asignados.'"
@@ -26,7 +26,7 @@
                             </b-tab>
                             <b-tab title="Medidores">
                                 <v-table
-                                    :items="items"
+                                    :items="metersFormatted"
                                     :fields="fields"
                                     @clicked="openAssignModal"
                                     :alertMessage="'No se encuentran medidores sin asignar.'"/>

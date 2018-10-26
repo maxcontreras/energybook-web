@@ -1,5 +1,9 @@
 /* eslint-disable */
 
-export function getDesignated(state) {
+export function getAssignatedMeters(state) {
     return state.metersAssigned;
+}
+
+export function getMeters(state) {
+    return state.meters;
 }

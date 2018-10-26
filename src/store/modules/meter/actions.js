@@ -24,7 +24,7 @@ export function loadUnassignedMeters({commit}, userId) {
     });
 }
 
-export function loadAssignedMeters({commit}, isAdmin = false) {
+export function loadAssignedMeters({commit, dispatch}, isAdmin = false) {
     return new Promise((resolve, reject) => {
         let filter = {
             filter: {
@@ -40,7 +40,16 @@ export function loadAssignedMeters({commit}, isAdmin = false) {
             .then(meters => {
                 commit(mutation.DELETE_ALL_ASSIGNED);
                 meters.forEach(meter => {
-                    commit(mutation.ADD_ASSIGNED, meter);
+                    dispatch('getOwnerCompany', meter.meter_id)
+                        .then(company => {
+                            meter.company_name = company.company.name;
+                            meter.serial_number = company.company.meter_serial_number;
+                            meter.status = company.company.meter_status ? true : false;
+                            commit(mutation.ADD_ASSIGNED, meter);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        })
                 });
                 resolve(meters);
             })

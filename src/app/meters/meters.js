@@ -18,8 +18,6 @@ export default {
 
     data() {
         return {
-            // meters: [],
-            designatedMeters: [],
             items: [],
             itemsDesignated: [],
             fields: [
@@ -62,13 +60,47 @@ export default {
             return this.$store.state.isAdmin
         },
         companyId() {
+            // TODO check this computed propertie
             return this.$store.state.company_id
+        },
+        meters: function() {
+            return this.$store.getters['meter/getMeters'];
+        },
+        metersFormatted: function() {
+            return this.meters.map(meter => {
+                let f_meter = {
+                    'No. de Serie': meter.serial_number,
+                    'Fecha de Registro': moment(meter.created_at).format('LL'),
+                    'Estado': meterActive[meter.active],
+                    id: meter.id
+                }
+                return f_meter;
+            });
+        },
+        metersAssigned: function() {
+            return this.$store.getters['meter/getAssignatedMeters'];
+        },
+        metersAssignedFormatted: function() {
+            return this.metersAssigned.map(meter => {
+                let f_meter = {
+                    'Compañía': meter.company_name,
+                    'Nombre': meter.device_name,
+                    'Hostname': meter.hostname,
+                    'Num. de serie': meter.serial_number,
+                    'Asignado el': moment(meter.created_at).format('LL'),
+                    'Status': meter.status,
+                    id: meter.id
+                }
+                return f_meter;
+            });
         },
     },
 
     watch: {
-        companyId() {
-            // this.getDesignatedMeters()
+        companyId(newVal, oldVal) {
+            if (newVal) {
+                this.getDesignatedMeters()
+            }
         }
     },
 
@@ -81,43 +113,16 @@ export default {
     methods: {
         getMeters() {
             this.$store.dispatch('meter/loadUnassignedMeters')
-            .then(res => {
-                res.forEach(meter => {
-                    this.items.push({
-                        'No. de Serie': meter.serial_number,
-                        'Fecha de Registro': moment(meter.created_at).format('LL'),
-                        'Estado': meterActive[meter.active],
-                        id: meter.id
-                    })
-                });
-            })
+            .then(res => {})
             .catch(err =>  {
                 console.log(err);
             })
         },
 
         getDesignatedMeters() {
-            this.itemsDesignated = [];
             this.$store.dispatch('meter/loadAssignedMeters')
                 .then(meters =>  {
-                    this.designateMeter = meters;
-                    meters.forEach(meter => {
-                        this.$store.dispatch('meter/getOwnerCompany', meter.meter_id)
-                            .then(company => {
-                                this.itemsDesignated.push({
-                                    'Compañía': company.company.name,
-                                    'Nombre': meter.device_name,
-                                    'Hostname': meter.hostname,
-                                    'Num. de serie': company.company.meter_serial_number,
-                                    'Asignado el': moment(meter.created_at).format('LL'),
-                                    'Status': company.company.meter_status? true : false,
-                                    id: meter.id
-                                });
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            });
-                    });
+                    this.designatedMeters = meters;
                 })
                 .catch(err => {
                     console.log(err);
@@ -196,7 +201,7 @@ export default {
 
         openEDSDataModal(value) {
             // Get meter from selected item
-            const index = this.designatedMeters.findIndex(meter => meter.id == value.id);
+            const index = this.metersAssigned.findIndex(meter => meter.id == value.id);
             let meterSelected = this.designatedMeters[index];
             this.newDesignatedMeter = meterSelected;
 
