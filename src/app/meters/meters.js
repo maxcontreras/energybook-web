@@ -138,57 +138,30 @@ export default {
         },
 
         createMeter() {
-            meters.create({
-                data: this.newMeter
-            })
-            .then(meter => {
-                this.items.push({
-                    'No. de Serie': meter.serial_number,
-                    'Fecha de Registro': moment(meter.created_at).format('LL'),
-                    'Estado': meterActive[meter.active],
-                    id: meter.id
-                })
-            })
+            this.$store.dispatch('meter/createMeter', this.newMeter)
+                .then(res => {})
+                .catch(err => {
+                    console.log(err);
+                });
         },
 
         assignMeter() {
-            companies.designateMeter({data: this.newDesignatedMeter})
+            this.$store.dispatch('meter/assignMeter', this.newDesignatedMeter)
                 .then(res => {
-                    meters.getAssigned({id: res.meter_id})
-                        .then(res => {
-                            this.clearNewDesignatedMeter();
-                            this.items.splice(this.currentIndex, 1)
-                            const assigned = res.meters;
-                            if (assigned && assigned.length > 0) {
-                                const meter = assigned[assigned.length - 1];
-                                this.itemsDesignated.push({
-                                    'Compañía': meter.company.company_name,
-                                    'Nombre': meter.device_name,
-                                    'Hostname': meter.hostname,
-                                    'Num. de serie': meter.meter.serial_number,
-                                    'Asignado el': moment(meter.created_at).format('LL'),
-                                    'Estado': meterActive[meter.company.status],
-                                    'id': meter.id
-                                });
-                            }
-                        })
-                        .catch(err =>  {
-                            console.log(err);
-                        })
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                    this.clearNewDesignatedMeter();
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         },
 
         editMeter() {
-            meters.updateDesignatedMeter({data: this.newDesignatedMeter})
+            this.$store.dispatch('meter/editAssignedMeter', this.newDesignatedMeter)
                 .then(res => {
                     this.clearNewDesignatedMeter();
-                    console.log(res)
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.log(err);
                 });
         },
 
@@ -202,8 +175,11 @@ export default {
         openEDSDataModal(value) {
             // Get meter from selected item
             const index = this.metersAssigned.findIndex(meter => meter.id == value.id);
-            let meterSelected = this.designatedMeters[index];
-            this.newDesignatedMeter = meterSelected;
+            console.log('index selected', index);
+            let meter = this.designatedMeters[index];
+            console.log('selected', meter)
+            this.newDesignatedMeter = Object.assign({}, meter);
+            // this.newDesignatedMeter = meterSelected;
 
             this.connectedDevices = {};
             this.$refs.edsDataModal.show();
