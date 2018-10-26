@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 
 import user from './modules/user.js'
 import socket from './modules/socket'
+import meter from './modules/meter'
 
 Vue.use(Vuex)
 
@@ -32,8 +33,9 @@ export default new Vuex.Store({
 	},
 
 	modules: {
-        user, 
-        socket
+        user,
+        socket,
+        meter
 	},
 
 	mutations: {
@@ -46,7 +48,7 @@ export default new Vuex.Store({
             state.isUser = false
             state.isAccounting = false
             switch(user.role_id) {
-                case 1: 
+                case 1:
                     state.isAdmin = true
                     break
                 case 2:
@@ -58,7 +60,7 @@ export default new Vuex.Store({
                 case 4:
                     state.isAccounting = true
                     break
-			} 
+			}
         },
         setCompanyId(state, id) {
             state.company_id = id

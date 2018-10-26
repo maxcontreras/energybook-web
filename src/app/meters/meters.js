@@ -15,8 +15,8 @@ export default {
 
     data() {
         return {
-            meters: [],
-            designatedMeters: [],
+            // meters: [],
+            // designatedMeters: [],
             items: [],
             itemsDesignated: [],
             fields: [
@@ -65,7 +65,7 @@ export default {
 
     watch: {
         companyId() {
-            this.getDesignatedMeters()
+            // this.getDesignatedMeters()
         }
     },
 
@@ -77,50 +77,47 @@ export default {
 
     methods: {
         getMeters() {
-            meters.unassignedMeters().then(res => {
-                this.meters = res.meters
-                this.meters.forEach(meter => {
+            this.$store.dispatch('meter/loadUnassignedMeters')
+            .then(res => {
+                res.forEach(meter => {
                     this.items.push({
                         'No. de Serie': meter.serial_number,
                         'Fecha de Registro': moment(meter.created_at).format('LL'),
                         'Estado': meterActive[meter.active],
                         id: meter.id
                     })
-                })
+                });
+            })
+            .catch(err =>  {
+                console.log(err);
             })
         },
 
         getDesignatedMeters() {
-            let filter = {
-                filter: {
-                    include: ['meter','company']
-                }
-            }
-            if(!this.isAdmin) {
-                filter.where = {
-                    company_id: this.companyId
-                }
-                // FIXME why that ?????
-                //this.fieldsDesignated.splice(-2,2)
-            }
-            designatedMeters.find({
-                filter
-            }).then(designatedMeters => {
-                this.designatedMeters = designatedMeters
-                this.designatedMeters.forEach(meter => {
-                    meters.getOwnerCompany({meter_id: meter.meter_id}).then(company => {
-                        this.itemsDesignated.push({
-                            'Compañía': company.company.name,
-                            'Nombre': meter.device_name,
-                            'Hostname': meter.hostname,
-                            'Num. de serie': company.company.meter_serial_number,
-                            'Asignado el': moment(meter.created_at).format('LL'),
-                            'Status': company.company.meter_status? true : false,
-                            id: meter.id
-                        })
-                    })
+            this.itemsDesignated = [];
+            this.$store.dispatch('meter/loadAssignedMeters')
+                .then(meters =>  {
+                    meters.forEach(meter => {
+                        this.$store.dispatch('meter/getOwnerCompany', meter.meter_id)
+                            .then(company => {
+                                this.itemsDesignated.push({
+                                    'Compañía': company.company.name,
+                                    'Nombre': meter.device_name,
+                                    'Hostname': meter.hostname,
+                                    'Num. de serie': company.company.meter_serial_number,
+                                    'Asignado el': moment(meter.created_at).format('LL'),
+                                    'Status': company.company.meter_status? true : false,
+                                    id: meter.id
+                                });
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    });
                 })
-            })
+                .catch(err => {
+                    console.log(err);
+                })
         },
 
         getCompanies() {
