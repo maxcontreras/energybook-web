@@ -23,7 +23,8 @@ export default {
             fields: [
                 {key: 'No. de Serie',sortable: true, label: 'No. de Serie'},
                 'Fecha de Registro',
-                'Estado'
+                'Estado',
+                {key: 'Delete', label: ''}
             ],
             fieldsDesignated: [
                 {key: 'Compañía'},
@@ -31,7 +32,7 @@ export default {
                 {key: 'Hostname'},
                 {key: 'Num. de serie'},
                 {key: 'Asignado el'},
-                {key: 'Status', label: 'Estado'}
+                {key: 'Status', label: 'Estado'},
             ],
             newMeter: {
                 serial_number: '',
@@ -165,6 +166,13 @@ export default {
                 });
         },
 
+        deleteMeter(value) {
+            const index = this.meters.findIndex(meter => meter.id == value.id);
+            this.$store.dispatch('meter/deleteMeter', index, null)
+                .then(res => {})
+                .catch(err => console.log(err));
+        },
+
         openAssignModal(value) {
             this.clearNewDesignatedMeter();
             this.newDesignatedMeter.meter_id = value.id
@@ -179,7 +187,6 @@ export default {
             let meter = this.designatedMeters[index];
             console.log('selected', meter)
             this.newDesignatedMeter = Object.assign({}, meter);
-            // this.newDesignatedMeter = meterSelected;
 
             this.connectedDevices = {};
             this.$refs.edsDataModal.show();
