@@ -2,6 +2,7 @@
 import meters from '@/services/meters'
 import designatedMeters from '@/services/designatedMeters'
 import companies from '@/services/companies'
+import MeterForm from '@/app/meters/MeterForm.vue'
 import VHeader from '@/app/components/VHeader.vue'
 import VTable from '@/app/components/VTable.vue'
 import Constants from '@/constants'
@@ -10,13 +11,15 @@ const meterActive = Constants.Meters.active
 
 export default {
     components: {
-        VHeader, VTable
+        VHeader,
+        VTable,
+        MeterForm
     },
 
     data() {
         return {
             // meters: [],
-            // designatedMeters: [],
+            designatedMeters: [],
             items: [],
             itemsDesignated: [],
             fields: [
@@ -97,6 +100,7 @@ export default {
             this.itemsDesignated = [];
             this.$store.dispatch('meter/loadAssignedMeters')
                 .then(meters =>  {
+                    this.designateMeter = meters;
                     meters.forEach(meter => {
                         this.$store.dispatch('meter/getOwnerCompany', meter.meter_id)
                             .then(company => {
@@ -117,7 +121,7 @@ export default {
                 })
                 .catch(err => {
                     console.log(err);
-                })
+                });
         },
 
         getCompanies() {
@@ -147,6 +151,7 @@ export default {
                 .then(res => {
                     meters.getAssigned({id: res.meter_id})
                         .then(res => {
+                            this.clearNewDesignatedMeter();
                             this.items.splice(this.currentIndex, 1)
                             const assigned = res.meters;
                             if (assigned && assigned.length > 0) {
@@ -171,22 +176,39 @@ export default {
                     });
         },
 
+        editMeter() {
+            meters.updateDesignatedMeter({data: this.newDesignatedMeter})
+                .then(res => {
+                    this.clearNewDesignatedMeter();
+                    console.log(res)
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        },
+
         openAssignModal(value) {
+            this.clearNewDesignatedMeter();
             this.newDesignatedMeter.meter_id = value.id
             this.currentIndex = value.index
             this.$refs.meterModalDesignate.show()
         },
 
         openEDSDataModal(value) {
+            // Get meter from selected item
+            const index = this.designatedMeters.findIndex(meter => meter.id == value.id);
+            let meterSelected = this.designatedMeters[index];
+            this.newDesignatedMeter = meterSelected;
+
             this.connectedDevices = {};
             this.$refs.edsDataModal.show();
-            meters.connectedDevices({
-                id: value.id
-            }).then(devices => {
-                if(devices){
-                    this.connectedDevices = devices;
-                }
-            });
+
+            meters.connectedDevices({id: value.id})
+                .then(devices => {
+                    if(devices){
+                        this.connectedDevices = devices;
+                    }
+                });
         },
 
         clearNewMeter() {

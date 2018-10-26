@@ -63,76 +63,52 @@
             id="meterModalDesignate"
             title="Asignar Medidor"
             @ok="assignMeter">
-            <b-form @submit.stop.prevent="assignMeter">
-                <b-form-group>
-                    <b-form-input
-                        type="text"
-                        v-model="newDesignatedMeter.device_name"
-                        required
-                        placeholder="Nombre">
-                    </b-form-input>
-                </b-form-group>
-                <b-form-group>
-                    <b-form-input
-                        type="text"
-                        v-model="newDesignatedMeter.hostname"
-                        required
-                        placeholder="Hostname">
-                    </b-form-input>
-                </b-form-group>
-                <b-row>
-                    <b-col>
-                        <b-form-group>
-                            <b-form-input
-                                type="number"
-                                v-model="newDesignatedMeter.max_value"
-                                required
-                                placeholder="Valor máximo">
-                            </b-form-input>
-                        </b-form-group>
-                    </b-col>
-                    <b-col>
-                        <b-form-group>
-                            <b-form-input
-                                type="number"
-                                v-model="newDesignatedMeter.min_value"
-                                required
-                                placeholder="Valor mínimo">
-                            </b-form-input>
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-                <b-form-group>
-                    <b-form-select
-                        :options="companies"
-                        v-model="newDesignatedMeter.company_id" />
-                </b-form-group>
-            </b-form>
+            <meter-form
+                @formSubmit="assignMeter"
+                :companies="companies"
+                :meter="newDesignatedMeter"
+                />
         </b-modal>
         <b-modal
             ref="edsDataModal"
             id="edsDataModal"
-            title="Información del EDS">
+            title="Información del EDS"
+            @ok="editMeter">
             <b-card
                 no-body
                 v-if="connectedDevices">
-                <b-list-group flush>
-                    <b-list-group-item
-                        v-for="device in connectedDevices"
-                        :key="device">
-                        <a href="#" class="card-link">
-                            {{ device }}
-                        </a>
-                    </b-list-group-item>
-                </b-list-group>
-            </b-card>
-            <b-card v-if="!connectedDevices[0]">
-                <b-alert
-                    show
-                    class="margin-top-1"
-                    variant="warning">
-                    Obteniendo la información del EDS...
-                </b-alert>
+                <b-tabs pills card>
+                    <b-tab
+                        title="Dispositivos"
+                        active
+                        >
+                        <b-list-group flush>
+                            <b-list-group-item
+                                v-for="device in connectedDevices"
+                                :key="device">
+                                <a href="#" class="card-link">
+                                    {{ device }}
+                                </a>
+                            </b-list-group-item>
+                        </b-list-group>
+                        <b-card v-if="!connectedDevices[0]">
+                            <b-alert
+                                show
+                                class="margin-top-1"
+                                variant="warning">
+                                Obteniendo la información del EDS...
+                            </b-alert>
+                        </b-card>
+                    </b-tab>
+                    <b-tab
+                        title="Datos">
+                        <meter-form
+                            @formSubmit="editMeter"
+                            :companies="companies"
+                            :meter="newDesignatedMeter"
+                            />
+                    </b-tab>
+                </b-tabs>
             </b-card>
         </b-modal>
     </b-row>
