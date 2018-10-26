@@ -160,7 +160,7 @@ export default {
             required: true
         }
     },
-    
+
     data() {
         return {
             meters: [],
@@ -168,8 +168,8 @@ export default {
             epimpVal: 0,
             chartData: {
                 datasets: [{
-                    data: [100],
-                    backgroundColor: []
+                    data: [],
+                    backgroundColor: ['#344c01', '#456501', '#577e01', '#689702', '#79b102', '#8bca02', '#9ce302','#AFFC0F','#befd35']
                 }],
                 labels: []
             },
@@ -215,6 +215,10 @@ export default {
             return this.$store.state.socket.consumptionMonth
         },
 
+        consumptionSummary() {
+            return this.$store.state.socket.consumptionSummary
+        },
+
         billablePeriod() {
             let start = moment().startOf('month').format('DD/MM/YYYY')
             let end = moment().endOf('month').format('DD/MM/YYYY')
@@ -243,6 +247,10 @@ export default {
 
         epimpHistory() {
             this.updateEpimpHistoryChart()
+        },
+
+        consumptionSummary() {
+            this.updatePieChart()
         }
     },
 
@@ -296,6 +304,7 @@ export default {
             }));
             if(this.odometer > 0) this.updateOdometerChart()
             if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
+            if(this.consumptionSummary.length > 0) this.updatePieChart()
         },
         getMeters() {
             designatedMeters.find({
@@ -322,6 +331,7 @@ export default {
                         this.$store.commit('socket/setDistribution', res.latestValues)
                         this.$store.commit('socket/setMonthly', res.latestValues)
                         this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
+                        this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory)
                     })
                     meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
                         chartSpeed.update({
@@ -357,6 +367,14 @@ export default {
         updateOdometerChart() {
             let point = chartSpeed.series[0].points[0]
             point.update(this.odometer)
+        },
+        updatePieChart() {
+            Object.values(this.consumptionSummary).forEach(device => {
+                if(device.value > 0){
+                    this.chartData.datasets[0].data.push(device.value);
+                    this.chartData.labels.push(device.device);
+                }
+            });
         }
     }
 }

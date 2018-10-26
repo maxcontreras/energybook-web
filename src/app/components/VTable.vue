@@ -101,7 +101,7 @@ export default {
                 }
                 this.$router.push({name: this.route, params: {id: record.id}});
             } else {
-                this.$emit('clicked', {id: record.id, index });
+                this.$emit('clicked', {id: record.id, index, item: record});
             }
         },
         statusChange(rowId, status) {

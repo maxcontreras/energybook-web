@@ -2,6 +2,7 @@
 import meters from '@/services/meters'
 import designatedMeters from '@/services/designatedMeters'
 import companies from '@/services/companies'
+import MeterForm from '@/app/meters/MeterForm.vue'
 import VHeader from '@/app/components/VHeader.vue'
 import VTable from '@/app/components/VTable.vue'
 import Constants from '@/constants'
@@ -10,13 +11,13 @@ const meterActive = Constants.Meters.active
 
 export default {
     components: {
-        VHeader, VTable
+        VHeader,
+        VTable,
+        MeterForm
     },
 
     data() {
         return {
-            meters: [],
-            designatedMeters: [],
             items: [],
             itemsDesignated: [],
             fields: [
@@ -59,13 +60,47 @@ export default {
             return this.$store.state.isAdmin
         },
         companyId() {
+            // TODO check this computed propertie
             return this.$store.state.company_id
+        },
+        meters: function() {
+            return this.$store.getters['meter/getMeters'];
+        },
+        metersFormatted: function() {
+            return this.meters.map(meter => {
+                let f_meter = {
+                    'No. de Serie': meter.serial_number,
+                    'Fecha de Registro': moment(meter.created_at).format('LL'),
+                    'Estado': meterActive[meter.active],
+                    id: meter.id
+                }
+                return f_meter;
+            });
+        },
+        metersAssigned: function() {
+            return this.$store.getters['meter/getAssignatedMeters'];
+        },
+        metersAssignedFormatted: function() {
+            return this.metersAssigned.map(meter => {
+                let f_meter = {
+                    'Compañía': meter.company_name,
+                    'Nombre': meter.device_name,
+                    'Hostname': meter.hostname,
+                    'Num. de serie': meter.serial_number,
+                    'Asignado el': moment(meter.created_at).format('LL'),
+                    'Status': meter.status,
+                    id: meter.id
+                }
+                return f_meter;
+            });
         },
     },
 
     watch: {
-        companyId() {
-            this.getDesignatedMeters()
+        companyId(newVal, oldVal) {
+            if (newVal) {
+                this.getDesignatedMeters()
+            }
         }
     },
 
@@ -77,50 +112,21 @@ export default {
 
     methods: {
         getMeters() {
-            meters.unassignedMeters().then(res => {
-                this.meters = res.meters
-                this.meters.forEach(meter => {
-                    this.items.push({
-                        'No. de Serie': meter.serial_number,
-                        'Fecha de Registro': moment(meter.created_at).format('LL'),
-                        'Estado': meterActive[meter.active],
-                        id: meter.id
-                    })
-                })
+            this.$store.dispatch('meter/loadUnassignedMeters')
+            .then(res => {})
+            .catch(err =>  {
+                console.log(err);
             })
         },
 
         getDesignatedMeters() {
-            let filter = {
-                filter: {
-                    include: ['meter','company']
-                }
-            }
-            if(!this.isAdmin) {
-                filter.where = {
-                    company_id: this.companyId
-                }
-                // FIXME why that ?????
-                //this.fieldsDesignated.splice(-2,2)
-            }
-            designatedMeters.find({
-                filter
-            }).then(designatedMeters => {
-                this.designatedMeters = designatedMeters
-                this.designatedMeters.forEach(meter => {
-                    meters.getOwnerCompany({meter_id: meter.meter_id}).then(company => {
-                        this.itemsDesignated.push({
-                            'Compañía': company.company.name,
-                            'Nombre': meter.device_name,
-                            'Hostname': meter.hostname,
-                            'Num. de serie': company.company.meter_serial_number,
-                            'Asignado el': moment(meter.created_at).format('LL'),
-                            'Status': company.company.meter_status? true : false,
-                            id: meter.id
-                        })
-                    })
+            this.$store.dispatch('meter/loadAssignedMeters')
+                .then(meters =>  {
+                    this.designatedMeters = meters;
                 })
-            })
+                .catch(err => {
+                    console.log(err);
+                });
         },
 
         getCompanies() {
@@ -132,64 +138,58 @@ export default {
         },
 
         createMeter() {
-            meters.create({
-                data: this.newMeter
-            })
-            .then(meter => {
-                this.items.push({
-                    'No. de Serie': meter.serial_number,
-                    'Fecha de Registro': moment(meter.created_at).format('LL'),
-                    'Estado': meterActive[meter.active],
-                    id: meter.id
-                })
-            })
+            this.$store.dispatch('meter/createMeter', this.newMeter)
+                .then(res => {})
+                .catch(err => {
+                    console.log(err);
+                });
         },
 
         assignMeter() {
-            companies.designateMeter({data: this.newDesignatedMeter})
+            this.$store.dispatch('meter/assignMeter', this.newDesignatedMeter)
                 .then(res => {
-                    meters.getAssigned({id: res.meter_id})
-                        .then(res => {
-                            this.items.splice(this.currentIndex, 1)
-                            const assigned = res.meters;
-                            if (assigned && assigned.length > 0) {
-                                const meter = assigned[assigned.length - 1];
-                                this.itemsDesignated.push({
-                                    'Compañía': meter.company.company_name,
-                                    'Nombre': meter.device_name,
-                                    'Hostname': meter.hostname,
-                                    'Num. de serie': meter.meter.serial_number,
-                                    'Asignado el': moment(meter.created_at).format('LL'),
-                                    'Estado': meterActive[meter.company.status],
-                                    'id': meter.id
-                                });
-                            }
-                        })
-                        .catch(err =>  {
-                            console.log(err);
-                        })
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                    this.clearNewDesignatedMeter();
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+        editMeter() {
+            this.$store.dispatch('meter/editAssignedMeter', this.newDesignatedMeter)
+                .then(res => {
+                    this.clearNewDesignatedMeter();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         },
 
         openAssignModal(value) {
+            this.clearNewDesignatedMeter();
             this.newDesignatedMeter.meter_id = value.id
             this.currentIndex = value.index
             this.$refs.meterModalDesignate.show()
         },
 
         openEDSDataModal(value) {
+            // Get meter from selected item
+            const index = this.metersAssigned.findIndex(meter => meter.id == value.id);
+            console.log('index selected', index);
+            let meter = this.designatedMeters[index];
+            console.log('selected', meter)
+            this.newDesignatedMeter = Object.assign({}, meter);
+            // this.newDesignatedMeter = meterSelected;
+
             this.connectedDevices = {};
             this.$refs.edsDataModal.show();
-            meters.connectedDevices({
-                id: value.id
-            }).then(devices => {
-                if(devices){
-                    this.connectedDevices = devices;
-                }
-            });
+
+            meters.connectedDevices({id: value.id})
+                .then(devices => {
+                    if(devices){
+                        this.connectedDevices = devices;
+                    }
+                });
         },
 
         clearNewMeter() {

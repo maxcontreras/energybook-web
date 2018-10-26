@@ -2,7 +2,7 @@
     <div id="app-layout">
         <div id="side-nav" class="menu d-none d-sm-block d-xs-block">
             <div class="nav-logo-container">
-                <img src="/assets/Logo-01.png" />
+                <img src="/assets/logo.png" />
             </div>
             <b-nav vertical class="w-100">
                 <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
