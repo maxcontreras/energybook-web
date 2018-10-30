@@ -2,13 +2,14 @@
 import companies from '@/services/companies';
 import VHeader from '@/app/components/VHeader.vue';
 import VTable from '@/app/components/VTable.vue';
+import CompaniesForm from '@/app/companies/CompaniesForm.vue';
 import Constants from '@/constants';
 
 const companyStatus = Constants.Companies.status
 
 export default {
     components: {
-        VHeader, VTable
+        VHeader, VTable, CompaniesForm
     },
     data() {
         return {
