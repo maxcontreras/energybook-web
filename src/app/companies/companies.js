@@ -14,25 +14,14 @@ export default {
         return {
             companies: [],
             items: [],
-            fields: [{
-                key: 'name',
-                sortable: true,
-                label: 'Nombre'
-            }, {
-                label :'Teléfono',
-                key: 'phone'
-            }, {
-                label: 'Fecha de Registro',
-                key: 'created_at'
-            }, {
-                label: 'No. de Empleados',
-                key: 'size'
-            }, {
-                label:'Tipo',
-                key: 'type'
-            }, {
-                label:'Estado',
-                key: 'status'}],
+            fields: [
+                {key: 'name', sortable: true, label: 'Nombre'},
+                {key: 'phone', label:'Teléfono'},
+                {key: 'created_at', label: 'Fecha de Registro'},
+                {key: 'size',label: 'No. de Empleados'},
+                {key: 'type', label: 'Tipo'},
+                {key: 'status', label: 'Estado'}
+            ],
             newCompany: {
                 company_name: '',
                 phone: '',
