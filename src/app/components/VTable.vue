@@ -30,6 +30,15 @@
                     {{ data.item.Status ? 'Activo' : 'Inactivo' }}
                 </b-button>
             </template>
+            <template
+                slot="Reset"
+                slot-scope="data">
+                <b-button
+                    @click.stop="$emit('reset-password', data.item)"
+                    variant="primary">
+                    {{ 'Restaurar' }}
+                </b-button>
+            </template>
         </b-table>
         <b-row
             v-if="items.length > 0"
