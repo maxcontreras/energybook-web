@@ -17,8 +17,15 @@ export default {
     [mutation.DELETE](state, index) {
         state.meters.splice(index, 1);
     },
-    [mutation.UPDATE]() {
-
+    [mutation.UPDATE](state, payload) {
+        const updated = state.meters.map((meter, index) => {
+            if (payload.index === index) {
+                return payload.meter;
+            } else {
+                return meter;
+            }
+        });
+        state.meters = updated;
     },
     [mutation.DELETE_ALL](state) {
         state.meters = [];
@@ -30,7 +37,6 @@ export default {
         state.metersAssigned.splice(index, 1);
     },
     [mutation.UPDATE_ASSIGNED](state, payload) {
-        console.log(payload);
         const updated = state.metersAssigned.map((meter, index) => {
             if (payload.index === index) {
                 return payload.meter;

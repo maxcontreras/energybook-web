@@ -39,6 +39,16 @@
                     {{ 'Restaurar' }}
                 </b-button>
             </template>
+            <template
+                slot="Delete"
+                slot-scope="data">
+                <button
+                    class="btn icon-btn delete"
+                    type="button"
+                    @click.stop="$emit('delete', data.item)">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+            </template>
         </b-table>
         <b-row
             v-if="items.length > 0"
