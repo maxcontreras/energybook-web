@@ -197,7 +197,8 @@
                                 v-if="isCompanyProfile">
                                 <v-table
                                     :items="items.users"
-                                    :fields="fields.users"/>
+                                    :fields="fields.users"
+                                    @reset-password="resetUserPassowrd"/>
                             </b-tab>
                             <b-tab
                                 title="Medidores"

@@ -30,8 +30,9 @@ export default {
                 users: [
                     {key: 'Nombre', sortable: true},
                     {key: 'Fecha de Registro', sortable: true},
-                    'Email',
-                    'Rol'
+                    {key: 'Email', label: 'Correo'},
+                    'Rol',
+                    {key: 'Reset', label: 'Contraseña'}
                 ],
                 meters: [
                     {key: 'No. de Serie', sortable: true, label: 'No. de Serie'},
@@ -157,10 +158,11 @@ export default {
         mapCompanyUsers() {
             this.user.company.users.forEach(user => {
                 this.items.users.push({
-                    'Nombre':`${user.name} ${user.lastname}`,
+                    'Nombre': `${user.name} ${user.lastname}`,
                     'Fecha de Registro': moment(user.created_at).format('LL'),
-                    'Email':user.email,
-                    'Rol':user.role_id
+                    'Email': user.email,
+                    'Rol': user.role_id,
+                    'id': user.id
                 })
             })
         },
@@ -190,6 +192,11 @@ export default {
 
         setPlace(place) {
             this.user.company.location = place.formatted_address
+        },
+
+        resetUserPassowrd(item) {
+            // TODO Send request to reset user password
+            console.log(item);
         }
     }
 }
