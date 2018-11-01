@@ -63,51 +63,79 @@ function mapReadings(arr, parse, xAxis) {
 }
 
 export default {
-    props: ['meterId', 'variable'],
     components: {
         VueHighcharts
     },
+
+    props: {
+        meterId: {
+            type: String,
+            required: true
+        },
+        variable: {
+            type: String,
+            required: true
+        },
+        variableName: {
+            type: String,
+            required: true
+        }
+    },
+
     data() {
         return {
             lineOptions: dataLine,
-            dpData: {
-                name: 'Demanda',
+            plot: {
+                name: '',
                 data: []
             },
-            epimpData: {
-                name: 'Consumo',
-                data: []
-            },
+            // dpData: {
+            //     name: 'Demanda',
+            //     data: []
+            // },
+            // epimpData: {
+            //     name: 'Consumo',
+            //     data: []
+            // },
             buttons: [{
                 selected: 0,
                 options: [
-                    { value: 0, text: 'Hoy' },
-                    { value: 1, text: 'Ayer' },
-                    { value: 2, text: 'Esta Semana' },
-                    { value: 3, text: 'Este Mes' },
-                    { value: 4, text: 'Este Año' },
+                    {value: 0, text: 'Hoy'},
+                    {value: 1, text: 'Ayer'},
+                    {value: 2, text: 'Esta Semana'},
+                    {value: 3, text: 'Este Mes'},
+                    {value: 4, text: 'Este Año'},
                 ]
             }],
             currentPeriod: 0,
             dangerAlert: false
         }
     },
+
     watch: {
         meterId() {
             this.changePeriod(0)
         }
     },
+
+    beforeMount() {
+        this.plot.name = this.variableName;
+    },
+
     methods: {
         showLoading() {
             let lineCharts = this.$refs.lineCharts
             lineCharts.delegateMethod('showLoading', 'Loading...')
         },
+
         load() {
-            let lineCharts = this.$refs.lineCharts
-            lineCharts.addSeries(this.dpData)
-            lineCharts.addSeries(this.epimpData)
+            let lineCharts = this.$refs.lineCharts;
+            lineCharts.addSeries(this.plot);
+            // lineCharts.addSeries(this.dpData)
+            // lineCharts.addSeries(this.epimpData)
             lineCharts.hideLoading()
         },
+
         changePeriod(period) {
             if (period !== null) {
                 this.currentPeriod = period
@@ -121,8 +149,8 @@ export default {
                     this.getByFilter(period, this.meterId, chart)
                 }
             }
-
         },
+
         getByFilter(filter, meter, chart) {
             // TODO: Receive meter id, filter and device name & send it to the API
             meter = meter.split(" ");
@@ -137,23 +165,33 @@ export default {
                     } else {
                         parse = true
                     }
-                    let dpData = mapReadings(res.dp, parse, xAxis)
-                    let epimpData = mapReadings(res.epimp)
+                    // let dpData = mapReadings(res.dp, parse, xAxis)
+                    // let epimpData = mapReadings(res.epimp)
+                    let data = mapReadings(res[this.variable], parse, xAxis);
                     chart.update({
                         xAxis: { categories: xAxis }
                     })
-                    this.updateSeries(dpData, epimpData)
+                    // this.updateSeries(dpData, epimpData)
+                    this.updateSeries(data);
                 }
             }).catch(error => {
                 this.dangerAlert = true;
                 this.load()
             });
         },
-        updateSeries(dp, epimp) {
-            this.dpData.data = dp
-            this.epimpData.data = epimp
+
+        // updateSeries(dp, epimp) {
+        //     this.dpData.data = dp
+        //     this.epimpData.data = epimp
+        //     this.load()
+        // },
+
+        updateSeries(data) {
+            this.plot.data = data
+            // this.epimpData.data = epimp
             this.load()
         },
+
         getxAxis() {
             if(this.currentPeriod < 2) return todayLabels
             return weekLabels

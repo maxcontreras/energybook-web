@@ -12,7 +12,13 @@
                         v-show="metersFilter[0].selected !== null">
                         <Chart
                             :meterId="metersFilter[0].selected"
-                            :variable="'DP'"
+                            :variable="'dp'"
+                            :variableName="'Demanda'"
+                            ref="dpChart"/>
+                        <Chart
+                            :meterId="metersFilter[0].selected"
+                            :variable="'epimp'"
+                            :variableName="'Consumo'"
                             ref="dpChart"/>
                     </b-card>
                     <b-alert
