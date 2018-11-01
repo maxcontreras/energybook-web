@@ -193,30 +193,41 @@ export default {
         },
 
         distribution() {
-            return this.$store.state.socket.distribution
+            let prettyDist = this.prettifyNumbers(this.$store.state.socket.distribution);
+            return prettyDist
         },
 
         distributionCharge() {
-            return currencyFormat(parseFloat(this.$store.state.socket.distributionCharge))
+            let prettyDistributionCharge = this.prettifyNumbers(this.$store.state.socket.distributionCharge);
+            return currencyFormat(parseFloat(prettyDistributionCharge))
         },
 
         distributionMonth() {
-            return parseFloat(this.$store.state.socket.distributionMonth)
+            let prettyDistribution = this.prettifyNumbers(this.$store.state.socket.distributionMonth);
+            return parseFloat(prettyDistribution)
         },
         odometer() {
             return parseFloat(this.$store.state.socket.odometer)
         },
 
         consumption() {
-            return this.$store.state.socket.consumption
+            let prettyCons = this.prettifyNumbers(this.$store.state.socket.consumption);
+            return prettyCons
         },
 
         consumptionMonth() {
-            return this.$store.state.socket.consumptionMonth
+            let prettyConsumption = this.prettifyNumbers(this.$store.state.socket.consumptionMonth);
+            return prettyConsumption;
         },
 
         consumptionSummary() {
             return this.$store.state.socket.consumptionSummary
+        },
+
+        powerFactor() {
+            console.log('fp', this.$store.state.socket.powerFactor);
+            let prettyFP = this.prettifyNumbers(this.$store.state.socket.powerFactor);
+            return this.$store.state.socket.powerFactor
         },
 
         billablePeriod() {
@@ -332,6 +343,7 @@ export default {
                         this.$store.commit('socket/setMonthly', res.latestValues)
                         this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
                         this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory)
+                        this.$store.commit('socket/setPowerFactor', res.latestValues.fp.value)
                     })
                     meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
                         chartSpeed.update({
@@ -375,6 +387,9 @@ export default {
                     this.chartData.labels.push(device.device);
                 }
             });
+        },
+        prettifyNumbers(number){
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     }
 }

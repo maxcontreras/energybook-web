@@ -14,7 +14,8 @@
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
-                                            <i class="fas fa-bolt green"></i>
+                                            <!-- <i class="fas fa-bolt green"></i> -->
+                                            <img class="dashboard-image" src="/assets/images/consumption.png" />
                                         </b-col>
                                         <b-col
                                             md="10"
@@ -33,7 +34,7 @@
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
-                                            <i class="fas fa-power-off blue"></i>
+                                            <img class="dashboard-image" src="/assets/images/capacity.png"/>
                                         </b-col>
                                         <b-col
                                             md="10"
@@ -82,14 +83,14 @@
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
-                                            <i class="fas fa-power-off dark-blue"></i>
+                                            <img class="dashboard-image" src="/assets/images/distribution.png"/>
                                         </b-col>
                                         <b-col
                                             md="10"
                                             class="dashboard-data-container">
                                             <p>Distribución</p>
                                             <h5 class="dark-blue">
-                                                $ {{ distributionCharge ? distributionCharge : 0.00}}
+                                                {{ distribution ? distribution : 0 }} kW
                                             </h5>
                                         </b-col>
                                     </b-row>
@@ -130,7 +131,7 @@
                                                 <b-col>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <i class="fas fa-bolt"></i>
+                                                            <img class="dashboard-image" src="/assets/images/consumption.png"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <h5>
@@ -144,7 +145,7 @@
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <i class="fas fa-chart-line"></i>
+                                                            <img class="dashboard-image" src="/assets/images/distribution.png"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <h5>
@@ -154,16 +155,26 @@
                                                         </div>
                                                         <span>kW</span>
                                                     </div>
-                                                    <!--<div class="analysis-item--cat">
+                                                    <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <i class="fas fa-battery-full green"></i>
+                                                            <img class="dashboard-image" src="/assets/images/capacity.png"/>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>0.98</h5>
+                                                            <h5>{{ distribution ? distribution : 0 }}</h5>
                                                             <p>Capacidad</p>
                                                         </div>
+                                                        <span>kW</span>
+                                                    </div>
+                                                    <div class="analysis-item--cat">
+                                                        <div class="icon-container">
+                                                            <img class="dashboard-image" src="/assets/images/fp.png"/>
+                                                        </div>
+                                                        <div class="data-container">
+                                                            <h5>{{ powerFactor ? powerFactor : 0 }}</h5>
+                                                            <p>F.P</p>
+                                                        </div>
                                                         <span>%</span>
-                                                    </div> -->
+                                                    </div>
                                                 </b-col>
                                             </b-row>
                                         </b-col>
@@ -175,9 +186,9 @@
                                                 class="container">
                                             </div>
                                         </b-col>
-                                        <b-col md="6">
+                                        <!-- <b-col md="6">
                                             <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
-                                        </b-col>
+                                        </b-col> -->
                                     </b-row>
                                 </b-card>
                             </b-col>
