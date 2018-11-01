@@ -85,10 +85,11 @@
                         >
                         <b-list-group flush>
                             <b-list-group-item
-                                v-for="device in connectedDevices"
-                                :key="device">
+                                v-for="(device, index) in connectedDevices"
+                                :key="device"
+                                >
                                 <a href="#" class="card-link">
-                                    {{ device }}
+                                    {{ index !== 0 ? device : undefined }}
                                 </a>
                             </b-list-group-item>
                         </b-list-group>

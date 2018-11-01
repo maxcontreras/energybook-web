@@ -31,6 +31,15 @@
                 </b-button>
             </template>
             <template
+                slot="Reset"
+                slot-scope="data">
+                <b-button
+                    @click.stop="$emit('reset-password', data.item)"
+                    variant="primary">
+                    {{ 'Restaurar' }}
+                </b-button>
+            </template>
+            <template
                 slot="Delete"
                 slot-scope="data">
                 <button
