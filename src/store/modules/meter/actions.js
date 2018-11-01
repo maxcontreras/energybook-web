@@ -140,3 +140,11 @@ export function editAssignedMeter({commit, state}, meter) {
             });
     });
 }
+
+export function deleteMeter({commit, state}, index, meter) {
+    return new Promise((resolve, reject) => {
+        // TODO make a api request
+        commit(mutation.DELETE, index);
+        resolve();
+    });
+}
