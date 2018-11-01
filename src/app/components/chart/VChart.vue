@@ -1,4 +1,46 @@
-/* eslint-disable */
+<template>
+    <div id="graphs" >
+        <div class="date-buttons--container">
+            <b-button
+                v-for="(type, index) in graphType"
+                :key="index + 1"
+                :class="{
+                    'btn-success': currentType.name === type.name,
+                    'btn-outline-success': currentType.name !== type.name
+                    }"
+                @click="changeType(type)"
+                >
+                {{ type.name }}
+            </b-button>
+            <b-button
+                v-for="(button, index) in buttons[0].options"
+                :key="index"
+                :class="{
+                    'btn-success': currentPeriod === button.value,
+                    'btn-outline-success':currentPeriod !== button.value
+                    }"
+                @click="changePeriod(button.value)">
+                {{ button.text }}
+            </b-button>
+        </div>
+        <div class="chart-container">
+            <vue-highcharts
+                v-if="!dangerAlert"
+                :options="lineOptions"
+                ref="lineCharts">
+            </vue-highcharts >
+            <b-alert
+                v-else
+                show
+                class="margin-top-1"
+                variant="danger">
+                Hubo un error al obtener los datos del medidor. ¡Refresca la página e intenta de nuevo!
+            </b-alert>
+        </div>
+    </div>
+</template>
+
+<script>
 import VueHighcharts from 'vue2-highcharts'
 import meters from '@/services/meters'
 
@@ -72,13 +114,19 @@ export default {
             type: String,
             required: true
         },
-        variable: {
+        defaultVariable: {
             type: String,
             required: true
         },
-        variableName: {
+        defaultName: {
             type: String,
             required: true
+        },
+        graphType: {
+            type: Array,
+            default: function() {
+                return [];
+            }
         }
     },
 
@@ -89,14 +137,6 @@ export default {
                 name: '',
                 data: []
             },
-            // dpData: {
-            //     name: 'Demanda',
-            //     data: []
-            // },
-            // epimpData: {
-            //     name: 'Consumo',
-            //     data: []
-            // },
             buttons: [{
                 selected: 0,
                 options: [
@@ -108,6 +148,10 @@ export default {
                 ]
             }],
             currentPeriod: 0,
+            currentType: {
+                variable: '',
+                name: ''
+            },
             dangerAlert: false
         }
     },
@@ -119,7 +163,14 @@ export default {
     },
 
     beforeMount() {
-        this.plot.name = this.variableName;
+        this.plot.name = this.defaultName;
+        if (this.graphType.length > 0) {
+            this.currentType = this.graphType[0];
+            this.plot.name = this.currentType.name;
+        } else {
+            this.currentType.variable = this.defaultVariable;
+            this.currentType.name = this.defaultName;
+        }
     },
 
     methods: {
@@ -131,9 +182,22 @@ export default {
         load() {
             let lineCharts = this.$refs.lineCharts;
             lineCharts.addSeries(this.plot);
-            // lineCharts.addSeries(this.dpData)
-            // lineCharts.addSeries(this.epimpData)
             lineCharts.hideLoading()
+        },
+
+        changeType(type) {
+            if (type !== null) {
+                this.currentType = type;
+                this.plot.name = type.name;
+                let chart = this.$refs.lineCharts.getChart();
+                let lineCharts = this.$refs.lineCharts;
+
+                if (!chart.renderer.forExport) {
+                    this.showLoading()
+                    lineCharts.removeSeries()
+                    this.getData(this.currentPeriod, type.variable, this.meterId, chart)
+                }
+            }
         },
 
         changePeriod(period) {
@@ -146,12 +210,12 @@ export default {
                 if (!chart.renderer.forExport) {
                     this.showLoading()
                     lineCharts.removeSeries()
-                    this.getByFilter(period, this.meterId, chart)
+                    this.getData(period, this.currentType.variable, this.meterId, chart)
                 }
             }
         },
 
-        getByFilter(filter, meter, chart) {
+        getData(filter, type, meter, chart) {
             // TODO: Receive meter id, filter and device name & send it to the API
             meter = meter.split(" ");
             let meter_id = meter[0];
@@ -165,13 +229,10 @@ export default {
                     } else {
                         parse = true
                     }
-                    // let dpData = mapReadings(res.dp, parse, xAxis)
-                    // let epimpData = mapReadings(res.epimp)
-                    let data = mapReadings(res[this.variable], parse, xAxis);
+                    let data = mapReadings(res[type], parse, xAxis);
                     chart.update({
                         xAxis: { categories: xAxis }
                     })
-                    // this.updateSeries(dpData, epimpData)
                     this.updateSeries(data);
                 }
             }).catch(error => {
@@ -180,15 +241,8 @@ export default {
             });
         },
 
-        // updateSeries(dp, epimp) {
-        //     this.dpData.data = dp
-        //     this.epimpData.data = epimp
-        //     this.load()
-        // },
-
         updateSeries(data) {
             this.plot.data = data
-            // this.epimpData.data = epimp
             this.load()
         },
 
@@ -198,3 +252,4 @@ export default {
         }
     }
 }
+</script>

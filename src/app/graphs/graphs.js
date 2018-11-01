@@ -1,5 +1,5 @@
 /* eslint-disable */
-import Chart from '@/app/components/chart/Chart.vue'
+import VChart from '@/app/components/chart/VChart.vue'
 import VHeader from '@/app/components/VHeader.vue'
 import VTable from '@/app/components/VTable.vue'
 import designatedMeters from '@/services/designatedMeters'
@@ -8,7 +8,7 @@ import meters from '@/services/meters'
 export default {
     props: ['companyIdProp'],
     components: {
-        Chart, VHeader, VTable
+        VChart, VHeader, VTable
     },
     computed: {
         isAdmin() {
@@ -32,10 +32,17 @@ export default {
     },
     data() {
         return {
+            graphType: [
+                {name: 'Demanda', variable: 'dp'},
+                {name: 'Consumo', variable: 'epimp'}
+            ],
             metersFilter: [
-                {selected: null, options: [
-                    {value: null, text: 'Selecciona un dispositivo'}
-                ]}
+                {
+                    selected: null,
+                    options: [
+                        {value: null, text: 'Selecciona un dispositivo'}
+                    ]
+                }
             ],
             eds: [],
             fields: ['Dispositivo', 'Total', 'Máximo', 'Mínimo'],
