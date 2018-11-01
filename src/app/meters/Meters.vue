@@ -29,6 +29,7 @@
                                     :items="metersFormatted"
                                     :fields="fields"
                                     @clicked="openAssignModal"
+                                    @delete="deleteMeter"
                                     :alertMessage="'No se encuentran medidores sin asignar.'"/>
                             </b-tab>
                         </b-tabs>

@@ -2,37 +2,27 @@
 import companies from '@/services/companies';
 import VHeader from '@/app/components/VHeader.vue';
 import VTable from '@/app/components/VTable.vue';
+import CompaniesForm from '@/app/companies/CompaniesForm.vue';
 import Constants from '@/constants';
 
 const companyStatus = Constants.Companies.status
 
 export default {
     components: {
-        VHeader, VTable
+        VHeader, VTable, CompaniesForm
     },
     data() {
         return {
             companies: [],
             items: [],
-            fields: [{
-                key: 'name',
-                sortable: true,
-                label: 'Nombre'
-            }, {
-                label :'Teléfono',
-                key: 'phone'
-            }, {
-                label: 'Fecha de Registro',
-                key: 'created_at'
-            }, {
-                label: 'No. de Empleados',
-                key: 'size'
-            }, {
-                label:'Tipo',
-                key: 'type'
-            }, {
-                label:'Estado',
-                key: 'status'}],
+            fields: [
+                {key: 'name', sortable: true, label: 'Nombre'},
+                {key: 'phone', label:'Teléfono'},
+                {key: 'created_at', label: 'Fecha de Registro'},
+                {key: 'size',label: 'No. de Empleados'},
+                {key: 'type', label: 'Tipo'},
+                {key: 'status', label: 'Estado'}
+            ],
             newCompany: {
                 company_name: '',
                 phone: '',
