@@ -1,14 +1,13 @@
 /* eslint-disable */
 import VHeader from '@/app/components/VHeader.vue'
 import companies from '@/services/companies'
-import Chart from '@/app/components/chart/Chart.vue'
 import Dashboard from '@/app/dashboard/Dashboard.vue'
 import Graphs from '@/app/graphs/Graphs.vue'
 
 
 export default {
   components: {
-    VHeader, Chart, Dashboard, Graphs
+    VHeader, Dashboard, Graphs
   },
   computed: {
     isAdmin() {

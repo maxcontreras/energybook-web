@@ -10,9 +10,11 @@
                     <b-card
                         class="margin-bottom-1"
                         v-show="metersFilter[0].selected !== null">
-                        <Chart
+                        <v-chart
                             :meterId="metersFilter[0].selected"
-                            :variable="'DP'"
+                            :variable="'dp'"
+                            :variableName="'Demanda'"
+                            :graph-type="graphType"
                             ref="dpChart"/>
                     </b-card>
                     <b-alert
