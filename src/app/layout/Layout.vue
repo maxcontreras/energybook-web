@@ -31,9 +31,6 @@
                 <!--<b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'costs'}" @click="goTo('costs')">
                    <div class="menu-icon-container"> <i class="fas fa-coins"></i></div> Costos
                 </b-nav-item>-->
-                <b-nav-item v-if="!isAccounting" v-bind:class="{'current-view': currentView === 'profile'}" @click="goTo('profile')">
-                    <div class="menu-icon-container"><i class="far fa-user"></i></div> Perfil
-                </b-nav-item>
             </b-nav>
         </div>
         <!--<div id="top-nav" class="menu d-md-none d-lg-none .d-xl-none mobile" v-if="false">
@@ -65,7 +62,12 @@
                             <Notification/>
                         </b-nav-item>-->
                         <b-nav-item-dropdown :text="user.user.name + ' ' + user.user.lastname" right>
-                        <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
+                            <b-dropdown-item 
+                                v-if="!isAccounting"
+                                @click="goTo('profile')">
+                                <i class="far fa-user"></i>    Perfil
+                            </b-dropdown-item>
+                            <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
