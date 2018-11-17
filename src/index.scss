@@ -27,6 +27,12 @@ html, body {
   background-color: $egreen;
 }
 
+#login {
+  .btn-primary {
+    color: rgb(247, 247, 248) !important;
+  }
+}
+
 @media (max-width: 768px) {
   .table-pagination > div.my-1 {
     &:first-child {

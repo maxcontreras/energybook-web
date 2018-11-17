@@ -19,10 +19,10 @@
                                         <b-col
                                             md="10"
                                             class="dashboard-data-container">
-                                            <p>Consumo</p>
                                             <h5 class="green">
                                                 {{ consumption ? consumption : 0 }} kWh
                                             </h5>
+                                            <p>Consumo</p>
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -38,10 +38,10 @@
                                         <b-col
                                             md="10"
                                             class="dashboard-data-container">
-                                            <p>Capacidad</p>
                                             <h5 class="blue">
                                                 {{ distribution ? distribution : 0 }} kW
                                             </h5>
+                                            <p>Capacidad</p>
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -87,10 +87,10 @@
                                         <b-col
                                             md="10"
                                             class="dashboard-data-container">
-                                            <p>Distribución</p>
                                             <h5 class="dark-blue">
                                                 $ {{ distributionCharge ? distributionCharge : 0.00}}
                                             </h5>
+                                            <p>Distribución</p>
                                         </b-col>
                                     </b-row>
                                 </b-card>
