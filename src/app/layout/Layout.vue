@@ -12,8 +12,17 @@
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>
-                <b-nav-item v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
+                <b-nav-item v-if="!isUser" v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
                     <div class="menu-icon-container"><i class="fas fa-solar-panel"></i></div> Medidores
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'userCosts'}" @click="goTo('userCosts')">
+                    <div class="menu-icon-container"><i class="fas fa-coins"></i></div> Costos
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'netCode'}" @click="goTo('netCode')">
+                    <div class="menu-icon-container"><i class="fas fa-gavel"></i></div> Código de red
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'carbonFootprint'}" @click="goTo('carbonFootprint')">
+                    <div class="menu-icon-container"><i class="fas fa-shoe-prints"></i></div> Huella de carbono
                 </b-nav-item>
                 <!-- TODO Make payments section
                 <b-nav-item v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')" v-if="isAdmin">
