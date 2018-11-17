@@ -178,6 +178,16 @@
                                         <b-col md="6">
                                             <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
                                         </b-col>
+                                        <b-col 
+                                            md="6" 
+                                            class="text-center">
+                                            <b-btn 
+                                                variant="info" 
+                                                style="position: absolute; bottom: 0; right: 0"
+                                                @click="refresh()">
+                                                Refrescar datos
+                                            </b-btn>
+                                        </b-col>
                                     </b-row>
                                 </b-card>
                             </b-col>
