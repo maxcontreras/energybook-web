@@ -7,6 +7,7 @@
 @import 'styles/notification.scss';
 
 $egreen: #AFFC0F;
+$grayFont: #788789;
 $egreen1: rgb(152, 214, 16);
 $gray: rgba(0,0,0,0.64);
 $darkgray: #485658;
@@ -100,7 +101,7 @@ html, body {
 }
 
 .btn-outline-success {
-  color: $egreen;
+  color: $grayFont !important;
   border-color: $egreen;
 
   &:hover {
@@ -110,6 +111,7 @@ html, body {
 }
 
 .btn-success{
+  color: $grayFont !important;
   border-color: $egreen !important;
   background-color: $egreen !important;
 }
@@ -120,6 +122,7 @@ html, body {
 
     .btn-primary{
       background-color: #0076ff;
+      color: #F2F3F4 !important;
       opacity: 0.8;
       width: 75px;
       font-size: 12px;
@@ -184,6 +187,7 @@ html, body {
   border: 1px solid transparent;
   background-color: $egreen;
   border-radius: 0.4rem;
+  color: $grayFont !important;
 
   &:hover {
     background-color: $egreen;
@@ -224,7 +228,7 @@ html, body {
 }
 
 .tabs .nav-link {
-  color: $egreen1;
+  color: $grayFont !important;
 }
 
 .tabs .card-header {
