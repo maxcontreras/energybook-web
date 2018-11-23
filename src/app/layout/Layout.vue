@@ -12,8 +12,17 @@
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>
-                <b-nav-item v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
+                <b-nav-item v-if="!isUser" v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
                     <div class="menu-icon-container"><i class="fas fa-solar-panel"></i></div> Medidores
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'userCosts'}" @click="goTo('userCosts')">
+                    <div class="menu-icon-container"><i class="fas fa-coins"></i></div> Costos
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'netCode'}" @click="goTo('netCode')">
+                    <div class="menu-icon-container"><i class="fas fa-gavel"></i></div> Código de red
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'carbonFootprint'}" @click="goTo('carbonFootprint')">
+                    <div class="menu-icon-container"><i class="fas fa-shoe-prints"></i></div> Huella de carbono
                 </b-nav-item>
                 <!-- TODO Make payments section
                 <b-nav-item v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')" v-if="isAdmin">
@@ -31,9 +40,6 @@
                 <!--<b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'costs'}" @click="goTo('costs')">
                    <div class="menu-icon-container"> <i class="fas fa-coins"></i></div> Costos
                 </b-nav-item>-->
-                <b-nav-item v-if="!isAccounting" v-bind:class="{'current-view': currentView === 'profile'}" @click="goTo('profile')">
-                    <div class="menu-icon-container"><i class="far fa-user"></i></div> Perfil
-                </b-nav-item>
             </b-nav>
         </div>
         <!--<div id="top-nav" class="menu d-md-none d-lg-none .d-xl-none mobile" v-if="false">
@@ -65,7 +71,12 @@
                             <Notification/>
                         </b-nav-item>-->
                         <b-nav-item-dropdown :text="user.user.name + ' ' + user.user.lastname" right>
-                        <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
+                            <b-dropdown-item 
+                                v-if="!isAccounting"
+                                @click="goTo('profile')">
+                                <i class="far fa-user"></i>    Perfil
+                            </b-dropdown-item>
+                            <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>

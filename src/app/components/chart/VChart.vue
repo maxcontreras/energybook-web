@@ -1,27 +1,33 @@
 <template>
     <div id="graphs" >
-        <div class="date-buttons--container">
-            <b-button
-                v-for="(type, index) in graphType"
-                :key="index + 1"
-                :class="{
-                    'btn-success': currentType.name === type.name,
-                    'btn-outline-success': currentType.name !== type.name
-                    }"
-                @click="changeType(type)"
-                >
-                {{ type.name }}
-            </b-button>
-            <b-button
-                v-for="(button, index) in buttons[0].options"
-                :key="index"
-                :class="{
-                    'btn-success': currentPeriod === button.value,
-                    'btn-outline-success':currentPeriod !== button.value
-                    }"
-                @click="changePeriod(button.value)">
-                {{ button.text }}
-            </b-button>
+        <div class="date-buttons--container container-fluid">
+            <b-row>
+                <b-col md="3" class="text-left">
+                    <b-button
+                        v-for="(type, index) in graphType"
+                        :key="index + 1"
+                        :class="{
+                            'btn-success': currentType.name === type.name,
+                            'btn-outline-success': currentType.name !== type.name
+                            }"
+                        @click="changeType(type)"
+                        >
+                        {{ type.name }}
+                    </b-button>
+                </b-col>
+                <b-col md="9" class="text-right">
+                    <b-button
+                        v-for="(button, index) in buttons[0].options"
+                        :key="index"
+                        :class="{
+                            'btn-success': currentPeriod === button.value,
+                            'btn-outline-success':currentPeriod !== button.value
+                            }"
+                        @click="changePeriod(button.value)">
+                        {{ button.text }}
+                    </b-button>
+                </b-col>
+            </b-row>
         </div>
         <div class="chart-container">
             <vue-highcharts
