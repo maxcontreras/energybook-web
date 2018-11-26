@@ -7,6 +7,9 @@ import Register from '@/app/register/Register.vue'
 import Dashboard from '@/app/dashboard/Dashboard.vue'
 import Layout from '@/app/layout/Layout.vue'
 import Companies from '@/app/companies/Companies.vue'
+import Costs from '@/app/costs/Costs.vue'
+import NetCode from '@/app/netCode/NetCode.vue'
+import CarbonFootprint from '@/app/carbonFootprint/CarbonFootprint.vue'
 import Meters from '@/app/meters/Meters.vue'
 import Payments from '@/app/payments/Payments.vue'
 import Calendar from '@/app/calendar/Calendar.vue'
@@ -36,6 +39,30 @@ const router = new VueRouter({
                     name: 'companies',
                     components: {
                         default: Companies
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/costos',
+                    name: 'userCosts',
+                    components: {
+                        default: Costs
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/codigoRed',
+                    name: 'netCode',
+                    components: {
+                        default: NetCode
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/huellaCarbono',
+                    name: 'carbonFootprint',
+                    components: {
+                        default: CarbonFootprint
                     },
                     meta: { requiresAuth: true }
                 },

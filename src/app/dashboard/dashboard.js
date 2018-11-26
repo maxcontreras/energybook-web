@@ -279,10 +279,19 @@ export default {
 
         $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
 
-        this.load()
+        this.load();
+        this.updatePieChart();
     },
 
     methods: {
+        refresh() {
+            this.getMeters();
+            this.load();
+            this.updateEpimpHistoryChart();
+            this.updateOdometerChart();
+            this.updatePieChart();
+        },
+
         load(){
             let lineCharts = this.$refs.lineCharts
             lineCharts.delegateMethod('showLoading', 'Loading...')
