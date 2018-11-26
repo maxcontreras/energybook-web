@@ -24,7 +24,8 @@ export default {
         distributionCharge: getLocalStorageItem('distributionCharge'),
         consumption: getLocalStorageItem('consumption'),
         consumptionMonth: getLocalStorageItem('consumptionMonth'),
-        consumptionSummary: getLocalStorageItem('consumptionSummary')
+        consumptionSummary: getLocalStorageItem('consumptionSummary'),
+        powerFactor: getLocalStorageItem('powerFactor')
     },
     actions: {
         odometerReading({commit}, data) {
@@ -41,6 +42,9 @@ export default {
         },
         consumptionSummary({commit}, data) {
             commit('consumptionSummary', data)
+        },
+        powerFactor({commit}, data) {
+            commit('powerFactor', data.value)
         }
     },
     mutations: {
@@ -69,6 +73,10 @@ export default {
         setConsumptionSummary(state, value) {
             state.consumptionSummary = value
             saveInLocalStorage('consumptionSummary', value)
+        },
+        setPowerFactor(state, value) {
+            state.powerFactor = value
+            saveInLocalStorage('powerFactor', value)
         }
     }
 }

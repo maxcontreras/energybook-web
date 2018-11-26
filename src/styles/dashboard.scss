@@ -27,7 +27,7 @@ $gray: #ADADAD;
     .highcharts-yaxis-grid .highcharts-grid-line {
         display: none;
     }
-    
+
     @media (max-width: 600px) {
         .outer {
             width: 100%;
@@ -38,7 +38,7 @@ $gray: #ADADAD;
             float: none;
             margin: 0 auto;
         }
-    
+
     }
 
     .card {
@@ -218,7 +218,7 @@ $gray: #ADADAD;
 
             i {
                 font-size: 17px;
-                
+
                 &:hover {
                     cursor: pointer;
                     color: #03084A;
@@ -232,6 +232,14 @@ $gray: #ADADAD;
                 }
             }
         }
+    }
+
+    .dashboard-image {
+        height: 32px;
+        width: 32px;
+        top: 50%;
+        position: relative;
+        margin-top: -24px;
     }
 }
 
