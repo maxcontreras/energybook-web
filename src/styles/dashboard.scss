@@ -189,6 +189,10 @@ $gray: #ADADAD;
                 }
             }
 
+            .highcharts-container {
+                max-width: none !important;
+            }
+
             >div.row:nth-child(2) {
                 padding: 2rem;
             }
