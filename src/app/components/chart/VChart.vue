@@ -101,7 +101,7 @@ function mapReadings(arr, parse, xAxis) {
     arr.forEach(obj => {
         val = parseFloat(obj.value)
         if(parse) {
-            val /= 1000
+            //val /= 1000
             //val = val.toFixed(2)
             xAxis.push(parseDate(obj.date))
         }
