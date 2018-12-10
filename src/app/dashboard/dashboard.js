@@ -390,6 +390,8 @@ export default {
             point.update(this.odometer)
         },
         updatePieChart() {
+            this.chartData.datasets[0].data = [];
+            this.chartData.labels = [];
             Object.values(this.consumptionSummary).forEach(device => {
                 if(device.value > 0){
                     this.chartData.datasets[0].data.push(device.value);
