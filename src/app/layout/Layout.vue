@@ -61,9 +61,9 @@
         <div id="main">
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
-                <h6 id="currentDate">
-                   {{currentFormattedDate}}
-                </h6>
+                <div class="col-md-6">
+                   <a class="weatherwidget-io" href="https://forecast7.com/en/20d66n103d35/guadalajara/" data-label_1="GUADALAJARA" data-label_2="WEATHER" data-mode="Current" data-days="3" data-theme="weather_one" >GUADALAJARA WEATHER</a>
+                </div>
                 <b-collapse is-nav id="nav_dropdown_collapse">
                     <b-navbar-nav class="ml-auto">
                         <!--<b-nav-item id="notification-link">
@@ -90,15 +90,6 @@
 
 import Notification from '@/app/components/notificationPanel/NotificationPanel.vue';
 import designatedMeters from '@/services/designatedMeters'
-
-var date = moment().format('LLL')
-
-$(document).ready(function() {
-    var interval = setInterval(function() {
-        date = moment().format('LLL')
-        $('#currentDate').html(date);
-    }, 100);
-});
 
 export default {
     components: {
@@ -127,9 +118,6 @@ export default {
         },
         user() {
             return this.$store.state.user.user? this.$store.state.user : {user: {name: '', lastname: ''}};
-        },
-        currentFormattedDate() {
-            return date
         }
     },
 
