@@ -20,10 +20,10 @@
                                         <b-col
                                             md="10"
                                             class="dashboard-data-container">
+                                            <p>Consumo</p>
                                             <h5 class="green">
                                                 {{ consumption ? consumption : 0 }} kWh
                                             </h5>
-                                            <p>Consumo</p>
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -39,10 +39,10 @@
                                         <b-col
                                             md="10"
                                             class="dashboard-data-container">
+                                            <p>Capacidad</p>
                                             <h5 class="blue">
                                                 {{ distribution ? distribution : 0 }} kW
                                             </h5>
-                                            <p>Capacidad</p>
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -88,10 +88,10 @@
                                         <b-col
                                             md="10"
                                             class="dashboard-data-container">
+                                            <p>Distribución</p>
                                             <h5 class="dark-blue">
                                                 {{ distribution ? distribution : 0 }} kW
                                             </h5>
-                                            <p>Distribución</p>
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -134,10 +134,8 @@
                                                             <img class="dashboard-image" src="/assets/images/consumption.png"/>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>
-                                                                {{ consumptionMonth ? consumptionMonth : 0 }}
-                                                            </h5>
                                                             <p>Consumo</p>
+                                                            <h5>{{ consumptionMonth ? consumptionMonth : 0 }}</h5>
                                                         </div>
                                                         <div>
                                                             <span>kWh</span>
@@ -148,10 +146,8 @@
                                                             <img class="dashboard-image" src="/assets/images/distribution.png"/>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>
-                                                                {{ distributionMonth ? distributionMonth: 0 }}
-                                                            </h5>
                                                             <p>Distribución</p>
+                                                            <h5>{{ distributionMonth ? distributionMonth: 0 }}</h5>
                                                         </div>
                                                         <span>kW</span>
                                                     </div>
@@ -160,8 +156,8 @@
                                                             <img class="dashboard-image" src="/assets/images/capacity.png"/>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>{{ distribution ? distribution : 0 }}</h5>
                                                             <p>Capacidad</p>
+                                                            <h5>{{ distribution ? distribution : 0 }}</h5>
                                                         </div>
                                                         <span>kW</span>
                                                     </div>
@@ -170,8 +166,8 @@
                                                             <img class="dashboard-image" src="/assets/images/fp.png"/>
                                                         </div>
                                                         <div class="data-container">
-                                                            <h5>{{ powerFactor ? powerFactor : 0 }}</h5>
                                                             <p>F.P</p>
+                                                            <h5>{{ powerFactor ? powerFactor : 0 }}</h5>
                                                         </div>
                                                         <span>%</span>
                                                     </div>
