@@ -79,7 +79,7 @@ var dataLine = {
         spline: {
             marker: {
                 radius: 4,
-                lineColor: '#666666',
+                lineColor: 'rgb(124, 181, 236)',
                 lineWidth: 1
             }
         }
