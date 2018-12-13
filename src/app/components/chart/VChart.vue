@@ -32,7 +32,7 @@
         <div class="chart-container">
             <vue-highcharts
                 v-if="!dangerAlert"
-                :options="lineOptions"
+                :options="LineOptions"
                 ref="lineCharts">
             </vue-highcharts >
             <b-alert
@@ -78,9 +78,7 @@ var dataLine = {
     plotOptions: {
         spline: {
             marker: {
-                radius: 4,
-                lineColor: 'rgb(124, 181, 236)',
-                lineWidth: 1
+                enabled: false
             }
         }
     },
@@ -88,11 +86,28 @@ var dataLine = {
 }
 
 function parseDate(rawDate) {
-    let day, month, year
-    day = rawDate.substring(0, 2)
-    month = rawDate.substring(2, 4)
-    year = rawDate.substring(4, 8)
-    return `${day}/${month}/${year}`
+    let day, month, year;
+    day = rawDate.substring(0, 2);
+    month = rawDate.substring(2, 4);
+    year = rawDate.substring(4, 8);
+    return `${day}/${month}/${year}`;
+}
+
+function parseDateTime(rawDate) {
+    let hour, minute, second;
+    hour = rawDate.substring(8, 10);
+    minute = rawDate.substring(10, 12);
+    second = rawDate.substring(12, 14);
+    return `${hour}:${minute}:${second}`;
+}
+
+// Returns the day name of a date with format 'DDMMYYYYHHMMSSSSS'
+function parseDayName(rawDate) {
+    let day, month, year;
+    day = rawDate.substring(0, 2);
+    month = rawDate.substring(2, 4);
+    year = rawDate.substring(4, 8);
+    return weekLabels[new Date(`${month}/${day}/${year}`).getDay()%7];
 }
 
 function mapReadings(arr, parse, xAxis) {
@@ -101,8 +116,6 @@ function mapReadings(arr, parse, xAxis) {
     arr.forEach(obj => {
         val = parseFloat(obj.value)
         if(parse) {
-            //val /= 1000
-            //val = val.toFixed(2)
             xAxis.push(parseDate(obj.date))
         }
         data.push(val)
@@ -138,7 +151,7 @@ export default {
 
     data() {
         return {
-            lineOptions: dataLine,
+            LineOptions: dataLine,
             plot: {
                 name: '',
                 data: []
@@ -226,30 +239,86 @@ export default {
             meter = meter.split(" ");
             let meter_id = meter[0];
             let meter_device = meter[1];
-            meters.getReadingsByFilter(meter_id, meter_device, filter).then(res => {
-                if(res){
-                    let xAxis = []
-                    let parse = false
-                    if (this.currentPeriod < 3) {
-                        xAxis = this.getxAxis()
-                    } else {
-                        parse = true
+            if (type === "epimp") {
+                meters.getEpimpReadingsByFilter(meter_id, meter_device, filter).then(res => {
+                    if(res){
+                        let xAxis = [];
+                        let parse = false;
+                        let tickInterval = 1;
+                        let tickmarkPlacement = "on";
+                        if (this.currentPeriod < 3) {
+                            xAxis = this.getxAxis();
+                        } else {
+                            parse = true;
+                        }
+                        let data = mapReadings(res, parse, xAxis);
+                        // TODO: See why the fuck the marker does not appear on an epimp graph
+                        chart.update({
+                            xAxis: { categories: xAxis, tickInterval, tickmarkPlacement }
+                        })
+                        console.log(chart);
+                        this.updateSeries(data);
                     }
-                    let data = mapReadings(res[type], parse, xAxis);
-                    chart.update({
-                        xAxis: { categories: xAxis }
-                    })
-                    this.updateSeries(data);
-                }
-            }).catch(error => {
-                this.dangerAlert = true;
-                this.load()
-            });
+                }).catch(error => {
+                    console.log(error);
+                    this.dangerAlert = true;
+                    this.load()
+                });
+            } else if (type === "dp") {
+                meters.getDpReadingsByFilter(meter_id, meter_device, filter).then(res => {
+                    if(res){
+                        let xAxis = [];
+                        let parse = false;
+                        let tickInterval = 1;
+                        let tickmarkPlacement = "on";
+                        if (this.currentPeriod < 2) {
+                            xAxis = this.getDpAxis(res);
+                        }
+                        else if (this.currentPeriod === 2) {
+                            tickInterval = 24;
+                            xAxis = this.getDpAxis(res);
+                        }
+                        else if (this.currentPeriod === 3) {
+                            tickInterval = 96;
+                            tickmarkPlacement = "between";
+                            xAxis = this.getDpAxis(res);
+                        } else {
+                            parse = true;
+                        }
+                        let data = mapReadings(res, parse, xAxis);
+                        chart.update({
+                            xAxis: { categories: xAxis, tickInterval, tickmarkPlacement }
+                        })
+                        this.updateSeries(data);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    this.dangerAlert = true;
+                    this.load()
+                });
+            }
         },
 
         updateSeries(data) {
             this.plot.data = data
             this.load()
+        },
+
+        getDpAxis(values) {
+            return values.map(item => {
+                if (this.currentPeriod === 2) {
+                    return `${parseDayName(item.date)} ${parseDateTime(item.date)}`;
+                }
+                if (this.currentPeriod === 3) {
+                    let time = parseDateTime(item.date);
+                    const date = parseDayName(item.date);
+                    if (time === '00:00:00') {
+                        time = '';
+                    }
+                    return `${date} ${item.date.substring(0, 2)} ${time}`;
+                }
+                return parseDateTime(item.date);
+            });
         },
 
         getxAxis() {
