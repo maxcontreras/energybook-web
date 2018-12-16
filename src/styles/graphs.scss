@@ -1,4 +1,4 @@
-#graphs {
+#graphs, #graph-costs {
     .date-buttons--container {
         margin: 2rem 0;
         text-align: right;
@@ -12,5 +12,23 @@
         margin: auto;
         height: 70vh;
         width: 75vw;
+    }
+}
+
+#graph-costs {
+    .column-legends {
+        .legend {
+            .square {
+                width: 25px;
+                height: 25px;
+                display: inline-block;
+            }
+            .legend-text {
+                display: inline-block;
+                transform: translateY(-7px);
+            }
+            display: inline-block;
+            margin-right: 10px;
+        }
     }
 }
