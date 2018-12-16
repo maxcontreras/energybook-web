@@ -113,7 +113,7 @@
                             </b-col>-->
                         </b-row>
                         <b-row class="margin-bottom-2">
-                            <b-col md="9">
+                            <b-col>
                                 <b-card class="dashboard-general" no-body>
                                     <b-row class="analysis-card-header">
                                         <b-col>
@@ -203,7 +203,8 @@
                                     <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
                                 </b-card>
                             </b-col> -->
-                            <b-col md="3">
+                            <!-- TODO: Remove this block of code once the new weather pluggin has been removed-->
+                            <!-- <b-col md="3">
                                 <b-card>
                                     <weather
                                         api-key="87a3a340f3f60b932c4b3e378fda841c"
@@ -214,7 +215,7 @@
                                         units="ca">
                                     </weather>
                                 </b-card>
-                            </b-col>
+                            </b-col> -->
                         </b-row>
                         <b-row>
                             <b-col md="12">
