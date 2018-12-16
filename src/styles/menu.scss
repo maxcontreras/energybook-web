@@ -15,7 +15,14 @@ $darkgray: #485658;
 #top-bar {
     background-color: #fcfcfc !important;
     //box-shadow: 0 0 5px 0 #c2c2c2;
+    position: relative;
 
+    .weatherwidget-io {
+        position: absolute !important;
+        width: 50% !important;
+        top: -30px !important;
+        left: 0 !important;
+    }
 }
 
 #top-nav{

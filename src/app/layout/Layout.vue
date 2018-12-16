@@ -62,7 +62,7 @@
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
                 <div class="col-md-6">
-                   <a class="weatherwidget-io" href="https://forecast7.com/en/20d66n103d35/guadalajara/" data-label_1="GUADALAJARA" data-label_2="WEATHER" data-mode="Current" data-days="3" data-theme="weather_one" >GUADALAJARA WEATHER</a>
+                    <a class="weatherwidget-io" href="https://forecast7.com/es/20d66n103d35/guadalajara/" data-label_1="GUADALAJARA" data-label_2="Clima" data-icons="Climacons Animated" data-mode="Current" >GUADALAJARA Clima</a>   
                 </div>
                 <b-collapse is-nav id="nav_dropdown_collapse">
                     <b-navbar-nav class="ml-auto">
