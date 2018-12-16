@@ -52,8 +52,8 @@
 <script>
 import VueHighcharts from 'vue2-highcharts';
 import meters from '@/services/meters';
+import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
 
-const weekLabels = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c'};
 
 var dataColumn = {
@@ -92,22 +92,6 @@ var dataColumn = {
         data: []
     }]
 };
-
-function parseDate(rawDate) {
-    let day, month, year;
-    day = rawDate.substring(0, 2);
-    month = rawDate.substring(2, 4);
-    year = rawDate.substring(4, 8);
-    return `${day}/${month}/${year}`;
-}
-
-function parseDateTime(rawDate) {
-    let hour, minute, second;
-    hour = rawDate.substring(8, 10);
-    minute = rawDate.substring(10, 12);
-    second = rawDate.substring(12, 14);
-    return `${hour}:${minute}:${second}`;
-}
 
 export default {
     components: {
@@ -198,13 +182,16 @@ export default {
                 .then(res => {
                     if (res) {
                         let data = [];
+                        let tickInterval;
                         let xAxis = res.map(item => {
-                            const time = parseDateTime(item.date);
-                            data.push({name: `${item.rate} - ${time}`, y: parseFloat(item.cost), color: colors[item.rate]})
-                            return time;
+                            let time = parseDateTime(item.date);
+                            data.push(this.formatData(item.date, item.cost, item.rate));
+                            let result = this.formatxAxis(item.date);
+                            tickInterval = result.tickInterval;
+                            return result.res;
                         });
                         chart.update({
-                            xAxis: { categories: xAxis }
+                            xAxis: { categories: xAxis, tickInterval }
                         });
                         this.updateSeries(data);
                     }
@@ -219,6 +206,40 @@ export default {
         updateSeries(data) {
             this.plot.data = data;
             this.load()
+        },
+
+        formatxAxis(date) {
+            let time = parseDateTime(date);
+            let day = parseDayName(date);
+            let tickInterval = 1;
+            if (this.currentPeriod < 2) {
+                return {res: time, tickInterval};
+            } else if (this.currentPeriod === 2) {
+                tickInterval = 6;
+                return {res: `${day} ${time}`, tickInterval};
+            } else if (this.currentPeriod === 3) {
+                tickInterval = 12;
+                if (time === '00:00:00') {
+                    return {res: `${day} ${date.substring(0, 2)}`, tickInterval};
+                } else {
+                    return {res: `${time}`, tickInterval};
+                }
+            }
+        },
+
+        formatData(date, cost, rate) {
+            let time = parseDateTime(date);
+            let day = parseDayName(date);
+            let dat = parseDate(date);
+            if (this.currentPeriod === 2) {
+                return {name: `${rate} - ${day} ${time}`, y: parseFloat(cost), color: colors[rate]};
+            }
+            else if (this.currentPeriod === 3) {
+                return {name: `${rate} - ${dat} ${time}`, y: parseFloat(cost), color: colors[rate]};
+            }
+            else {
+                return {name: `${rate} - ${time}`, y: parseFloat(cost), color: colors[rate]};
+            }
         }
     }
 

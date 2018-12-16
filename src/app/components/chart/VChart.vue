@@ -47,8 +47,9 @@
 </template>
 
 <script>
-import VueHighcharts from 'vue2-highcharts'
-import meters from '@/services/meters'
+import VueHighcharts from 'vue2-highcharts';
+import meters from '@/services/meters';
+import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
 
 const todayLabels = ['0 hrs','1 hrs', '2 hrs', '3 hrs', '4 hrs', '5 hrs', '6 hrs', '7 hrs', '8 hrs', '9 hrs', '10 hrs', '11 hrs', '12 hrs', '13 hrs', '14 hrs', '15 hrs', '16 hrs', '17 hrs', '18 hrs', '19 hrs', '20 hrs', '21 hrs', '22 hrs', '23 hrs']
 const weekLabels = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
@@ -83,31 +84,6 @@ var dataLine = {
         }
     },
     series: []
-}
-
-function parseDate(rawDate) {
-    let day, month, year;
-    day = rawDate.substring(0, 2);
-    month = rawDate.substring(2, 4);
-    year = rawDate.substring(4, 8);
-    return `${day}/${month}/${year}`;
-}
-
-function parseDateTime(rawDate) {
-    let hour, minute, second;
-    hour = rawDate.substring(8, 10);
-    minute = rawDate.substring(10, 12);
-    second = rawDate.substring(12, 14);
-    return `${hour}:${minute}:${second}`;
-}
-
-// Returns the day name of a date with format 'DDMMYYYYHHMMSSSSS'
-function parseDayName(rawDate) {
-    let day, month, year;
-    day = rawDate.substring(0, 2);
-    month = rawDate.substring(2, 4);
-    year = rawDate.substring(4, 8);
-    return weekLabels[new Date(`${month}/${day}/${year}`).getDay()%7];
 }
 
 function mapReadings(arr, parse, xAxis) {
