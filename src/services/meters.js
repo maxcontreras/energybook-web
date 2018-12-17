@@ -12,8 +12,16 @@ let meters = Object.assign({}, {
         return loopback.post(`/Meters/getOwnerCompany`, meter_id);
     },
 
-    getReadingsByFilter(meter_id, device, filter,) {
-        return loopback.post('/Meters/getReadingsByFilter', {id: meter_id, device, filter});
+    getConsumptionCostsByFilter(id, device, filter) {
+        return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, filter});
+    },
+
+    getDpReadingsByFilter(meter_id, device, filter,) {
+        return loopback.post('/Meters/getDpReadingsByFilter', {id: meter_id, device, filter});
+    },
+
+    getEpimpReadingsByFilter(meter_id, device, filter,) {
+        return loopback.post('/Meters/getEpimpReadingsByFilter', {id: meter_id, device, filter});
     },
 
     getDeviceInfo(id) {

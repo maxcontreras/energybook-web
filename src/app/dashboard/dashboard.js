@@ -51,9 +51,7 @@ var dataLine = {
     plotOptions: {
       spline: {
         marker: {
-          radius: 4,
-          lineColor: 'rgb(124, 181, 236)',
-          lineWidth: 1
+          enabled: false
         }
       }
     },

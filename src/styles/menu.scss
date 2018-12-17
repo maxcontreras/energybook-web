@@ -15,10 +15,12 @@ $darkgray: #485658;
 #top-bar {
     background-color: #fcfcfc !important;
     //box-shadow: 0 0 5px 0 #c2c2c2;
+    position: relative;
+    height: 62px !important;
 
-    h6 {
-        margin-bottom: 0;
-        color: rgba(0, 0, 0, 0.5);
+    .weatherwidget-io {
+        transform: translate(0, 7px);
+   
     }
 }
 

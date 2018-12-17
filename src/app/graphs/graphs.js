@@ -72,7 +72,11 @@ export default {
                             value:`${this.eds.meter_id} ${device}`,
                             text: `Dispositivo ${device}`
                         });
-                    })
+                    });
+                    if (this.metersFilter[0].options.length > 1) {
+                        // Set default device selected
+                        this.metersFilter[0].selected = this.metersFilter[0].options[1].value;
+                    }
                 });
             })
 
