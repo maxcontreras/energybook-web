@@ -1,10 +1,6 @@
 <template>
     <b-container fluid class="weather">
         <b-row>
-            <b-col md="5">
-                <h2 class="city">{{location}}</h2>
-                <p class="wind">Viento: <span>{{wind_speed}} m/s</span></p>
-            </b-col>
             <b-col md="2" class="text-center">
                 <img class="weather-icon" :src="weatherIcon"/>
             </b-col>
@@ -13,6 +9,10 @@
                     {{temperature}}&#176;C
                 </h2>
                 <p>{{description}}</p>
+            </b-col>
+            <b-col md="5">
+                <h2 class="city">{{location}}</h2>
+                <p class="wind">Viento: <span>{{wind_speed}} m/s</span></p>
             </b-col>
         </b-row>
     </b-container>
