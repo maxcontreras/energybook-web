@@ -8,6 +8,10 @@ let designatedMeters = Object.assign({}, {
 
     relation: '',
 
+    getWeather(lat, lon) {
+        return loopback.post('DesignatedMeters/getWeather', {lat, lon});
+    }
+
 }, modelObject);
 
 export default designatedMeters;

@@ -41,10 +41,10 @@ export default {
             commit('setEpimpHistory', data)
         },
         consumptionSummary({commit}, data) {
-            commit('consumptionSummary', data)
+            commit('setConsumptionSummary', data)
         },
         powerFactor({commit}, data) {
-            commit('powerFactor', data.value)
+            commit('setPowerFactor', data.value)
         }
     },
     mutations: {

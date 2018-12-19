@@ -61,8 +61,10 @@
         <div id="main">
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
-                <b-col md="3">
-                    <a class="weatherwidget-io" href="https://forecast7.com/es/20d66n103d35/guadalajara/" data-label_1="GUADALAJARA" data-label_2="Clima" data-icons="Climacons Animated" data-mode="Current" >GUADALAJARA Clima</a>   
+                <b-col md="4">
+                    <v-weather
+                        :lat="position.lat"
+                        :lon="position.lon"/>
                 </b-col>
                 <b-col md="3">
                     {{date}}
@@ -93,17 +95,23 @@
 
 import Notification from '@/app/components/notificationPanel/NotificationPanel.vue';
 import designatedMeters from '@/services/designatedMeters';
+import VWeather from '@/app/components/Weather/VWeather.vue';
 
 export default {
     components: {
-        Notification
+        Notification,
+        VWeather
     },
     data() {
         return {
             currentView: this.$store.state.currentView,
 			toggle: false,
             meters: [],
-            date: moment().format('LLL')
+            date: moment().format('LLL'),
+            position: {
+                lat: 20.659698,
+                lon: -103.349609
+            }
         }
     },
 
@@ -144,6 +152,16 @@ export default {
         setInterval(() => {
             this.date = moment().format('LLL');
         }, 1000);
+        navigator.geolocation.getCurrentPosition( position => {
+                this.lon = position.coords.longitude,
+                this.lat = position.coords.latitude
+            },
+            function (error) {
+                console.log(error.message);
+            }, {
+                enableHighAccuracy: true
+            }
+        );
     },
 
     methods: {

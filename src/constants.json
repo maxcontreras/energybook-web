@@ -36,5 +36,16 @@
                 "Inactivo": 0
             }
         }
+    },
+    "Weather": {
+        "condition_icons": {
+            "Clear": "/assets/weather/sun.svg",
+            "Clouds": "/assets/weather/cloud_sun.svg",
+            "Atmosphere": "/assets/weather/atmos.svg",
+            "Snow": "/assets/weather/snow.svg",
+            "Drizzle": "/assets/weather/rain.svg",
+            "Rain": "/assets/weather/rain.svg",
+            "Thunderstorm": "/assets/weather/storm.svg"
+        }
     }
 }
