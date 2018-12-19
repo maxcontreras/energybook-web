@@ -10,7 +10,7 @@
                 </h2>
                 <p>{{description}}</p>
             </b-col>
-            <b-col md="5">
+            <b-col md="5" class="text-left">
                 <h2 class="city">{{location}}</h2>
                 <p class="wind">Viento: <span>{{wind_speed}} m/s</span></p>
             </b-col>
