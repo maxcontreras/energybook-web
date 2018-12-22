@@ -24,7 +24,9 @@ export default {
     },
 
     mounted() {
-        this.getData();
+        if (this.lat !== 0 && this.lon !== 0) {
+            this.getData();
+        }
     },
 
     computed: {
@@ -34,11 +36,7 @@ export default {
     },
 
     watch: {
-        lat() {
-            this.getData();
-        },
-
-        lon() {
+        lat: function(){
             this.getData();
         }
     },
@@ -47,7 +45,6 @@ export default {
         getData() {
             DesignatedMeter.getWeather(this.lat, this.lon)
                 .then(({results}) => {
-                    console.log(results)
                     this.temperature = results.main.temp;
                     this.description = results.weather[0].description;
                     this.condition = results.weather[0].main;

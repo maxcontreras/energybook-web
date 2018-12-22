@@ -63,8 +63,8 @@
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
                 <b-col md="3">
                     <v-weather
-                        :lat="position.lat"
-                        :lon="position.lon"/>
+                        :lat="(position)? position.lat: 0"
+                        :lon="(position)? position.lon: 0"/>
                 </b-col>
                 <b-col md="3">
                     {{date}}
@@ -109,8 +109,8 @@ export default {
             meters: [],
             date: moment().format('LLL'),
             position: {
-                lat: 20.659698,
-                lon: -103.349609
+                lat: 0,
+                lon: 0
             }
         }
     },
@@ -130,6 +130,15 @@ export default {
         },
         user() {
             return this.$store.state.user.user? this.$store.state.user : {user: {name: '', lastname: ''}};
+        },
+        location() {
+            return this.$store.getters['user/getUserCompany'].location;
+        }
+    },
+
+    watch: {
+        location: function() {
+            this.position = this.location;
         }
     },
 
@@ -152,16 +161,19 @@ export default {
         setInterval(() => {
             this.date = moment().format('LLL');
         }, 1000);
-        navigator.geolocation.getCurrentPosition( position => {
-                this.lon = position.coords.longitude,
-                this.lat = position.coords.latitude
-            },
-            function (error) {
-                console.log(error.message);
-            }, {
-                enableHighAccuracy: true
-            }
-        );
+        if (this.isAdmin) {
+            this.position = {lat: 20.659698,lon: -103.349609};
+            navigator.geolocation.getCurrentPosition( position => {
+                this.position = {lon: position.coords.longitude, lat: position.coords.latitude}
+                },
+                (error) => {
+                    console.log(error.message);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 5000
+                }
+            );
+        }
     },
 
     methods: {
