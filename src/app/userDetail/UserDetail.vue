@@ -51,6 +51,7 @@
                                         md="6"
                                         class="action" >
                                         <b-button
+                                            hidden
                                             v-if="!isCompanyProfile"
                                             :variant="'outline-success'"
                                             class="right"
@@ -65,6 +66,7 @@
                                             Editar Compañía
                                         </b-button>
                                         <b-button
+                                            hidden
                                             v-if="!isCompanyProfile"
                                             :variant="'outline-success'"
                                             class="right"

@@ -101,9 +101,10 @@ export default {
             })
             .then(user => {
                 this.user = user;
-                this.user.company = {};
+                this.user.company = user.company;
                 this.originalData = JSON.parse(JSON.stringify(user));
-                this.getPosition()
+                this.companyPosition = {lat: this.user.company.location.lat, lng: this.user.company.location.lon };
+                //this.getPosition()
             })
             .catch(err => {
                 console.error(err);
@@ -118,7 +119,8 @@ export default {
                 this.user.created_at = company.created_at
                 this.originalData = JSON.parse(JSON.stringify(company));
                 this.mapCompanyUsers()
-                this.getPosition()
+                this.companyPosition = {lat: this.user.company.location.lat, lng: this.user.company.location.lon };
+                //this.getPosition()
             })
             .catch(err => {
                 console.error(err);
@@ -178,7 +180,7 @@ export default {
         },
 
         getPosition() {
-            var geocoder = new google.maps.Geocoder()
+            var geocoder = new this.google.maps.Geocoder()
             geocoder.geocode({
                 "address": this.user.company.location
             }, results => {
