@@ -45,7 +45,8 @@
             "Snow": "/assets/weather/snow.svg",
             "Drizzle": "/assets/weather/rain.svg",
             "Rain": "/assets/weather/rain.svg",
-            "Thunderstorm": "/assets/weather/storm.svg"
+            "Thunderstorm": "/assets/weather/storm.svg",
+            "Mist": "/assets/weather/atmos.svg"
         }
     }
 }
