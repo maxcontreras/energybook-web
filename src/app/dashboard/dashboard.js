@@ -173,7 +173,8 @@ export default {
             },
             chartOptions: {},
             lineOptions: dataLine,
-            edsId: ''
+            edsId: '',
+            refreshingData: false
         }
     },
 
@@ -286,11 +287,20 @@ export default {
 
     methods: {
         refresh() {
-            this.getMeters();
-            this.load();
-            this.updateEpimpHistoryChart();
-            this.updateOdometerChart();
-            this.updatePieChart();
+            this.refreshingData = true;
+            let promises = [];
+            promises.push(designatedMeters.dailyReadings());
+            promises.push(designatedMeters.fpReadings());
+            promises.push(designatedMeters.monthlyReadings());
+            promises.push(designatedMeters.odometerReadings());
+            promises.push(designatedMeters.epimpHistory());
+            promises.push(designatedMeters.consumptionSummary());
+            
+            Promise.all(promises).then(values => {
+                this.getMeters();
+                this.load();
+                this.refreshingData = false;
+            });
         },
 
         load(){

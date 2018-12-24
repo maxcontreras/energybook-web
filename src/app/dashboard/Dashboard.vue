@@ -200,6 +200,7 @@
                                             class="text-center">
                                             <b-btn
                                                 variant="info"
+                                                :disabled="refreshingData"
                                                 style="position: absolute; bottom: 0; right: 0"
                                                 @click="refresh()">
                                                 Refrescar datos
