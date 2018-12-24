@@ -59,25 +59,27 @@ export default {
                     where: { company_id: this.companyId }
                 }
             }).then(eds => {
-                this.eds = eds[0];
-                meters.connectedDevices({
-                    id: this.eds.id
-                }).then(devices => {
-                    devices.forEach((device, index) => {
-                        // Ignore first device. EDS
-                        if (index === 0) {
-                            return;
-                        }
-                        this.metersFilter[0].options.push({
-                            value:`${this.eds.meter_id} ${device}`,
-                            text: `Dispositivo ${device}`
+                if (eds.length > 0) {
+                    this.eds = eds[0];
+                    meters.connectedDevices({
+                        id: this.eds.id
+                    }).then(devices => {
+                        devices.forEach((device, index) => {
+                            // Ignore first device. EDS
+                            if (index === 0) {
+                                return;
+                            }
+                            this.metersFilter[0].options.push({
+                                value:`${this.eds.meter_id} ${device}`,
+                                text: `Dispositivo ${device}`
+                            });
                         });
+                        if (this.metersFilter[0].options.length > 1) {
+                            // Set default device selected
+                            this.metersFilter[0].selected = this.metersFilter[0].options[1].value;
+                        }
                     });
-                    if (this.metersFilter[0].options.length > 1) {
-                        // Set default device selected
-                        this.metersFilter[0].selected = this.metersFilter[0].options[1].value;
-                    }
-                });
+                }
             })
 
             // designatedMeters.findOne({

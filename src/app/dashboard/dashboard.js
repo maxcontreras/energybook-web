@@ -223,9 +223,12 @@ export default {
         },
 
         powerFactor() {
-            console.log('fp', this.$store.state.socket.powerFactor);
             let prettyFP = this.prettifyNumbers(this.$store.state.socket.powerFactor);
             return this.$store.state.socket.powerFactor
+        },
+
+        reactives() {
+            return this.$store.state.socket.reactive;
         },
 
         billablePeriod() {
@@ -345,12 +348,13 @@ export default {
                     })*/
                     this.edsId = this.meters[0].meter_id
                     meters.initializer(this.edsId).then((res)=> {
-                        this.$store.commit('socket/setOdometer', res.latestValues.dp.value)
-                        this.$store.commit('socket/setDistribution', res.latestValues)
-                        this.$store.commit('socket/setMonthly', res.latestValues)
-                        this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
-                        this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory)
-                        this.$store.commit('socket/setPowerFactor', res.latestValues.fp.value)
+                        this.$store.commit('socket/setOdometer', res.latestValues.dp.value);
+                        this.$store.commit('socket/setDistribution', res.latestValues);
+                        this.$store.commit('socket/setMonthly', res.latestValues);
+                        this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp);
+                        this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory);
+                        this.$store.commit('socket/setPowerFactor', res.latestValues.fp.value);
+                        this.$store.commit('socket/setReactive', res.latestValues.reactive.value)
                     })
                     meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
                         chartSpeed.update({

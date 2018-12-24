@@ -25,58 +25,66 @@ export default {
         consumption: getLocalStorageItem('consumption'),
         consumptionMonth: getLocalStorageItem('consumptionMonth'),
         consumptionSummary: getLocalStorageItem('consumptionSummary'),
-        powerFactor: getLocalStorageItem('powerFactor')
+        powerFactor: getLocalStorageItem('powerFactor'),
+        reactive: getLocalStorageItem('reactive')
     },
     actions: {
         odometerReading({commit}, data) {
-            commit('setOdometer', data.value)
+            commit('setOdometer', data.value);
         },
         dailyReading({commit}, data) {
-            commit('setDistribution', data)
+            commit('setDistribution', data);
         },
         monthlyReading({commit}, data) {
-            commit('setMonthly', data)
+            commit('setMonthly', data);
         },
         epimpHistoryReading({commit}, data) {
-            commit('setEpimpHistory', data)
+            commit('setEpimpHistory', data);
         },
         consumptionSummary({commit}, data) {
-            commit('setConsumptionSummary', data)
+            commit('setConsumptionSummary', data);
         },
         powerFactor({commit}, data) {
-            commit('setPowerFactor', data.value)
+            commit('setPowerFactor', data.value);
+        },
+        reactive({commit}, data) {
+            commit('setReactive', data.value);
         }
     },
     mutations: {
         setDistribution(state, data) {
             state.distribution = data.distribution.daily
-            saveInLocalStorage('distribution', data.distribution.daily)
-            state.distributionCharge = data.distribution.charge
-            saveInLocalStorage('distributionCharge', data.distribution.charge)
-            state.consumption = data.consumption.daily
-            saveInLocalStorage('consumption', data.consumption.daily)
+            saveInLocalStorage('distribution', data.distribution.daily);
+            state.distributionCharge = data.distribution.charge;
+            saveInLocalStorage('distributionCharge', data.distribution.charge);
+            state.consumption = data.consumption.daily;
+            saveInLocalStorage('consumption', data.consumption.daily);
         },
         setOdometer(state, value) {
-            state.odometer = parseFloat(value)
-            saveInLocalStorage('odometer', value)
+            state.odometer = parseFloat(value);
+            saveInLocalStorage('odometer', value);
         },
         setMonthly(state, data) {
-            state.distributionMonth = parseFloat(data.distribution.monthly)
-            saveInLocalStorage('distributionMonth', data.distribution.monthly)
-            state.consumptionMonth = parseFloat(data.consumption.monthly)
-            saveInLocalStorage('consumptionMonth', data.consumption.monthly)
+            state.distributionMonth = parseFloat(data.distribution.monthly);
+            saveInLocalStorage('distributionMonth', data.distribution.monthly);
+            state.consumptionMonth = parseFloat(data.consumption.monthly);
+            saveInLocalStorage('consumptionMonth', data.consumption.monthly);
         },
         setEpimpHistory(state, value) {
-            state.epimpHistory = value
-            saveInLocalStorage('epimpHistory', value)
+            state.epimpHistory = value;
+            saveInLocalStorage('epimpHistory', value);
         },
         setConsumptionSummary(state, value) {
-            state.consumptionSummary = value
-            saveInLocalStorage('consumptionSummary', value)
+            state.consumptionSummary = value;
+            saveInLocalStorage('consumptionSummary', value);
         },
         setPowerFactor(state, value) {
-            state.powerFactor = value
-            saveInLocalStorage('powerFactor', value)
+            state.powerFactor = value;
+            saveInLocalStorage('powerFactor', value);
+        },
+        setReactive(state, value) {
+            state.reactive = value;
+            saveInLocalStorage('reactive', value);
         }
     }
 }
