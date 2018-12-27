@@ -171,6 +171,16 @@
                                                         </div>
                                                         <span>%</span>
                                                     </div>
+                                                    <div class="analysis-item--cat">
+                                                        <div class="icon-container">
+                                                            <img class="dashboard-image" src="/assets/images/reactives.svg"/>
+                                                        </div>
+                                                        <div class="data-container">
+                                                            <p>Reactivos</p>
+                                                            <h5>{{ reactives ? reactives : 0 }}</h5>
+                                                        </div>
+                                                        <span>kVar</span>
+                                                    </div>
                                                 </b-col>
                                             </b-row>
                                         </b-col>
@@ -190,6 +200,7 @@
                                             class="text-center">
                                             <b-btn
                                                 variant="info"
+                                                :disabled="refreshingData"
                                                 style="position: absolute; bottom: 0; right: 0"
                                                 @click="refresh()">
                                                 Refrescar datos

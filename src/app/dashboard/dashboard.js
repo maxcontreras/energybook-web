@@ -173,7 +173,8 @@ export default {
             },
             chartOptions: {},
             lineOptions: dataLine,
-            edsId: ''
+            edsId: '',
+            refreshingData: false
         }
     },
 
@@ -223,9 +224,12 @@ export default {
         },
 
         powerFactor() {
-            console.log('fp', this.$store.state.socket.powerFactor);
             let prettyFP = this.prettifyNumbers(this.$store.state.socket.powerFactor);
             return this.$store.state.socket.powerFactor
+        },
+
+        reactives() {
+            return this.$store.state.socket.reactive;
         },
 
         billablePeriod() {
@@ -283,11 +287,20 @@ export default {
 
     methods: {
         refresh() {
-            this.getMeters();
-            this.load();
-            this.updateEpimpHistoryChart();
-            this.updateOdometerChart();
-            this.updatePieChart();
+            this.refreshingData = true;
+            let promises = [];
+            promises.push(designatedMeters.dailyReadings());
+            promises.push(designatedMeters.fpReadings());
+            promises.push(designatedMeters.monthlyReadings());
+            promises.push(designatedMeters.odometerReadings());
+            promises.push(designatedMeters.epimpHistory());
+            promises.push(designatedMeters.consumptionSummary());
+            
+            Promise.all(promises).then(values => {
+                this.getMeters();
+                this.load();
+                this.refreshingData = false;
+            });
         },
 
         load(){
@@ -345,12 +358,13 @@ export default {
                     })*/
                     this.edsId = this.meters[0].meter_id
                     meters.initializer(this.edsId).then((res)=> {
-                        this.$store.commit('socket/setOdometer', res.latestValues.dp.value)
-                        this.$store.commit('socket/setDistribution', res.latestValues)
-                        this.$store.commit('socket/setMonthly', res.latestValues)
-                        this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp)
-                        this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory)
-                        this.$store.commit('socket/setPowerFactor', res.latestValues.fp.value)
+                        this.$store.commit('socket/setOdometer', res.latestValues.dp.value);
+                        this.$store.commit('socket/setDistribution', res.latestValues);
+                        this.$store.commit('socket/setMonthly', res.latestValues);
+                        this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp);
+                        this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory);
+                        this.$store.commit('socket/setPowerFactor', res.latestValues.fp.value);
+                        this.$store.commit('socket/setReactive', res.latestValues.reactive.value)
                     })
                     meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
                         chartSpeed.update({

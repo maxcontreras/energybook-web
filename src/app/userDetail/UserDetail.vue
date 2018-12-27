@@ -51,6 +51,7 @@
                                         md="6"
                                         class="action" >
                                         <b-button
+                                            hidden
                                             v-if="!isCompanyProfile"
                                             :variant="'outline-success'"
                                             class="right"
@@ -61,10 +62,12 @@
                                             v-if="isAdmin || isManager"
                                             :variant="'outline-success'"
                                             class="right"
+                                            hidden
                                             @click="editCompany = true">
                                             Editar Compañía
                                         </b-button>
                                         <b-button
+                                            hidden
                                             v-if="!isCompanyProfile"
                                             :variant="'outline-success'"
                                             class="right"
@@ -129,18 +132,31 @@
                                                 placeholder="Teléfono">
                                             </b-form-input>
                                         </b-form-group>
-                                        <b-form-group label="Número de empleados">
+                                        <b-form-group label="Tamaño de empresa">
                                             <b-form-input
                                                 :readonly="!editCompany"
-                                                :type="'number'"
+                                                :type="'text'"
                                                 v-model="user.company.size"
                                                 required
-                                                placeholder="Número de empleados">
+                                                placeholder="Tamaño de empresa">
                                             </b-form-input>
                                         </b-form-group>
                                     </b-col>
                                     <b-col>
-                                        <b-form-group label="Razón Social">
+                                        <b-form-group 
+                                            v-if="isUser"
+                                            label="Puesto">
+                                            <b-form-input
+                                                :readonly="!editCompany"
+                                                :type="'text'"
+                                                v-model="user.position"
+                                                required
+                                                placeholder="Puesto">
+                                            </b-form-input>
+                                        </b-form-group>
+                                        <b-form-group 
+                                            v-else
+                                            label="Razón Social">
                                             <b-form-input
                                                 :readonly="!editCompany"
                                                 :type="'text'"
@@ -153,9 +169,8 @@
                                             <b-form-input
                                                 :readonly="!editCompany"
                                                 :type="'text'"
-                                                v-model="user.company.company_type"
                                                 required
-                                                placeholder="Giro">
+                                                placeholder="Industrial">
                                             </b-form-input>
                                         </b-form-group>
                                         <b-form-group label="Ubicación">
@@ -165,7 +180,7 @@
                                                 required
                                                 placeholder="Ubicación"
                                                 :type="'text'"
-                                                v-model="user.company.location">
+                                                v-model="user.company.address">
                                             </b-form-input>
                                             <gmap-autocomplete
                                                 v-if="editCompany"

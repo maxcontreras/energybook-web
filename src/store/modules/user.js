@@ -2,6 +2,7 @@
 import loopback from '@/services/loopback'
 import router from '@/router'
 import eUsers from '@/services/eUsers'
+import companies from '@/services/companies'
 import websockets from '@/services/websockets'
 import Vue from 'vue'
 
@@ -9,7 +10,8 @@ export default {
     namespaced: true,
     state: {
         access_token: '',
-        user: ''
+        user: '',
+        company: ''
     },
     actions: {
         syncToken({ state, commit, dispatch }) {
@@ -58,7 +60,7 @@ export default {
                   })
             })
         },
-        loadAccount({ commit }, id) {
+        loadAccount({ commit, dispatch }, id) {
             return eUsers.findById({ id }).then(user => {
 
                 if(localStorage.getItem('user') === null) {
@@ -66,14 +68,23 @@ export default {
                     router.push({ name: 'dashboard' })
                 }
                 
-                commit('setUser', user)
-                commit('setRole', user, { root: true })
-                commit('setCompanyId', user.company_id, { root: true })
+                commit('setUser', user);
+                commit('setRole', user, { root: true });
+                commit('setCompanyId', user.company_id, { root: true });
+                dispatch('loadCompany', user.company_id);
                 websockets.init()
             }).catch(() => {
                 loopback.removeToken()
                 router.push({ name: 'login' })
             })
+        },
+        loadCompany({ commit, rootState }, company_id) {
+            if (rootState.isUser) {
+                return companies.find({id: company_id})
+                    .then(company => {
+                        commit('setCompany', company);
+                    });
+            }
         },
         logout({}) {
             eUsers.logout().then(() => {
@@ -89,6 +100,14 @@ export default {
         },
         setUser(state, user) {
             state.user = user
+        },
+        setCompany(state, company) {
+            state.company = company;
+        }
+    },
+    getters: {
+        getUserCompany(state) {
+            return state.company;
         }
     }
 }

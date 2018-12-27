@@ -62,7 +62,9 @@
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
                 <b-col md="3">
-                    <a class="weatherwidget-io" href="https://forecast7.com/es/20d66n103d35/guadalajara/" data-label_1="GUADALAJARA" data-label_2="Clima" data-icons="Climacons Animated" data-mode="Current" >GUADALAJARA Clima</a>   
+                    <v-weather
+                        :lat="(position)? position.lat: 0"
+                        :lon="(position)? position.lon: 0"/>
                 </b-col>
                 <b-col md="3">
                     {{date}}
@@ -93,17 +95,23 @@
 
 import Notification from '@/app/components/notificationPanel/NotificationPanel.vue';
 import designatedMeters from '@/services/designatedMeters';
+import VWeather from '@/app/components/Weather/VWeather.vue';
 
 export default {
     components: {
-        Notification
+        Notification,
+        VWeather
     },
     data() {
         return {
             currentView: this.$store.state.currentView,
 			toggle: false,
             meters: [],
-            date: moment().format('LLL')
+            date: moment().format('LLL'),
+            position: {
+                lat: 0,
+                lon: 0
+            }
         }
     },
 
@@ -122,6 +130,15 @@ export default {
         },
         user() {
             return this.$store.state.user.user? this.$store.state.user : {user: {name: '', lastname: ''}};
+        },
+        location() {
+            return this.$store.getters['user/getUserCompany'].location;
+        }
+    },
+
+    watch: {
+        location: function() {
+            this.position = this.location;
         }
     },
 
@@ -144,6 +161,19 @@ export default {
         setInterval(() => {
             this.date = moment().format('LLL');
         }, 1000);
+        if (this.isAdmin) {
+            this.position = {lat: 20.659698,lon: -103.349609};
+            navigator.geolocation.getCurrentPosition( position => {
+                this.position = {lon: position.coords.longitude, lat: position.coords.latitude}
+                },
+                (error) => {
+                    console.log(error.message);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 5000
+                }
+            );
+        }
     },
 
     methods: {

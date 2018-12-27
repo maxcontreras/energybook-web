@@ -1,0 +1,23 @@
+.weather {
+    p {
+        margin-bottom: 0;
+    }
+    .weather-icon {
+        width: 4rem;
+    }
+
+    .temperature {
+        font-size: 18px;
+    }
+
+    .city {
+        font-size: 16px;
+    }
+
+    .wind {
+        font-size: 14px;
+        span{
+            font-weight: bold;
+        }
+    }
+}
