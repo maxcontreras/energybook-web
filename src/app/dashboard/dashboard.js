@@ -238,6 +238,12 @@ export default {
             return `${start} - ${end}`
         },
 
+        currentDay() {
+            moment().locale();
+            let day = moment().format('dddd D [de] MMMM');
+            return day;
+        },
+
         currentFormattedDate() {
             return moment(this.currentDate).format('LLL')
         },

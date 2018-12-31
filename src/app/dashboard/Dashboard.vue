@@ -9,8 +9,18 @@
                     <b-col>
                         <b-row class="margin-bottom-2 margin-top-1">
                             <b-col md="4">
-                                <b-card>
-                                    <b-row>
+                                <b-card class="daily-reading-card">
+                                    <b-row class="analysis-card-header">
+                                        <b-col md="4">
+                                            <h5>Diario</h5>
+                                        </b-col>
+                                        <b-col md="8">
+                                            <h4 class="billable-period">
+                                                {{ currentDay }}
+                                            </h4>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row class="analysis-card-body">
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
@@ -29,8 +39,18 @@
                                 </b-card>
                             </b-col>
                             <b-col md="4">
-                                <b-card>
-                                    <b-row>
+                                <b-card class="daily-reading-card">
+                                    <b-row class="analysis-card-header">
+                                        <b-col md="4">
+                                            <h5>Diario</h5>
+                                        </b-col>
+                                        <b-col md="8">
+                                            <h4 class="billable-period">
+                                                {{ currentDay }}
+                                            </h4>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row class="analysis-card-body">
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
@@ -47,39 +67,19 @@
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <!--<b-col md="2">
-                                <b-card>
-                                    <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
-                                            <h5 class="yellow">
-                                                1, 400 kWh
-                                            </h5>
-                                            <p>Capacidad</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
-                                            <i class="fab fa-creative-commons-sampling-plus yellow"></i>
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
-                            </b-col>-->
-                            <!--<b-col md="2">
-                                <b-card>
-                                    <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
-                                            <h5 class="green">
-                                                1, 400 kWh
-                                            </h5>
-                                            <p>Consumo</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
-                                            <i class="fas fa-bolt green"></i>
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
-                            </b-col>-->
                             <b-col md="4">
-                                <b-card>
-                                    <b-row>
+                                <b-card class="daily-reading-card">
+                                    <b-row class="analysis-card-header">
+                                        <b-col md="4">
+                                            <h5>Diario</h5>
+                                        </b-col>
+                                        <b-col md="8">
+                                            <h4 class="billable-period">
+                                                {{ currentDay }}
+                                            </h4>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row class="analysis-card-body">
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
@@ -96,21 +96,6 @@
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <!--<b-col md="2">
-                                <b-card>
-                                    <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
-                                            <h5 class="yellow">
-                                                1, 400 kWh
-                                            </h5>
-                                            <p>Capacidad</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
-                                            <i class="fab fa-creative-commons-sampling-plus yellow"></i>
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
-                            </b-col>-->
                         </b-row>
                         <b-row class="margin-bottom-2">
                             <b-col>
