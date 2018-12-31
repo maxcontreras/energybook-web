@@ -25,6 +25,7 @@
                                 :position="companyPosition"
                                 :clickable="false"
                                 :draggable="false"
+                                :icon="marker"
                             />
                         </GmapMap>
                     </b-col>

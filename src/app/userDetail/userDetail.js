@@ -81,7 +81,18 @@ export default {
             return moment(this.user.lastLogin).format('LL');
         },
 
-        google: gmapApi
+        google: gmapApi,
+
+        marker: function() {
+            if (this.google) {
+                return {
+                    size: new this.google.maps.Size(40,80),
+                    scaledSize: new this.google.maps.Size(40,80),
+                    url: '/assets/images/marker.svg'
+                }
+            }
+            return {}
+        }
     },
 
     beforeMount: function() {
