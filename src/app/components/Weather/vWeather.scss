@@ -2,8 +2,13 @@
     p {
         margin-bottom: 0;
     }
-    .weather-icon {
-        width: 4rem;
+
+    .icon-container {
+        padding: 0;
+
+        .weather-icon {
+            width: 5.5rem;
+        }
     }
 
     .temperature {

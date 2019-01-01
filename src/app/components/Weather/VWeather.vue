@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="weather">
         <b-row>
-            <b-col md="2" class="text-center">
+            <b-col md="2" class="text-center icon-container">
                 <img class="weather-icon" :src="weatherIcon"/>
             </b-col>
             <b-col md="5" class="text-center">
