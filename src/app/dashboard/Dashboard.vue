@@ -24,7 +24,6 @@
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
-                                            <!-- <i class="fas fa-bolt green"></i> -->
                                             <img class="dashboard-image" src="/assets/images/consumption.png" />
                                         </b-col>
                                         <b-col
@@ -97,6 +96,7 @@
                                 </b-card>
                             </b-col>
                         </b-row>
+
                         <b-row class="margin-bottom-2">
                             <b-col>
                                 <b-card class="dashboard-general" no-body>
@@ -169,19 +169,22 @@
                                                 </b-col>
                                             </b-row>
                                         </b-col>
-                                        <b-col md="6" class="outer">
-                                            <!--<VueHighChartsComponent :options="gaugeOptions" ref="gaugeChart"></VueHighChartsComponent>-->
-                                            <div
-                                                id="container-odometer"
-                                                ref="solidGauge"
-                                                class="container">
-                                            </div>
-                                        </b-col>
                                         <b-col md="6">
-                                            <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
+                                            <b-row>
+                                                <b-col md="12" class="text-center">
+                                                    <div
+                                                        id="container-odometer"
+                                                        ref="solidGauge"
+                                                        class="container">
+                                                    </div>
+                                                </b-col>
+                                                <b-col md="12">
+                                                    <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
+                                                </b-col>
+                                            </b-row>
                                         </b-col>
                                         <b-col
-                                            md="6"
+                                            md="12"
                                             class="text-center">
                                             <b-btn
                                                 variant="info"
@@ -194,24 +197,6 @@
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <!-- <b-col md="3">
-                                <b-card>
-                                    <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
-                                </b-card>
-                            </b-col> -->
-                            <!-- TODO: Remove this block of code once the new weather pluggin has been removed-->
-                            <!-- <b-col md="3">
-                                <b-card>
-                                    <weather
-                                        api-key="87a3a340f3f60b932c4b3e378fda841c"
-                                        title="Hoy"
-                                        :latitude="position.lat"
-                                        :longitude="position.lng"
-                                        language="es"
-                                        units="ca">
-                                    </weather>
-                                </b-card>
-                            </b-col> -->
                         </b-row>
                         <b-row>
                             <b-col md="12">
@@ -227,9 +212,6 @@
                                     </vue-highcharts>
                                 </b-card>
                             </b-col>
-                            <!--<b-col md="4">
-                                <b-card></b-card>
-                            </b-col>-->
                         </b-row>
                     </b-col>
                 </b-row>

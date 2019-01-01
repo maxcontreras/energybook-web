@@ -155,7 +155,7 @@ export default {
     props: {
         companyIdProp: {
             type: String,
-            required: true
+            required: false
         }
     },
 
@@ -167,11 +167,20 @@ export default {
             chartData: {
                 datasets: [{
                     data: [],
-                    backgroundColor: ['#344c01', '#456501', '#577e01', '#689702', '#79b102', '#8bca02', '#9ce302','#AFFC0F','#befd35']
+                    backgroundColor: ['#229954', '#3498DB', '#1ABC9C', '#F1C40F', '#E67E22', '#2980B9', '#E74C3C','#8E44AD','#138D75']
                 }],
                 labels: []
             },
-            chartOptions: {},
+            chartOptions: {
+                legend: {
+                    labels: {
+                    fontSize: 35
+                    }
+                },
+                tooltips: {
+                    bodyFontSize: 35
+                }
+            },
             lineOptions: dataLine,
             edsId: '',
             refreshingData: false

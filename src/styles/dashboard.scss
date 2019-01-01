@@ -14,26 +14,15 @@ $white: #ffffff;
 
 #dashboard {
 
-    .outer {
-        width: 600px;
-        height: 200px;
-        margin: 0 auto;
-    }
     .container {
         width: 300px;
-        float: left;
         height: 200px;
-        margin-left: 10%;
     }
     .highcharts-yaxis-grid .highcharts-grid-line {
         display: none;
     }
 
     @media (max-width: 600px) {
-        .outer {
-            width: 100%;
-            height: 400px;
-        }
         .container {
             width: 300px;
             float: none;
@@ -122,6 +111,7 @@ $white: #ffffff;
         #pie-chart{
             width: 230px !important;
             height: 230px !important;
+            margin: 0 auto;
         }
 
         .col .row:nth-child(2) .card{
