@@ -73,6 +73,28 @@ $white: #ffffff;
         }
     }
 
+    .general-body {
+        position: relative;
+    }
+
+    .refresh-btn {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: .5rem;
+        right: 2rem;
+    }
+
+    .disable-refresh {
+        background-image: url("/assets/images/Refresh_off.svg");
+        background-repeat: no-repeat;
+    }
+
+    .enable-refresh {
+        background-image: url("/assets/images/Refresh-on.svg");
+        background-repeat: no-repeat;
+    }
+
     .dashboard-map-container .card-body{
         padding: 0;
 

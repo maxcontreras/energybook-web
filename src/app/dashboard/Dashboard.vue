@@ -110,7 +110,7 @@
                                             </h5>
                                         </b-col>
                                     </b-row>
-                                    <b-row>
+                                    <b-row class="general-body">
                                         <b-col md="6">
                                             <b-row class="analysis-item--data">
                                                 <b-col>
@@ -183,17 +183,12 @@
                                                 </b-col>
                                             </b-row>
                                         </b-col>
-                                        <b-col
-                                            md="12"
-                                            class="text-center">
-                                            <b-btn
-                                                variant="info"
-                                                :disabled="refreshingData"
-                                                style="position: absolute; bottom: 0; right: 0"
-                                                @click="refresh()">
-                                                Refrescar datos
-                                            </b-btn>
-                                        </b-col>
+                                        <b-btn
+                                            :disabled="refreshingData"
+                                            class="refresh-btn"
+                                            :class="refreshingData?'disable-refresh':'enable-refresh'"
+                                            @click="refresh()">
+                                        </b-btn>
                                     </b-row>
                                 </b-card>
                             </b-col>
