@@ -311,11 +311,16 @@ export default {
             promises.push(designatedMeters.epimpHistory());
             promises.push(designatedMeters.consumptionSummary());
             
-            Promise.all(promises).then(values => {
-                this.getMeters();
-                this.load();
-                this.refreshingData = false;
-            });
+            Promise.all(promises)
+                .then(values => {
+                    this.getMeters();
+                    this.load();
+                    this.refreshingData = false;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.refreshingData = false;
+                });
         },
 
         load(){
