@@ -238,12 +238,13 @@ export default {
         },
 
         reactives() {
-            return this.$store.state.socket.reactive;
+            return parseInt(this.$store.state.socket.reactive).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
         },
 
         billablePeriod() {
-            let start = moment().startOf('month').format('DD/MM/YYYY')
-            let end = moment().endOf('month').format('DD/MM/YYYY')
+            moment().locale();
+            let start = moment().startOf('month').format('LL');
+            let end = moment().endOf('month').format('LL');
             return `${start} - ${end}`
         },
 

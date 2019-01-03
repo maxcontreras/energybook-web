@@ -12,7 +12,7 @@
                                 <b-card class="daily-reading-card">
                                     <b-row class="analysis-card-header">
                                         <b-col md="4">
-                                            <h5>Diario</h5>
+                                            <h5>Hoy</h5>
                                         </b-col>
                                         <b-col md="8">
                                             <h4 class="billable-period">
@@ -41,7 +41,7 @@
                                 <b-card class="daily-reading-card">
                                     <b-row class="analysis-card-header">
                                         <b-col md="4">
-                                            <h5>Diario</h5>
+                                            <h5>Hoy</h5>
                                         </b-col>
                                         <b-col md="8">
                                             <h4 class="billable-period">
@@ -70,7 +70,7 @@
                                 <b-card class="daily-reading-card">
                                     <b-row class="analysis-card-header">
                                         <b-col md="4">
-                                            <h5>Diario</h5>
+                                            <h5>Hoy</h5>
                                         </b-col>
                                         <b-col md="8">
                                             <h4 class="billable-period">
@@ -164,7 +164,7 @@
                                                             <p>Reactivos</p>
                                                             <h5>{{ reactives ? reactives : 0 }}</h5>
                                                         </div>
-                                                        <span>kVar</span>
+                                                        <span>kVAR</span>
                                                     </div>
                                                 </b-col>
                                             </b-row>
