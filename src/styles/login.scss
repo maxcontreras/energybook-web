@@ -35,6 +35,14 @@ $darkgray: #485658;
 
 }
 
+#login {
+    background-image: url("/assets/login_background.png");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
 .header-img{
     background-image: url("/assets/images/header2.jpg");
     background-position: center center;
@@ -61,8 +69,8 @@ $darkgray: #485658;
     }
 
     .logo img {
-        width: 150px;
-        margin-bottom: 1rem;
+        width: 180px;
+        margin-bottom: 3rem;
     }
 
     .form-group {

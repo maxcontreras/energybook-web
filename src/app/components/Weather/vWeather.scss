@@ -2,8 +2,16 @@
     p {
         margin-bottom: 0;
     }
-    .weather-icon {
-        width: 4rem;
+
+    .icon-container {
+        padding: 0;
+        max-height: 45px;
+
+        .weather-icon {
+            width: 7rem;
+            transform: translateX(15px);
+            transform: translateY(-17px);
+        }
     }
 
     .temperature {

@@ -4,6 +4,7 @@ $eblue: #00A6A6;
 $lightgray: #f2f3f4;
 $darkgray: #485658;
 $gray: #ADADAD;
+$white: #ffffff;
 
 @media (max-width: 768px) {
     .dashboard-content--admin > div.col-md-6{
@@ -13,26 +14,15 @@ $gray: #ADADAD;
 
 #dashboard {
 
-    .outer {
-        width: 600px;
-        height: 200px;
-        margin: 0 auto;
-    }
     .container {
         width: 300px;
-        float: left;
         height: 200px;
-        margin-left: 10%;
     }
     .highcharts-yaxis-grid .highcharts-grid-line {
         display: none;
     }
 
     @media (max-width: 600px) {
-        .outer {
-            width: 100%;
-            height: 400px;
-        }
         .container {
             width: 300px;
             float: none;
@@ -42,7 +32,7 @@ $gray: #ADADAD;
     }
 
     .card {
-        box-shadow: 5px 7px 13px 0 rgba(0, 0, 0, 0.233)
+        box-shadow: 5px 5px 13px 2px rgba(0, 0, 0, 0.322)
     }
 
     .analysis-item--cat {
@@ -83,6 +73,28 @@ $gray: #ADADAD;
         }
     }
 
+    .general-body {
+        position: relative;
+    }
+
+    .refresh-btn {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: .5rem;
+        right: 2rem;
+    }
+
+    .disable-refresh {
+        background-image: url("/assets/images/Refresh_off.svg");
+        background-repeat: no-repeat;
+    }
+
+    .enable-refresh {
+        background-image: url("/assets/images/Refresh-on.svg");
+        background-repeat: no-repeat;
+    }
+
     .dashboard-map-container .card-body{
         padding: 0;
 
@@ -121,6 +133,7 @@ $gray: #ADADAD;
         #pie-chart{
             width: 230px !important;
             height: 230px !important;
+            margin: 0 auto;
         }
 
         .col .row:nth-child(2) .card{
@@ -135,11 +148,11 @@ $gray: #ADADAD;
             }
 
             .blue {
-                color: $eblue;
+                color: #2980b9;
             }
 
             .dark-blue {
-                color: #197382;
+                color: #F39C12;
             }
 
             .yellow {
@@ -183,7 +196,8 @@ $gray: #ADADAD;
                 border-top-left-radius: 0.4rem;
                 border-top-right-radius: 0.4rem;
                 padding: 1.5rem 2rem 1rem;
-                background-color: rgba(0, 0, 0, 0.07);
+                background-color: $white;
+                border-bottom: 1px solid $gray;
                 margin: 0;
 
                 .billable-period {
@@ -202,6 +216,31 @@ $gray: #ADADAD;
             .analysis-card-header h5 {
                 text-transform: uppercase;
                 letter-spacing: 2px;
+            }
+        }
+
+        .daily-reading-card {
+
+            .analysis-card-header {
+                background-color: $white;
+                border-bottom: 1px solid $gray;
+                padding: 0 1rem .2rem;
+            }
+
+            .analysis-card-header h5 {
+                text-transform: uppercase;
+            }
+
+            .analysis-card-header h4 {
+                font-size: 16px;
+            }
+
+            .analysis-card-body {
+                padding-top: 1rem;
+            }
+
+            .billable-period {
+                text-align: right;
             }
         }
     }

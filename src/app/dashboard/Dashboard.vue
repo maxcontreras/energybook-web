@@ -9,12 +9,21 @@
                     <b-col>
                         <b-row class="margin-bottom-2 margin-top-1">
                             <b-col md="4">
-                                <b-card>
-                                    <b-row>
+                                <b-card class="daily-reading-card">
+                                    <b-row class="analysis-card-header">
+                                        <b-col md="4">
+                                            <h5>Hoy</h5>
+                                        </b-col>
+                                        <b-col md="8">
+                                            <h4 class="billable-period">
+                                                {{ currentDay }}
+                                            </h4>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row class="analysis-card-body">
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
-                                            <!-- <i class="fas fa-bolt green"></i> -->
                                             <img class="dashboard-image" src="/assets/images/consumption.png" />
                                         </b-col>
                                         <b-col
@@ -29,8 +38,18 @@
                                 </b-card>
                             </b-col>
                             <b-col md="4">
-                                <b-card>
-                                    <b-row>
+                                <b-card class="daily-reading-card">
+                                    <b-row class="analysis-card-header">
+                                        <b-col md="4">
+                                            <h5>Hoy</h5>
+                                        </b-col>
+                                        <b-col md="8">
+                                            <h4 class="billable-period">
+                                                {{ currentDay }}
+                                            </h4>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row class="analysis-card-body">
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
@@ -47,39 +66,19 @@
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <!--<b-col md="2">
-                                <b-card>
-                                    <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
-                                            <h5 class="yellow">
-                                                1, 400 kWh
-                                            </h5>
-                                            <p>Capacidad</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
-                                            <i class="fab fa-creative-commons-sampling-plus yellow"></i>
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
-                            </b-col>-->
-                            <!--<b-col md="2">
-                                <b-card>
-                                    <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
-                                            <h5 class="green">
-                                                1, 400 kWh
-                                            </h5>
-                                            <p>Consumo</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
-                                            <i class="fas fa-bolt green"></i>
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
-                            </b-col>-->
                             <b-col md="4">
-                                <b-card>
-                                    <b-row>
+                                <b-card class="daily-reading-card">
+                                    <b-row class="analysis-card-header">
+                                        <b-col md="4">
+                                            <h5>Hoy</h5>
+                                        </b-col>
+                                        <b-col md="8">
+                                            <h4 class="billable-period">
+                                                {{ currentDay }}
+                                            </h4>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row class="analysis-card-body">
                                         <b-col
                                             md="2"
                                             class="dashboard-icon-container">
@@ -96,22 +95,8 @@
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <!--<b-col md="2">
-                                <b-card>
-                                    <b-row>
-                                        <b-col md="8" class="dashboard-data-container">
-                                            <h5 class="yellow">
-                                                1, 400 kWh
-                                            </h5>
-                                            <p>Capacidad</p>
-                                        </b-col>
-                                        <b-col md="4" class="dashboard-icon-container">
-                                            <i class="fab fa-creative-commons-sampling-plus yellow"></i>
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
-                            </b-col>-->
                         </b-row>
+
                         <b-row class="margin-bottom-2">
                             <b-col>
                                 <b-card class="dashboard-general" no-body>
@@ -125,7 +110,7 @@
                                             </h5>
                                         </b-col>
                                     </b-row>
-                                    <b-row>
+                                    <b-row class="general-body">
                                         <b-col md="6">
                                             <b-row class="analysis-item--data">
                                                 <b-col>
@@ -179,54 +164,34 @@
                                                             <p>Reactivos</p>
                                                             <h5>{{ reactives ? reactives : 0 }}</h5>
                                                         </div>
-                                                        <span>kVar</span>
+                                                        <span>kVAR</span>
                                                     </div>
                                                 </b-col>
                                             </b-row>
                                         </b-col>
-                                        <b-col md="6" class="outer">
-                                            <!--<VueHighChartsComponent :options="gaugeOptions" ref="gaugeChart"></VueHighChartsComponent>-->
-                                            <div
-                                                id="container-odometer"
-                                                ref="solidGauge"
-                                                class="container">
-                                            </div>
-                                        </b-col>
                                         <b-col md="6">
-                                            <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
+                                            <b-row>
+                                                <b-col md="12" class="text-center">
+                                                    <div
+                                                        id="container-odometer"
+                                                        ref="solidGauge"
+                                                        class="container">
+                                                    </div>
+                                                </b-col>
+                                                <b-col md="12">
+                                                    <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
+                                                </b-col>
+                                            </b-row>
                                         </b-col>
-                                        <b-col
-                                            md="6"
-                                            class="text-center">
-                                            <b-btn
-                                                variant="info"
-                                                :disabled="refreshingData"
-                                                style="position: absolute; bottom: 0; right: 0"
-                                                @click="refresh()">
-                                                Refrescar datos
-                                            </b-btn>
-                                        </b-col>
+                                        <b-btn
+                                            :disabled="refreshingData"
+                                            class="refresh-btn"
+                                            :class="refreshingData?'disable-refresh':'enable-refresh'"
+                                            @click="refresh()">
+                                        </b-btn>
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <!-- <b-col md="3">
-                                <b-card>
-                                    <PieChart :data="chartData" :options="chartOptions" ref="mainChart"/>
-                                </b-card>
-                            </b-col> -->
-                            <!-- TODO: Remove this block of code once the new weather pluggin has been removed-->
-                            <!-- <b-col md="3">
-                                <b-card>
-                                    <weather
-                                        api-key="87a3a340f3f60b932c4b3e378fda841c"
-                                        title="Hoy"
-                                        :latitude="position.lat"
-                                        :longitude="position.lng"
-                                        language="es"
-                                        units="ca">
-                                    </weather>
-                                </b-card>
-                            </b-col> -->
                         </b-row>
                         <b-row>
                             <b-col md="12">
@@ -242,9 +207,6 @@
                                     </vue-highcharts>
                                 </b-card>
                             </b-col>
-                            <!--<b-col md="4">
-                                <b-card></b-card>
-                            </b-col>-->
                         </b-row>
                     </b-col>
                 </b-row>

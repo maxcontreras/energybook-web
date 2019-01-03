@@ -19,7 +19,8 @@ export default {
             condition: null,
             temperature: null,
             location: null,
-            wind_speed: null
+            wind_speed: null,
+            icon: ''
         }
     },
 
@@ -31,7 +32,7 @@ export default {
 
     computed: {
         weatherIcon() {
-            return constants.Weather.condition_icons[this.condition];
+            return constants.Weather.condition_icons[this.icon];
         }
     },
 
@@ -50,6 +51,7 @@ export default {
                     this.condition = results.weather[0].main;
                     this.location = results.name;
                     this.wind_speed = results.wind.speed;
+                    this.icon = results.weather[0].icon;
                 });
         }
     }

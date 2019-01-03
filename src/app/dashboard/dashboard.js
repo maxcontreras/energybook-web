@@ -155,7 +155,7 @@ export default {
     props: {
         companyIdProp: {
             type: String,
-            required: true
+            required: false
         }
     },
 
@@ -167,11 +167,20 @@ export default {
             chartData: {
                 datasets: [{
                     data: [],
-                    backgroundColor: ['#344c01', '#456501', '#577e01', '#689702', '#79b102', '#8bca02', '#9ce302','#AFFC0F','#befd35']
+                    backgroundColor: ['#229954', '#3498DB', '#1ABC9C', '#F1C40F', '#E67E22', '#2980B9', '#E74C3C','#8E44AD','#138D75']
                 }],
                 labels: []
             },
-            chartOptions: {},
+            chartOptions: {
+                legend: {
+                    labels: {
+                    fontSize: 35
+                    }
+                },
+                tooltips: {
+                    bodyFontSize: 35
+                }
+            },
             lineOptions: dataLine,
             edsId: '',
             refreshingData: false
@@ -229,13 +238,20 @@ export default {
         },
 
         reactives() {
-            return this.$store.state.socket.reactive;
+            return parseInt(this.$store.state.socket.reactive).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
         },
 
         billablePeriod() {
-            let start = moment().startOf('month').format('DD/MM/YYYY')
-            let end = moment().endOf('month').format('DD/MM/YYYY')
+            moment().locale();
+            let start = moment().startOf('month').format('LL');
+            let end = moment().endOf('month').format('LL');
             return `${start} - ${end}`
+        },
+
+        currentDay() {
+            moment().locale();
+            let day = moment().format('dddd D [de] MMMM');
+            return day;
         },
 
         currentFormattedDate() {
@@ -296,11 +312,16 @@ export default {
             promises.push(designatedMeters.epimpHistory());
             promises.push(designatedMeters.consumptionSummary());
             
-            Promise.all(promises).then(values => {
-                this.getMeters();
-                this.load();
-                this.refreshingData = false;
-            });
+            Promise.all(promises)
+                .then(values => {
+                    this.getMeters();
+                    this.load();
+                    this.refreshingData = false;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.refreshingData = false;
+                });
         },
 
         load(){

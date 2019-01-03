@@ -61,7 +61,7 @@
         <div id="main">
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
-                <b-col md="3">
+                <b-col md="4">
                     <v-weather
                         :lat="(position)? position.lat: 0"
                         :lon="(position)? position.lon: 0"/>
