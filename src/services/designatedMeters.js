@@ -12,28 +12,28 @@ let designatedMeters = Object.assign({}, {
         return loopback.post('DesignatedMeters/getWeather', {lat, lon});
     },
 
-    epimpHistory() {
-        return loopback.post('DesignatedMeters/epimpHistory');
+    epimpHistory(company_id) {
+        return loopback.post('DesignatedMeters/epimpHistory', {company_id});
     },
 
-    odometerReadings() {
-        return loopback.post('DesignatedMeters/odometerReadings');
+    odometerReadings(company_id) {
+        return loopback.post('DesignatedMeters/odometerReadings', {company_id});
     },
 
-    consumptionSummary() {
-        return loopback.post('DesignatedMeters/consumptionSummary');
+    consumptionSummary(company_id) {
+        return loopback.post('DesignatedMeters/consumptionSummary', {company_id});
     },
 
-    dailyReadings() {
-        return loopback.post('DesignatedMeters/dailyReadings');
+    dailyReadings(company_id) {
+        return loopback.post('DesignatedMeters/dailyReadings', {company_id});
     },
 
-    fpReadings() {
-        return loopback.post('DesignatedMeters/fpReadings');
+    fpReadings(company_id) {
+        return loopback.post('DesignatedMeters/fpReadings', {company_id});
     },
 
-    monthlyReadings() {
-        return loopback.post('DesignatedMeters/monthlyReadings');
+    monthlyReadings(company_id) {
+        return loopback.post('DesignatedMeters/monthlyReadings', {company_id});
     }
 
 }, modelObject);

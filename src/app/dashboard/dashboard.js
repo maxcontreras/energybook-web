@@ -304,16 +304,19 @@ export default {
     methods: {
         refresh() {
             this.refreshingData = true;
-            let promises = [];
-            promises.push(designatedMeters.dailyReadings());
-            promises.push(designatedMeters.fpReadings());
-            promises.push(designatedMeters.monthlyReadings());
-            promises.push(designatedMeters.odometerReadings());
-            promises.push(designatedMeters.epimpHistory());
-            promises.push(designatedMeters.consumptionSummary());
             
-            Promise.all(promises)
-                .then(values => {
+            designatedMeters.dailyReadings(this.companyId);
+            designatedMeters.fpReadings(this.companyId);
+            designatedMeters.monthlyReadings(this.companyId);
+
+            designatedMeters.odometerReadings(this.companyId)
+                .then((val) => {
+                    return designatedMeters.epimpHistory(this.companyId);
+                })
+                .then((val) => {
+                    return designatedMeters.consumptionSummary(this.companyId);
+                })
+                .then(val => {
                     this.getMeters();
                     this.load();
                     this.refreshingData = false;

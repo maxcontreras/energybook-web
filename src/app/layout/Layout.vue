@@ -7,8 +7,8 @@
             <b-nav vertical class="w-100">
                 <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
                     <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard</b-nav-item>
-                <b-nav-item class="meters-submenu" v-if="false" @click="goToMeter(meter.meter_id)" v-for="meter in meters" :key="meter.id">
-                    <div class="menu-icon-container"></div>{{meter.device_name}}</b-nav-item>
+                <!-- <b-nav-item class="meters-submenu" v-if="false" @click="goToMeter(meter.meter_id)" v-for="meter in meters" :key="meter.id">
+                    <div class="menu-icon-container"></div>{{meter.device_name}}</b-nav-item> -->
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>

@@ -11,7 +11,7 @@ socket.on('open', function () {
         store.dispatch(`socket/${jsonData.socketEvent}`, jsonData.data)
     })
 
-    socket.on('close', function () { })
+    socket.on('close', function (reason) { console.log("Socket closed", reason)  })
 })
 
 export default {
