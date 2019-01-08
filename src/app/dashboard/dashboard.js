@@ -304,12 +304,35 @@ export default {
     methods: {
         refresh() {
             this.refreshingData = true;
-            
-            designatedMeters.dailyReadings(this.companyId);
-            designatedMeters.fpReadings(this.companyId);
-            designatedMeters.monthlyReadings(this.companyId);
 
+            /* Promise.all([
+                designatedMeters.dailyReadings(this.companyId),
+                designatedMeters.fpReadings(this.companyId),
+                designatedMeters.monthlyReadings(this.companyId),
+                designatedMeters.epimpHistory(this.companyId),
+                designatedMeters.consumptionSummary(this.companyId)
+            ])
+            .then(() => {
+                console.log("All transactions completed");
+                this.getMeters();
+                this.load();
+                this.refreshingData = false;
+            })
+            .catch(error => {
+                console.log(error);
+                this.refreshingData = false;
+            }); */
+            
             designatedMeters.odometerReadings(this.companyId)
+                .then((val) => {
+                    return designatedMeters.dailyReadings(this.companyId);
+                })
+                .then((val) => {
+                    return designatedMeters.fpReadings(this.companyId);
+                })
+                .then((val) => {
+                    return designatedMeters.monthlyReadings(this.companyId);
+                })
                 .then((val) => {
                     return designatedMeters.epimpHistory(this.companyId);
                 })
