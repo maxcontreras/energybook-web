@@ -347,6 +347,13 @@ export default {
                 .catch(error => {
                     console.log(error);
                     this.refreshingData = false;
+                    
+                    this.$notify({
+                        group: 'notification',
+                        type: 'error',
+                        title: 'Error al obtener datos de medidores',
+                        text: 'Verifica que tus medidores estén funcionando correctamente '
+                    });
                 });
         },
 
