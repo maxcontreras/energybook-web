@@ -39,15 +39,6 @@
     },
     "Weather": {
         "condition_icons": {
-            "Clear": "/assets/weather/sun.svg",
-            "Clouds": "/assets/weather/cloud_sun.svg",
-            "Atmosphere": "/assets/weather/atmos.svg",
-            "Snow": "/assets/weather/snow.svg",
-            "Drizzle": "/assets/weather/rain.svg",
-            "Rain": "/assets/weather/rain.svg",
-            "Thunderstorm": "/assets/weather/storm.svg",
-            "Mist": "/assets/weather/atmos.svg",
-            "Smoke": "/assets/weather/atmos.svg",
             "01d": "/assets/weather/ECGday.svg",
             "01n": "/assets/weather/ECGnight.svg",
             "02d": "/assets/weather/ECGcloudy-day-1.svg",

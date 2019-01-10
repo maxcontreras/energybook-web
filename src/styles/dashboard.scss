@@ -40,7 +40,8 @@ $white: #ffffff;
         padding-top: 1rem;
 
         span {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
         }
 
         >div {
@@ -64,10 +65,9 @@ $white: #ffffff;
                 margin-bottom: 2px;
             }
 
-            p {
-                font-size: 14px;
-                font-weight: bold;
-                text-transform: uppercase;
+            p,
+            h5 {
+                font-size: 1.1rem;
                 letter-spacing: 1px;
             }
         }
@@ -178,14 +178,29 @@ $white: #ffffff;
 
             h5 {
                 margin-top: 0.5rem;
-                font-size: 1.5rem;
-                letter-spacing: 2px;
+                font-size: 1.2rem;
+                letter-spacing: 1px;
             }
 
             p {
                 margin-bottom: 0;
-                text-transform: uppercase;
-                letter-spacing: 2px;
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+        }
+
+        .dashboard-general,
+        .dashboard-history,
+        .daily-reading-card {
+            .analysis-card-header {
+                h5 {
+                    font-size: 1.1rem;
+                    letter-spacing: 1px;
+                }
+            }
+
+            .billable-period {
+                text-align: right;
             }
         }
 
@@ -200,9 +215,6 @@ $white: #ffffff;
                 border-bottom: 1px solid $gray;
                 margin: 0;
 
-                .billable-period {
-                    text-align: right;
-                }
             }
 
             .highcharts-container {
@@ -211,11 +223,6 @@ $white: #ffffff;
 
             >div.row:nth-child(2) {
                 padding: 2rem;
-            }
-
-            .analysis-card-header h5 {
-                text-transform: uppercase;
-                letter-spacing: 2px;
             }
         }
 
@@ -227,20 +234,8 @@ $white: #ffffff;
                 padding: 0 1rem .2rem;
             }
 
-            .analysis-card-header h5 {
-                text-transform: uppercase;
-            }
-
-            .analysis-card-header h4 {
-                font-size: 16px;
-            }
-
             .analysis-card-body {
                 padding-top: 1rem;
-            }
-
-            .billable-period {
-                text-align: right;
             }
         }
     }
@@ -250,31 +245,6 @@ $white: #ffffff;
 
         .table-responsive {
             height: 70vh;
-        }
-    }
-
-    .dashboard-curr-date{
-        margin: 20px 70px;
-
-        p {
-            color: $lightgray;
-            font-size: 15px;
-
-            i {
-                font-size: 17px;
-
-                &:hover {
-                    cursor: pointer;
-                    color: #03084A;
-                }
-
-                &:first-child{
-                    margin-right: 20px;
-                }
-                &:last-child {
-                    margin-left: 20px;
-                }
-            }
         }
     }
 

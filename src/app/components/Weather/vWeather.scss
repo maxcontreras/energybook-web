@@ -1,29 +1,49 @@
 .weather {
     p {
         margin-bottom: 0;
+        font-size: 13px;
     }
 
     .icon-container {
         padding: 0;
         max-height: 45px;
 
+        .ic-01d {
+            width: 8rem !important;
+        }
+        .ic-01n {
+            transform: translate(15px, -28px) !important;
+        }
+        .ic-02d, .ic-02n, .ic-03d,
+        .ic-03n, .ic-04d, .ic-04n {
+            transform: translate(15px, -20px) !important;
+        }
+        .ic-10d,
+        .ic-13d {
+            width: 6rem !important;
+            transform: translate(20px, -17px) !important;
+        }
+        .ic-11d,
+        .ic-11n {
+            width: 6.5rem !important;
+            transform: translate(15px, -27px) !important;
+        }
+
         .weather-icon {
             width: 7rem;
-            transform: translateX(15px);
-            transform: translateY(-17px);
+            transform: translate(15px, -30px);
         }
     }
 
     .temperature {
-        font-size: 18px;
+        font-size: 15px;
     }
 
     .city {
-        font-size: 16px;
+        font-size: 13px;
     }
 
     .wind {
-        font-size: 14px;
         span{
             font-weight: bold;
         }
