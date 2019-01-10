@@ -88,6 +88,9 @@
             </b-navbar>
             <router-view></router-view>
         </div>
+        <notifications 
+            group="notification"
+            position="top right"/>
     </div>
 </template>
 

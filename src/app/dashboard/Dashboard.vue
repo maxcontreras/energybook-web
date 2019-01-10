@@ -15,9 +15,9 @@
                                             <h5>Hoy</h5>
                                         </b-col>
                                         <b-col md="8">
-                                            <h4 class="billable-period">
+                                            <h5 class="billable-period">
                                                 {{ currentDay }}
-                                            </h4>
+                                            </h5>
                                         </b-col>
                                     </b-row>
                                     <b-row class="analysis-card-body">
@@ -44,9 +44,9 @@
                                             <h5>Hoy</h5>
                                         </b-col>
                                         <b-col md="8">
-                                            <h4 class="billable-period">
+                                            <h5 class="billable-period">
                                                 {{ currentDay }}
-                                            </h4>
+                                            </h5>
                                         </b-col>
                                     </b-row>
                                     <b-row class="analysis-card-body">
@@ -73,9 +73,9 @@
                                             <h5>Hoy</h5>
                                         </b-col>
                                         <b-col md="8">
-                                            <h4 class="billable-period">
+                                            <h5 class="billable-period">
                                                 {{ currentDay }}
-                                            </h4>
+                                            </h5>
                                         </b-col>
                                     </b-row>
                                     <b-row class="analysis-card-body">

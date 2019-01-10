@@ -46,7 +46,7 @@ export default {
         getData() {
             DesignatedMeter.getWeather(this.lat, this.lon)
                 .then(({results}) => {
-                    this.temperature = results.main.temp;
+                    this.temperature = parseInt(results.main.temp);
                     this.description = results.weather[0].description;
                     this.condition = results.weather[0].main;
                     this.location = results.name;
