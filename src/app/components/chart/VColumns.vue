@@ -118,8 +118,7 @@ export default {
                     {value: 0, text: 'Hoy'},
                     {value: 1, text: 'Ayer'},
                     {value: 2, text: 'Esta Semana'},
-                    {value: 3, text: 'Este Mes'},
-                    {value: 4, text: 'Este Año'},
+                    {value: 3, text: 'Este Mes'}
                 ]
             },
             currentPeriod: 0,
@@ -139,7 +138,7 @@ export default {
 
     watch: {
         meterId() {
-            this.changePeriod(0);
+            this.changeMeter();
         }
     },
 
@@ -159,8 +158,15 @@ export default {
             columnCharts.hideLoading();
         },
 
+        changeMeter() {
+            if (this.dangerAlert) this.dangerAlert = false;
+            setTimeout(() => {
+                this.changePeriod(0);
+            }, 100);
+        },
+
         changePeriod(period) {
-            if (period !== null) {
+            if (period !== null && !this.dangerAlert) {
                 this.currentPeriod = period
 
                 let chart = this.$refs.columnCharts.getChart()

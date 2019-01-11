@@ -111,11 +111,11 @@ export default {
         },
         defaultVariable: {
             type: String,
-            required: true
+            required: false
         },
         defaultName: {
             type: String,
-            required: true
+            required: false
         },
         graphType: {
             type: Array,
@@ -153,7 +153,7 @@ export default {
 
     watch: {
         meterId() {
-            this.changePeriod(0)
+            this.changeMeter();
         }
     },
 
@@ -181,7 +181,7 @@ export default {
         },
 
         changeType(type) {
-            if (type !== null) {
+            if (type !== null && !this.dangerAlert) {
                 this.currentType = type;
                 this.plot.name = type.name;
                 let chart = this.$refs.lineCharts.getChart();
@@ -195,8 +195,15 @@ export default {
             }
         },
 
+        changeMeter() {
+            if (this.dangerAlert) this.dangerAlert = false;
+            setTimeout(() => {
+                this.changePeriod(0);
+            }, 100);
+        },
+
         changePeriod(period) {
-            if (period !== null) {
+            if (period !== null && !this.dangerAlert) {
                 this.currentPeriod = period
 
                 let chart = this.$refs.lineCharts.getChart()
