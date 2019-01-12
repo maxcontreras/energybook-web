@@ -60,7 +60,7 @@
                                             class="dashboard-data-container">
                                             <p>Capacidad</p>
                                             <h5 class="blue">
-                                                {{ distribution ? distribution : 0 }} kW
+                                                {{ capacity ? capacity : 0 }} kW
                                             </h5>
                                         </b-col>
                                     </b-row>
