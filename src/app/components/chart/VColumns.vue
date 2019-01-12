@@ -269,30 +269,18 @@ export default {
                         let tickInterval;
                         let xAxis = res.map(item => {
                             let time = parseDateTime(item.date);
-                            data.push(this.formatData(item.date, item.cost, item.rate));
+                            data.push(this.formatData(item.date, item.cost, item.rate, item.rateCosts));
                             let result = this.formatxAxis(item.date);
                             tickInterval = result.tickInterval;
                             return result.res;
                         });
-                        let plotOptions = {}
-                        if (this.currentPeriod > 1 && res.length >= 20) {
-                            plotOptions = {
-                                series: {
-                                    pointPadding: 0,
-                                    groupPadding: 0
-                                }
-                            }
-                        } else {
-                            plotOptions = {
-                                series: {
-                                    pointPadding: .05,
-                                    groupPadding: .05
-                                }
-                            }
-                        }
+                        let plotOptions = this.formatPlotOptions(this.currentPeriod, res.length);
+                        let tooltip = this.formatTooltip(this.currentMeditionInterval, this.currentPeriod);
+                        
                         chart.update({
                             xAxis: { categories: xAxis, tickInterval },
-                            plotOptions: plotOptions
+                            plotOptions: plotOptions,
+                            tooltip
                         });
                         this.updateSeries(data);
                     }
@@ -307,6 +295,39 @@ export default {
         updateSeries(data) {
             this.plot.data = data;
             this.load()
+        },
+
+        formatTooltip(interval, period) {
+            if (interval === 1 && period > 1) {
+                return {
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> Costo Total: <b>${point.y}</b><br>\
+                                <span style="color:{point.colors.base}">\u25CF</span> Base: <b>$ {point.rateCosts.base}</b><br>\
+                                <span style="color:{point.colors.middle}">\u25CF</span> Media: <b>$ {point.rateCosts.middle}</b><br>\
+                                <span style="color:{point.colors.peak}">\u25CF</span> Punta: <b>$ {point.rateCosts.peak}</b><br>'
+                }
+            } else {
+                return {
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> Costo: <b>${point.y}</b><br/>'
+                }
+            }
+        },
+
+        formatPlotOptions(period, numberResults) {
+            if (period > 1 && numberResults >= 20) {
+                return {
+                    series: {
+                        pointPadding: 0,
+                        groupPadding: 0
+                    }
+                }
+            } else {
+                return {
+                    series: {
+                        pointPadding: .05,
+                        groupPadding: .05
+                    }
+                }
+            }
         },
 
         formatxAxis(date) {
@@ -331,14 +352,14 @@ export default {
             }
         },
 
-        formatData(date, cost, rate) {
+        formatData(date, cost, rate, rateCosts) {
             let time = parseDateTime(date);
             let day = parseDayName(date);
             let dat = parseDate(date);
             if (this.currentMeditionInterval === 1 && this.currentPeriod === 2) {
-                return {name: `${rate} - ${day} ${date.substring(0, 2)}`, y: parseFloat(cost), color: colors[rate]};
+                return {name: `${rate} - ${day} ${date.substring(0, 2)}`, y: parseFloat(cost), color: colors[rate], rateCosts, colors};
             } else if (this.currentMeditionInterval === 1 && this.currentPeriod === 3) {
-                return {name: `${rate} - ${dat}`, y: parseFloat(cost), color: colors[rate]};
+                return {name: `${rate} - ${dat}`, y: parseFloat(cost), color: colors[rate], rateCosts, colors};
             }
             if (this.currentPeriod === 2) {
                 return {name: `${rate} - ${day} ${time}`, y: parseFloat(cost), color: colors[rate]};
