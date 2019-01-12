@@ -147,7 +147,8 @@ export default {
                 variable: '',
                 name: ''
             },
-            dangerAlert: false
+            dangerAlert: false,
+            isLoading: false
         }
     },
 
@@ -170,6 +171,7 @@ export default {
 
     methods: {
         showLoading() {
+            this.isLoading = true;
             let lineCharts = this.$refs.lineCharts
             lineCharts.delegateMethod('showLoading', 'Loading...')
         },
@@ -178,9 +180,26 @@ export default {
             let lineCharts = this.$refs.lineCharts;
             lineCharts.addSeries(this.plot);
             lineCharts.hideLoading()
+            this.isLoading = false;
+        },
+
+        changeMeter() {
+            if (this.dangerAlert) this.dangerAlert = false;
+            setTimeout(() => {
+                this.changePeriod(0);
+            }, 100);
         },
 
         changeType(type) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
             if (type !== null && !this.dangerAlert) {
                 this.currentType = type;
                 this.plot.name = type.name;
@@ -195,14 +214,16 @@ export default {
             }
         },
 
-        changeMeter() {
-            if (this.dangerAlert) this.dangerAlert = false;
-            setTimeout(() => {
-                this.changePeriod(0);
-            }, 100);
-        },
-
         changePeriod(period) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
             if (period !== null && !this.dangerAlert) {
                 this.currentPeriod = period
 
