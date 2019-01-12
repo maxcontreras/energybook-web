@@ -12,8 +12,8 @@ let meters = Object.assign({}, {
         return loopback.post(`/Meters/getOwnerCompany`, meter_id);
     },
 
-    getConsumptionCostsByFilter(id, device, filter) {
-        return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, filter});
+    getConsumptionCostsByFilter(id, device, filter, interval) {
+        return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, filter, interval});
     },
 
     getDpReadingsByFilter(meter_id, device, filter,) {

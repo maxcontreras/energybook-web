@@ -71,7 +71,7 @@ import VueHighcharts from 'vue2-highcharts';
 import meters from '@/services/meters';
 import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
 
-const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c'};
+const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c', 'diario': '#f48c42'};
 
 var dataColumn = {
     chart: {
@@ -192,6 +192,19 @@ export default {
         changeInterval(interval) {
             if (interval !== null && !this.dangerAlert) {
                 this.currentMeditionInterval = interval;
+
+                let chart = this.$refs.columnCharts.getChart()
+                let columnCharts = this.$refs.columnCharts
+
+                if (!chart.renderer.forExport) {
+                    this.showLoading();
+                    columnCharts.removeSeries();
+                    if (this.currentPeriod < 2) {
+                        this.getData(this.currentPeriod, 0, chart);
+                    } else {
+                        this.getData(this.currentPeriod, interval, chart);
+                    }
+                }
             }
         },
 
@@ -205,16 +218,20 @@ export default {
                 if (!chart.renderer.forExport) {
                     this.showLoading();
                     columnCharts.removeSeries();
-                    this.getData(period, chart);
+                    if (this.currentPeriod < 2) {
+                        this.getData(period, 0, chart);
+                    } else {
+                        this.getData(period, this.currentMeditionInterval, chart);
+                    }
                 }
             }
         },
 
-        getData(filter, chart) {
+        getData(filter, interval, chart) {
             const meter = this.meterId.split(" ");
             let meter_id = meter[0];
             let meter_device = (meter[1] === "EDS")? "":meter[1];
-            meters.getConsumptionCostsByFilter(meter_id, meter_device, filter)
+            meters.getConsumptionCostsByFilter(meter_id, meter_device, filter, interval)
                 .then(res => {
                     if (res) {
                         let data = [];
@@ -227,7 +244,7 @@ export default {
                             return result.res;
                         });
                         let plotOptions = {}
-                        if (this.currentPeriod > 1) {
+                        if (this.currentPeriod > 1 && res.length >= 20) {
                             plotOptions = {
                                 series: {
                                     pointPadding: 0,
@@ -265,6 +282,9 @@ export default {
             let time = parseDateTime(date);
             let day = parseDayName(date);
             let tickInterval = 1;
+            if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
+                return {res: `${day} ${date.substring(0, 2)}`, tickInterval};
+            }
             if (this.currentPeriod < 2) {
                 return {res: time, tickInterval};
             } else if (this.currentPeriod === 2) {
@@ -284,6 +304,11 @@ export default {
             let time = parseDateTime(date);
             let day = parseDayName(date);
             let dat = parseDate(date);
+            if (this.currentMeditionInterval === 1 && this.currentPeriod === 2) {
+                return {name: `${rate} - ${day} ${date.substring(0, 2)}`, y: parseFloat(cost), color: colors[rate]};
+            } else if (this.currentMeditionInterval === 1 && this.currentPeriod === 3) {
+                return {name: `${rate} - ${dat}`, y: parseFloat(cost), color: colors[rate]};
+            }
             if (this.currentPeriod === 2) {
                 return {name: `${rate} - ${day} ${time}`, y: parseFloat(cost), color: colors[rate]};
             }
