@@ -260,7 +260,6 @@ export default {
                         chart.update({
                             xAxis: { categories: xAxis, tickInterval, tickmarkPlacement }
                         })
-                        console.log(chart);
                         this.updateSeries(data);
                     }
                 }).catch(error => {
