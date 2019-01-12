@@ -2,7 +2,24 @@
     <div id="graph-costs" >
         <div class="date-buttons--container container-fluid">
             <b-row>
-                <b-col class="text-right">
+                <b-col
+                    v-show="currentPeriod > 1"
+                    md="3"
+                    class="text-left">
+                    <b-button
+                        v-for="(interval, index) in meditionIntervals"
+                        :key="index"
+                        :class="{
+                            'btn-success': index === currentMeditionInterval,
+                            'btn-outline-success': index !== currentMeditionInterval
+                            }"
+                        @click="changeInterval(index)">
+                        {{ interval }}
+                    </b-button>
+                </b-col>
+                <b-col
+                    :md="(currentPeriod > 1)? 9:12"
+                    class="text-right">
                     <b-button
                         v-for="(button, index) in buttons.options"
                         :key="index"
@@ -85,7 +102,9 @@ var dataColumn = {
             groupPadding: 0
         },
         series: {
-            colorByPoint: true
+            colorByPoint: true,
+            pointPadding: 0,
+            groupPadding: 0
         }
     },
     series: [{
@@ -132,7 +151,12 @@ export default {
                 '#eddc49',
                 '#1dd6c0',
                 '#db3c1c'
-            ]
+            ],
+            meditionIntervals: [
+                'Cada hora',
+                'Cada día'
+            ],
+            currentMeditionInterval: 0
         }
     },
 
@@ -163,6 +187,12 @@ export default {
             setTimeout(() => {
                 this.changePeriod(0);
             }, 100);
+        },
+
+        changeInterval(interval) {
+            if (interval !== null && !this.dangerAlert) {
+                this.currentMeditionInterval = interval;
+            }
         },
 
         changePeriod(period) {
@@ -196,8 +226,25 @@ export default {
                             tickInterval = result.tickInterval;
                             return result.res;
                         });
+                        let plotOptions = {}
+                        if (this.currentPeriod > 1) {
+                            plotOptions = {
+                                series: {
+                                    pointPadding: 0,
+                                    groupPadding: 0
+                                }
+                            }
+                        } else {
+                            plotOptions = {
+                                series: {
+                                    pointPadding: .05,
+                                    groupPadding: .05
+                                }
+                            }
+                        }
                         chart.update({
-                            xAxis: { categories: xAxis, tickInterval }
+                            xAxis: { categories: xAxis, tickInterval },
+                            plotOptions: plotOptions
                         });
                         this.updateSeries(data);
                     }
