@@ -45,13 +45,13 @@
                 v-if="!dangerAlert">
                 <b-col class="column-legends">
                     <ul>
-                    <li
-                        v-for="(rate, index) in rate_types"
-                        :key=index
-                        class="legend">
-                        <div class="square" :style="{backgroundColor: colors[index]}"></div>
-                        <p class="legend-text">{{rate}}</p>
-                    </li>
+                        <li
+                            v-for="(rate, index) in rate_types"
+                            :key=index
+                            class="legend">
+                            <div class="square" :style="{backgroundColor: colors[rate]}"></div>
+                            <p class="legend-text">{{rate}}</p>
+                        </li>
                     </ul>
                 </b-col>
             </b-row>
@@ -142,16 +142,12 @@ export default {
             },
             currentPeriod: 0,
             dangerAlert: false,
-            rate_types: [
-                'Base',
-                'Intermedia',
-                'Punta'
-            ],
-            colors: [
-                '#eddc49',
-                '#1dd6c0',
-                '#db3c1c'
-            ],
+            colors: {
+                'Base': '#eddc49',
+                'Intermedia': '#1dd6c0',
+                'Punta': '#db3c1c',
+                'Diario': '#f48c42'
+            },
             meditionIntervals: [
                 'Cada hora',
                 'Cada día'
@@ -164,6 +160,20 @@ export default {
     watch: {
         meterId() {
             this.changeMeter();
+        }
+    },
+
+    computed: {
+        rate_types() {
+            if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
+                return [ 'Diario' ]
+            } else {
+                return [
+                    'Base',
+                    'Intermedia',
+                    'Punta'
+                ]
+            }
         }
     },
 
