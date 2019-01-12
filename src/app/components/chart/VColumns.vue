@@ -156,7 +156,8 @@ export default {
                 'Cada hora',
                 'Cada día'
             ],
-            currentMeditionInterval: 0
+            currentMeditionInterval: 0,
+            isLoading: false
         }
     },
 
@@ -172,6 +173,7 @@ export default {
 
     methods: {
         showLoading() {
+            this.isLoading = true;
             let columnCharts = this.$refs.columnCharts;
             columnCharts.delegateMethod('showLoading', 'Loading...');
         },
@@ -180,6 +182,7 @@ export default {
             let columnCharts = this.$refs.columnCharts;
             columnCharts.addSeries(this.plot);
             columnCharts.hideLoading();
+            this.isLoading = false;
         },
 
         changeMeter() {
@@ -190,6 +193,15 @@ export default {
         },
 
         changeInterval(interval) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
             if (interval !== null && !this.dangerAlert) {
                 this.currentMeditionInterval = interval;
 
@@ -209,6 +221,15 @@ export default {
         },
 
         changePeriod(period) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
             if (period !== null && !this.dangerAlert) {
                 this.currentPeriod = period
 
