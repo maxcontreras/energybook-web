@@ -26,6 +26,7 @@ export default {
         consumptionMonth: getLocalStorageItem('consumptionMonth'),
         consumptionSummary: getLocalStorageItem('consumptionSummary'),
         capacity: getLocalStorageItem('capacity'),
+        capacityMonth: getLocalStorageItem('capacityMonth'),
         powerFactor: getLocalStorageItem('powerFactor'),
         reactive: getLocalStorageItem('reactive')
     },
@@ -72,6 +73,8 @@ export default {
             saveInLocalStorage('distributionMonth', data.distribution.monthly);
             state.consumptionMonth = parseFloat(data.consumption.monthly);
             saveInLocalStorage('consumptionMonth', data.consumption.monthly);
+            state.capacityMonth = parseFloat(data.capacity.monthly);
+            saveInLocalStorage('capacityMonth', data.capacity.monthly);
         },
         setEpimpHistory(state, value) {
             state.epimpHistory = value;

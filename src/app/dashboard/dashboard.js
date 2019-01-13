@@ -227,6 +227,10 @@ export default {
             return this.$store.state.socket.capacity;
         },
 
+        capacityMonth() {
+            return this.$store.state.socket.capacityMonth;
+        },
+
         consumptionMonth() {
             let prettyConsumption = this.prettifyNumbers(this.$store.state.socket.consumptionMonth);
             return prettyConsumption;

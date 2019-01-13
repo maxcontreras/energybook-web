@@ -142,7 +142,7 @@
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Capacidad</p>
-                                                            <h5>{{ distribution ? distribution : 0 }}</h5>
+                                                            <h5>{{ capacityMonth ? capacityMonth : 0 }}</h5>
                                                         </div>
                                                         <span>kW</span>
                                                     </div>
