@@ -40,7 +40,7 @@ export default {
             })
         },
         login({ commit, dispatch, state }, { email, password }) {
-            return eUsers.login({ email, password }).then(token => {
+            return eUsers.login({ email, password, ttl: 3600 }).then(token => {
                 commit('setAccessToken', token)
 
                 if (state.access_token === null) {

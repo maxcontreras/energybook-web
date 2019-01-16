@@ -1,5 +1,7 @@
 /* eslint-disable */
 import axios from 'axios';
+import router from '@/router';
+import Vue from 'vue';
 
 const Storage = window.localStorage;
 
@@ -62,7 +64,24 @@ http.errorCallback = (error) => {
     return error;
 }
 
+const expiredToken = () => {
+    setTimeout(() => {
+        Vue.notify({
+            group: 'login',
+            title: 'Sesión Expirada',
+            text: 'Tu sesión ha expirado debido a inactividad',
+            type: 'warn',
+            duration: 5000
+        });
+    }, 400);
+    http.removeToken();
+    router.push({ name: 'login' });
+}
+
 const interceptResErrors = err => {
+    if (err.response.status === 401) {
+        return expiredToken();
+    }
     try {
       setLoading(
           false,
