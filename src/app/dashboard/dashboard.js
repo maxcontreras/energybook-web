@@ -189,20 +189,20 @@ export default {
 
     computed: {
         isAdmin() {
-            return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard'
+            return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard';
         },
 
         isCompanyDetail() {
-            return this.$route.name === 'companyDetail'
+            return this.$route.name === 'companyDetail';
         },
 
         epimpHistory() {
-            return this.$store.state.socket.epimpHistory
+            return this.$store.state.socket.epimpHistory;
         },
 
         distribution() {
             let prettyDist = this.prettifyNumbers(this.$store.state.socket.distribution);
-            return prettyDist
+            return prettyDist;
         },
 
         distributionCharge() {
@@ -212,15 +212,23 @@ export default {
 
         distributionMonth() {
             let prettyDistribution = this.prettifyNumbers(this.$store.state.socket.distributionMonth);
-            return parseFloat(prettyDistribution)
+            return parseFloat(prettyDistribution);
         },
         odometer() {
-            return parseFloat(this.$store.state.socket.odometer)
+            return parseFloat(this.$store.state.socket.odometer);
         },
 
         consumption() {
             let prettyCons = this.prettifyNumbers(this.$store.state.socket.consumption);
-            return prettyCons
+            return prettyCons;
+        },
+
+        capacity() {
+            return this.$store.state.socket.capacity;
+        },
+
+        capacityMonth() {
+            return this.$store.state.socket.capacityMonth;
         },
 
         consumptionMonth() {
@@ -229,16 +237,16 @@ export default {
         },
 
         consumptionSummary() {
-            return this.$store.state.socket.consumptionSummary
+            return this.$store.state.socket.consumptionSummary;
         },
 
         powerFactor() {
             let prettyFP = this.prettifyNumbers(this.$store.state.socket.powerFactor);
-            return this.$store.state.socket.powerFactor
+            return this.$store.state.socket.powerFactor;
         },
 
         reactives() {
-            return parseInt(this.$store.state.socket.reactive).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+            return parseInt(this.$store.state.socket.reactive).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         billablePeriod() {

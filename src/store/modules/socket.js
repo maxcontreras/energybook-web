@@ -25,6 +25,8 @@ export default {
         consumption: getLocalStorageItem('consumption'),
         consumptionMonth: getLocalStorageItem('consumptionMonth'),
         consumptionSummary: getLocalStorageItem('consumptionSummary'),
+        capacity: getLocalStorageItem('capacity'),
+        capacityMonth: getLocalStorageItem('capacityMonth'),
         powerFactor: getLocalStorageItem('powerFactor'),
         reactive: getLocalStorageItem('reactive')
     },
@@ -59,6 +61,8 @@ export default {
             saveInLocalStorage('distributionCharge', data.distribution.charge);
             state.consumption = data.consumption.daily;
             saveInLocalStorage('consumption', data.consumption.daily);
+            state.capacity = data.capacity.daily;
+            saveInLocalStorage('capacity', data.capacity.daily);
         },
         setOdometer(state, value) {
             state.odometer = parseFloat(value);
@@ -69,6 +73,8 @@ export default {
             saveInLocalStorage('distributionMonth', data.distribution.monthly);
             state.consumptionMonth = parseFloat(data.consumption.monthly);
             saveInLocalStorage('consumptionMonth', data.consumption.monthly);
+            state.capacityMonth = parseFloat(data.capacity.monthly);
+            saveInLocalStorage('capacityMonth', data.capacity.monthly);
         },
         setEpimpHistory(state, value) {
             state.epimpHistory = value;

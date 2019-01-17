@@ -111,11 +111,11 @@ export default {
         },
         defaultVariable: {
             type: String,
-            required: true
+            required: false
         },
         defaultName: {
             type: String,
-            required: true
+            required: false
         },
         graphType: {
             type: Array,
@@ -147,13 +147,14 @@ export default {
                 variable: '',
                 name: ''
             },
-            dangerAlert: false
+            dangerAlert: false,
+            isLoading: false
         }
     },
 
     watch: {
         meterId() {
-            this.changePeriod(0)
+            this.changeMeter();
         }
     },
 
@@ -170,6 +171,7 @@ export default {
 
     methods: {
         showLoading() {
+            this.isLoading = true;
             let lineCharts = this.$refs.lineCharts
             lineCharts.delegateMethod('showLoading', 'Loading...')
         },
@@ -178,10 +180,27 @@ export default {
             let lineCharts = this.$refs.lineCharts;
             lineCharts.addSeries(this.plot);
             lineCharts.hideLoading()
+            this.isLoading = false;
+        },
+
+        changeMeter() {
+            if (this.dangerAlert) this.dangerAlert = false;
+            setTimeout(() => {
+                this.changePeriod(0);
+            }, 100);
         },
 
         changeType(type) {
-            if (type !== null) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
+            if (type !== null && !this.dangerAlert) {
                 this.currentType = type;
                 this.plot.name = type.name;
                 let chart = this.$refs.lineCharts.getChart();
@@ -196,7 +215,16 @@ export default {
         },
 
         changePeriod(period) {
-            if (period !== null) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
+            if (period !== null && !this.dangerAlert) {
                 this.currentPeriod = period
 
                 let chart = this.$refs.lineCharts.getChart()
@@ -232,7 +260,6 @@ export default {
                         chart.update({
                             xAxis: { categories: xAxis, tickInterval, tickmarkPlacement }
                         })
-                        console.log(chart);
                         this.updateSeries(data);
                     }
                 }).catch(error => {

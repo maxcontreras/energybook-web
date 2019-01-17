@@ -43,7 +43,7 @@ export default {
             metersFilter: {
                 selected: "",
                 options: [
-                    {value: "", text: 'Todos los dispositivos'}
+                    {value: "", text: 'Servicio 1'}
                 ]
             },
             eds: []
