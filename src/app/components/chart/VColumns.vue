@@ -2,7 +2,24 @@
     <div id="graph-costs" >
         <div class="date-buttons--container container-fluid">
             <b-row>
-                <b-col class="text-right">
+                <b-col
+                    v-show="currentPeriod > 1"
+                    md="3"
+                    class="text-left">
+                    <b-button
+                        v-for="(interval, index) in meditionIntervals"
+                        :key="index"
+                        :class="{
+                            'btn-success': index === currentMeditionInterval,
+                            'btn-outline-success': index !== currentMeditionInterval
+                            }"
+                        @click="changeInterval(index)">
+                        {{ interval }}
+                    </b-button>
+                </b-col>
+                <b-col
+                    :md="(currentPeriod > 1)? 9:12"
+                    class="text-right">
                     <b-button
                         v-for="(button, index) in buttons.options"
                         :key="index"
@@ -28,13 +45,13 @@
                 v-if="!dangerAlert">
                 <b-col class="column-legends">
                     <ul>
-                    <li
-                        v-for="(rate, index) in rate_types"
-                        :key=index
-                        class="legend">
-                        <div class="square" :style="{backgroundColor: colors[index]}"></div>
-                        <p class="legend-text">{{rate}}</p>
-                    </li>
+                        <li
+                            v-for="(rate, index) in rate_types"
+                            :key=index
+                            class="legend">
+                            <div class="square" :style="{backgroundColor: colors[rate]}"></div>
+                            <p class="legend-text">{{rate}}</p>
+                        </li>
                     </ul>
                 </b-col>
             </b-row>
@@ -54,7 +71,7 @@ import VueHighcharts from 'vue2-highcharts';
 import meters from '@/services/meters';
 import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
 
-const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c'};
+const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c', 'diario': '#f48c42'};
 
 var dataColumn = {
     chart: {
@@ -85,7 +102,9 @@ var dataColumn = {
             groupPadding: 0
         },
         series: {
-            colorByPoint: true
+            colorByPoint: true,
+            pointPadding: 0,
+            groupPadding: 0
         }
     },
     series: [{
@@ -118,28 +137,43 @@ export default {
                     {value: 0, text: 'Hoy'},
                     {value: 1, text: 'Ayer'},
                     {value: 2, text: 'Esta Semana'},
-                    {value: 3, text: 'Este Mes'},
-                    {value: 4, text: 'Este Año'},
+                    {value: 3, text: 'Este Mes'}
                 ]
             },
             currentPeriod: 0,
             dangerAlert: false,
-            rate_types: [
-                'Base',
-                'Intermedia',
-                'Punta'
+            colors: {
+                'Base': '#eddc49',
+                'Intermedia': '#1dd6c0',
+                'Punta': '#db3c1c',
+                'Diario': '#f48c42'
+            },
+            meditionIntervals: [
+                'Cada hora',
+                'Cada día'
             ],
-            colors: [
-                '#eddc49',
-                '#1dd6c0',
-                '#db3c1c'
-            ]
+            currentMeditionInterval: 0,
+            isLoading: false
         }
     },
 
     watch: {
         meterId() {
-            this.changePeriod(0);
+            this.changeMeter();
+        }
+    },
+
+    computed: {
+        rate_types() {
+            if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
+                return [ 'Diario' ]
+            } else {
+                return [
+                    'Base',
+                    'Intermedia',
+                    'Punta'
+                ]
+            }
         }
     },
 
@@ -149,6 +183,7 @@ export default {
 
     methods: {
         showLoading() {
+            this.isLoading = true;
             let columnCharts = this.$refs.columnCharts;
             columnCharts.delegateMethod('showLoading', 'Loading...');
         },
@@ -157,10 +192,55 @@ export default {
             let columnCharts = this.$refs.columnCharts;
             columnCharts.addSeries(this.plot);
             columnCharts.hideLoading();
+            this.isLoading = false;
+        },
+
+        changeMeter() {
+            if (this.dangerAlert) this.dangerAlert = false;
+            setTimeout(() => {
+                this.changePeriod(0);
+            }, 100);
+        },
+
+        changeInterval(interval) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
+            if (interval !== null && !this.dangerAlert) {
+                this.currentMeditionInterval = interval;
+
+                let chart = this.$refs.columnCharts.getChart()
+                let columnCharts = this.$refs.columnCharts
+
+                if (!chart.renderer.forExport) {
+                    this.showLoading();
+                    columnCharts.removeSeries();
+                    if (this.currentPeriod < 2) {
+                        this.getData(this.currentPeriod, 0, chart);
+                    } else {
+                        this.getData(this.currentPeriod, interval, chart);
+                    }
+                }
+            }
         },
 
         changePeriod(period) {
-            if (period !== null) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
+            if (period !== null && !this.dangerAlert) {
                 this.currentPeriod = period
 
                 let chart = this.$refs.columnCharts.getChart()
@@ -169,29 +249,38 @@ export default {
                 if (!chart.renderer.forExport) {
                     this.showLoading();
                     columnCharts.removeSeries();
-                    this.getData(period, chart);
+                    if (this.currentPeriod < 2) {
+                        this.getData(period, 0, chart);
+                    } else {
+                        this.getData(period, this.currentMeditionInterval, chart);
+                    }
                 }
             }
         },
 
-        getData(filter, chart) {
+        getData(filter, interval, chart) {
             const meter = this.meterId.split(" ");
             let meter_id = meter[0];
             let meter_device = (meter[1] === "EDS")? "":meter[1];
-            meters.getConsumptionCostsByFilter(meter_id, meter_device, filter)
+            meters.getConsumptionCostsByFilter(meter_id, meter_device, filter, interval)
                 .then(res => {
                     if (res) {
                         let data = [];
                         let tickInterval;
                         let xAxis = res.map(item => {
                             let time = parseDateTime(item.date);
-                            data.push(this.formatData(item.date, item.cost, item.rate));
+                            data.push(this.formatData(item.date, item.cost, item.rate, item.rateCosts));
                             let result = this.formatxAxis(item.date);
                             tickInterval = result.tickInterval;
                             return result.res;
                         });
+                        let plotOptions = this.formatPlotOptions(this.currentPeriod, res.length);
+                        let tooltip = this.formatTooltip(this.currentMeditionInterval, this.currentPeriod);
+                        
                         chart.update({
-                            xAxis: { categories: xAxis, tickInterval }
+                            xAxis: { categories: xAxis, tickInterval },
+                            plotOptions: plotOptions,
+                            tooltip
                         });
                         this.updateSeries(data);
                     }
@@ -208,10 +297,46 @@ export default {
             this.load()
         },
 
+        formatTooltip(interval, period) {
+            if (interval === 1 && period > 1) {
+                return {
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> Costo Total: <b>${point.y}</b><br>\
+                                <span style="color:{point.colors.base}">\u25CF</span> Base: <b>$ {point.rateCosts.base}</b><br>\
+                                <span style="color:{point.colors.middle}">\u25CF</span> Media: <b>$ {point.rateCosts.middle}</b><br>\
+                                <span style="color:{point.colors.peak}">\u25CF</span> Punta: <b>$ {point.rateCosts.peak}</b><br>'
+                }
+            } else {
+                return {
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> Costo: <b>${point.y}</b><br/>'
+                }
+            }
+        },
+
+        formatPlotOptions(period, numberResults) {
+            if (period > 1 && numberResults >= 20) {
+                return {
+                    series: {
+                        pointPadding: 0,
+                        groupPadding: 0
+                    }
+                }
+            } else {
+                return {
+                    series: {
+                        pointPadding: .05,
+                        groupPadding: .05
+                    }
+                }
+            }
+        },
+
         formatxAxis(date) {
             let time = parseDateTime(date);
             let day = parseDayName(date);
             let tickInterval = 1;
+            if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
+                return {res: `${day} ${date.substring(0, 2)}`, tickInterval};
+            }
             if (this.currentPeriod < 2) {
                 return {res: time, tickInterval};
             } else if (this.currentPeriod === 2) {
@@ -227,10 +352,15 @@ export default {
             }
         },
 
-        formatData(date, cost, rate) {
+        formatData(date, cost, rate, rateCosts) {
             let time = parseDateTime(date);
             let day = parseDayName(date);
             let dat = parseDate(date);
+            if (this.currentMeditionInterval === 1 && this.currentPeriod === 2) {
+                return {name: `${rate} - ${day} ${date.substring(0, 2)}`, y: parseFloat(cost), color: colors[rate], rateCosts, colors};
+            } else if (this.currentMeditionInterval === 1 && this.currentPeriod === 3) {
+                return {name: `${rate} - ${dat}`, y: parseFloat(cost), color: colors[rate], rateCosts, colors};
+            }
             if (this.currentPeriod === 2) {
                 return {name: `${rate} - ${day} ${time}`, y: parseFloat(cost), color: colors[rate]};
             }

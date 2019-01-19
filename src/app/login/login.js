@@ -2,8 +2,8 @@
 export default {
 	data() {
 		return {
-			email: 'admin@ecgenergia.com',
-			password: 'Password123'
+			email: '',
+			password: ''
 		};
 	},
 	methods: {
