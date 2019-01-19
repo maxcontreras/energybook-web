@@ -1,21 +1,23 @@
 /* eslint-disable */
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Login from '@/app/login/Login.vue'
-import Register from '@/app/register/Register.vue'
-import Dashboard from '@/app/dashboard/Dashboard.vue'
-import Layout from '@/app/layout/Layout.vue'
-import Companies from '@/app/companies/Companies.vue'
-import Costs from '@/app/costs/Costs.vue'
-import NetCode from '@/app/netCode/NetCode.vue'
-import CarbonFootprint from '@/app/carbonFootprint/CarbonFootprint.vue'
-import Meters from '@/app/meters/Meters.vue'
-import Payments from '@/app/payments/Payments.vue'
-import Calendar from '@/app/calendar/Calendar.vue'
-import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue'
-import UserDetail from '@/app/userDetail/UserDetail.vue'
-import Graphs from '@/app/graphs/Graphs.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Login from '@/app/login/Login.vue';
+import Register from '@/app/register/Register.vue';
+import Dashboard from '@/app/dashboard/Dashboard.vue';
+import Layout from '@/app/layout/Layout.vue';
+import Companies from '@/app/companies/Companies.vue';
+import Costs from '@/app/costs/Costs.vue';
+import NetCode from '@/app/netCode/NetCode.vue';
+import CarbonFootprint from '@/app/carbonFootprint/CarbonFootprint.vue';
+import Generation from '@/app/generation/Generation.vue';
+import Information from '@/app/information/Information.vue';
+import Meters from '@/app/meters/Meters.vue';
+import Payments from '@/app/payments/Payments.vue';
+import Calendar from '@/app/calendar/Calendar.vue';
+import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue';
+import UserDetail from '@/app/userDetail/UserDetail.vue';
+import Graphs from '@/app/graphs/Graphs.vue';
 
 Vue.use(VueRouter)
 
@@ -63,6 +65,22 @@ const router = new VueRouter({
                     name: 'carbonFootprint',
                     components: {
                         default: CarbonFootprint
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/generacion',
+                    name: 'generation',
+                    components: {
+                        default: Generation
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/info',
+                    name: 'information',
+                    components: {
+                        default: Information
                     },
                     meta: { requiresAuth: true }
                 },
