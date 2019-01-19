@@ -30,11 +30,26 @@
             </b-row>
         </div>
         <div class="chart-container">
-            <vue-highcharts
-                v-if="!dangerAlert"
-                :options="LineOptions"
-                ref="lineCharts">
-            </vue-highcharts >
+            <div v-if="!dangerAlert">
+                <vue-highcharts
+                    :options="LineOptions"
+                    ref="lineCharts">
+                </vue-highcharts >
+                <div
+                    class="interval-buttons text-right"
+                    v-if="currentType.name === 'Consumo' && currentPeriod < 4">
+                    <b-button
+                        v-for="interval in intervals"
+                        :key="interval.value"
+                        :class="{
+                            'btn-success': currentInterval === interval.value,
+                            'btn-outline-success':currentInterval !== interval.value
+                            }"
+                        @click="changeInterval(interval.value)">
+                        {{ interval.text }}
+                    </b-button>
+                </div>
+            </div>
             <b-alert
                 v-else
                 show
@@ -142,6 +157,13 @@ export default {
                     {value: 4, text: 'Este Año'},
                 ]
             }],
+            intervals: [
+                {text: '1 hora', value: 3600},
+                {text: '30 minutos', value: 1800},
+                {text: '15 minutos', value: 900},
+                {text: '5 minutos', value: 300}
+            ],
+            currentInterval: 3600,
             currentPeriod: 0,
             currentType: {
                 variable: '',
@@ -190,6 +212,30 @@ export default {
             }, 100);
         },
 
+        changeInterval(interval) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
+            if (interval !== null && !this.dangerAlert) {
+                this.currentInterval = interval;
+
+                let chart = this.$refs.lineCharts.getChart();
+                let lineCharts = this.$refs.lineCharts;
+
+                if (!chart.renderer.forExport) {
+                    this.showLoading();
+                    lineCharts.removeSeries();
+                    this.getData(this.currentPeriod, this.currentType.variable, this.meterId, chart, interval);
+                }
+            }
+        },
+
         changeType(type) {
             if (this.isLoading) {
                 this.$notify({
@@ -209,7 +255,7 @@ export default {
                 if (!chart.renderer.forExport) {
                     this.showLoading()
                     lineCharts.removeSeries()
-                    this.getData(this.currentPeriod, type.variable, this.meterId, chart)
+                    this.getData(this.currentPeriod, type.variable, this.meterId, chart, this.currentInterval)
                 }
             }
         },
@@ -225,37 +271,39 @@ export default {
                 return;
             }
             if (period !== null && !this.dangerAlert) {
-                this.currentPeriod = period
+                this.currentPeriod = period;
 
-                let chart = this.$refs.lineCharts.getChart()
-                let lineCharts = this.$refs.lineCharts
+                let chart = this.$refs.lineCharts.getChart();
+                let lineCharts = this.$refs.lineCharts;
 
                 if (!chart.renderer.forExport) {
-                    this.showLoading()
-                    lineCharts.removeSeries()
-                    this.getData(period, this.currentType.variable, this.meterId, chart)
+                    this.showLoading();
+                    lineCharts.removeSeries();
+                    this.getData(period, this.currentType.variable, this.meterId, chart, this.currentInterval);
                 }
             }
         },
 
-        getData(filter, type, meter, chart) {
+        getData(filter, type, meter, chart, interval = 86000) {
             // TODO: Receive meter id, filter and device name & send it to the API
             meter = meter.split(" ");
             let meter_id = meter[0];
             let meter_device = meter[1];
             if (type === "epimp") {
-                meters.getEpimpReadingsByFilter(meter_id, meter_device, filter).then(res => {
+                if (this.currentPeriod > 3) {
+                    interval = -1;
+                }
+                meters.getEpimpReadingsByFilter(meter_id, meter_device, filter, interval).then(res => {
                     if(res){
                         let xAxis = [];
                         let parse = false;
                         let tickInterval = 1;
                         let tickmarkPlacement = "on";
-                        if (this.currentPeriod < 3) {
-                            xAxis = this.getxAxis();
-                        } else {
-                            parse = true;
-                        }
-                        let data = mapReadings(res, parse, xAxis);
+                        const result = this.getxAxis(res);
+                        xAxis = result.xAxis;
+                        tickInterval = result.tickInterval;
+
+                        let data = mapReadings(res, false, xAxis);
                         // TODO: See why the fuck the marker does not appear on an epimp graph
                         chart.update({
                             xAxis: { categories: xAxis, tickInterval, tickmarkPlacement }
@@ -324,9 +372,35 @@ export default {
             });
         },
 
-        getxAxis() {
-            if(this.currentPeriod < 2) return todayLabels
-            return weekLabels
+        getxAxis(values) {
+            let tickInterval = 1;
+            if (this.currentPeriod < 2) {
+                if (this.currentInterval === 3600) {
+                    return {xAxis: todayLabels, tickInterval};
+                }
+                const xAxis = values.map(item => {
+                    let time = parseDateTime(item.date);
+                    time = time.slice(0, 5);
+                    return `${time}`;
+                });
+                tickInterval = parseInt(3600/this.currentInterval);
+                return {xAxis, tickInterval};
+            }
+            else if (this.currentPeriod < 4) {
+                const xAxis = values.map(item => {
+                    let time = parseDateTime(item.date);
+                    const date = parseDayName(item.date);
+                    time = time.slice(0, 5);
+                    if (time === '00:00') {
+                        time = '';
+                    }
+                    return `${date} ${item.date.substring(0, 2)} ${time}`;
+                });
+                tickInterval = parseInt(3600/this.currentInterval * 24);
+                return {xAxis, tickInterval}
+            }
+            if (this.currentPeriod === 4) return {xAxis: values.map(item => parseDate(item.date)), tickInterval};
+            return {xAxis: weekLabels, tickInterval};
         }
     }
 }

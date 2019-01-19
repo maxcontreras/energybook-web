@@ -20,8 +20,8 @@ let meters = Object.assign({}, {
         return loopback.post('/Meters/getDpReadingsByFilter', {id: meter_id, device, filter});
     },
 
-    getEpimpReadingsByFilter(meter_id, device, filter,) {
-        return loopback.post('/Meters/getEpimpReadingsByFilter', {id: meter_id, device, filter});
+    getEpimpReadingsByFilter(meter_id, device, filter, interval) {
+        return loopback.post('/Meters/getEpimpReadingsByFilter', {id: meter_id, device, filter, interval});
     },
 
     getDeviceInfo(id) {
