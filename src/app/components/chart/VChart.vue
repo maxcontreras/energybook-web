@@ -39,7 +39,7 @@
                     class="interval-buttons text-right"
                     v-if="currentType.name === 'Consumo' && currentPeriod < 4">
                     <b-button
-                        v-for="interval in intervals"
+                        v-for="interval in allowedIntervals"
                         :key="interval.value"
                         :class="{
                             'btn-success': currentInterval === interval.value,
@@ -174,6 +174,12 @@ export default {
         }
     },
 
+    computed: {
+        allowedIntervals() {
+            return this.intervals.filter(interval => interval.value !== 300 || this.currentPeriod !== 3)
+        }
+    },
+
     watch: {
         meterId() {
             this.changeMeter();
@@ -272,6 +278,10 @@ export default {
             }
             if (period !== null && !this.dangerAlert) {
                 this.currentPeriod = period;
+
+                if (period === 3) {
+                    this.currentInterval = 3600;
+                }
 
                 let chart = this.$refs.lineCharts.getChart();
                 let lineCharts = this.$refs.lineCharts;
