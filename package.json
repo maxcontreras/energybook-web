@@ -20,6 +20,7 @@
     "popper.js": "^1.14.3",
     "vue": "^2.1.10",
     "vue-asset-loader": "^0.1.5",
+    "vue-bootstrap-datetimepicker": "5.0.1",
     "vue-canvas-gauges": "0.0.0",
     "vue-chartist": "^2.1.2",
     "vue-chartjs": "^3.3.2",

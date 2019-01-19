@@ -19,6 +19,20 @@
             margin-right: 5px;
         }
     }
+    .datepickers {
+        display: inline-block;
+        margin-right: 2rem;
+
+        input {
+            display: inline-block;
+            width: 40%;
+            margin-right: 10px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
 }
 
 #graph-costs {
