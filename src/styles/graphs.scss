@@ -10,8 +10,28 @@
     .chart-container {
         position: relative;
         margin: auto;
-        height: 70vh;
         width: 75vw;
+    }
+    .interval-buttons {
+        margin-top: 2rem;
+
+        .btn {
+            margin-right: 5px;
+        }
+    }
+    .datepickers {
+        display: inline-block;
+        margin-right: 2rem;
+
+        input {
+            display: inline-block;
+            width: 40%;
+            margin-right: 10px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
     }
 }
 

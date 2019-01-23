@@ -14,8 +14,29 @@ $darkgray: #485658;
 
 #top-bar {
     background-color: #fcfcfc !important;
-    //box-shadow: 0 0 5px 0 #c2c2c2;
     position: relative;
+
+    .alert {
+        margin-bottom: 0;
+        font-size: 18px;
+        padding: 5px 10px;
+        color: $egreen1;
+
+        &:hover {
+            background-color: $egreen;
+            color: #ffffff;
+            border: none;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .menu-dropdown {
+        width: 30%;
+        display: inline-block !important;
+    }
 }
 
 #top-nav{
