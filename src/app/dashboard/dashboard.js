@@ -114,6 +114,7 @@ var gaugeOptions = {
 
 var asyncData = {
     name: 'Consumo',
+    color: '#2f7ed8',
     data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
       y: 26.5
     }, 23.3, 18.3, 13.9, 9.6]
@@ -440,23 +441,23 @@ export default {
             })
         },
         updateEpimpHistoryChart() {
-            let xAxis = []
-            let data = []
+            let xAxis = [];
+            let data = [];
             Object.values(this.epimpHistory).forEach(obj => {
-                xAxis.push(parseDate(obj.date))
-                data.push(parseFloat(obj.value))
+                xAxis.push(parseDate(obj.date));
+                data.push(parseFloat(obj.value));
             })
-            let lineCharts = this.$refs.lineCharts
-            let chart = lineCharts.getChart()
+            let lineCharts = this.$refs.lineCharts;
+            let chart = lineCharts.getChart();
             if (!chart.renderer.forExport) {
                 lineCharts.delegateMethod('showLoading', 'Loading...');
-                lineCharts.removeSeries()
+                lineCharts.removeSeries();
                 chart.update({
                     xAxis: { categories: xAxis }
-                })
-                asyncData.data = data
-                lineCharts.addSeries(asyncData)
-                lineCharts.hideLoading()
+                });
+                asyncData.data = data;
+                lineCharts.addSeries(asyncData);
+                lineCharts.hideLoading();
             }
         },
         updateOdometerChart() {
