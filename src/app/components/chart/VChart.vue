@@ -191,8 +191,7 @@ export default {
             intervals: [
                 {text: '1 hora', value: 3600},
                 {text: '30 minutos', value: 1800},
-                {text: '15 minutos', value: 900},
-                {text: '5 minutos', value: 300}
+                {text: '15 minutos', value: 900}
             ],
             currentInterval: 3600,
             currentPeriod: 0,
@@ -449,6 +448,7 @@ export default {
                             tickmarkPlacement = "between";
                         } else {
                             parse = true;
+                            xAxis = [];
                         }
                         let data = mapReadings(res, parse, xAxis);
                         chart.update({
