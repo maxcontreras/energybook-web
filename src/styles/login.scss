@@ -2,6 +2,7 @@ $egreen: #AFFC0F;
 $egreen1: rgb(152, 214, 16);
 $lightgray: #fdfeff;
 $darkgray: #485658;
+$egray: #485658;
 
 @media only screen and (max-width: 1023px) {
     #login-container, #register-container {
@@ -96,12 +97,11 @@ $darkgray: #485658;
 }
 
 #login .btn-primary {
-    text-transform: uppercase;
     padding: 0.5rem 3rem;
-    background-color: $egreen1;
+    background-color: $egray;
 
         &:hover {
-            background-color: $egreen1;
+            background-color: $egray;
         }
 }
 

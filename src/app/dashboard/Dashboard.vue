@@ -30,7 +30,7 @@
                                             md="10"
                                             class="dashboard-data-container">
                                             <p>Consumo</p>
-                                            <h5 class="green">
+                                            <h5>
                                                 {{ consumption ? consumption : 0 }} kWh
                                             </h5>
                                         </b-col>
@@ -59,7 +59,7 @@
                                             md="10"
                                             class="dashboard-data-container">
                                             <p>Capacidad</p>
-                                            <h5 class="blue">
+                                            <h5>
                                                 {{ capacity ? capacity : 0 }} kW
                                             </h5>
                                         </b-col>
@@ -88,7 +88,7 @@
                                             md="10"
                                             class="dashboard-data-container">
                                             <p>Distribución</p>
-                                            <h5 class="dark-blue">
+                                            <h5>
                                                 {{ distribution ? distribution : 0 }} kW
                                             </h5>
                                         </b-col>
