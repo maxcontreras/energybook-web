@@ -81,9 +81,9 @@ export default {
                     devices.forEach((device, index) => {
                         // Ignore first device. EDS
                         if (index === 0) {
+                            this.metersFilter.options[0].value = `${this.eds.meter_id} EDS`;
                             return;
                         }
-                        this.metersFilter.options[0].value = `${this.eds.meter_id} EDS`;
                         this.metersFilter.options.push({
                             value:`${this.eds.meter_id} ${device}`,
                             text: `Dispositivo ${device}`

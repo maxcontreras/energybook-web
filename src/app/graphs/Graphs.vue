@@ -1,17 +1,20 @@
 <template>
     <b-row class="main">
         <b-col>
-            <v-header
-                :title="title"
-                :filters="metersFilter"
-                @SearchData="getData"/>
+             <b-row class="header">
+                <div class="filters-container">
+                    <b-form-select
+                        v-model="metersFilter.selected"
+                        :options="metersFilter.options" class="mb-3" />
+                </div>
+            </b-row>
             <b-row class="list">
                 <b-col>
                     <b-card
                         class="margin-bottom-1"
-                        v-show="metersFilter[0].selected !== null">
+                        v-show="metersFilter.selected !== null">
                         <v-chart
-                            :meterId="metersFilter[0].selected"
+                            :meterId="metersFilter.selected"
                             :variable="'dp'"
                             :variableName="'Demanda'"
                             :graph-type="graphType"
@@ -20,7 +23,7 @@
                     <b-alert
                         show
                         variant="info"
-                        v-if="metersFilter[0].selected === null">
+                        v-if="metersFilter.selected === null">
                         Selecciona un medidor para desplegar la gráfica.
                     </b-alert>
                     <b-card v-if="items.length > 0">

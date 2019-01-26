@@ -393,7 +393,7 @@ export default {
             // TODO: Receive meter id, filter and device name & send it to the API
             meter = meter.split(" ");
             let meter_id = meter[0];
-            let meter_device = meter[1];
+            let meter_device = (meter[1] === "EDS")? "":meter[1];
             if (type === "epimp") {
                 if (this.currentPeriod > 3) {
                     interval = -1;
