@@ -150,6 +150,7 @@ export default {
             this.$store.dispatch('meter/assignMeter', this.newDesignatedMeter)
                 .then(res => {
                     this.clearNewDesignatedMeter();
+                    designatedMeters.setDeviceDescriptions();
                 })
                 .catch(err => {
                     console.log(err);
