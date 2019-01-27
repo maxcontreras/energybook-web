@@ -69,8 +69,8 @@ export default {
                                 return;
                             }
                             this.metersFilter.options.push({
-                                value:`${this.eds.meter_id} ${device}`,
-                                text: `Dispositivo ${device}`
+                                value:`${this.eds.meter_id} ${device.name}`,
+                                text: device.description
                             });
                         });
                         this.metersFilter.selected = this.metersFilter.options[0].value;
