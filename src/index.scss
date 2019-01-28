@@ -12,6 +12,9 @@ $egreen1: rgb(152, 214, 16);
 $gray: rgba(0,0,0,0.64);
 $darkgray: #485658;
 
+$egray: #485658;
+$egray2: #8D8D8D;
+
 html, body {
   background-color: #F2F3F4;
   font-family:'Poppins', sans-serif;
@@ -24,7 +27,8 @@ html, body {
 }
 
 .nav-pills .nav-link.active {
-  background-color: $egreen;
+  background-color: $egray;
+  color: white !important;
 }
 
 #login {
@@ -107,19 +111,30 @@ html, body {
 }
 
 .btn-outline-success {
-  color: $grayFont !important;
-  border-color: $egreen;
+  color: $egray !important;
+  border-color: $egray;
 
   &:hover {
-    background-color: $egreen;
-    border-color: $egreen;
+    background-color: $egray2;
+    border-color: $egray2;
+    color: white !important;
   }
 }
 
 .btn-success{
-  color: $grayFont !important;
-  border-color: $egreen !important;
-  background-color: $egreen !important;
+  color: white !important;
+  border-color: $egray !important;
+  background-color: $egray !important;
+}
+
+.btn-success,
+.btn-outline-success {
+  &:focus {
+    background-color: $egray !important;
+    color: white !important;
+    box-shadow: none !important;
+    border-color: $egray !important;
+  }
 }
 
 .list {
@@ -191,13 +206,16 @@ html, body {
 
 .btn-primary, .page-item.active .page-link {
   border: 1px solid transparent;
-  background-color: $egreen;
+  background-color: $egray;
   border-radius: 0.4rem;
-  color: $grayFont !important;
+  color: white !important;
 
   &:hover {
-    background-color: $egreen;
-    border-color: transparent;
+    background-color: $egray;
+    border-color:$egray !important;
+    color: white;
+    box-shadow: none !important;
+    outline: none !important;
   }
 }
 

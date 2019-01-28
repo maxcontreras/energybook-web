@@ -226,16 +226,6 @@
                         </b-tabs>
                     </b-card>
                 </b-col>
-                <!--<b-col md="3" class="side-card-container">
-                    <b-card class="side-card">
-                        <h5>
-                            Usuarios
-                        </h5>
-                        <ul>
-                            <li>User 1</li>
-                        </ul>
-                    </b-card>
-                </b-col>-->
             </b-row>
         </b-col>
     </b-row>

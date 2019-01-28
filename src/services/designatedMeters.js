@@ -34,6 +34,10 @@ let designatedMeters = Object.assign({}, {
 
     monthlyReadings(company_id) {
         return loopback.post('DesignatedMeters/monthlyReadings', {company_id});
+    },
+
+    setDeviceDescriptions() {
+        return loopback.post('DesignatedMeters/setDeviceDescriptions');
     }
 
 }, modelObject);

@@ -36,14 +36,12 @@ export default {
                 {name: 'Demanda', variable: 'dp'},
                 {name: 'Consumo', variable: 'epimp'}
             ],
-            metersFilter: [
-                {
-                    selected: null,
-                    options: [
-                        {value: null, text: 'Selecciona un dispositivo'}
-                    ]
-                }
-            ],
+            metersFilter: {
+                selected: "",
+                options: [
+                    {value: "", text: 'Servicio 1'}
+                ]
+            },
             eds: [],
             fields: ['Dispositivo', 'Total', 'Máximo', 'Mínimo'],
             items: []
@@ -67,36 +65,18 @@ export default {
                         devices.forEach((device, index) => {
                             // Ignore first device. EDS
                             if (index === 0) {
+                                this.metersFilter.options[0].value = `${this.eds.meter_id} EDS`;
                                 return;
                             }
-                            this.metersFilter[0].options.push({
-                                value:`${this.eds.meter_id} ${device}`,
-                                text: `Dispositivo ${device}`
+                            this.metersFilter.options.push({
+                                value:`${this.eds.meter_id} ${device.name}`,
+                                text: device.description
                             });
                         });
-                        if (this.metersFilter[0].options.length > 1) {
-                            // Set default device selected
-                            this.metersFilter[0].selected = this.metersFilter[0].options[1].value;
-                        }
+                        this.metersFilter.selected = this.metersFilter.options[0].value;
                     });
                 }
             })
-
-            // designatedMeters.findOne({
-            //     filter: {
-            //         where: { company_id: this.companyId }
-            //     }
-            // }).then(eds => {
-            //     this.meters = eds;
-            //     this.meters.forEach(meter => {
-            //         this.metersFilter[0].options.push({ value: meter.meter_id, text: meter.device_name })
-            //     })
-            // })
-        },
-        getData(meter_id) {
-            if(meter_id !== null) {
-
-            }
         }
     }
 }

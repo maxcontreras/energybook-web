@@ -172,7 +172,10 @@ export default {
             LineOptions: dataLine,
             plot: {
                 name: '',
-                data: []
+                color: '#2f7ed8',
+                data: [],
+                zoneAxis: 'x',
+                zones: []
             },
             buttons: {
                 selected: 0,
@@ -188,8 +191,7 @@ export default {
             intervals: [
                 {text: '1 hora', value: 3600},
                 {text: '30 minutos', value: 1800},
-                {text: '15 minutos', value: 900},
-                {text: '5 minutos', value: 300}
+                {text: '15 minutos', value: 900}
             ],
             currentInterval: 3600,
             currentPeriod: 0,
@@ -393,7 +395,7 @@ export default {
             // TODO: Receive meter id, filter and device name & send it to the API
             meter = meter.split(" ");
             let meter_id = meter[0];
-            let meter_device = meter[1];
+            let meter_device = (meter[1] === "EDS")? "":meter[1];
             if (type === "epimp") {
                 if (this.currentPeriod > 3) {
                     interval = -1;
@@ -427,8 +429,11 @@ export default {
                         let parse = false;
                         let tickInterval = 1;
                         let tickmarkPlacement = "on";
+                        let zones = [];
+                        const result = this.getDpAxis(res);
+                        xAxis = result.xAxis;
+                        zones = result.zones;
                         if (this.currentPeriod < 2) {
-                            xAxis = this.getDpAxis(res);
                             if (this.currentPeriod === -1 && this.dayDifference > 4) {
                                 tickInterval = 24*4;
                             } else {
@@ -437,20 +442,19 @@ export default {
                         }
                         else if (this.currentPeriod === 2) {
                             tickInterval = 24;
-                            xAxis = this.getDpAxis(res);
                         }
                         else if (this.currentPeriod === 3) {
                             tickInterval = 96;
                             tickmarkPlacement = "between";
-                            xAxis = this.getDpAxis(res);
                         } else {
                             parse = true;
+                            xAxis = [];
                         }
                         let data = mapReadings(res, parse, xAxis);
                         chart.update({
                             xAxis: { categories: xAxis, tickInterval, tickmarkPlacement }
                         })
-                        this.updateSeries(data);
+                        this.updateSeries(data, zones);
                     }
                 }).catch(error => {
                     console.log(error);
@@ -460,13 +464,26 @@ export default {
             }
         },
 
-        updateSeries(data) {
+        updateSeries(data, zones = []) {
             this.plot.data = data;
+            this.plot.zones = zones;
             this.load();
         },
 
         getDpAxis(values) {
-            return values.map(item => {
+            const zones = [];
+            let currVal = 0;
+            let isPeak = false;
+            const xAxis = values.map(item => {
+                // Format zones
+                if (item.isPeak !== isPeak) {
+                    zones.push({
+                        value: currVal,
+                        color: (item.isPeak) ? '#2f7ed8' : '#ce1616'
+                    });
+                }
+                currVal++;
+                isPeak = item.isPeak;
                 if (this.currentPeriod === -1) {
                     let time = parseDateTime(item.date);
                     const date = parseDayName(item.date);
@@ -490,6 +507,11 @@ export default {
                 }
                 return parseDateTime(item.date).slice(0, 5);
             });
+            zones.push({
+                value: --currVal,
+                color: (isPeak) ? '#ce1616' : '#2f7ed8'
+            });
+            return {xAxis, zones};
         },
 
         getxAxis(values) {
