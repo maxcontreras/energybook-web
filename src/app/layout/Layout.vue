@@ -13,6 +13,9 @@
                 <b-nav-item v-if="!isUser" v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
                     <div class="menu-icon-container"><i class="fas fa-solar-panel"></i></div> Medidores
                 </b-nav-item>
+                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'cfeValues'}" @click="goTo('cfeValues')">
+                    <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> CFE
+                </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'userCosts'}" @click="goTo('userCosts')">
                     <div class="menu-icon-container"><i class="fas fa-coins"></i></div> Costos
                 </b-nav-item>

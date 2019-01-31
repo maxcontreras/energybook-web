@@ -4,6 +4,7 @@ import meters from '@/services/meters';
 import designatedMeters from '@/services/designatedMeters';
 import companies from '@/services/companies'
 import * as mutation from './mutations-types';
+import moment from 'moment';
 
 export function loadUnassignedMeters({commit}, userId) {
     return new Promise((resolve, reject) => {
@@ -147,4 +148,9 @@ export function deleteMeter({commit, state}, index, meter) {
         commit(mutation.DELETE, index);
         resolve();
     });
+}
+
+export function changeCfeperiod({commit, state}, {years, months}) {
+    let new_date = moment(state.cfeValues.date).add(years, 'Y').add(months, 'M').format();
+    commit(mutation.GET_CFE_VALUES, {new_date});
 }

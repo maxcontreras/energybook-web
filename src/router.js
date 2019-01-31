@@ -13,6 +13,7 @@ import CarbonFootprint from '@/app/carbonFootprint/CarbonFootprint.vue';
 import Generation from '@/app/generation/Generation.vue';
 import Information from '@/app/information/Information.vue';
 import Meters from '@/app/meters/Meters.vue';
+import CFE from '@/app/cfe/CfeValues.vue';
 import Payments from '@/app/payments/Payments.vue';
 import Calendar from '@/app/calendar/Calendar.vue';
 import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue';
@@ -89,6 +90,14 @@ const router = new VueRouter({
                     name: 'meters',
                     components: {
                         default: Meters
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/valoresCFE',
+                    name: 'cfeValues',
+                    components: {
+                        default: CFE
                     },
                     meta: { requiresAuth: true }
                 },

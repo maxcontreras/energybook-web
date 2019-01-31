@@ -58,5 +58,14 @@
             "50d": "/assets/weather/ECGrainy-grail.svg",
             "50n": "/assets/weather/ECGrainy-grail.svg"
         }
+    },
+    "CFE": {
+        "prices": {
+            "base": 1.1030,
+            "middle": 2.0062,
+            "peak": 2.2633,
+            "capacity": 0,
+            "distribution": 0
+        }
     }
 }

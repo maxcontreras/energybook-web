@@ -49,4 +49,7 @@ export default {
     [mutation.DELETE_ALL_ASSIGNED](state) {
         state.metersAssigned = [];
     },
+    [mutation.GET_CFE_VALUES](state, {new_date}) {
+        state.cfeValues.date = new_date;
+    }
 };
