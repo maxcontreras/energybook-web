@@ -175,6 +175,18 @@ export default {
     watch: {
         basePrice(newValue) {
             this.base = newValue;
+        },
+        middlePrice(newValue) {
+            this.middle = newValue;
+        },
+        peakPrice(newValue) {
+            this.peak = newValue;
+        },
+        capacityPrice(newValue) {
+            this.capacity = newValue;
+        },
+        distributionPrice(newValue) {
+            this.distribution = newValue;
         }
     },
 
