@@ -38,6 +38,7 @@
                                     @submit="(e) => {e.preventDefault()}">
                                     <div class="edit-buttons text-right">
                                         <span
+                                            @click="savePrices"
                                             v-if="isEditing">
                                             <i class="far fa-save"></i>
                                         </span>
@@ -135,6 +136,7 @@ export default {
 
     beforeMount() {
         this.resetPrices();
+        this.$store.dispatch('meter/changeCfeperiod', {years: 0, months: 0});
     },
 
     computed: {
@@ -191,6 +193,45 @@ export default {
     },
 
     methods: {
+        savePrices() {
+            if (parseFloat(this.base) > 0 &&
+                parseFloat(this.middle) > 0 &&
+                parseFloat(this.peak) > 0 &&
+                parseFloat(this.capacity) > 0 &&
+                parseFloat(this.distribution) > 0) {
+                let data = {
+                    base: this.base,
+                    middle: this.middle,
+                    peak: this.peak,
+                    capacity: this.capacity,
+                    distribution: this.distribution
+                }
+                this.$store.dispatch('meter/setCfePrices', data)
+                    .then(() => {
+                        this.$notify({
+                            group: 'notification',
+                            type: 'success',
+                            title: 'Los precios de este mes se cambiaron correctamente'
+                        });
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            group: 'notification',
+                            type: 'error',
+                            title: 'No fue posible cambiar los precios'
+                        });
+                    })
+                    .finally(() => {
+                        this.isEditing = false;
+                    });
+            } else {
+                this.$notify({
+                            group: 'notification',
+                            type: 'warn',
+                            title: 'Verifica que los campos estén llenados de forma correcta'
+                        });
+            }
+        },
         resetPrices() {
             this.base = this.basePrice;
             this.middle = this.middlePrice;
