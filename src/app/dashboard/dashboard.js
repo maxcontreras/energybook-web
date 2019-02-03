@@ -197,6 +197,10 @@ export default {
             return this.$route.name === 'companyDetail';
         },
 
+        cfePrices() {
+            return this.$store.getters['meter/getCfePrices'];
+        },
+
         epimpHistory() {
             return this.$store.state.socket.epimpHistory;
         },
@@ -204,6 +208,10 @@ export default {
         distribution() {
             let prettyDist = this.prettifyNumbers(this.$store.state.socket.distribution);
             return prettyDist;
+        },
+
+        distributionCost() {
+            return (this.cfePrices.distribution * parseFloat(this.distribution)).toFixed(2);
         },
 
         distributionCharge() {
@@ -215,6 +223,11 @@ export default {
             let prettyDistribution = this.prettifyNumbers(this.$store.state.socket.distributionMonth);
             return parseFloat(prettyDistribution);
         },
+
+        distributionMonthCost() {
+            return (this.cfePrices.distribution * parseFloat(this.distributionMonth)).toFixed(2);
+        },
+
         odometer() {
             return parseFloat(this.$store.state.socket.odometer);
         },
@@ -228,8 +241,16 @@ export default {
             return this.$store.state.socket.capacity;
         },
 
+        capacityCost() {
+            return (this.cfePrices.capacity * parseFloat(this.capacity)).toFixed(2);
+        },
+
         capacityMonth() {
             return this.$store.state.socket.capacityMonth;
+        },
+
+        capacityMonthCost() {
+            return (this.cfePrices.capacity * parseFloat(this.capacityMonth)).toFixed(2);
         },
 
         consumptionMonth() {
@@ -294,7 +315,7 @@ export default {
 
     beforeMount() {
         if(this.isAdmin) return
-
+        this.$store.dispatch('meter/changeCfeperiod', {years: 0, months: 0});
         this.getMeters()
     },
 

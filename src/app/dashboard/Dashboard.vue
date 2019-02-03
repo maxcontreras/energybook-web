@@ -62,6 +62,9 @@
                                             <h5>
                                                 {{ capacity ? capacity : 0 }} kW
                                             </h5>
+                                            <h5 class="mt-3">
+                                                $ {{ capacityCost ? capacityCost : 0 }}
+                                            </h5>
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -90,6 +93,9 @@
                                             <p>Distribución</p>
                                             <h5>
                                                 {{ distribution ? distribution : 0 }} kW
+                                            </h5>
+                                            <h5 class="mt-3">
+                                                $ {{ distributionCost ? distributionCost : 0 }}
                                             </h5>
                                         </b-col>
                                     </b-row>
@@ -120,10 +126,15 @@
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Consumo</p>
-                                                            <h5>{{ consumptionMonth ? consumptionMonth : 0 }}</h5>
-                                                        </div>
-                                                        <div>
-                                                            <span>kWh</span>
+                                                            <b-row>
+                                                                <b-col>
+                                                                    <h5>{{ consumptionMonth ? consumptionMonth : 0 }}</h5>
+                                                                    <span>kWh</span>
+                                                                </b-col>
+                                                                <b-col>
+                                                                    <span>$</span>
+                                                                </b-col>
+                                                            </b-row>
                                                         </div>
                                                     </div>
                                                     <div class="analysis-item--cat">
@@ -132,9 +143,17 @@
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Distribución</p>
-                                                            <h5>{{ distributionMonth ? distributionMonth: 0 }}</h5>
+                                                            <b-row>
+                                                                <b-col>
+                                                                    <h5>{{ distributionMonth ? distributionMonth: 0 }}</h5>
+                                                                    <span>kW</span>
+                                                                </b-col>
+                                                                <b-col>
+                                                                    <span>$</span>
+                                                                    <h5>{{ distributionMonthCost ? distributionMonthCost: 0 }}</h5>
+                                                                </b-col>
+                                                            </b-row>
                                                         </div>
-                                                        <span>kW</span>
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
@@ -142,9 +161,17 @@
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Capacidad</p>
-                                                            <h5>{{ capacityMonth ? capacityMonth : 0 }}</h5>
+                                                            <b-row>
+                                                                <b-col>
+                                                                    <h5>{{ capacityMonth ? capacityMonth : 0 }}</h5>
+                                                                    <span>kW</span>
+                                                                </b-col>
+                                                                <b-col>
+                                                                    <span>$</span>
+                                                                    <h5>{{ capacityMonthCost ? capacityMonthCost : 0 }}</h5>
+                                                                </b-col>
+                                                            </b-row>
                                                         </div>
-                                                        <span>kW</span>
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
@@ -152,9 +179,13 @@
                                                         </div>
                                                         <div class="data-container">
                                                             <p>F.P</p>
-                                                            <h5>{{ powerFactor ? powerFactor : 0 }}</h5>
+                                                            <b-row>
+                                                                <b-col cols="6">
+                                                                    <h5>{{ powerFactor ? powerFactor : 0 }}</h5>
+                                                                    <span>%</span>
+                                                                </b-col>
+                                                            </b-row>
                                                         </div>
-                                                        <span>%</span>
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
@@ -162,9 +193,13 @@
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Reactivos</p>
-                                                            <h5>{{ reactives ? reactives : 0 }}</h5>
+                                                            <b-row>
+                                                                <b-col cols="6">
+                                                                    <h5>{{ reactives ? reactives : 0 }}</h5>
+                                                                    <span>kVAR</span>
+                                                                </b-col>
+                                                            </b-row>
                                                         </div>
-                                                        <span>kVAR</span>
                                                     </div>
                                                 </b-col>
                                             </b-row>
