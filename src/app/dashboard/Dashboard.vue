@@ -33,6 +33,14 @@
                                             <h5>
                                                 {{ consumption ? consumption : 0 }} kWh
                                             </h5>
+                                            <h5 class="mt-3">
+                                                $ {{ consumptionCost ? consumptionCost : 0 }}
+                                            </h5>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="text-right">
+                                            Última actualización:  {{dailyLastUpdatedTime}}
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -67,6 +75,11 @@
                                             </h5>
                                         </b-col>
                                     </b-row>
+                                    <b-row>
+                                        <b-col class="text-right">
+                                            Última actualización:  {{dailyLastUpdatedTime}}
+                                        </b-col>
+                                    </b-row>
                                 </b-card>
                             </b-col>
                             <b-col md="4">
@@ -97,6 +110,11 @@
                                             <h5 class="mt-3">
                                                 $ {{ distributionCost ? distributionCost : 0 }}
                                             </h5>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="text-right">
+                                            Última actualización:  {{dailyLastUpdatedTime}}
                                         </b-col>
                                     </b-row>
                                 </b-card>
@@ -133,6 +151,7 @@
                                                                 </b-col>
                                                                 <b-col>
                                                                     <span>$</span>
+                                                                    <h5>{{ consumptionMonthCost ? consumptionMonthCost : 0 }}</h5>
                                                                 </b-col>
                                                             </b-row>
                                                         </div>

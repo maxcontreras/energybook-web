@@ -12,6 +12,7 @@ import Highcharts from 'highcharts'
 import DashboardAdmin from '@/app/dashboard/DashboardAdmin.vue'
 import solidGauge from 'highcharts/modules/solid-gauge'
 import highchartsMore from 'highcharts/highcharts-more'
+import Constants from '@/constants.json';
 
 highchartsMore(Highcharts);
 solidGauge(Highcharts)
@@ -184,7 +185,9 @@ export default {
             },
             lineOptions: dataLine,
             edsId: '',
-            refreshingData: false
+            refreshingData: false,
+            consumptionCost: 0,
+            consumptionMonthCost: 0
         }
     },
 
@@ -210,8 +213,12 @@ export default {
             return prettyDist;
         },
 
+        dailyLastUpdatedTime() {
+            return this.$store.state.socket.lastUpdated;
+        },
+
         distributionCost() {
-            return (this.cfePrices.distribution * parseFloat(this.distribution)).toFixed(2);
+            return (this.cfePrices.distribution * parseFloat(this.distribution)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         distributionCharge() {
@@ -225,7 +232,7 @@ export default {
         },
 
         distributionMonthCost() {
-            return (this.cfePrices.distribution * parseFloat(this.distributionMonth)).toFixed(2);
+            return (this.cfePrices.distribution * parseFloat(this.distributionMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         odometer() {
@@ -242,7 +249,7 @@ export default {
         },
 
         capacityCost() {
-            return (this.cfePrices.capacity * parseFloat(this.capacity)).toFixed(2);
+            return (this.cfePrices.capacity * parseFloat(this.capacity)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         capacityMonth() {
@@ -250,7 +257,7 @@ export default {
         },
 
         capacityMonthCost() {
-            return (this.cfePrices.capacity * parseFloat(this.capacityMonth)).toFixed(2);
+            return (this.cfePrices.capacity * parseFloat(this.capacityMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         consumptionMonth() {
@@ -299,6 +306,7 @@ export default {
 
         google: gmapApi
     },
+
     watch: {
         odometer() {
             this.updateOdometerChart()
@@ -310,6 +318,14 @@ export default {
 
         consumptionSummary() {
             this.updatePieChart()
+        },
+
+        consumption() {
+            this.getConsumptionCost(Constants.Meters.filters.today);
+        },
+
+        consumptionMonth() {
+            this.getConsumptionCost(Constants.Meters.filters.month);
         }
     },
 
@@ -317,12 +333,16 @@ export default {
         if(this.isAdmin) return
         this.$store.dispatch('meter/changeCfeperiod', {years: 0, months: 0});
         this.getMeters()
+            .then(() => {
+                this.getConsumptionCost(Constants.Meters.filters.today);
+                this.getConsumptionCost(Constants.Meters.filters.month);
+            });
     },
 
     mounted() {
         if(this.isAdmin) {
             $('.user-dashboard').remove()
-            return
+            return;
         }
 
         $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
@@ -332,6 +352,21 @@ export default {
     },
 
     methods: {
+        getConsumptionCost(period) {
+            console.log(period);
+            meters.getConsumptionCostsByFilter(this.edsId, '', period, 86400)
+                .then(res => {
+                    let cost = (res.reduce((prev, curr) => {
+                        return prev + parseFloat(curr.cost);
+                    }, 0)).toFixed(2);
+                    if (period === Constants.Meters.filters.today) {
+                        this.consumptionCost = cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    } else if (period === Constants.Meters.filters.month) {
+                        this.consumptionMonthCost = cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                })
+                .catch();
+        },
         refresh() {
             this.refreshingData = true;
 
@@ -422,44 +457,49 @@ export default {
             if(this.consumptionSummary.length > 0) this.updatePieChart()
         },
         getMeters() {
-            designatedMeters.find({
-                filter: {
-                    where: {
-                        company_id: this.companyId
+            return new Promise((resolve, reject) => {
+                designatedMeters.find({
+                    filter: {
+                        where: {
+                            company_id: this.companyId
+                        }
                     }
-                }
-            }).then(res => {
-                this.meters = res
-                let metersCount = this.meters.length
-                if(metersCount > 0)
-                {
-                    /*let opacityIndex = 1 / metersCount
-                    let currentOpacity = 1
-                    this.meters.forEach(meter => {
-                        this.chartData.labels.push(meter.device_name)
-                        this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
-                        currentOpacity -= opacityIndex
-                    })*/
-                    this.edsId = this.meters[0].meter_id
-                    meters.initializer(this.edsId).then((res)=> {
-                        this.$store.commit('socket/setOdometer', res.latestValues.dp.value);
-                        this.$store.commit('socket/setDistribution', res.latestValues);
-                        this.$store.commit('socket/setMonthly', res.latestValues);
-                        this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp);
-                        this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory);
-                        this.$store.commit('socket/setPowerFactor', res.latestValues.fp.value);
-                        this.$store.commit('socket/setReactive', res.latestValues.reactive.value)
-                    })
-                    meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
-                        chartSpeed.update({
-                            yAxis: {
-                                min: values.min,
-                                max: values.max
-                            }
+                }).then(res => {
+                    this.meters = res
+                    let metersCount = this.meters.length
+                    if(metersCount > 0)
+                    {
+                        /*let opacityIndex = 1 / metersCount
+                        let currentOpacity = 1
+                        this.meters.forEach(meter => {
+                            this.chartData.labels.push(meter.device_name)
+                            this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
+                            currentOpacity -= opacityIndex
+                        })*/
+                        this.edsId = this.meters[0].meter_id
+                        meters.initializer(this.edsId).then((res)=> {
+                            this.$store.commit('socket/setOdometer', res.latestValues.dp.value);
+                            this.$store.commit('socket/setDistribution', res.latestValues);
+                            this.$store.commit('socket/setMonthly', res.latestValues);
+                            this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp);
+                            this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory);
+                            this.$store.commit('socket/setPowerFactor', res.latestValues.fp.value);
+                            this.$store.commit('socket/setReactive', res.latestValues.reactive.value)
+                        })
+                        meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
+                            chartSpeed.update({
+                                yAxis: {
+                                    min: values.min,
+                                    max: values.max
+                                }
+                            });
                         });
-                    });
-                }
-            })
+                        resolve();
+                    }
+                }).catch(err => {
+                    reject(err);
+                })
+            });
         },
         updateEpimpHistoryChart() {
             let xAxis = [];
