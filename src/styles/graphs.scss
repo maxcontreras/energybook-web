@@ -1,4 +1,4 @@
-#graphs, #graph-costs {
+.graphs, #graphs, #graph-costs {
     .date-buttons--container {
         margin: 2rem 0;
         text-align: right;
@@ -20,12 +20,14 @@
         }
     }
     .datepickers {
+        width: 30%;
         display: inline-block;
-        margin-right: 2rem;
+        margin-right: .5rem;
 
         input {
             display: inline-block;
-            width: 40%;
+            width: 42%;
+            max-height: 2rem;
             margin-right: 10px;
 
             &:last-child {
@@ -58,4 +60,22 @@
             margin-right: 10px;
         }
     }
+}
+
+#net-code-graphs {
+
+    @media screen and (max-width: 1280px) {
+        
+        .datepickers {
+            input {
+                max-height: 1.5rem;
+            }
+        }
+
+        .btn {
+            padding: .3rem !important;
+            font-size: 10px;
+        }
+    }
+    
 }
