@@ -16,6 +16,10 @@ let meters = Object.assign({}, {
         return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, filter, interval});
     },
 
+    getNetCodeReadings(id, device, filter, variables, custom_dates) {
+        return loopback.post('Meters/getNetCodeReadings', {id, device, filter, variables, custom_dates});
+    },
+
     getDpReadingsByFilter(meter_id, device, filter, custom_dates) {
         return loopback.post('/Meters/getDpReadingsByFilter', {id: meter_id, device, filter, custom_dates});
     },

@@ -180,7 +180,7 @@ export default {
             buttons: {
                 selected: 0,
                 options: [
-                    {value: -1, text: 'Customizado'},
+                    {value: -1, text: 'Calendario'},
                     {value: 0, text: 'Hoy'},
                     {value: 1, text: 'Ayer'},
                     {value: 2, text: 'Esta Semana'},
