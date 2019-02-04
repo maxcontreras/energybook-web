@@ -353,7 +353,6 @@ export default {
 
     methods: {
         getConsumptionCost(period) {
-            console.log(period);
             meters.getConsumptionCostsByFilter(this.edsId, '', period, 86400)
                 .then(res => {
                     let cost = (res.reduce((prev, curr) => {
