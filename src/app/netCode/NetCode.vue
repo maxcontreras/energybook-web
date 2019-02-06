@@ -116,8 +116,8 @@ export default {
                 selected: 0,
                 options: [
                     { variables: ['Vab', 'Vbc', 'Vca'], name: 'Voltaje' },
-                    { variables: ['la', 'lb', 'lc'], name: 'Amperaje' },
-                    { variables: ['TDHla', 'TDHlb', 'TDHlc'], name: 'THD' },
+                    { variables: ['Ia', 'Ib', 'Ic'], name: 'Amperaje' },
+                    { variables: ['THDIa', 'THDIb', 'THDIc'], name: 'THD' },
                     { variables: ['Vunbl', 'lunbl'], name: 'Desbalance Variable' },
                     { variables: ['ES'], name: 'kVA' }
                 ]
