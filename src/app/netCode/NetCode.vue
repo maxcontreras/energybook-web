@@ -75,6 +75,7 @@
 import designatedMeters from '@/services/designatedMeters';
 import datePicker from 'vue-bootstrap-datetimepicker';
 import meters from '@/services/meters';
+import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
 
 export default {
 
@@ -107,9 +108,7 @@ export default {
                     {value: -1, text: 'Calendario'},
                     {value: 0, text: 'Hoy'},
                     {value: 1, text: 'Ayer'},
-                    {value: 2, text: 'Esta Semana'},
-                    {value: 3, text: 'Este Mes'},
-                    {value: 4, text: 'Este Año'},
+                    {value: 2, text: 'Esta Semana'}
                 ]
             },
             graphType: {
@@ -179,9 +178,18 @@ export default {
             });
         },
         changeType(new_type) {
-            this.graphType.selected = new_type;
-            this.showDatePicker = false;
-            this.graphPeriod.selected = 0;
+            if (new_type !== null && !this.dangerAlert) {
+                this.graphType.selected = new_type;
+                // Reset date picker values
+                this.date_custom = {
+                    from: null,
+                    until: null
+                }
+                this.showDatePicker = false;
+                this.graphPeriod.selected = 0;
+                this.getData();
+            }
+            
 
         },
         changePeriod(new_period) {
@@ -206,9 +214,48 @@ export default {
             meters.getNetCodeReadings(meter_id, meter_device, this.graphPeriod.selected, this.graphType.options[this.graphType.selected].variables , this.date_custom)
                 .then(res => {
                     if (res) {
-                        console.log(res);
+                        let { xAxis, tickinterval, data } = this.parseMeterValues(res);
+                        console.log(xAxis);
+                        console.log(data);
                     }
                 });
+        },
+        parseMeterValues(values) {
+            let dates = [];
+            let datesFull = false;
+            let data = {};
+            for (let key in values) {
+                data[key] = values[key].map(reading => {
+                    if (!datesFull) {
+                        dates.push(reading.date);
+                    }
+                    return reading.value;
+                });
+                datesFull = true;
+            }
+            let { xAxis, tickInterval } = this.parseXAxis(dates);
+            return { data, xAxis, tickInterval };
+        },
+        parseXAxis(dates) {
+            let tickInterval = 1;
+            const xAxis = dates.map(date => {
+                let time = parseDateTime(date);
+                const day = parseDayName(date);
+                if (this.graphPeriod.selected < 2) {
+                    time = time.slice(0, 5);
+                    // tickInterval = parseInt(3600/this.currentInterval);
+                    return `${time}`;
+                } else if (this.graphPeriod.selected == 2) {
+                    time = time.slice(0, 5);
+                    if (time === '00:00') {
+                        time = '';
+                    }
+                    // tickInterval = parseInt(3600/this.currentInterval * 24);
+                    tickInterval = 86000;
+                    return `${day} ${date.substring(0, 2)} ${time}`;
+                }
+            });
+            return {xAxis, tickInterval};
         }
     }
 }
