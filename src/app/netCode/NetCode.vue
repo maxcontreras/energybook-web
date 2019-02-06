@@ -10,9 +10,7 @@
             </b-row>
             <b-row id="net-code-graphs">
                 <b-col>
-                    <b-card
-                        class="margin-bottom-1"
-                        v-show="metersFilter.selected !== null">
+                    <b-card class="margin-bottom-1">
                         <div class="graphs">
                             <div class="date-buttons--container container-fluid">
                                 <b-row>
@@ -57,14 +55,14 @@
                                     </b-col>
                                 </b-row>
                             </div>
+                            <div class="chart-container">
+                                <v-series
+                                    ref="seriesChart"
+                                    v-if="!dangerAlert">
+                                </v-series>
+                            </div>
                         </div>
                     </b-card>
-                    <b-alert
-                        show
-                        variant="info"
-                        v-if="metersFilter.selected === null">
-                        Selecciona un medidor para desplegar la gráfica.
-                    </b-alert>
                 </b-col>
             </b-row>
         </b-col>
@@ -74,13 +72,15 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters';
 import datePicker from 'vue-bootstrap-datetimepicker';
+import VSeries from '@/app/components/chart/VSeries';
 import meters from '@/services/meters';
 import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
 
 export default {
 
     components: {
-        datePicker
+        datePicker,
+        VSeries
     },
 
     data() {
@@ -143,6 +143,9 @@ export default {
         },
         meterSelected() {
             return this.metersFilter.selected;
+        },
+        currentChart() {
+            return this.$refs.seriesChart;
         }
     },
 
@@ -178,7 +181,14 @@ export default {
             });
         },
         changeType(new_type) {
-            if (new_type !== null && !this.dangerAlert) {
+            if (this.currentChart.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+            } else if (new_type !== null && !this.dangerAlert) {
                 this.graphType.selected = new_type;
                 // Reset date picker values
                 this.date_custom = {
@@ -187,13 +197,24 @@ export default {
                 }
                 this.showDatePicker = false;
                 this.graphPeriod.selected = 0;
-                this.getData();
+                this.currentChart.renderChartWithData()
+                    .then(() => {
+                        this.getData();
+                    })
+                    .catch(() => {
+                        console.log("Could not load new data");
+                    });
             }
-            
-
         },
         changePeriod(new_period) {
-            if (new_period !== null && !this.dangerAlert) {
+            if (this.currentChart.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+            } else if (new_period !== null && !this.dangerAlert) {
                 this.graphPeriod.selected = new_period;
                 if (new_period === -1) {
                     this.showDatePicker = true;
@@ -204,7 +225,13 @@ export default {
                     until: null
                 }
                 this.showDatePicker = false;
-                this.getData();
+                this.currentChart.renderChartWithData()
+                    .then(() => {
+                        this.getData();
+                    })
+                    .catch(() => {
+                        console.log("Could not load new data");
+                    });
             }
         },
         getData() {
@@ -214,10 +241,25 @@ export default {
             meters.getNetCodeReadings(meter_id, meter_device, this.graphPeriod.selected, this.graphType.options[this.graphType.selected].variables , this.date_custom)
                 .then(res => {
                     if (res) {
-                        let { xAxis, tickinterval, data } = this.parseMeterValues(res);
-                        console.log(xAxis);
-                        console.log(data);
+                        let { xAxis, tickInterval, data } = this.parseMeterValues(res);
+                        const update_data = {
+                            xAxis: { categories: xAxis, tickInterval, tickmarkPlacement: "on" }
+                        };
+                        this.currentChart.updateChart(update_data);
+                        let seriesData = [];
+                        for (const key in data) {
+                            seriesData.push({
+                                name: key,
+                                data: data[key]
+                            });
+                        }
+                        this.currentChart.updateSeries(seriesData);
                     }
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.dangerAlert = true;
+                    this.currentChart.load();
                 });
         },
         parseMeterValues(values) {
@@ -229,7 +271,7 @@ export default {
                     if (!datesFull) {
                         dates.push(reading.date);
                     }
-                    return reading.value;
+                    return parseFloat(reading.value);
                 });
                 datesFull = true;
             }
