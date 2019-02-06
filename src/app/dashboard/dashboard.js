@@ -178,11 +178,11 @@ export default {
             chartOptions: {
                 legend: {
                     labels: {
-                    fontSize: 35
+                    fontSize: 25
                     }
                 },
                 tooltips: {
-                    bodyFontSize: 35
+                    bodyFontSize: 25
                 }
             },
             lineOptions: dataLine,
