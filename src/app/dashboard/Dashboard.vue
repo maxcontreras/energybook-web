@@ -33,12 +33,12 @@
                                             <h5>
                                                 {{ consumption ? consumption : 0 }} kWh
                                             </h5>
-                                            <h5 class="mt-3">
+                                            <h5>
                                                 $ {{ consumptionCost ? consumptionCost : 0 }}
                                             </h5>
                                         </b-col>
                                     </b-row>
-                                    <b-row>
+                                    <b-row class="mt-2">
                                         <b-col class="text-right">
                                             Última actualización:  {{dailyLastUpdatedTime}}
                                         </b-col>
@@ -70,12 +70,12 @@
                                             <h5>
                                                 {{ capacity ? capacity : 0 }} kW
                                             </h5>
-                                            <h5 class="mt-3">
+                                            <h5>
                                                 $ {{ capacityCost ? capacityCost : 0 }}
                                             </h5>
                                         </b-col>
                                     </b-row>
-                                    <b-row>
+                                    <b-row class="mt-2">
                                         <b-col class="text-right">
                                             Última actualización:  {{dailyLastUpdatedTime}}
                                         </b-col>
@@ -107,12 +107,12 @@
                                             <h5>
                                                 {{ distribution ? distribution : 0 }} kW
                                             </h5>
-                                            <h5 class="mt-3">
+                                            <h5>
                                                 $ {{ distributionCost ? distributionCost : 0 }}
                                             </h5>
                                         </b-col>
                                     </b-row>
-                                    <b-row>
+                                    <b-row class="mt-2">
                                         <b-col class="text-right">
                                             Última actualización:  {{dailyLastUpdatedTime}}
                                         </b-col>
@@ -122,7 +122,7 @@
                         </b-row>
 
                         <b-row class="margin-bottom-2">
-                            <b-col>
+                            <b-col cols="9">
                                 <b-card class="dashboard-general" no-body>
                                     <b-row class="analysis-card-header">
                                         <b-col>
@@ -243,6 +243,22 @@
                                             :class="refreshingData?'disable-refresh':'enable-refresh'"
                                             @click="refresh()">
                                         </b-btn>
+                                    </b-row>
+                                </b-card>
+                            </b-col>
+                            <b-col cols="3">
+                                <b-card class="dashboard-general" no-body>
+                                    <b-row class="analysis-card-header">
+                                        <b-col>
+                                            <h5>Precios CFE del periodo</h5>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row class="general-body">
+                                        <b-col>
+                                            <v-cfe
+                                                :allowEditing="false"
+                                                :forceCurrentMonth="true"/>
+                                        </b-col>
                                     </b-row>
                                 </b-card>
                             </b-col>

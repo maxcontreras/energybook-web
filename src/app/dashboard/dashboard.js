@@ -1,5 +1,6 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters'
+import VCfe from '@/app/components/VCfe';
 import meters from '@/services/meters'
 import VTable from '@/app/components/VTable.vue'
 import PieChart from '@/app/components/chart/pieChart'
@@ -151,7 +152,8 @@ export default {
         PieChart,
         VueHighcharts ,
         VueHighChartsComponent,
-        DashboardAdmin
+        DashboardAdmin,
+        VCfe
     },
 
     props: {
@@ -330,8 +332,7 @@ export default {
     },
 
     beforeMount() {
-        if(this.isAdmin) return
-        this.$store.dispatch('meter/changeCfeperiod', {years: 0, months: 0});
+        if(this.isAdmin) return;
         this.getMeters()
             .then(() => {
                 this.getConsumptionCost(Constants.Meters.filters.today);
