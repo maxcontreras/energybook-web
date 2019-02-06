@@ -87,9 +87,7 @@ export default {
         return {
             metersFilter: {
                 selected: "",
-                options: [
-                    {value: "", text: 'Servicio 1'}
-                ]
+                options: []
             },
             date_custom: {
                 from: null,
@@ -167,10 +165,7 @@ export default {
                 }).then(devices => {
                     devices.forEach((device, index) => {
                         // Ignore first device. EDS
-                        if (index === 0) {
-                            this.metersFilter.options[0].value = `${this.eds.meter_id} EDS`;
-                            return;
-                        }
+                        if (index === 0) return;
                         this.metersFilter.options.push({
                             value:`${this.eds.meter_id} ${device.name}`,
                             text: device.description
