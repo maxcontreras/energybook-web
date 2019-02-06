@@ -288,7 +288,7 @@ export default {
                         time = '';
                     }
                     // tickInterval = parseInt(3600/this.currentInterval * 24);
-                    tickInterval = 86000;
+                    tickInterval = 1;
                     return `${day} ${date.substring(0, 2)} ${time}`;
                 }
             });
