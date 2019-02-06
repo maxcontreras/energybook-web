@@ -151,7 +151,17 @@ export function deleteMeter({commit, state}, index, meter) {
     });
 }
 
-export function changeCfeperiod({commit, state}, {years, months}) {
+export function getCurrentCfePeriod({commit, state}) {
+    adminValues.findByDate(state.cfeValues.currentDate)
+        .then(({cfeValue}) => {
+            commit(mutation.GET_CURRENT_CFE_VALUES, Object.assign({}, cfeValue));
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+export function changeCfePeriod({commit, state}, {years, months}) {
     let new_date = moment(state.cfeValues.date).add(years, 'Y').add(months, 'M').format();
     adminValues.findByDate(new_date)
         .then(({cfeValue}) => {

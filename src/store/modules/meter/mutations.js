@@ -58,5 +58,14 @@ export default {
             capacity: capacityPrice,
             distribution: distributionPrice
         }
+    },
+    [mutation.GET_CURRENT_CFE_VALUES](state, {basePrice, middlePrice, peakPrice, capacityPrice, distributionPrice }) {
+        state.cfeValues.currentPrices = {
+            base: basePrice,
+            middle: middlePrice,
+            peak: peakPrice,
+            capacity: capacityPrice,
+            distribution: distributionPrice
+        }
     }
 };

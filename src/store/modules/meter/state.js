@@ -13,6 +13,14 @@ const defaultState = {
             peak: constants.CFE.prices.peak,
             capacity: constants.CFE.prices.capacity,
             distribution: constants.CFE.prices.distribution
+        },
+        currentDate: moment().startOf('month').format(),
+        currentPrices: {
+            base: constants.CFE.prices.base,
+            middle: constants.CFE.prices.middle,
+            peak: constants.CFE.prices.peak,
+            capacity: constants.CFE.prices.capacity,
+            distribution: constants.CFE.prices.distribution
         }
     }
 };
