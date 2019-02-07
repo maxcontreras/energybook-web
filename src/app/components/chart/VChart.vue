@@ -1,5 +1,5 @@
 <template>
-    <div id="graphs" >
+    <div class="graphs" >
         <div class="date-buttons--container container-fluid">
             <b-row>
                 <b-col md="3" class="text-left">
@@ -26,6 +26,7 @@
                             :config="dateConfig">
                         </date-picker>
                         <date-picker
+                            class="mr-0"
                             placeholder="Hasta"
                             v-model="date_custom.until"
                             @dp-change="setUntilDate"

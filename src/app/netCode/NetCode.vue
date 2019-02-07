@@ -34,11 +34,14 @@
                                             <date-picker
                                                 placeholder="Desde"
                                                 v-model="date_custom.from"
+                                                @dp-change="setCustomDate"
                                                 :config="dateConfig">
                                             </date-picker>
                                             <date-picker
+                                                class="mr-0"
                                                 placeholder="Hasta"
                                                 v-model="date_custom.until"
+                                                @dp-change="setCustomDate"
                                                 :config="dateConfig">
                                             </date-picker>
                                         </div>
@@ -56,22 +59,29 @@
                                 </b-row>
                             </div>
                             <div class="chart-container">
-                                <v-series
-                                    ref="seriesChart"
-                                    v-if="!dangerAlert">
-                                </v-series>
-                                <div class="interval-buttons text-right">
-                                    <b-button
-                                        v-for="interval in graphInterval.options"
-                                        :key="interval.value"
-                                        :class="{
-                                            'btn-success': graphInterval.selected === interval.value,
-                                            'btn-outline-success':graphInterval.selected !== interval.value
-                                            }"
-                                        @click="changeInterval(interval.value)">
-                                        {{ interval.text }}
-                                    </b-button>
+                                <div v-if="!dangerAlert">
+                                    <v-series ref="seriesChart">
+                                    </v-series>
+                                    <div class="interval-buttons text-right">
+                                        <b-button
+                                            v-for="interval in graphInterval.options"
+                                            :key="interval.value"
+                                            :class="{
+                                                'btn-success': graphInterval.selected === interval.value,
+                                                'btn-outline-success':graphInterval.selected !== interval.value
+                                                }"
+                                            @click="changeInterval(interval.value)">
+                                            {{ interval.text }}
+                                        </b-button>
+                                    </div>
                                 </div>
+                                <b-alert
+                                    v-else
+                                    show
+                                    class="margin-top-1"
+                                    variant="danger">
+                                    Hubo un error al obtener los datos del medidor. ¡Refresca la página e intenta de nuevo!
+                                </b-alert>
                             </div>
                         </div>
                     </b-card>
@@ -164,6 +174,12 @@ export default {
         },
         currentChart() {
             return this.$refs.seriesChart;
+        },
+        dayDifference() {
+            if (this.date_custom.until && this.date_custom.from) {
+                return moment(this.date_custom.until).diff(moment(this.date_custom.from), 'days');
+            }
+            return 0;
         }
     },
 
@@ -195,6 +211,35 @@ export default {
                 });
             });
         },
+        validateDates() {
+            let isValid = false;
+            let errorMessage = {};
+            if (moment(this.date_custom.until).isBefore(this.date_custom.from)) {
+                errorMessage = { title: 'Fecha incorrecta', text: 'La fecha de inicio no puede ser mayor a la final' };
+            } else if (this.dayDifference > 31) {
+                errorMessage = { title: 'Periodo muy grande', text: 'El periodo no puede exceder más de 31 días' };
+            } else if (moment().isBefore(this.date_custom.from)){
+                errorMessage = { title: 'Periodo inexistente', text: 'La fecha de inicio no puede ser mayor a la actual' };
+            } else {
+                isValid = true;
+            }
+            return {isValid, errorMessage};
+        },
+        setCustomDate() {
+            if (this.date_custom.from && this.date_custom.until && !this.currentChart.isLoading) {
+                const {isValid, errorMessage} = this.validateDates();
+                if(isValid) {
+                    this.renderChartWithNewData();
+                } else {
+                    this.$notify({
+                        group: 'notification',
+                        type: 'warn',
+                        title: errorMessage.title,
+                        text: errorMessage.text
+                    });
+                }
+            }
+        },
         changeType(new_type) {
             if (this.currentChart.isLoading) {
                 this.$notify({
@@ -212,13 +257,7 @@ export default {
                 }
                 this.showDatePicker = false;
                 this.graphPeriod.selected = 0;
-                this.currentChart.renderChartWithData()
-                    .then(() => {
-                        this.getData();
-                    })
-                    .catch(() => {
-                        console.log("Could not load new data");
-                    });
+                this.renderChartWithNewData();
             }
         },
         changePeriod(new_period) {
@@ -240,13 +279,7 @@ export default {
                     until: null
                 }
                 this.showDatePicker = false;
-                this.currentChart.renderChartWithData()
-                    .then(() => {
-                        this.getData();
-                    })
-                    .catch(() => {
-                        console.log("Could not load new data");
-                    });
+                this.renderChartWithNewData();
             }
         },
         changeInterval(new_interval) {
@@ -259,14 +292,18 @@ export default {
                 });
             } else if (new_interval !== null && !this.dangerAlert) {
                 this.graphInterval.selected = new_interval;
-                this.currentChart.renderChartWithData()
-                    .then(() => {
-                        this.getData();
-                    })
-                    .catch(() => {
-                        console.log("Could not load new data");
-                    });
+                this.renderChartWithNewData();
             }
+        },
+        renderChartWithNewData() {
+            this.currentChart.renderChartWithData()
+                .then(() => {
+                    this.getData();
+                })
+                .catch(() => {
+                    console.log("Could not load new data");
+                    this.dangerAlert = true;
+                });
         },
         getData() {
             let meter = this.metersFilter.selected.split(" ");

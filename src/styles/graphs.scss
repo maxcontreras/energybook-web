@@ -20,7 +20,6 @@
         }
     }
     .datepickers {
-        width: 30%;
         display: inline-block;
         margin-right: .5rem;
 
@@ -29,10 +28,6 @@
             width: 42%;
             max-height: 2rem;
             margin-right: 10px;
-
-            &:last-child {
-                margin-right: 0;
-            }
         }
     }
 }
@@ -62,11 +57,12 @@
     }
 }
 
-#net-code-graphs {
+.graphs {
 
     @media screen and (max-width: 1280px) {
         
         .datepickers {
+            width: 30%;
             input {
                 max-height: 1.5rem;
             }
@@ -74,7 +70,7 @@
 
         .btn {
             padding: .3rem !important;
-            font-size: 10px;
+            font-size: 13px;
         }
     }
     
