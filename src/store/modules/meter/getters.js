@@ -10,5 +10,5 @@ export function getMeters(state) {
 }
 
 export function getCfePrices(state) {
-    return _l.cloneDeep(state.cfeValues.prices);
+    return _l.cloneDeep(state.cfeValues.currentPrices);
 }
