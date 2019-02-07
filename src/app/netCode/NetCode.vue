@@ -60,6 +60,18 @@
                                     ref="seriesChart"
                                     v-if="!dangerAlert">
                                 </v-series>
+                                <div class="interval-buttons text-right">
+                                    <b-button
+                                        v-for="interval in graphInterval.options"
+                                        :key="interval.value"
+                                        :class="{
+                                            'btn-success': graphInterval.selected === interval.value,
+                                            'btn-outline-success':graphInterval.selected !== interval.value
+                                            }"
+                                        @click="changeInterval(interval.value)">
+                                        {{ interval.text }}
+                                    </b-button>
+                                </div>
                             </div>
                         </div>
                     </b-card>
@@ -118,6 +130,14 @@ export default {
                     { variables: ['Vunbl', 'lunbl'], name: 'Desbalance Variable' },
                     { variables: ['ES'], name: 'kVA' }
                 ]
+            },
+            graphInterval: {
+                selected: 3600,
+                options: [
+                    {text: '1 hora', value: 3600},
+                    {text: '30 minutos', value: 1800},
+                    {text: '15 minutos', value: 900}
+                ],
             }
         }
     },
@@ -229,11 +249,30 @@ export default {
                     });
             }
         },
+        changeInterval(new_interval) {
+            if (this.currentChart.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+            } else if (new_interval !== null && !this.dangerAlert) {
+                this.graphInterval.selected = new_interval;
+                this.currentChart.renderChartWithData()
+                    .then(() => {
+                        this.getData();
+                    })
+                    .catch(() => {
+                        console.log("Could not load new data");
+                    });
+            }
+        },
         getData() {
             let meter = this.metersFilter.selected.split(" ");
             let meter_id = meter[0];
             let meter_device = (meter[1] === "EDS")? "":meter[1];
-            meters.getNetCodeReadings(meter_id, meter_device, this.graphPeriod.selected, this.graphType.options[this.graphType.selected].variables , this.date_custom)
+            meters.getNetCodeReadings(meter_id, meter_device, this.graphPeriod.selected, this.graphType.options[this.graphType.selected].variables, this.graphInterval.selected, this.date_custom)
                 .then(res => {
                     if (res) {
                         let { xAxis, tickInterval, data } = this.parseMeterValues(res);
@@ -280,15 +319,14 @@ export default {
                 const day = parseDayName(date);
                 if (this.graphPeriod.selected < 2) {
                     time = time.slice(0, 5);
-                    // tickInterval = parseInt(3600/this.currentInterval);
+                    tickInterval = parseInt(3600/this.graphInterval.selected);
                     return `${time}`;
                 } else if (this.graphPeriod.selected == 2) {
                     time = time.slice(0, 5);
                     if (time === '00:00') {
                         time = '';
                     }
-                    // tickInterval = parseInt(3600/this.currentInterval * 24);
-                    tickInterval = 1;
+                    tickInterval = parseInt(3600/this.graphInterval.selected * 24);
                     return `${day} ${date.substring(0, 2)} ${time}`;
                 }
             });
