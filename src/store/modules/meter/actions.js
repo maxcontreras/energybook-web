@@ -2,8 +2,10 @@
 
 import meters from '@/services/meters';
 import designatedMeters from '@/services/designatedMeters';
+import adminValues from '@/services/adminValues';
 import companies from '@/services/companies'
 import * as mutation from './mutations-types';
+import moment from 'moment';
 
 export function loadUnassignedMeters({commit}, userId) {
     return new Promise((resolve, reject) => {
@@ -146,5 +148,40 @@ export function deleteMeter({commit, state}, index, meter) {
         // TODO make a api request
         commit(mutation.DELETE, index);
         resolve();
+    });
+}
+
+export function getCurrentCfePeriod({commit, state}) {
+    adminValues.findByDate(state.cfeValues.currentDate)
+        .then(({cfeValue}) => {
+            commit(mutation.GET_CURRENT_CFE_VALUES, Object.assign({}, cfeValue));
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+export function changeCfePeriod({commit, state}, {years, months}) {
+    let new_date = moment(state.cfeValues.date).add(years, 'Y').add(months, 'M').format();
+    adminValues.findByDate(new_date)
+        .then(({cfeValue}) => {
+            commit(mutation.GET_CFE_VALUES, Object.assign({new_date}, cfeValue));
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+export function setCfePrices({commit, state}, payload) {
+    return new Promise((resolve, reject) => {
+        adminValues.createOrUpdatePrices(state.cfeValues.date, payload)
+            .then(({cfeValue}) => {
+                commit(mutation.GET_CFE_VALUES, Object.assign({new_date: cfeValue.date}, cfeValue));
+                resolve();
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err);
+            });
     });
 }

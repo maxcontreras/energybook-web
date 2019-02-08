@@ -35,6 +35,17 @@
                 "Activo": 1,
                 "Inactivo": 0
             }
+        },
+        "filters": {
+            "today": 0,
+            "yesterday": 1,
+            "week": 2,
+            "month": 3,
+            "year": 4,
+            "custom": -1,
+            "latest": 6,
+            "dayAVG": 7,
+            "monthAVG": 8
         }
     },
     "Weather": {
@@ -57,6 +68,15 @@
             "13n": "/assets/weather/ECGsnowy-night.svg",
             "50d": "/assets/weather/ECGrainy-grail.svg",
             "50n": "/assets/weather/ECGrainy-grail.svg"
+        }
+    },
+    "CFE": {
+        "prices": {
+            "base": 1.1030,
+            "middle": 2.0062,
+            "peak": 2.2633,
+            "capacity": 0,
+            "distribution": 0
         }
     }
 }

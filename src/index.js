@@ -5,7 +5,7 @@ import store from './store/store.js'
 import BootstrapVue from 'bootstrap-vue'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import Notifications from 'vue-notification'
-
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css'; // eslint-disable-line
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import './index.scss'

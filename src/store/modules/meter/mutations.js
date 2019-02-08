@@ -49,4 +49,23 @@ export default {
     [mutation.DELETE_ALL_ASSIGNED](state) {
         state.metersAssigned = [];
     },
+    [mutation.GET_CFE_VALUES](state, {new_date, basePrice, middlePrice, peakPrice, capacityPrice, distributionPrice }) {
+        state.cfeValues.date = new_date;
+        state.cfeValues.prices = {
+            base: basePrice,
+            middle: middlePrice,
+            peak: peakPrice,
+            capacity: capacityPrice,
+            distribution: distributionPrice
+        }
+    },
+    [mutation.GET_CURRENT_CFE_VALUES](state, {basePrice, middlePrice, peakPrice, capacityPrice, distributionPrice }) {
+        state.cfeValues.currentPrices = {
+            base: basePrice,
+            middle: middlePrice,
+            peak: peakPrice,
+            capacity: capacityPrice,
+            distribution: distributionPrice
+        }
+    }
 };

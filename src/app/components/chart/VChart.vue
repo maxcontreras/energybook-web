@@ -1,5 +1,5 @@
 <template>
-    <div id="graphs" >
+    <div class="graphs" >
         <div class="date-buttons--container container-fluid">
             <b-row>
                 <b-col md="3" class="text-left">
@@ -26,6 +26,7 @@
                             :config="dateConfig">
                         </date-picker>
                         <date-picker
+                            class="mr-0"
                             placeholder="Hasta"
                             v-model="date_custom.until"
                             @dp-change="setUntilDate"
@@ -180,7 +181,7 @@ export default {
             buttons: {
                 selected: 0,
                 options: [
-                    {value: -1, text: 'Customizado'},
+                    {value: -1, text: 'Calendario'},
                     {value: 0, text: 'Hoy'},
                     {value: 1, text: 'Ayer'},
                     {value: 2, text: 'Esta Semana'},

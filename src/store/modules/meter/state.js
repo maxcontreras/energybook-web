@@ -1,20 +1,28 @@
 /* eslint-disable */
+import constants from '@/constants.json';
+import moment from 'moment';
 
 const defaultState = {
     meters: [],
-    metersAssigned: []
-    // state: 0,
-    // create_at: '',
-    // id: '',
-    // serial_number: '',
-    //
-    // company_id: '', // Values from designated meter
-    // device_name: '',
-    // hostname: '',
-    // lastestValue: {},
-    // max_value: 0,
-    // min_value: 0,
-    // summatory_device: ''
+    metersAssigned: [],
+    cfeValues: {
+        date: moment().startOf('month').format(),
+        prices: {
+            base: constants.CFE.prices.base,
+            middle: constants.CFE.prices.middle,
+            peak: constants.CFE.prices.peak,
+            capacity: constants.CFE.prices.capacity,
+            distribution: constants.CFE.prices.distribution
+        },
+        currentDate: moment().startOf('month').format(),
+        currentPrices: {
+            base: constants.CFE.prices.base,
+            middle: constants.CFE.prices.middle,
+            peak: constants.CFE.prices.peak,
+            capacity: constants.CFE.prices.capacity,
+            distribution: constants.CFE.prices.distribution
+        }
+    }
 };
 
 export default defaultState;

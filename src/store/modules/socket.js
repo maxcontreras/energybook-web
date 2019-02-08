@@ -1,4 +1,5 @@
 /* eslint-disable */
+import moment from 'moment';
 
 function saveInLocalStorage(key, value) {
     var user = JSON.parse(localStorage.getItem('user'))
@@ -28,13 +29,15 @@ export default {
         capacity: getLocalStorageItem('capacity'),
         capacityMonth: getLocalStorageItem('capacityMonth'),
         powerFactor: getLocalStorageItem('powerFactor'),
-        reactive: getLocalStorageItem('reactive')
+        reactive: getLocalStorageItem('reactive'),
+        lastUpdated: (getLocalStorageItem('lUpdated'))? getLocalStorageItem('lUpdated'): "00:00"
     },
     actions: {
         odometerReading({commit}, data) {
             commit('setOdometer', data.value);
         },
         dailyReading({commit}, data) {
+            commit('setLastUpdated');
             commit('setDistribution', data);
         },
         monthlyReading({commit}, data) {
@@ -54,6 +57,10 @@ export default {
         }
     },
     mutations: {
+        setLastUpdated(state) {
+            state.lastUpdated = moment().format("HH:mm");
+            saveInLocalStorage('lUpdated', moment().format("HH:mm"));
+        },
         setDistribution(state, data) {
             state.distribution = data.distribution.daily
             saveInLocalStorage('distribution', data.distribution.daily);
