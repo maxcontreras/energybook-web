@@ -354,19 +354,36 @@ export default {
             const xAxis = dates.map(date => {
                 let time = parseDateTime(date);
                 const day = parseDayName(date);
-                if (this.graphPeriod.selected < 2) {
-                    time = time.slice(0, 5);
-                    tickInterval = parseInt(3600/this.graphInterval.selected);
-                    return `${time}`;
-                } else if (this.graphPeriod.selected == 2) {
-                    time = time.slice(0, 5);
+                const fullDate = parseDayName(date);
+                time = time.slice(0, 5);
+                if (this.graphPeriod.selected === -1) {
                     if (time === '00:00') {
                         time = '';
                     }
-                    tickInterval = parseInt(3600/this.graphInterval.selected * 24);
+                    return `${fullDate} ${date.substring(0, 2)} ${time}`;
+                }else if (this.graphPeriod.selected < 2) {
+                    return `${time}`;
+                } else if (this.graphPeriod.selected == 2) {
+                    if (time === '00:00') {
+                        time = '';
+                    }
                     return `${day} ${date.substring(0, 2)} ${time}`;
                 }
             });
+            switch (this.graphPeriod.selected) {
+                case -1:
+                    let interval = 0;
+                    if (this.dayDifference === 0) interval = 1;
+                    else if (this.dayDifference <= 2) interval = 12;
+                    else interval = 24;
+                    tickInterval = parseInt(3600/this.graphInterval.selected * interval);
+                break;
+                case 2:
+                    tickInterval = parseInt(3600/this.graphInterval.selected * 24);
+                break;
+                default:
+                    tickInterval = parseInt(3600/this.graphInterval.selected);
+            }
             return {xAxis, tickInterval};
         }
     }
