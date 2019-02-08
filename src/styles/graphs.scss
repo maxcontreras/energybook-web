@@ -23,7 +23,8 @@
         display: inline-block;
         margin-right: .5rem;
 
-        input {
+        input.form-control {
+            cursor: pointer;
             display: inline-block;
             width: 42%;
             max-height: 2rem;
