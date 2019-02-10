@@ -20,6 +20,23 @@
                 <b-col
                     :md="(currentPeriod > 1)? 9:12"
                     class="text-right">
+                    <div
+                        class="datepickers"
+                        v-if="showDatePicker">
+                        <date-picker
+                            placeholder="Desde"
+                            v-model="date_custom.from"
+                            @dp-change="setCustomDate"
+                            :config="dateConfig">
+                        </date-picker>
+                        <date-picker
+                            class="mr-0"
+                            placeholder="Hasta"
+                            v-model="date_custom.until"
+                            @dp-change="setCustomDate"
+                            :config="dateConfig">
+                        </date-picker>
+                    </div>
                     <b-button
                         v-for="(button, index) in buttons.options"
                         :key="index"
@@ -69,6 +86,7 @@
 <script>
 import VueHighcharts from 'vue2-highcharts';
 import meters from '@/services/meters';
+import datePicker from 'vue-bootstrap-datetimepicker';
 import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
 
 const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c', 'diario': '#f48c42'};
@@ -114,7 +132,8 @@ var dataColumn = {
 
 export default {
     components: {
-        VueHighcharts
+        VueHighcharts,
+        datePicker
     },
 
     props: {
@@ -126,6 +145,15 @@ export default {
 
     data() {
         return {
+            date_custom: {
+                from: null,
+                until: null
+            },
+            dateConfig: {
+                format: 'YYYY-MM-DD',
+                useCurrent: false
+            },
+            showDatePicker: false,
             ColumnOptions: dataColumn,
             plot: {
                 name: '',
@@ -134,6 +162,7 @@ export default {
             buttons: {
                 selected: 0,
                 options: [
+                    {value: -1, text: 'Calendario'},
                     {value: 0, text: 'Hoy'},
                     {value: 1, text: 'Ayer'},
                     {value: 2, text: 'Esta Semana'},
@@ -174,6 +203,13 @@ export default {
                     'Punta'
                 ]
             }
+        },
+
+        dayDifference() {
+            if (this.date_custom.until && this.date_custom.from) {
+                return moment(this.date_custom.until).diff(moment(this.date_custom.from), 'days');
+            }
+            return 0;
         }
     },
 
@@ -202,6 +238,37 @@ export default {
             }, 100);
         },
 
+        validateDates() {
+            let isValid = false;
+            let errorMessage = {};
+            if (moment(this.date_custom.until).isBefore(this.date_custom.from)) {
+                errorMessage = { title: 'Fecha incorrecta', text: 'La fecha de inicio no puede ser mayor a la final' };
+            } else if (this.dayDifference > 31) {
+                errorMessage = { title: 'Periodo muy grande', text: 'El periodo no puede exceder más de 31 días' };
+            } else if (moment().isBefore(this.date_custom.from)){
+                errorMessage = { title: 'Periodo inexistente', text: 'La fecha de inicio no puede ser mayor a la actual' };
+            } else {
+                isValid = true;
+            }
+            return {isValid, errorMessage};
+        },
+
+        setCustomDate() {
+            if (this.date_custom.from && this.date_custom.until && !this.isLoading) {
+                const {isValid, errorMessage} = this.validateDates();
+                if(isValid) {
+                    this.renderChartWithData();
+                } else {
+                    this.$notify({
+                        group: 'notification',
+                        type: 'warn',
+                        title: errorMessage.title,
+                        text: errorMessage.text
+                    });
+                }
+            }
+        },
+
         changeInterval(interval) {
             if (this.isLoading) {
                 this.$notify({
@@ -215,18 +282,7 @@ export default {
             if (interval !== null && !this.dangerAlert) {
                 this.currentMeditionInterval = interval;
 
-                let chart = this.$refs.columnCharts.getChart()
-                let columnCharts = this.$refs.columnCharts
-
-                if (!chart.renderer.forExport) {
-                    this.showLoading();
-                    columnCharts.removeSeries();
-                    if (this.currentPeriod < 2) {
-                        this.getData(this.currentPeriod, 0, chart);
-                    } else {
-                        this.getData(this.currentPeriod, interval, chart);
-                    }
-                }
+                this.renderChartWithData();
             }
         },
 
@@ -243,17 +299,31 @@ export default {
             if (period !== null && !this.dangerAlert) {
                 this.currentPeriod = period
 
-                let chart = this.$refs.columnCharts.getChart()
-                let columnCharts = this.$refs.columnCharts
+                if (period === -1) {
+                    this.showDatePicker = true;
+                    return;
+                }
+                this.date_custom = {
+                    from: null,
+                    until: null
+                }
+                this.showDatePicker = false;
 
-                if (!chart.renderer.forExport) {
-                    this.showLoading();
-                    columnCharts.removeSeries();
-                    if (this.currentPeriod < 2) {
-                        this.getData(period, 0, chart);
-                    } else {
-                        this.getData(period, this.currentMeditionInterval, chart);
-                    }
+                this.renderChartWithData();
+            }
+        },
+
+        renderChartWithData() {
+            let chart = this.$refs.columnCharts.getChart();
+            let columnCharts = this.$refs.columnCharts;
+
+            if (!chart.renderer.forExport) {
+                this.showLoading();
+                columnCharts.removeSeries();
+                if (this.currentPeriod < 2) {
+                    this.getData(this.currentPeriod, 0, chart);
+                } else {
+                    this.getData(this.currentPeriod, this.currentMeditionInterval, chart);
                 }
             }
         },
@@ -262,7 +332,7 @@ export default {
             const meter = this.meterId.split(" ");
             let meter_id = meter[0];
             let meter_device = (meter[1] === "EDS")? "":meter[1];
-            meters.getConsumptionCostsByFilter(meter_id, meter_device, filter, interval)
+            meters.getConsumptionCostsByFilter(meter_id, meter_device, filter, interval, this.date_custom)
                 .then(res => {
                     if (res) {
                         let data = [];
@@ -335,6 +405,10 @@ export default {
             let day = parseDayName(date);
             let tickInterval = 1;
             if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
+                return {res: `${day} ${date.substring(0, 2)}`, tickInterval};
+            }
+            if (this.currentPeriod === -1) {
+                tickInterval = 24;
                 return {res: `${day} ${date.substring(0, 2)}`, tickInterval};
             }
             if (this.currentPeriod < 2) {

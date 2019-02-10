@@ -354,7 +354,7 @@ export default {
 
     methods: {
         getConsumptionCost(period) {
-            meters.getConsumptionCostsByFilter(this.edsId, '', period, 86400)
+            meters.getConsumptionCostsByFilter(this.edsId, '', period, 86400, {})
                 .then(res => {
                     let cost = (res.reduce((prev, curr) => {
                         return prev + parseFloat(curr.cost);
