@@ -23,7 +23,8 @@ function getLocalStorageItem(key) {
 
 export default new Vuex.Store({
 	state: {
-		currentView: '',
+        currentView: '',
+        selectedService: 'Servicio 1',
 		isAdmin: false,
         isManager: false,
         isUser: false,

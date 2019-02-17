@@ -5,8 +5,22 @@
                 <img src="/assets/logo.png" />
             </div>
             <b-nav vertical class="w-100">
-                <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
-                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard</b-nav-item>
+                <b-nav-item v-b-toggle.serviceSelection v-bind:class="{'current-view': currentView === 'dashboard'}" @click="showCollapse = !showCollapse">
+                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
+                </b-nav-item>
+                <b-collapse
+                    id="serviceSelection"
+                    v-model="showCollapse">
+                    <b-nav-item
+                        :class="{'currentService': selectedService === 'Servicio 1'}"
+                        @click="goTo('dashboard')">
+                        Servicio 1
+                    </b-nav-item>
+                    <b-nav-item :class="{'currentService': selectedService === 'Servicio 2'}">
+                        Servicio 2
+                    </b-nav-item>
+                </b-collapse>
+
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>
@@ -99,18 +113,27 @@ export default {
     },
     data() {
         return {
-            currentView: this.$store.state.currentView,
 			toggle: false,
             meters: [],
             date: moment().format('LLL'),
             position: {
                 lat: 0,
                 lon: 0
-            }
+            },
+            showCollapse: false
         }
     },
 
     computed: {
+        currentView: {
+            get() {
+                return this.$store.state.currentView;
+            },
+            set() {}
+        },
+        selectedService() {
+            return this.$store.state.selectedService;
+        },
         isAdmin() {
             return JSON.parse(localStorage.getItem('user')).role_id === 1;
         },
@@ -134,6 +157,11 @@ export default {
     watch: {
         location: function() {
             this.position = this.location;
+        },
+        currentView: function(newVal) {
+            if (newVal !== 'dashboard') {
+                this.showCollapse = false;
+            }
         }
     },
 
