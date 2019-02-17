@@ -48,10 +48,6 @@ let meters = Object.assign({}, {
         return loopback.get('Meters/unassignedMeters');
     },
 
-    initializer(id) {
-        return loopback.post('/Meters/initializer', {id})
-    },
-
     connectedDevices(id) {
         return loopback.post('/Meters/connectedDevices', id);
     },

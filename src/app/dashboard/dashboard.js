@@ -306,6 +306,10 @@ export default {
             return JSON.parse(localStorage.getItem('user')).company_id
         },
 
+        serviceSelected() {
+            return this.$store.state.selectedService;
+        },
+
         google: gmapApi
     },
 
@@ -365,12 +369,13 @@ export default {
                         this.consumptionMonthCost = cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     }
                 })
-                .catch();
+                .catch(() => {});
         },
         refresh() {
             this.refreshingData = true;
 
             /* Promise.all([
+                designatedMeters.odometerReadings(this.companyId),
                 designatedMeters.dailyReadings(this.companyId),
                 designatedMeters.fpReadings(this.companyId),
                 designatedMeters.monthlyReadings(this.companyId),
@@ -378,7 +383,6 @@ export default {
                 designatedMeters.consumptionSummary(this.companyId)
             ])
             .then(() => {
-                console.log("All transactions completed");
                 this.getMeters();
                 this.load();
                 this.refreshingData = false;
@@ -386,6 +390,13 @@ export default {
             .catch(error => {
                 console.log(error);
                 this.refreshingData = false;
+
+                this.$notify({
+                    group: 'notification',
+                    type: 'error',
+                    title: 'Error al obtener datos de medidores',
+                    text: 'Verifica que tus medidores estén funcionando correctamente '
+                });
             }); */
             
             designatedMeters.odometerReadings(this.companyId)
@@ -460,6 +471,7 @@ export default {
             return new Promise((resolve, reject) => {
                 designatedMeters.find({
                     filter: {
+                        include: ['services'],
                         where: {
                             company_id: this.companyId
                         }
@@ -469,23 +481,17 @@ export default {
                     let metersCount = this.meters.length
                     if(metersCount > 0)
                     {
-                        /*let opacityIndex = 1 / metersCount
-                        let currentOpacity = 1
-                        this.meters.forEach(meter => {
-                            this.chartData.labels.push(meter.device_name)
-                            this.chartData.datasets[0].backgroundColor.push(`rgba(132, 185, 46, ${currentOpacity})`)
-                            currentOpacity -= opacityIndex
-                        })*/
-                        this.edsId = this.meters[0].meter_id
-                        meters.initializer(this.edsId).then((res)=> {
-                            this.$store.commit('socket/setOdometer', res.latestValues.dp.value);
-                            this.$store.commit('socket/setDistribution', res.latestValues);
-                            this.$store.commit('socket/setMonthly', res.latestValues);
-                            this.$store.commit('socket/setEpimpHistory', res.latestValues.epimp);
-                            this.$store.commit('socket/setConsumptionSummary', res.latestValues.consumption.summatory);
-                            this.$store.commit('socket/setPowerFactor', res.latestValues.fp.value);
-                            this.$store.commit('socket/setReactive', res.latestValues.reactive.value)
-                        })
+                        let currService = this.meters[0].services.filter(service => service.serviceName === this.serviceSelected)[0];
+                        this.edsId = this.meters[0].meter_id;
+
+                        this.$store.dispatch('socket/odometerReading', currService.dp);
+                        this.$store.dispatch('socket/dailyReading', currService.dailyReadings);
+                        this.$store.dispatch('socket/monthlyReading', currService.monthlyReadings);
+                        this.$store.dispatch('socket/epimpHistoryReading', currService.epimp);
+                        this.$store.dispatch('socket/consumptionSummary', currService.consumptionSummary);
+                        this.$store.dispatch('socket/powerFactor', currService.fp);
+                        this.$store.dispatch('socket/reactive', currService.reactive);
+
                         meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
                             chartSpeed.update({
                                 yAxis: {
