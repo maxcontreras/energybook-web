@@ -12,12 +12,11 @@
                     id="serviceSelection"
                     v-model="showCollapse">
                     <b-nav-item
-                        :class="{'currentService': selectedService === 'Servicio 1'}"
-                        @click="goTo('dashboard')">
-                        Servicio 1
-                    </b-nav-item>
-                    <b-nav-item :class="{'currentService': selectedService === 'Servicio 2'}">
-                        Servicio 2
+                        v-for="(service, index) in services"
+                        :key="index"
+                        :class="{'currentService': selectedService === service}"
+                        @click="changeSelectedService(service)">
+                        {{service}}
                     </b-nav-item>
                 </b-collapse>
 
@@ -120,7 +119,8 @@ export default {
                 lat: 0,
                 lon: 0
             },
-            showCollapse: false
+            showCollapse: false,
+            services: []
         }
     },
 
@@ -203,6 +203,12 @@ export default {
         goTo(route) {
             this.$router.push({name: route});
         },
+        changeSelectedService(service) {
+            if (this.selectedService !== service) {
+                this.$store.commit('setServiceSelected', service);
+                this.goTo('dashboard');
+            }
+        },
         goToMeter(meter_id) {
             this.$router.push({name: 'dashboardMeter', params: {id: meter_id}});
         },
@@ -236,10 +242,13 @@ export default {
                 filter: {
                     where: {
                         company_id: companyId
-                    }
+                    },
+                    include: ['services']
                 }
             }).then(designatedMeters => {
                 this.meters = designatedMeters;
+                this.services = this.meters[0].services.map(service => service.serviceName);
+                this.$store.commit('setServiceSelected', (this.services) ? this.services[0]: '');
             });
         }
     }

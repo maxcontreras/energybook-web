@@ -24,7 +24,7 @@ function getLocalStorageItem(key) {
 export default new Vuex.Store({
 	state: {
         currentView: '',
-        selectedService: 'Servicio 1',
+        selectedService: '',
 		isAdmin: false,
         isManager: false,
         isUser: false,
@@ -69,6 +69,9 @@ export default new Vuex.Store({
         setCurrentCompanyDetailId(state, id) {
             state.currentCompanyDetailId = id
             saveInLocalStorage('currentCompanyDetailId', id)
+        },
+        setServiceSelected(state, service) {
+            state.selectedService = service;
         }
     }
 })
