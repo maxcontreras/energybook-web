@@ -482,8 +482,8 @@ export default {
                         }
                     }
                 }).then(res => {
-                    this.meters = res
-                    let metersCount = this.meters.length
+                    this.meters = res;
+                    let metersCount = this.meters.length;
                     if(metersCount > 0 && this.serviceSelected !== '') {
                         let currService = this.meters[0].services.filter(service => service.serviceName === this.serviceSelected)[0];
                         this.edsId = this.meters[0].meter_id;

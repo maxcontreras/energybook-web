@@ -208,6 +208,7 @@ export default {
                 this.$store.commit('setServiceSelected', service);
                 this.goTo('dashboard');
             }
+            if (this.currentView !== 'dashboard' && this.services.length === 1) this.goTo('dashboard');
         },
         goToMeter(meter_id) {
             this.$router.push({name: 'dashboardMeter', params: {id: meter_id}});
