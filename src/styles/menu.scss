@@ -4,6 +4,8 @@ $light: rgba(241, 241, 241, 0.582);
 $lightgray: rgb(143, 143, 143);
 $darkgray: #485658;
 
+$egray2: #8D8D8D;
+
 .navbar {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.05), 0 0px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px -1px rgba(0, 0, 0, 0.05);
 }
@@ -132,5 +134,25 @@ $darkgray: #485658;
         color: $darkgray;
         margin: 0.375rem 0.75rem;
         font-weight: 300;
+    }
+
+    #serviceSelection {
+        background-color: $light;
+
+        .nav-item {
+            border: none;
+
+            &.currentService {
+                background-color: $egray2;
+                
+                .nav-link {
+                    color: #ffffff;
+                }
+            }
+
+            .nav-link {
+                margin: 0;
+            }
+        }
     }
 }

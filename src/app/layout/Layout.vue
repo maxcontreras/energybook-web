@@ -5,8 +5,21 @@
                 <img src="/assets/logo.png" />
             </div>
             <b-nav vertical class="w-100">
-                <b-nav-item v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
-                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard</b-nav-item>
+                <b-nav-item v-b-toggle.serviceSelection v-bind:class="{'current-view': currentView === 'dashboard'}" @click="showCollapse = !showCollapse">
+                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
+                </b-nav-item>
+                <b-collapse
+                    id="serviceSelection"
+                    v-model="showCollapse">
+                    <b-nav-item
+                        v-for="(service, index) in services"
+                        :key="index"
+                        :class="{'currentService': selectedService === service}"
+                        @click="changeSelectedService(service)">
+                        {{service}}
+                    </b-nav-item>
+                </b-collapse>
+
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>
@@ -99,18 +112,28 @@ export default {
     },
     data() {
         return {
-            currentView: this.$store.state.currentView,
 			toggle: false,
             meters: [],
             date: moment().format('LLL'),
             position: {
                 lat: 0,
                 lon: 0
-            }
+            },
+            showCollapse: false,
+            services: []
         }
     },
 
     computed: {
+        currentView: {
+            get() {
+                return this.$store.state.currentView;
+            },
+            set() {}
+        },
+        selectedService() {
+            return this.$store.state.selectedService;
+        },
         isAdmin() {
             return JSON.parse(localStorage.getItem('user')).role_id === 1;
         },
@@ -134,6 +157,11 @@ export default {
     watch: {
         location: function() {
             this.position = this.location;
+        },
+        currentView: function(newVal) {
+            if (newVal !== 'dashboard') {
+                this.showCollapse = false;
+            }
         }
     },
 
@@ -175,6 +203,13 @@ export default {
         goTo(route) {
             this.$router.push({name: route});
         },
+        changeSelectedService(service) {
+            if (this.selectedService !== service) {
+                this.$store.commit('setServiceSelected', service);
+                this.goTo('dashboard');
+            }
+            if (this.currentView !== 'dashboard' && this.services.length === 1) this.goTo('dashboard');
+        },
         goToMeter(meter_id) {
             this.$router.push({name: 'dashboardMeter', params: {id: meter_id}});
         },
@@ -208,10 +243,13 @@ export default {
                 filter: {
                     where: {
                         company_id: companyId
-                    }
+                    },
+                    include: ['services']
                 }
             }).then(designatedMeters => {
                 this.meters = designatedMeters;
+                this.services = this.meters[0].services.map(service => service.serviceName);
+                this.$store.commit('setServiceSelected', (this.services) ? this.services[0]: '');
             });
         }
     }

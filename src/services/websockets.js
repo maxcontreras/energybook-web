@@ -8,7 +8,9 @@ socket.on('open', function () {
 
     socket.on('message', function (data) {
         let jsonData = JSON.parse(data);
-        store.dispatch(`socket/${jsonData.socketEvent}`, jsonData.data)
+        if (jsonData.service && jsonData.service === store.state.selectedService) {
+            store.dispatch(`socket/${jsonData.socketEvent}`, jsonData.data);
+        }
     })
 
     socket.on('close', function (reason) { console.log("Socket closed", reason)  })

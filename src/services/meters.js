@@ -12,8 +12,8 @@ let meters = Object.assign({}, {
         return loopback.post(`/Meters/getOwnerCompany`, meter_id);
     },
 
-    getConsumptionCostsByFilter(id, device, filter, interval) {
-        return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, filter, interval});
+    getConsumptionCostsByFilter(id, device, filter, interval, custom_dates) {
+        return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, filter, interval, custom_dates});
     },
 
     getNetCodeReadings(id, device, filter, variables, interval, custom_dates) {
@@ -46,10 +46,6 @@ let meters = Object.assign({}, {
 
     unassignedMeters(){
         return loopback.get('Meters/unassignedMeters');
-    },
-
-    initializer(id) {
-        return loopback.post('/Meters/initializer', {id})
     },
 
     connectedDevices(id) {

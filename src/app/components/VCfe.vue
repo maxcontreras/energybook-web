@@ -30,7 +30,7 @@
                 id="base_price"
                 :disabled="!isEditing"
                 step="any"
-                type="number">
+                type="text">
             </b-form-input>
         </b-form-group>
         <b-form-group
@@ -41,7 +41,7 @@
                 id="middle_price"
                 :disabled="!isEditing"
                 step="any"
-                type="number">
+                type="text">
             </b-form-input>
         </b-form-group>
         <b-form-group
@@ -52,7 +52,7 @@
                 id="peak_price"
                 :disabled="!isEditing"
                 step="any"
-                type="number">
+                type="text">
             </b-form-input>
         </b-form-group>
         <b-form-group
@@ -63,7 +63,7 @@
                 id="capacity_price"
                 :disabled="!isEditing"
                 step="any"
-                type="number">
+                type="text">
             </b-form-input>
         </b-form-group>
         <b-form-group
@@ -74,7 +74,7 @@
                 id="distribution_price"
                 :disabled="!isEditing"
                 step="any"
-                type="number">
+                type="text">
             </b-form-input>
         </b-form-group>
     </b-form>
@@ -159,11 +159,11 @@ export default {
 
     methods: {
         savePrices() {
-            if (parseFloat(this.base) > 0 &&
-                parseFloat(this.middle) > 0 &&
-                parseFloat(this.peak) > 0 &&
-                parseFloat(this.capacity) > 0 &&
-                parseFloat(this.distribution) > 0) {
+            if (!isNaN(this.base) && parseFloat(this.base) > 0 &&
+                !isNaN(this.middle) && parseFloat(this.middle) > 0 &&
+                !isNaN(this.peak) && parseFloat(this.peak) > 0 &&
+                !isNaN(this.capacity) && parseFloat(this.capacity) > 0 &&
+                !isNaN(this.distribution) && parseFloat(this.distribution) > 0) {
                 let data = {
                     base: this.base,
                     middle: this.middle,
