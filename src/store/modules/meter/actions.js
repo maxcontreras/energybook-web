@@ -151,8 +151,8 @@ export function deleteMeter({commit, state}, index, meter) {
     });
 }
 
-export function getCurrentCfePeriod({commit, state}) {
-    adminValues.findByDate(state.cfeValues.currentDate)
+export function getCurrentCfePeriod({commit, state}, city) {
+    adminValues.findByDate(state.cfeValues.currentDate, city)
         .then(({cfeValue}) => {
             commit(mutation.GET_CURRENT_CFE_VALUES, Object.assign({}, cfeValue));
         })
@@ -161,10 +161,11 @@ export function getCurrentCfePeriod({commit, state}) {
         });
 }
 
-export function changeCfePeriod({commit, state}, {years, months}) {
-    let new_date = moment(state.cfeValues.date).add(years, 'Y').add(months, 'M').format();
-    adminValues.findByDate(new_date)
+export function changeCfePeriod({commit, state}, {date, city}) {
+    let new_date = moment(state.cfeValues.date).add(date.years, 'Y').add(date.months, 'M').format();
+    adminValues.findByDate(new_date, city.text)
         .then(({cfeValue}) => {
+            state.cfeValues.citySelected = city.value;
             commit(mutation.GET_CFE_VALUES, Object.assign({new_date}, cfeValue));
         })
         .catch(err => {
@@ -172,9 +173,9 @@ export function changeCfePeriod({commit, state}, {years, months}) {
         });
 }
 
-export function setCfePrices({commit, state}, payload) {
+export function setCfePrices({commit, state}, {payload, city}) {
     return new Promise((resolve, reject) => {
-        adminValues.createOrUpdatePrices(state.cfeValues.date, payload)
+        adminValues.createOrUpdatePrices(state.cfeValues.date, city, payload)
             .then(({cfeValue}) => {
                 commit(mutation.GET_CFE_VALUES, Object.assign({new_date: cfeValue.date}, cfeValue));
                 resolve();

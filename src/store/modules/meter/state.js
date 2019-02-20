@@ -7,6 +7,7 @@ const defaultState = {
     metersAssigned: [],
     cfeValues: {
         date: moment().startOf('month').format(),
+        citySelected: 0,
         prices: {
             base: constants.CFE.prices.base,
             middle: constants.CFE.prices.middle,

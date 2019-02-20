@@ -204,7 +204,7 @@ export default {
             this.$router.push({name: route});
         },
         changeSelectedService(service) {
-            if (this.selectedService !== service) {
+            if (this.currentView !== 'dashboard' || this.selectedService !== service) {
                 this.$store.commit('setServiceSelected', service);
                 this.goTo('dashboard');
             }
