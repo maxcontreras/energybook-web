@@ -59,7 +59,7 @@ export default {
     mutations: {
         setLastUpdated(state, date) {
             let saveDate = moment(date).format("HH:mm");
-            if (moment(date).isBefore(moment().format())) {
+            if (moment(date).isBefore(moment().format(), 'day')) {
                 saveDate = "hace mucho";
             }
             state.lastUpdated = saveDate;

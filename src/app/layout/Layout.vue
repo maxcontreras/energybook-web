@@ -70,34 +70,42 @@
                         :lat="(position)? position.lat: 0"
                         :lon="(position)? position.lon: 0"/>
                 </b-col>
-                <b-col md="3">
-                    {{date}}
-                </b-col>
-                <b-col md="5" class="text-right">
-                    <b-btn
-                        class="alert"
-                        variant="outline-secondary">
-                        <i class="far fa-bell"></i>
-                    </b-btn>
-                    <b-collapse
-                        is-nav
-                        id="nav_dropdown_collapse"
-                        class="menu-dropdown">
-                        <b-navbar-nav>
-                            <b-nav-item-dropdown
-                                :text="user.user.name + ' ' + user.user.lastname"
-                                right>
-                                <b-dropdown-item 
-                                    v-if="!isAccounting"
-                                    @click="goTo('profile')">
-                                    <i class="far fa-user"></i> Perfil
-                                </b-dropdown-item>
-                                <b-dropdown-item @click="logout()">
-                                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                                </b-dropdown-item>
-                            </b-nav-item-dropdown>
-                        </b-navbar-nav>
-                    </b-collapse>
+                <b-col md="8" class="text-right">
+                    <b-row>
+                        <b-col md="9">
+                            <p class="current-date">{{date}}</p>
+                        </b-col>
+                        <b-col
+                            md="1"
+                            class="text-center">
+                            <b-btn
+                                class="alert"
+                                variant="outline-secondary">
+                                <i class="far fa-bell"></i>
+                            </b-btn>
+                        </b-col>
+                        <b-col md="2">
+                            <b-collapse
+                                is-nav
+                                id="nav_dropdown_collapse"
+                                class="menu-dropdown">
+                                <b-navbar-nav>
+                                    <b-nav-item-dropdown
+                                        :text="user.user.name + ' ' + user.user.lastname"
+                                        right>
+                                        <b-dropdown-item 
+                                            v-if="!isAccounting"
+                                            @click="goTo('profile')">
+                                            <i class="far fa-user"></i> Perfil
+                                        </b-dropdown-item>
+                                        <b-dropdown-item @click="logout()">
+                                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                        </b-dropdown-item>
+                                    </b-nav-item-dropdown>
+                                </b-navbar-nav>
+                            </b-collapse>
+                        </b-col>
+                    </b-row>
                 </b-col>
                 
             </b-navbar>
