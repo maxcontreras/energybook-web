@@ -62,6 +62,7 @@ export default {
 
     beforeMount() {
         this.city = this.selectedCity;
+        this.$store.dispatch('meter/changeCfePeriod', {date: {years: 0, months: 0}, city: this.cities[this.city]});
     },
 
     data() {

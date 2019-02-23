@@ -335,7 +335,6 @@ export default {
         },
 
         serviceSelected() {
-            console.log('Service selected has changed');
             this.getMeters();
         }
     },

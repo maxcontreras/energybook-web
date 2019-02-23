@@ -5,20 +5,30 @@
                 <img src="/assets/logo.png" />
             </div>
             <b-nav vertical class="w-100">
-                <b-nav-item v-b-toggle.serviceSelection v-bind:class="{'current-view': currentView === 'dashboard'}" @click="showCollapse = !showCollapse">
+                <b-nav-item
+                    v-if="isAdmin"
+                    v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
                     <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                 </b-nav-item>
-                <b-collapse
-                    id="serviceSelection"
-                    v-model="showCollapse">
+                <div v-else>
                     <b-nav-item
-                        v-for="(service, index) in services"
-                        :key="index"
-                        :class="{'currentService': selectedService === service}"
-                        @click="changeSelectedService(service)">
-                        {{service}}
+                        v-b-toggle.serviceSelection
+                        v-bind:class="{'current-view': currentView === 'dashboard'}"
+                        @click="showCollapse = !showCollapse">
+                        <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                     </b-nav-item>
-                </b-collapse>
+                    <b-collapse
+                        id="serviceSelection"
+                        v-model="showCollapse">
+                        <b-nav-item
+                            v-for="(service, index) in services"
+                            :key="index"
+                            :class="{'currentService': selectedService === service}"
+                            @click="changeSelectedService(service)">
+                            {{service}}
+                        </b-nav-item>
+                    </b-collapse>
+                </div>
 
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
