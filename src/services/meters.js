@@ -12,20 +12,20 @@ let meters = Object.assign({}, {
         return loopback.post(`/Meters/getOwnerCompany`, meter_id);
     },
 
-    getConsumptionCostsByFilter(id, device, filter, interval, custom_dates) {
-        return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, filter, interval, custom_dates});
+    getConsumptionCostsByFilter(id, device, service, filter, interval, custom_dates) {
+        return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, service, filter, interval, custom_dates});
     },
 
     getNetCodeReadings(id, device, filter, variables, interval, custom_dates) {
         return loopback.post('Meters/getNetCodeReadings', {id, device, filter, variables, interval, custom_dates});
     },
 
-    getDpReadingsByFilter(meter_id, device, filter, custom_dates) {
-        return loopback.post('/Meters/getDpReadingsByFilter', {id: meter_id, device, filter, custom_dates});
+    getDpReadingsByFilter(meter_id, device, service, filter, custom_dates) {
+        return loopback.post('/Meters/getDpReadingsByFilter', {id: meter_id, device, service, filter, custom_dates});
     },
 
-    getEpimpReadingsByFilter(meter_id, device, filter, interval, custom_dates) {
-        return loopback.post('/Meters/getEpimpReadingsByFilter', {id: meter_id, device, filter, interval, custom_dates});
+    getEpimpReadingsByFilter(meter_id, device, service, filter, interval, custom_dates) {
+        return loopback.post('/Meters/getEpimpReadingsByFilter', {id: meter_id, device, service, filter, interval, custom_dates});
     },
 
     getDeviceInfo(id) {

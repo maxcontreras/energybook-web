@@ -343,8 +343,14 @@ export default {
         if(this.isAdmin) return;
         this.getMeters()
             .then(() => {
-                this.getConsumptionCost(Constants.Meters.filters.today);
-                this.getConsumptionCost(Constants.Meters.filters.month);
+                this.getConsumptionCost(Constants.Meters.filters.today)
+                    .then(() => {
+                        this.getConsumptionCost(Constants.Meters.filters.month);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+                
             });
     },
 
@@ -362,7 +368,8 @@ export default {
 
     methods: {
         getConsumptionCost(period) {
-            meters.getConsumptionCostsByFilter(this.edsId, '', period, 86400, {})
+            return new Promise((resolve, reject) => {
+                meters.getConsumptionCostsByFilter(this.edsId, '', this.serviceSelected, period, 86400, {})
                 .then(res => {
                     let cost = (res.reduce((prev, curr) => {
                         return prev + parseFloat(curr.cost);
@@ -372,8 +379,10 @@ export default {
                     } else if (period === Constants.Meters.filters.month) {
                         this.consumptionMonthCost = cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     }
+                    resolve();
                 })
-                .catch(() => {});
+                .catch(() => reject());
+            });
         },
         refresh() {
             this.refreshingData = true;

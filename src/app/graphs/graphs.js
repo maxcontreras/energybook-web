@@ -38,9 +38,7 @@ export default {
             ],
             metersFilter: {
                 selected: "",
-                options: [
-                    {value: "", text: 'Servicio 1'}
-                ]
+                options: []
             },
             eds: [],
             fields: ['Dispositivo', 'Total', 'Máximo', 'Mínimo'],
@@ -54,22 +52,28 @@ export default {
         getMeters() {
             designatedMeters.find({
                 filter: {
+                    include: ['services'],
                     where: { company_id: this.companyId }
                 }
             }).then(eds => {
                 if (eds.length > 0) {
                     this.eds = eds[0];
+                    if (this.eds.services) {
+                        this.eds.services.forEach(service => {
+                            this.metersFilter.options.push({
+                                value:`${this.eds.meter_id}*EDS*${service.serviceName}`,
+                                text: service.serviceName
+                            });
+                        });
+                    }
                     meters.connectedDevices({
                         id: this.eds.id
                     }).then(devices => {
                         devices.forEach((device, index) => {
                             // Ignore first device. EDS
-                            if (index === 0) {
-                                this.metersFilter.options[0].value = `${this.eds.meter_id} EDS`;
-                                return;
-                            }
+                            if (index === 0) return;
                             this.metersFilter.options.push({
-                                value:`${this.eds.meter_id} ${device.name}`,
+                                value:`${this.eds.meter_id}*${device.name}`,
                                 text: device.description
                             });
                         });
