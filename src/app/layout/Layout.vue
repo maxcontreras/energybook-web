@@ -271,6 +271,7 @@ export default {
                 this.meters = designatedMeters;
                 this.services = this.meters[0].services.map(service => service.serviceName);
                 this.$store.commit('setServiceSelected', (this.services) ? this.services[0]: '');
+                this.$store.commit('setUserServices', this.services);
             });
         }
     }

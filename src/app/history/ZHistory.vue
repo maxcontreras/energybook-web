@@ -11,6 +11,9 @@
                     <b-col cols="12">
                         <b-row>
                             <b-col cols="12">
+                                <div class="service-selector text-center">
+                                   <b-form-select v-model="service" :options="services"/>
+                                </div>
                                 <div class="date-selector text-center">
                                     <span @click="changePeriod(-1, 0)">
                                         <i class="fas fa-arrow-alt-circle-left"></i>
@@ -46,9 +49,81 @@
                         </b-row>
                     </b-col>
                     <b-col cols="12">
-                        <div class="loading-spinner text-center">
+                        <!-- <div class="loading-spinner text-center">
                             <img src="/assets/images/loading.svg" alt="loading">
-                        </div>
+                        </div> -->
+                        <b-row class="monthly-readings">
+                            <b-col>
+                                <div class="analysis-item--cat">
+                                    <div class="icon-container">
+                                        <img class="dashboard-image" src="/assets/images/consumption.png"/>
+                                    </div>
+                                    <div class="data-container">
+                                        <p>Consumo</p>
+                                        <b-row>
+                                            <b-col>
+                                                <h5></h5>
+                                                <span>kWh</span>
+                                            </b-col>
+                                            <b-col>
+                                                <span>$</span>
+                                                <h5></h5>
+                                            </b-col>
+                                        </b-row>
+                                    </div>
+                                </div>
+                                <div class="analysis-item--cat">
+                                    <div class="icon-container">
+                                        <img class="dashboard-image" src="/assets/images/distribution.png"/>
+                                    </div>
+                                    <div class="data-container">
+                                        <p>Distribución</p>
+                                        <b-row>
+                                            <b-col>
+                                                <h5></h5>
+                                                <span>kW</span>
+                                            </b-col>
+                                            <b-col>
+                                                <span>$</span>
+                                                <h5></h5>
+                                            </b-col>
+                                        </b-row>
+                                    </div>
+                                </div>
+                                <div class="analysis-item--cat">
+                                    <div class="icon-container">
+                                        <img class="dashboard-image" src="/assets/images/capacity.png"/>
+                                    </div>
+                                    <div class="data-container">
+                                        <p>Capacidad</p>
+                                        <b-row>
+                                            <b-col>
+                                                <h5></h5>
+                                                <span>kW</span>
+                                            </b-col>
+                                            <b-col>
+                                                <span>$</span>
+                                                <h5></h5>
+                                            </b-col>
+                                        </b-row>
+                                    </div>
+                                </div>
+                                <div class="analysis-item--cat">
+                                    <div class="icon-container">
+                                        <img class="dashboard-image" src="/assets/images/fp.png"/>
+                                    </div>
+                                    <div class="data-container">
+                                        <p>F.P</p>
+                                        <b-row>
+                                            <b-col cols="6">
+                                                <h5></h5>
+                                                <span>%</span>
+                                            </b-col>
+                                        </b-row>
+                                    </div>
+                                </div>
+                            </b-col>
+                        </b-row>
                     </b-col>
                 </b-row>
             </b-card>
@@ -61,7 +136,8 @@
 export default {
     data() {
         return {
-            date: moment().startOf('month').subtract(1, 'month').format()
+            date: moment().startOf('month').subtract(1, 'month').format(),
+            service: 0
         };
     },
     computed: {
@@ -77,6 +153,9 @@ export default {
                 return moment(this.date).format('YYYY');
             },
             set() {}
+        },
+        services() {
+            return this.$store.state.services.map((service, index) => ({value: index, text: service}));
         }
     },
     watch: {
@@ -99,6 +178,21 @@ export default {
 $darkgray: #485658;
 
 #readings-history {
+
+    .monthly-readings {
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+
+        .analysis-item--cat {
+            width: 40%;
+            margin: 0 auto;
+
+            .data-container {
+                width: 65%;
+            }
+        }
+    }
+
     .card-header {
         h5 {
             font-size: 1.1rem;
@@ -114,7 +208,7 @@ $darkgray: #485658;
         margin: 0;
     }
     .card-body {
-        .city-selector {
+        .service-selector {
             .form-control {
                 width: 13%;
                 background-color: #e9ecef;

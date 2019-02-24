@@ -6,6 +6,8 @@ import user from './modules/user.js'
 import socket from './modules/socket'
 import meter from './modules/meter'
 
+import _l from 'lodash';
+
 Vue.use(Vuex)
 
 function saveInLocalStorage(key, value) {
@@ -24,6 +26,7 @@ function getLocalStorageItem(key) {
 export default new Vuex.Store({
 	state: {
         currentView: '',
+        services: [],
         selectedService: '',
 		isAdmin: false,
         isManager: false,
@@ -72,6 +75,9 @@ export default new Vuex.Store({
         },
         setServiceSelected(state, service) {
             state.selectedService = service;
+        },
+        setUserServices(state, services) {
+            state.services = _l.cloneDeep(services);
         }
     }
 })
