@@ -39,17 +39,20 @@
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'cfeValues'}" @click="goTo('cfeValues')">
                     <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> CFE
                 </b-nav-item>
+                <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')">
+                    <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
+                </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'userCosts'}" @click="goTo('userCosts')">
                     <div class="menu-icon-container"><i class="fas fa-coins"></i></div> Costos
                 </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'netCode'}" @click="goTo('netCode')">
                     <div class="menu-icon-container"><i class="fas fa-gavel"></i></div> Código de red
                 </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'history'}" @click="goTo('history')">
+                    <div class="menu-icon-container"><i class="fas fa-history"></i></div> Historial
+                </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'carbonFootprint'}" @click="goTo('carbonFootprint')">
                     <div class="menu-icon-container"><i class="fas fa-shoe-prints"></i></div> Huella de carbono
-                </b-nav-item>
-                <b-nav-item v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')" v-if="!isAdmin">
-                    <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
                 </b-nav-item>
                 <b-nav-item v-if="isManager" v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')">
                    <div class="menu-icon-container"> <i class="fas fa-dollar-sign"></i></div> Facturación
