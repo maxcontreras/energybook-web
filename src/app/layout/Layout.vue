@@ -5,20 +5,30 @@
                 <img src="/assets/logo.png" />
             </div>
             <b-nav vertical class="w-100">
-                <b-nav-item v-b-toggle.serviceSelection v-bind:class="{'current-view': currentView === 'dashboard'}" @click="showCollapse = !showCollapse">
+                <b-nav-item
+                    v-if="isAdmin"
+                    v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
                     <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                 </b-nav-item>
-                <b-collapse
-                    id="serviceSelection"
-                    v-model="showCollapse">
+                <div v-else>
                     <b-nav-item
-                        v-for="(service, index) in services"
-                        :key="index"
-                        :class="{'currentService': selectedService === service}"
-                        @click="changeSelectedService(service)">
-                        {{service}}
+                        v-b-toggle.serviceSelection
+                        v-bind:class="{'current-view': currentView === 'dashboard'}"
+                        @click="showCollapse = !showCollapse">
+                        <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                     </b-nav-item>
-                </b-collapse>
+                    <b-collapse
+                        id="serviceSelection"
+                        v-model="showCollapse">
+                        <b-nav-item
+                            v-for="(service, index) in services"
+                            :key="index"
+                            :class="{'currentService': selectedService === service}"
+                            @click="changeSelectedService(service)">
+                            {{service}}
+                        </b-nav-item>
+                    </b-collapse>
+                </div>
 
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
@@ -29,17 +39,20 @@
                 <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'cfeValues'}" @click="goTo('cfeValues')">
                     <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> CFE
                 </b-nav-item>
+                <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')">
+                    <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
+                </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'userCosts'}" @click="goTo('userCosts')">
                     <div class="menu-icon-container"><i class="fas fa-coins"></i></div> Costos
                 </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'netCode'}" @click="goTo('netCode')">
                     <div class="menu-icon-container"><i class="fas fa-gavel"></i></div> Código de red
                 </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'history'}" @click="goTo('history')">
+                    <div class="menu-icon-container"><i class="fas fa-history"></i></div> Historial
+                </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'carbonFootprint'}" @click="goTo('carbonFootprint')">
                     <div class="menu-icon-container"><i class="fas fa-shoe-prints"></i></div> Huella de carbono
-                </b-nav-item>
-                <b-nav-item v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')" v-if="!isAdmin">
-                    <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
                 </b-nav-item>
                 <b-nav-item v-if="isManager" v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')">
                    <div class="menu-icon-container"> <i class="fas fa-dollar-sign"></i></div> Facturación
@@ -60,34 +73,42 @@
                         :lat="(position)? position.lat: 0"
                         :lon="(position)? position.lon: 0"/>
                 </b-col>
-                <b-col md="3">
-                    {{date}}
-                </b-col>
-                <b-col md="5" class="text-right">
-                    <b-btn
-                        class="alert"
-                        variant="outline-secondary">
-                        <i class="far fa-bell"></i>
-                    </b-btn>
-                    <b-collapse
-                        is-nav
-                        id="nav_dropdown_collapse"
-                        class="menu-dropdown">
-                        <b-navbar-nav>
-                            <b-nav-item-dropdown
-                                :text="user.user.name + ' ' + user.user.lastname"
-                                right>
-                                <b-dropdown-item 
-                                    v-if="!isAccounting"
-                                    @click="goTo('profile')">
-                                    <i class="far fa-user"></i> Perfil
-                                </b-dropdown-item>
-                                <b-dropdown-item @click="logout()">
-                                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                                </b-dropdown-item>
-                            </b-nav-item-dropdown>
-                        </b-navbar-nav>
-                    </b-collapse>
+                <b-col md="8" class="text-right">
+                    <b-row>
+                        <b-col md="9">
+                            <p class="current-date">{{date}}</p>
+                        </b-col>
+                        <b-col
+                            md="1"
+                            class="text-center">
+                            <b-btn
+                                class="alert"
+                                variant="outline-secondary">
+                                <i class="far fa-bell"></i>
+                            </b-btn>
+                        </b-col>
+                        <b-col md="2">
+                            <b-collapse
+                                is-nav
+                                id="nav_dropdown_collapse"
+                                class="menu-dropdown">
+                                <b-navbar-nav>
+                                    <b-nav-item-dropdown
+                                        :text="user.user.name + ' ' + user.user.lastname"
+                                        right>
+                                        <b-dropdown-item 
+                                            v-if="!isAccounting"
+                                            @click="goTo('profile')">
+                                            <i class="far fa-user"></i> Perfil
+                                        </b-dropdown-item>
+                                        <b-dropdown-item @click="logout()">
+                                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                        </b-dropdown-item>
+                                    </b-nav-item-dropdown>
+                                </b-navbar-nav>
+                            </b-collapse>
+                        </b-col>
+                    </b-row>
                 </b-col>
                 
             </b-navbar>
@@ -204,7 +225,7 @@ export default {
             this.$router.push({name: route});
         },
         changeSelectedService(service) {
-            if (this.selectedService !== service) {
+            if (this.currentView !== 'dashboard' || this.selectedService !== service) {
                 this.$store.commit('setServiceSelected', service);
                 this.goTo('dashboard');
             }
@@ -250,6 +271,7 @@ export default {
                 this.meters = designatedMeters;
                 this.services = this.meters[0].services.map(service => service.serviceName);
                 this.$store.commit('setServiceSelected', (this.services) ? this.services[0]: '');
+                this.$store.commit('setUserServices', this.services);
             });
         }
     }

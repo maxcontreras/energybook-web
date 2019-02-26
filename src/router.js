@@ -8,6 +8,7 @@ import Dashboard from '@/app/dashboard/Dashboard.vue';
 import Layout from '@/app/layout/Layout.vue';
 import Companies from '@/app/companies/Companies.vue';
 import Costs from '@/app/costs/Costs.vue';
+import History from '@/app/history/ZHistory.vue';
 import NetCode from '@/app/netCode/NetCode.vue';
 import CarbonFootprint from '@/app/carbonFootprint/CarbonFootprint.vue';
 import Generation from '@/app/generation/Generation.vue';
@@ -106,6 +107,14 @@ const router = new VueRouter({
                     name: 'payments',
                     components: {
                         default: Payments
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/historial',
+                    name: 'history',
+                    components: {
+                        default: History
                     },
                     meta: { requiresAuth: true }
                 },

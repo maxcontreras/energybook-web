@@ -329,10 +329,11 @@ export default {
         },
 
         getData(filter, interval, chart) {
-            const meter = this.meterId.split(" ");
+            const meter = this.meterId.split("*");
             let meter_id = meter[0];
-            let meter_device = (meter[1] === "EDS")? "":meter[1];
-            meters.getConsumptionCostsByFilter(meter_id, meter_device, filter, interval, this.date_custom)
+            let meter_device = (meter[1] === "EDS")? '':meter[1];
+            let service = (meter[1] === "EDS")? meter[2]: '';
+            meters.getConsumptionCostsByFilter(meter_id, meter_device, service, filter, interval, this.date_custom)
                 .then(res => {
                     if (res) {
                         let data = [];

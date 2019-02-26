@@ -8,12 +8,12 @@ let adminValue = Object.assign({}, {
 
     relation: '',
 
-    findByDate(ISOdate) {
-        return loopback.post('/AdminValues/findByDate', {date: ISOdate});
+    findByDate(ISOdate, city) {
+        return loopback.post('/AdminValues/findByDate', {date: ISOdate, city});
     },
 
-    createOrUpdatePrices(date, payload) {
-        return loopback.post('/AdminValues/createOrUpdatePrices', {date, payload});
+    createOrUpdatePrices(date, city, payload) {
+        return loopback.post('/AdminValues/createOrUpdatePrices', {date, city, payload});
     }
 
 }, modelObject);

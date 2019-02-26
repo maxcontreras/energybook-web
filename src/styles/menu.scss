@@ -19,6 +19,11 @@ $egray2: #8D8D8D;
     background-color: #fcfcfc !important;
     position: relative;
 
+    p.current-date {
+        margin-top: .5rem;
+        margin-bottom: 0;
+    }
+
     .alert {
         margin-bottom: 0;
         font-size: 18px;
@@ -28,7 +33,7 @@ $egray2: #8D8D8D;
         &:hover {
             background-color: $egreen;
             color: #ffffff;
-            border: none;
+            border-color: #ffffff;
         }
 
         &:focus {
@@ -37,8 +42,9 @@ $egray2: #8D8D8D;
     }
 
     .menu-dropdown {
-        width: 30%;
-        display: inline-block !important;
+
+        display: block !important;
+        text-align: right;
 
         .b-nav-dropdown {
             width: 100%;

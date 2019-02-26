@@ -3,7 +3,7 @@
         <b-row
             id="dashboard"
             class="main user-dashboard"
-            v-show="!isAdmin">
+            v-if="!isAdmin">
             <b-col>
                 <b-row class="dashboard-content-user">
                     <b-col>
@@ -282,7 +282,7 @@
                 </b-row>
             </b-col>
         </b-row>
-        <DashboardAdmin v-if="isAdmin"/>
+        <DashboardAdmin v-else/>
     </div>
 
 </template>

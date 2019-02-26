@@ -37,7 +37,7 @@ export default {
             commit('setOdometer', data);
         },
         dailyReading({commit}, data) {
-            commit('setLastUpdated', data.lastUpdated);
+            commit('setLastUpdated', (data.lastUpdated) ? data.lastUpdated: moment().subtract(1, "day").format());
             commit('setDaily', data);
         },
         monthlyReading({commit}, data) {
@@ -58,30 +58,46 @@ export default {
     },
     mutations: {
         setLastUpdated(state, date) {
-            state.lastUpdated = moment(date).format("HH:mm");
-            saveInLocalStorage('lUpdated', moment().format("HH:mm"));
+            let saveDate = moment(date).format("HH:mm");
+            if (moment(date).isBefore(moment().format(), 'day')) {
+                saveDate = "hace mucho";
+            }
+            state.lastUpdated = saveDate;
+            saveInLocalStorage('lUpdated', saveDate);
         },
         setDaily(state, data) {
-            state.distribution = data.distribution;
-            saveInLocalStorage('distribution', data.distribution);
-            state.distributionCharge = data.chargeDistribution;
-            saveInLocalStorage('distributionCharge', data.chargeDistribution);
-            state.consumption = data.consumption;
-            saveInLocalStorage('consumption', data.consumption);
-            state.capacity = data.capacity;
-            saveInLocalStorage('capacity', data.capacity);
+            const distribution = (data.distribution) ? data.distribution : 0;
+            state.distribution = distribution;
+            saveInLocalStorage('distribution', distribution);
+
+            const chargeDistribution = (data.chargeDistribution) ? data.chargeDistribution : 0;
+            state.distributionCharge = chargeDistribution;
+            saveInLocalStorage('distributionCharge', chargeDistribution);
+
+            const consumption = (data.consumption) ? data.consumption: 0;
+            state.consumption = consumption;
+            saveInLocalStorage('consumption', consumption);
+
+            const capacity = (data.capacity) ? data.capacity : 0;
+            state.capacity = capacity;
+            saveInLocalStorage('capacity', capacity);
         },
         setOdometer(state, value) {
             state.odometer = parseFloat(value);
             saveInLocalStorage('odometer', value);
         },
         setMonthly(state, data) {
-            state.distributionMonth = parseFloat(data.distribution);
-            saveInLocalStorage('distributionMonth', data.distribution);
-            state.consumptionMonth = parseFloat(data.consumption);
-            saveInLocalStorage('consumptionMonth', data.consumption);
-            state.capacityMonth = parseFloat(data.capacity);
-            saveInLocalStorage('capacityMonth', data.capacity);
+            const distribution = (data.distribution) ? data.distribution : 0;
+            state.distributionMonth = parseFloat(distribution);
+            saveInLocalStorage('distributionMonth', distribution);
+
+            const consumption = (data.consumption) ? data.consumption: 0;
+            state.consumptionMonth = parseFloat(consumption);
+            saveInLocalStorage('consumptionMonth', consumption);
+
+            const capacity = (data.capacity) ? data.capacity : 0;
+            state.capacityMonth = parseFloat(capacity);
+            saveInLocalStorage('capacityMonth', capacity);
         },
         setEpimpHistory(state, value) {
             state.epimpHistory = value;

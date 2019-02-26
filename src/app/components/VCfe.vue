@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import constants from '@/constants.json';
+
 export default {
     props: {
         allowEditing: {
@@ -108,11 +110,6 @@ export default {
     },
 
     beforeMount() {
-        if (this.forceCurrentMonth) {
-            this.$store.dispatch('meter/getCurrentCfePeriod');
-        } else {
-            this.$store.dispatch('meter/changeCfePeriod', {years: 0, months: 0});
-        }
         this.resetPrices();
     },
 
@@ -136,6 +133,18 @@ export default {
         distributionPrice() {
             let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
             return this.$store.state.meter.cfeValues[priceType].distribution;
+        },
+        userCompany() {
+            return this.$store.getters['user/getUserCompany'];
+        },
+        isAdmin() {
+            return JSON.parse(localStorage.getItem('user')).role_id === 1;
+        },
+        cities() {
+            return constants.Cities;
+        },
+        selectedCity() {
+            return this.$store.state.meter.cfeValues.citySelected;
         }
     },
 
@@ -154,6 +163,14 @@ export default {
         },
         distributionPrice(newValue) {
             this.distribution = newValue;
+        },
+        userCompany(company) {
+            if (this.forceCurrentMonth) {
+                this.$store.dispatch('meter/getCurrentCfePeriod', company.city);
+            } else {
+                this.$store.dispatch('meter/changeCfePeriod', {date: {years: 0, months: 0}, city: company.city});
+            }
+            this.resetPrices();
         }
     },
 
@@ -164,14 +181,20 @@ export default {
                 !isNaN(this.peak) && parseFloat(this.peak) > 0 &&
                 !isNaN(this.capacity) && parseFloat(this.capacity) > 0 &&
                 !isNaN(this.distribution) && parseFloat(this.distribution) > 0) {
-                let data = {
+                let payload = {
                     base: this.base,
                     middle: this.middle,
                     peak: this.peak,
                     capacity: this.capacity,
                     distribution: this.distribution
                 }
-                this.$store.dispatch('meter/setCfePrices', data)
+                let city = '';
+                if (this.isAdmin) {
+                    city = this.cities[this.selectedCity];
+                } else {
+                    city = this.userCompany.city;
+                }
+                this.$store.dispatch('meter/setCfePrices', {city, payload})
                     .then(() => {
                         this.$notify({
                             group: 'notification',

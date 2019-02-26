@@ -78,5 +78,11 @@
             "capacity": 0,
             "distribution": 0
         }
-    }
+    },
+    "Cities": [
+        "Zamora Michoacán",
+        "Jaconá Michoacán",
+        "Purepero Michoacán",
+        "Ciudad Guzmán"
+    ]
 }

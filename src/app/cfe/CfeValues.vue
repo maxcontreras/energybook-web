@@ -11,6 +11,9 @@
                     <b-col>
                         <b-row>
                             <b-col cols="12">
+                                <div class="city-selector text-center">
+                                   <b-form-select v-model="city" :options="cities"/>
+                                </div>
                                 <div class="date-selector text-center">
                                     <span @click="changePeriod(1, -1)"><i class="fas fa-arrow-alt-circle-left"></i></span>
                                     <b-form-input
@@ -34,6 +37,7 @@
                                 cols="12"
                                 class="prices">
                                 <v-cfe
+                                    ref="cfeValues"
                                     :fullWidth="false"
                                     :forceCurrentMonth="false"/>
                             </b-col>
@@ -47,6 +51,7 @@
 
 <script>
 import moment from 'moment';
+import constants from '@/constants.json';
 import VCfe from '@/app/components/VCfe';
 import _l from 'lodash';
 
@@ -55,9 +60,14 @@ export default {
         VCfe
     },
 
+    beforeMount() {
+        this.city = this.selectedCity;
+        this.$store.dispatch('meter/changeCfePeriod', {date: {years: 0, months: 0}, city: this.cities[this.city]});
+    },
+
     data() {
         return {
-            
+            city: 0
         }
     },
 
@@ -77,16 +87,34 @@ export default {
             },
 
             set() {}
+        },
+
+        selectedCity() {
+            return this.$store.state.meter.cfeValues.citySelected;
+        },
+
+        userCompany() {
+            return this.$store.getters['user/getUserCompany'];
+        },
+
+        cities() {
+            return constants.Cities.map((city, index) => ({value: index, text: city}));
+        }
+    },
+
+    watch: {
+        city(newCity) {
+            this.$store.dispatch('meter/changeCfePeriod', {date: {years: 0, months: 0}, city: this.cities[newCity]});
         }
     },
 
     methods: {
         changePeriod(type, quantity) {
-            if (!this.isEditing) {
+            if (!this.$refs.cfeValues.isEditing) {
                 if (type === 0) {   // Year
-                    this.$store.dispatch('meter/changeCfePeriod', {years: quantity, months: 0});
+                    this.$store.dispatch('meter/changeCfePeriod', {date: {years: quantity, months: 0}, city: this.cities[this.city]});
                 } else if (type === 1) {   // Month
-                    this.$store.dispatch('meter/changeCfePeriod', {years: 0, months: quantity});
+                    this.$store.dispatch('meter/changeCfePeriod', {date: {years: 0, months: quantity}, city: this.cities[this.city]});
                 }
             }
         }
@@ -114,6 +142,12 @@ $darkgray: #485658;
     }
 
     .card-body {
+        .city-selector {
+            .form-control {
+                width: 13%;
+                background-color: #e9ecef;
+            }
+        }
         .date-selector {
             margin-top: 2rem;
             margin-bottom: 1rem;

@@ -394,14 +394,15 @@ export default {
 
         getData(filter, type, meter, chart, interval, custom_dates = {}) {
             // TODO: Receive meter id, filter and device name & send it to the API
-            meter = meter.split(" ");
+            meter = meter.split("*");
             let meter_id = meter[0];
-            let meter_device = (meter[1] === "EDS")? "":meter[1];
+            let meter_device = (meter[1] === "EDS")? '':meter[1];
+            let service = (meter[1] === "EDS")? meter[2]: '';
             if (type === "epimp") {
                 if (this.currentPeriod > 3) {
                     interval = -1;
                 }
-                meters.getEpimpReadingsByFilter(meter_id, meter_device, filter, interval, custom_dates).then(res => {
+                meters.getEpimpReadingsByFilter(meter_id, meter_device, service, filter, interval, custom_dates).then(res => {
                     if(res){
                         let xAxis = [];
                         let parse = false;
@@ -424,7 +425,7 @@ export default {
                     this.load()
                 });
             } else if (type === "dp") {
-                meters.getDpReadingsByFilter(meter_id, meter_device, filter, custom_dates).then(res => {
+                meters.getDpReadingsByFilter(meter_id, meter_device, service, filter, custom_dates).then(res => {
                     if(res){
                         let xAxis = [];
                         let parse = false;
