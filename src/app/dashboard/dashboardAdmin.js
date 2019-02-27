@@ -10,20 +10,24 @@ export default {
     },
 
     computed: {
-        // TODO Delete this code
-        // currentFormattedDate() {
-        //     return moment(this.currentDate).format('dddd, MMMM Do YYYY');
-        // },
         google: gmapApi
     },
 
     watch: {
-        companies: function(newValue, oldValue) {
+        companies(newValue, oldValue) {
             if (newValue.length !== oldValue) {
-                newValue.forEach(company => {
+                newValue.forEach((company, index) => {
+                    if (company.location && this.google) {
+                        this.setMarkers(company.location, index);
+                    }
+                });
+            }
+        },
+        google(newVal) {
+            if (newVal) {
+                this.companies.forEach((company, index) => {
                     if (company.location) {
-                        console.log('success', company);
-                        // this.getPosition(company.location);
+                        this.setMarkers(company.location, index);
                     }
                 });
             }
@@ -34,16 +38,17 @@ export default {
         companies.find({}).then(res => {
             let companiesArr = res;
             this.companies = res;
-            console.log(res)
-            companiesArr.forEach(company => {
+            companiesArr.forEach((company, index) => {
                 this.items.push({
                     'Nombre': company.company_name,
                     'Fecha de Registro': moment(company.created_at).format('LL')
                 });
-                // this.getPosition(company.location);
+                if (company.location && this.google) {
+                    this.setMarkers(company.location, index);
+                }
             });
         }).catch(err => {
-            console.log('error al traer compañias', err)
+            console.log('error al traer compañias', err);
         });
     },
 
@@ -55,23 +60,53 @@ export default {
                 {key: 'Nombre', sortable: true},
                 'Fecha de Registro'
             ],
-            markers: []
+            markers: [],
+            infoWinOpen: false,
+            infoWindowPos: {
+                lat: 0,
+                lng: 0
+            },
+            infoOptions: {
+                pixelOffset: {
+                    width: 0,
+                    height: -35
+                }
+            },
+            infoContent: "",
+            currMarkerIdx: null
         };
     },
 
     methods: {
-        // FIXME Geocoder its not supported by vue module
-        // TODO Verify if we can instantiate geocoder from maps (?)
-        getPosition(location) {
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({"address": location}, results => {
-                console.log(results)
-                let latlng = results[0].geometry.location;
-                this.markers.push({
-                    lat: latlng.lat(),
-                    lng: latlng.lng()
-                });
+        setMarkers(location, index) {
+            this.markers.push({
+                companyIndex: index,
+                position: {
+                    lat: location.lat,
+                    lng: location.lon
+                },
+                icon: {
+                    size: new this.google.maps.Size(40,80),
+                    scaledSize: new this.google.maps.Size(40,80),
+                    url: '/assets/images/marker.svg'
+                }
             });
+        },
+        showInfo(marker, index) {
+            if (index !== this.currMarkerIdx) {
+                this.currMarkerIdx = index;
+                this.infoWinOpen = true;
+                this.infoWindowPos = marker.position;
+                this.infoContent = `<html>
+                    <body>
+                        <h5>${this.companies[marker.companyIndex].company_name}</h5>
+                    </body>
+                </html>`
+            } else {
+                this.infoWinOpen = false;
+                this.currMarkerIdx = null;
+            }
+            
         }
     }
 };
