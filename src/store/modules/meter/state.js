@@ -3,7 +3,6 @@ import constants from '@/constants.json';
 import moment from 'moment';
 
 const defaultState = {
-    meters: [],
     metersAssigned: [],
     cfeValues: {
         date: moment().startOf('month').format(),
