@@ -211,10 +211,45 @@
                             <b-tab
                                 title="Usuarios"
                                 v-if="isCompanyProfile">
+                                <confirmation-dialog
+                                    title="Agregar nuevo usuario"
+                                    :show="showCreateUserModal"
+                                    @cancel="hideUserModal"
+                                    @hidden="hideUserModal"
+                                    @accept="addNewUser">
+                                    <b-form-group
+                                        label="Nombre"
+                                        label-for="userName">
+                                        <b-form-input type="text" id="userName" v-model="newUser.name"/>
+                                    </b-form-group>
+                                    <b-form-group
+                                        label="Apellido"
+                                        label-for="userLastname">
+                                        <b-form-input type="text" id="userLastname" v-model="newUser.lastname"/>
+                                    </b-form-group>
+                                    <b-form-group
+                                        label="Correo"
+                                        label-for="userEmail">
+                                        <b-form-input type="email" id="userEmail" v-model="newUser.email"/>
+                                    </b-form-group>
+                                    <b-form-group
+                                        label="Password"
+                                        label-for="userPassword">
+                                        <b-form-input type="text" id="userPassword" v-model="newUser.password"/>
+                                    </b-form-group>
+                                </confirmation-dialog>
+                                <div class="text-right mb-5 mt-2">
+                                    <b-button
+                                        variant="success"
+                                        @click="showUserModal">
+                                        Agregar usuario
+                                    </b-button>
+                                </div>
                                 <v-table
                                     :items="items.users"
                                     :fields="fields.users"
-                                    @reset-password="resetUserPassowrd"/>
+                                    @reset-password="resetUserPassowrd"
+                                    @delete="deleteUser"/>
                             </b-tab>
                             <b-tab
                                 title="Medidores"
