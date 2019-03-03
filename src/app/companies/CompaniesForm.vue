@@ -23,18 +23,37 @@
                 </b-form-group>
                 <b-form-group>
                     <b-form-input
-                        type="text"
+                        type="number"
                         v-model="company.phone"
                         required
                         placeholder="Teléfono">
                     </b-form-input>
                 </b-form-group>
+                <b-form-group label="Ciudad">
+                    <b-form-select v-model="company.city" :options="cities"/>
+                </b-form-group>
+                <b-form-group label="coordenadas">
+                    <b-form-input
+                        class="company-position"
+                        type="text"
+                        v-model="company.location.lat"
+                        required
+                        placeholder="Latitud">
+                    </b-form-input>
+                    <b-form-input
+                        class="company-position"
+                        type="text"
+                        v-model="company.location.lon"
+                        required
+                        placeholder="Longitud">
+                    </b-form-input>
+                </b-form-group>
                 <b-form-group>
                     <b-form-input
                         type="text"
-                        v-model="company.businessLine"
+                        v-model="company.address"
                         required
-                        placeholder="Giro">
+                        placeholder="Dirección">
                     </b-form-input>
                 </b-form-group>
             </b-col>
@@ -133,6 +152,10 @@ export default {
         manager: {
             type: Object,
             required: true
+        },
+        cities: {
+            type: Array,
+            required: true
         }
     },
     data() {
@@ -140,3 +163,10 @@ export default {
     }
 }
 </script>
+
+<style scss>
+.company-position {
+    width: 49% !important;
+    display: inline-block !important;
+}
+</style>

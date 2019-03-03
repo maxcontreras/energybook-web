@@ -26,6 +26,7 @@
             <companies-form
                 :formSubmit="createCompany"
                 :company="newCompany"
+                :cities="cities"
                 :availableUser="toggle.newUser"
                 :user="newUser"
                 :availableManager="toggle.newManager"
