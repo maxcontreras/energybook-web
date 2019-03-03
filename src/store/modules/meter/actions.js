@@ -6,6 +6,7 @@ import adminValues from '@/services/adminValues';
 import companies from '@/services/companies'
 import * as mutation from './mutations-types';
 import moment from 'moment';
+import _l from 'lodash';
 
 export function loadUnassignedMeters({commit}, userId) {
     return new Promise((resolve, reject) => {
@@ -27,12 +28,10 @@ export function loadUnassignedMeters({commit}, userId) {
     });
 }
 
-export function loadAssignedMeters({commit, dispatch}, isAdmin = false) {
+export function loadAssignedMeters({commit}, isAdmin = false) {
     return new Promise((resolve, reject) => {
         let filter = {
-            filter: {
-                include: ['meter','company']
-            }
+            include: ['meter','company']
         }
         if(!isAdmin) {
             filter.where = {
@@ -42,31 +41,16 @@ export function loadAssignedMeters({commit, dispatch}, isAdmin = false) {
         designatedMeters.find({filter})
             .then(meters => {
                 commit(mutation.DELETE_ALL_ASSIGNED);
+                console.log(meters)
                 meters.forEach(meter => {
-                    dispatch('getOwnerCompany', meter.meter_id)
-                        .then(company => {
-                            meter.company_name = company.company.name;
-                            meter.serial_number = company.company.meter_serial_number;
-                            meter.status = company.company.meter_status ? true : false;
-                            commit(mutation.ADD_ASSIGNED, meter);
-                        })
-                        .catch(err => {
-                            reject(err);
-                        })
+                    meter.company_name = meter.company.company_name;
+                    meter.serial_number = meter.meter.serial_number;
+                    meter.status = meter.company.status ? true : false;
+                    delete meter.company;
+                    delete meter.meter;
+                    commit(mutation.ADD_ASSIGNED, meter);
                 });
                 resolve(meters);
-            })
-            .catch(err => {
-                reject(err);
-            });
-    });
-}
-
-export function getOwnerCompany({}, meterId = '') {
-    return new Promise((resolve, reject) => {
-        meters.getOwnerCompany({meter_id: meterId})
-            .then(company => {
-                resolve(company);
             })
             .catch(err => {
                 reject(err);

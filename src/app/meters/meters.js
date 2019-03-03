@@ -64,10 +64,10 @@ export default {
             // TODO check this computed propertie
             return this.$store.state.company_id
         },
-        meters: function() {
+        meters() {
             return this.$store.getters['meter/getMeters'];
         },
-        metersFormatted: function() {
+        metersFormatted() {
             return this.meters.map(meter => {
                 let f_meter = {
                     'No. de Serie': meter.serial_number,
@@ -78,10 +78,10 @@ export default {
                 return f_meter;
             });
         },
-        metersAssigned: function() {
+        metersAssigned() {
             return this.$store.getters['meter/getAssignatedMeters'];
         },
-        metersAssignedFormatted: function() {
+        metersAssignedFormatted() {
             return this.metersAssigned.map(meter => {
                 let f_meter = {
                     'Compañía': meter.company_name,
