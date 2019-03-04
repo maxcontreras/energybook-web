@@ -70,6 +70,14 @@
                         </b-card>
                     </b-tab>
                     <b-tab
+                        v-for="(service, index) in shownServices"
+                        :key="index"
+                        :title="service.name">
+                        <b-form-group>
+                            <b-form-checkbox-group v-model="service.selected" stacked :options="service.options" />
+                        </b-form-group>
+                    </b-tab>
+                    <b-tab
                         title="Datos">
                         <meter-data
                             :companies="companies"

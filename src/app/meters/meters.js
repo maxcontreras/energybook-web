@@ -29,7 +29,8 @@ export default {
             ],
             connectedDevices: [],
             showMeterForm: false,
-            shownMeter: {}
+            shownMeter: {},
+            shownServices: []
         }
     },
 
@@ -110,8 +111,24 @@ export default {
                 });
         },
 
+        verifyServices() {
+            return this.shownServices.reduce((prev, curr) => prev && (curr.selected.length > 0), true);
+        },
+
         editMeter() {
-            this.$store.dispatch('meter/editAssignedMeter', this.shownMeter)
+            if (!this.verifyServices()) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    text: 'Debe haber al menos un dispositivo por servicio'
+                });
+                return;
+            }
+            const selectedServices = {};
+            for (const service of this.shownServices) {
+                selectedServices[service.name] = service.selected;
+            }
+            this.$store.dispatch('meter/editAssignedMeter', {meter: this.shownMeter, services: selectedServices})
                 .then(() => {
                     this.$notify({
                         group: 'notification',
@@ -142,6 +159,17 @@ export default {
             const index = this.metersAssigned.findIndex(meter => meter.id == value.id);
             let meter = this.metersAssigned[index];
             this.shownMeter = Object.assign({}, meter);
+
+            this.shownServices = this.shownMeter.services.map(service => {
+                const selected = service.devices.slice(1).map(device => device.name);
+                const options = this.shownMeter.devices.slice(1).map(device =>
+                    ({
+                        text: device.description,
+                        value: device.name
+                    })
+                );
+                return {name: service.serviceName, selected, options};
+            });
 
             this.connectedDevices = {};
             this.$refs.edsDataModal.show();
