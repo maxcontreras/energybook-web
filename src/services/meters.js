@@ -8,10 +8,6 @@ let meters = Object.assign({}, {
 
     relation: '',
 
-    getOwnerCompany(meter_id) {
-        return loopback.post(`/Meters/getOwnerCompany`, meter_id);
-    },
-
     getConsumptionCostsByFilter(id, device, service, filter, interval, custom_dates) {
         return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, service, filter, interval, custom_dates});
     },
@@ -40,10 +36,6 @@ let meters = Object.assign({}, {
         return loopback.post('Meters/getActivesAssigned', {companyId: companyId});
     },
 
-    getAssigned(id) {
-        return loopback.post('Meters/getAssigned', id);
-    },
-
     unassignedMeters(){
         return loopback.get('Meters/unassignedMeters');
     },
@@ -56,8 +48,8 @@ let meters = Object.assign({}, {
         return loopback.post('/Meters/consumptionMaxMinValues', id);
     },
 
-    updateDesignatedMeter(data) {
-        return loopback.post('/Meters/updateDesignatedMeter', data);
+    updateDesignatedMeter({meter, services}) {
+        return loopback.post('/Meters/updateDesignatedMeter', {meter, services});
     },
 
 }, modelObject);

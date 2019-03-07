@@ -16,8 +16,10 @@ let eUsers = Object.assign({}, {
     },
     logout() {
         return loopback.post(`/eUsers/logout`);
+    },
+    delete(id) {
+        return loopback.delete(`/eUsers/${id}`);
     }
-
 }, modelObject);
 
 export default eUsers;

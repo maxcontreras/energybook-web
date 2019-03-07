@@ -4,12 +4,19 @@ import companies from '@/services/companies'
 import VTable from '@/app/components/VTable.vue'
 import {gmapApi} from 'vue2-google-maps'
 import Constants from '@/constants'
+import ConfirmationDialog from '@/app/components/ConfirmationDialog.vue';
 
 const meterActive = Constants.Meters.active
 
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
 export default {
     components: {
-        VTable
+        VTable,
+        ConfirmationDialog
     },
 
     data() {
@@ -32,7 +39,8 @@ export default {
                     {key: 'Fecha de Registro', sortable: true},
                     {key: 'Email', label: 'Correo'},
                     'Rol',
-                    {key: 'Reset', label: 'Contraseña'}
+                    {key: 'Reset', label: 'Contraseña'},
+                    {key: 'Delete', label: 'Eliminar usuario'}
                 ],
                 meters: [
                     {key: 'No. de Serie', sortable: true, label: 'No. de Serie'},
@@ -40,7 +48,14 @@ export default {
                     'Estado'
                 ]
             },
-            companyPosition: {lat:20.663782, lng:-103.3916394}
+            companyPosition: {lat:20.663782, lng:-103.3916394},
+            showCreateUserModal: false,
+            newUser: {
+                name: '',
+                lastname: '',
+                email: '',
+                password: ''
+            }
         }
     },
 
@@ -95,7 +110,7 @@ export default {
         }
     },
 
-    beforeMount: function() {
+    beforeMount() {
         if(this.$route.name === 'profile') {
             this.getUser();
         } else if(this.$route.name === 'companyProfile') {
@@ -104,7 +119,7 @@ export default {
     },
 
     methods: {
-        getUser: function() {
+        getUser() {
             let userId = eUsers.getCurrentId()
             eUsers.find({
                 id: userId,
@@ -122,7 +137,7 @@ export default {
             });
         },
 
-        getCompany: function() {
+        getCompany() {
             let id = this.companyId
             companies.find({id,filter: {include: ['meters', 'users']}})
             .then(company => {
@@ -210,6 +225,82 @@ export default {
         resetUserPassowrd(item) {
             // TODO Send request to reset user password
             console.log(item);
+        },
+
+        showUserModal() {
+            this.newUser = {
+                name: '',
+                lastname: '',
+                email: '',
+                password: ''
+            }
+            this.showCreateUserModal = true;
+        },
+
+        hideUserModal() {
+            this.showCreateUserModal = false;
+        },
+
+        validateUser() {
+            if (!this.newUser.name || !this.newUser.lastname || !this.newUser.email || !this.newUser.password) return false;
+            return validateEmail(this.newUser.email);
+        },
+
+        addNewUser() {
+            if (!this.validateUser()) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    text: 'Revisa que los campos estén escritos corréctamente'
+                });
+                return;
+            }
+            companies.addUser(this.companyId, this.newUser)
+                .then(({user}) => {
+                    this.items.users.push({
+                        'Nombre': `${user.name} ${user.lastname}`,
+                        'Fecha de Registro': moment(user.created_at).format('LL'),
+                        'Email': user.email,
+                        'Rol': user.role_id,
+                        'id': user.id
+                    });
+                    this.$notify({
+                        group: 'notification',
+                        type: 'success',
+                        text: 'Usuario creado con éxito'
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.$notify({
+                        group: 'notification',
+                        type: 'error',
+                        text: 'Error al crear usuario'
+                    });
+                })
+                .finally(() => {
+                    this.hideUserModal();
+                });
+        },
+
+        deleteUser(user) {
+            eUsers.delete(user.id)
+                .then(() => {
+                    this.items.users = this.items.users.filter(usr => usr.id !== user.id);
+                    this.$notify({
+                        group: 'notification',
+                        type: 'success',
+                        text: 'Usuario eliminado exitósamente'
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.$notify({
+                        group: 'notification',
+                        type: 'error',
+                        text: 'Error al borrar usuario'
+                    });
+                })
         }
     }
 }

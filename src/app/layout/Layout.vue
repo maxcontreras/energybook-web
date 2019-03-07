@@ -198,7 +198,11 @@ export default {
     },
 
     beforeMount() {
-        this.getMeters();
+        if (!this.isAdmin) {
+            this.getMeters();
+        } else {
+            this.$store.commit('setServiceSelected', 'Servicio 1');
+        }
     },
 
     mounted() {

@@ -33,25 +33,25 @@
                             <b-form-input type="text" v-model="size" required placeholder="¿Cuánta gente trabaja en tu empresa?"></b-form-input>
                         </b-form-group>
                         <b-form-group>
-                            <b-form-input type="text" v-model="phone" required placeholder="Teléfono"></b-form-input>
+                            <b-form-input type="text" v-model="phone" placeholder="Teléfono"></b-form-input>
                         </b-form-group>
                         <b-form-group>
-                            <gmap-autocomplete class="form-control"
+                            <gmap-autocomplete
+                                class="form-control"
+                                placeholder="Estado"
                                 @place_changed="setPlace">
                             </gmap-autocomplete>
                         </b-form-group>
                     </b-col>
                 </b-row>
                 <b-row align-h="end">
-                            <b-col md="6">
-                                <b-button type="submit" variant="primary">Registrarse</b-button>
-                                <p>¿Ya tienes tu cuenta?
-                                    <a>
-                                        <router-link to="login">Inicia sesión</router-link>
-                                    </a>
-                                </p>
-                            </b-col>
-                        </b-row>
+                    <b-col md="6">
+                        <b-button type="submit" variant="primary">Registrarse</b-button>
+                        <p>¿Ya tienes tu cuenta?
+                            <a><router-link to="login">Inicia sesión</router-link></a>
+                        </p>
+                    </b-col>
+                </b-row>
             </b-form>
         </b-card>
     </div>

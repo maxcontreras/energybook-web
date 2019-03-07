@@ -3,11 +3,16 @@
         id="meters"
         class="main">
         <b-col>
-            <v-header
-                :title="'Medidores'"
-                :isMeters="true"
-                :action="'Agregar Medidor'"
-                :modalId="'meterModal'"/>
+            <b-row class="header">
+                <b-col md="12">
+                    <b-btn
+                        class="right"
+                        :variant="'success'"
+                        @click="openMeterForm">
+                        Agregar Medidor
+                    </b-btn>
+                </b-col>
+            </b-row>
             <b-row class="list">
                 <b-col>
                     <b-card
@@ -15,61 +20,24 @@
                         no-body>
                         <b-tabs pills card>
                             <b-tab
-                                title="Medidores Asignados"
+                                title="Medidores"
                                 active>
                                 <v-table
                                     :items="metersAssignedFormatted"
                                     :fields="fieldsDesignated"
                                     @clicked="openEDSDataModal"
-                                    :alertMessage="'No hay medidores asignados.'"
-                                    @statusChange="statusChange"/>
-                            </b-tab>
-                            <b-tab title="Medidores">
-                                <v-table
-                                    :items="metersFormatted"
-                                    :fields="fields"
-                                    @clicked="openAssignModal"
-                                    @delete="deleteMeter"
-                                    :alertMessage="'No se encuentran medidores sin asignar.'"/>
+                                    :alertMessage="'No hay medidores asignados.'"/>
                             </b-tab>
                         </b-tabs>
-                    </b-card>
-                    <b-card v-if="!isAdmin">
-                        <v-table
-                            :items="itemsDesignated"
-                            :fields="fieldsDesignated"
-                            :alertMessage="'Aún no tienes medidores.'"/>
                     </b-card>
                 </b-col>
             </b-row>
         </b-col>
-        <b-modal
-            id="meterModal"
-            title="Medidor Nuevo"
-            @ok="createMeter"
-            @shown="clearNewMeter">
-            <b-form @submit.stop.prevent="createMeter">
-                <b-form-group>
-                    <b-form-input
-                        type="text"
-                        v-model="newMeter.serial_number"
-                        required
-                        placeholder="Número de Serie">
-                    </b-form-input>
-                </b-form-group>
-            </b-form>
-        </b-modal>
-        <b-modal
-            ref="meterModalDesignate"
-            id="meterModalDesignate"
-            title="Asignar Medidor"
-            @ok="assignMeter">
-            <meter-form
-                @formSubmit="assignMeter"
-                :companies="companies"
-                :meter="newDesignatedMeter"
-                />
-        </b-modal>
+        <meter-form
+            :showForm="showMeterForm"
+            :companies="companies"
+            @create="createMeter"
+            @hide="hideMeterForm"/>
         <b-modal
             ref="edsDataModal"
             id="edsDataModal"
@@ -81,8 +49,7 @@
                 <b-tabs pills card>
                     <b-tab
                         title="Dispositivos"
-                        active
-                        >
+                        active>
                         <b-list-group flush>
                             <b-list-group-item
                                 v-for="(device, index) in connectedDevices"
@@ -103,12 +70,18 @@
                         </b-card>
                     </b-tab>
                     <b-tab
+                        v-for="(service, index) in shownServices"
+                        :key="index"
+                        :title="service.name">
+                        <b-form-group>
+                            <b-form-checkbox-group v-model="service.selected" stacked :options="service.options" />
+                        </b-form-group>
+                    </b-tab>
+                    <b-tab
                         title="Datos">
-                        <meter-form
-                            @formSubmit="editMeter"
+                        <meter-data
                             :companies="companies"
-                            :meter="newDesignatedMeter"
-                            />
+                            :meter="shownMeter"/>
                     </b-tab>
                 </b-tabs>
             </b-card>

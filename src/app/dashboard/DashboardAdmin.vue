@@ -6,25 +6,34 @@
                     <b-card class="list">
                         <v-table
                             :items="items"
-                            :fields="fields" />
+                            :fields="fields"/>
                     </b-card>
                 </b-col>
                 <b-col md="6">
                     <b-card class="dashboard-map-container">
-                        <GmapMap
+                        <gmap-map
                             :center="{lat:20.663782, lng:-103.3916394}"
                             :zoom="7"
                             map-type-id="roadmap"
-                            :options="{ disableDefaultUI : true }"
-                            >
-                            <GmapMarker
+                            :options="{ disableDefaultUI : true }">
+                            <gmap-marker
                                 :key="index"
-                                v-for="(m, index) in markers"
-                                :position="m"
+                                v-for="(marker, index) in markers"
+                                :position="marker.position"
+                                infoWindow="Hey"
                                 :clickable="true"
                                 :draggable="false"
-                                />
-                        </GmapMap>
+                                :icon="marker.icon"
+                                @click="showInfo(marker, index)"/>
+
+                            <gmap-info-window
+                                :options="infoOptions"
+                                :position="infoWindowPos"
+                                :opened="infoWinOpen"
+                                @closeclick="infoWinOpen=false">
+                                <div v-html="infoContent"></div>
+                            </gmap-info-window>
+                        </gmap-map>
                     </b-card>
                 </b-col>
             </b-row>

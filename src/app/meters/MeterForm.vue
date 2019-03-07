@@ -1,88 +1,77 @@
 <template>
-    <b-form @submit.stop.prevent="formSubmit">
-        <b-form-group>
-            <b-form-input
-                placeholder="Nombre"
-                type="text"
-                v-model="meter.device_name"
-                required
-                >
-            </b-form-input>
-        </b-form-group>
-        <b-form-group>
-            <b-form-input
-                placeholder="Hostname"
-                type="text"
-                v-model="meter.hostname"
-                required
-                >
-            </b-form-input>
-        </b-form-group>
-        <b-row>
-            <b-col>
-                <b-form-group>
-                    <b-form-input
-                        placeholder="Valor máximo"
-                        type="number"
-                        v-model="meter.max_value"
-                        required
-                        >
-                    </b-form-input>
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group>
-                    <b-form-input
-                        placeholder="Valor mínimo"
-                        type="number"
-                        v-model="meter.min_value"
-                        required
-                        >
-                    </b-form-input>
-                </b-form-group>
-            </b-col>
-        </b-row>
-        <b-form-group>
-            <b-form-select
-                :options="companies"
-                v-model="meter.company_id" />
-        </b-form-group>
-    </b-form>
+    <confirmation-dialog
+        :show="showForm"
+        acceptText="Crear"
+        @accept="validateData"
+        @cancel="cancelCreation"
+        @hidden="cancelCreation">
+        <meter-data
+            :companies="companies"
+            :meter="meter"/>
+    </confirmation-dialog>
 </template>
 
 <script>
+import ConfirmationDialog from '@/app/components/ConfirmationDialog.vue';
+import _l from 'lodash';
+import MeterData from './MeterData.vue';
+
 export default {
     name: 'MeterForm',
+    components: {
+        ConfirmationDialog,
+        MeterData
+    },
     props: {
-        formSubmit: {
-            type: Function,
-            default: function() {}
-        },
-        meter: {
-            type: Object,
-            default: function() {
-                return {
-                    device_name: '',
-                    created_at: new Date(),
-                    company_id: null,
-                    meter_id: ''
-                };
-            }
+        showForm: {
+            type: Boolean,
+            required: true
         },
         companies: {
             type: Array,
-            default: function() {
-                return [];
-            }
+            required: true
         }
     },
     data() {
         return {
-
+            meter: {
+                device_name: '',
+                serial_number: '',
+                max_value: '',
+                min_value: '',
+                company_id: null
+            }
+        };
+    },
+    methods: {
+        validateData() {
+            if (this.meter.device_name && this.meter.company_id &&
+                this.meter.serial_number && this.meter.max_value > 0 &&
+                this.meter.min_value >= 0 &&
+                this.meter.max_value > this.meter.min_value) {
+                    this.$emit('create', _l.cloneDeep(this.meter));
+                    this.resetMeter();
+            } else {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    text: 'Verifica que los campos estén llenados correctamente'
+                });
+            }
+        },
+        cancelCreation() {
+            this.resetMeter();
+            this.$emit('hide');
+        },
+        resetMeter() {
+            this.meter = {
+                serial_number: '',
+                device_name: '',
+                max_value: '',
+                min_value: '',
+                company_id: ''
+            }
         }
     }
 }
 </script>
-
-<style>
-</style>

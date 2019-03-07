@@ -335,7 +335,9 @@ export default {
         },
 
         serviceSelected() {
-            this.getMeters();
+            if (!this.isAdmin) {
+                this.getMeters();
+            }
         }
     },
 

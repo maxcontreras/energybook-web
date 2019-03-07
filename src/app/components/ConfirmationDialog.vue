@@ -1,0 +1,85 @@
+<template>
+    <b-modal
+        class="z-confirm-dialog"
+        ref="confirmDialog"
+        :title="title"
+        @hidden="$emit('hidden')">
+        <slot>
+        </slot>
+        <div
+            slot="modal-footer"
+            class="w-100">
+            <b-button
+                class="float-right"
+                @click="$emit('accept')"
+                :disabled="acceptDisable">
+                {{acceptText}}
+            </b-button>
+            <b-button
+                variant="secondary"
+                class="float-right btn-cancel"
+                @click="$emit('cancel')"
+                :disabled="cancelDisable">
+                {{cancelText}}
+            </b-button>
+        </div>
+    </b-modal>
+</template>
+
+<script>
+
+export default {
+    name: 'ConfirmationDialog',
+    props: {
+        acceptText: {
+            type: String,
+            default: 'Aceptar'
+        },
+        acceptDisable: {
+            type: Boolean,
+            default: false
+        },
+        cancelText: {
+            type: String,
+            default: 'Cancelar'
+        },
+        cancelDisable: {
+            type: Boolean,
+            default: false
+        },
+        show: {
+            type: Boolean,
+            default: false
+        },
+        title: {
+            type: String,
+            default: 'Mensaje de confirmación'
+        }
+    },
+    watch: {
+        show(newShow) {
+            if (newShow === true) {
+                this.showModal();
+            } else {
+                this.hideModal();
+            }
+        }
+    },
+    methods: {
+        hideModal() {
+            this.$refs.confirmDialog.hide();
+        },
+        showModal() {
+            this.$refs.confirmDialog.show();
+        }
+    }
+};
+</script>
+
+<style lang="scss" scoped>
+.z-confirm-dialog {
+    .btn-cancel {
+        margin-right: 5px;
+    }
+}
+</style>

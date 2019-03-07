@@ -16,8 +16,12 @@ let companies = Object.assign({}, {
         return loopback.post(`/Companies/addUsers`, data);
     },
 
-    designateMeter(data) {
-        return loopback.post(`/Companies/designateMeter`, data);
+    addUser(companyId, user) {
+        return loopback.post(`/Companies/addUser`, {companyId, user});
+    },
+
+    addDesignatedMeter(data) {
+        return loopback.post(`/Companies/addDesignatedMeter`, data);
     },
 
 }, modelObject);

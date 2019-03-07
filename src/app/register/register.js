@@ -39,7 +39,6 @@ export default {
         },
         setPlace(place) {
             this.place = place;
-            console.log(this.place);
         }
 	}
 };

@@ -26,10 +26,15 @@ export default {
             newCompany: {
                 company_name: '',
                 phone: '',
-                size: '',
-                businessLine: '',
+                size: 'Mediana',
+                location: {
+                    lat: '',
+                    lon: ''
+                },
+                city: 0,
                 created_at: new Date(),
-                legal_name: ''
+                legal_name: '',
+                address: ''
             },
             newManager: {
                 name: '',
@@ -52,7 +57,28 @@ export default {
         this.getCompanies();
     },
 
+    computed: {
+        cities() {
+            return Constants.Cities.map((city, index) => ({value: index, text: city}));
+        }
+    },
+
     methods: {
+        resetCompany() {
+            this.newCompany = {
+                company_name: '',
+                phone: '',
+                size: 'Mediana',
+                location: {
+                    lat: '',
+                    lon: ''
+                },
+                city: 0,
+                created_at: new Date(),
+                legal_name: '',
+                address: ''
+            };
+        },
         getCompanies() {
             companies.find({}).then(res => {
                 this.companies = res;
@@ -61,18 +87,43 @@ export default {
                 });
             });
         },
-        createCompany(evt) {
-            /*evt.preventDefault();
-            alert('Please enter your name')
-            console.log('create');*/
+        verifyData() {
+            if (isNaN(this.newCompany.location.lat) || isNaN(this.newCompany.location.lon)) return false;
+            this.newCompany.location.lat = parseFloat(this.newCompany.location.lat);
+            this.newCompany.location.lon = parseFloat(this.newCompany.location.lon);
+            if (!this.newCompany.company_name || !this.newCompany.phone || !this.newCompany.legal_name || !this.newCompany.address) return false;
+            if (!this.newManager.name || !this.newManager.lastname || !this.newManager.email) return false; 
+            return true;
+        },
+        createCompany() {
+            if (!this.verifyData()) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    text: 'Verifica que los datos estén llenados de la mejor manera'
+                });
+                return;
+            }
+            this.newCompany.city = this.cities[this.newCompany.city].text;
             this.newCompany.company_type = 1;
-            delete this.newCompany.businessLine;
-            companies.create({data:this.newCompany}).then(newCompany => {
+            companies.create({data:this.newCompany})
+            .then(newCompany => {
                 this.addCompany(newCompany);
                 if(this.newManager || this.newUser){
                     this.addNewCompanyUsers(newCompany);
                 }
-                this.newCompany = {};
+                this.resetCompany();
+                this.$notify({
+                    group: 'notification',
+                    type: 'success',
+                    text: 'La compañía se ha creado con éxito'
+                });
+            }).catch(() => {
+                this.$notify({
+                    group: 'notification',
+                    type: 'error',
+                    text: 'Hubo un error al crear la compañía'
+                });
             });
         },
         addNewCompanyUsers(newCompany) {
@@ -83,8 +134,19 @@ export default {
             if(this.newUser.email !== ""){
                 data.user = this.newUser;
             }
-            companies.addUsers({data: data}).then(response => {
-                // TODO: alerta aquí si fue exitÓso o nelson :)
+            companies.addUsers({data: data}).then(() => {
+                this.$notify({
+                    group: 'notification',
+                    type: 'success',
+                    text: 'Usuarios creados con éxito'
+                });
+            })
+            .catch(() => {
+                this.$notify({
+                    group: 'notification',
+                    type: 'error',
+                    text: 'Hubo un error al crear usuarios'
+                });
             });
         },
         addCompany(company) {
