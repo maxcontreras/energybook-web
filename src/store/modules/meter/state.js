@@ -4,6 +4,7 @@ import moment from 'moment';
 
 const defaultState = {
     metersAssigned: [],
+    isAvailable: true,
     cfeValues: {
         date: moment().startOf('month').format(),
         citySelected: 0,

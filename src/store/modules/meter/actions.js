@@ -101,3 +101,7 @@ export function setCfePrices({commit, state}, {payload, city}) {
             });
     });
 }
+
+export function setMeterAvailability({commit}, isAvailable) {
+    commit(mutation.UPDATE_METER_AVAILABLE, isAvailable);
+}

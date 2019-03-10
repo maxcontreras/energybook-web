@@ -19,6 +19,14 @@ $egray2: #8D8D8D;
     background-color: #fcfcfc !important;
     position: relative;
 
+    .meter-not-available-img {
+        width: 4rem;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
     p.current-date {
         margin-top: .5rem;
         margin-bottom: 0;
@@ -45,9 +53,14 @@ $egray2: #8D8D8D;
 
         display: block !important;
         text-align: right;
+        width: 4rem;
 
         .b-nav-dropdown {
             width: 100%;
+
+            .dropdown-toggle {
+                font-size: 13px;
+            }
         }
 
         .dropdown-item {

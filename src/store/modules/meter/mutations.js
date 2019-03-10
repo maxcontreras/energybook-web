@@ -67,5 +67,8 @@ export default {
             capacity: capacityPrice,
             distribution: distributionPrice
         }
+    },
+    [mutation.UPDATE_METER_AVAILABLE](state, isAvailable) {
+        state.isAvailable = isAvailable;
     }
 };

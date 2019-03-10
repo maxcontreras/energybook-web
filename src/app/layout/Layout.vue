@@ -75,7 +75,15 @@
                 </b-col>
                 <b-col md="8" class="text-right">
                     <b-row>
-                        <b-col md="9">
+                        <b-col md="6">
+                            <img
+                                v-show="!meterAvailable"
+                                v-b-tooltip.hover title="Medidor no disponible"
+                                class="meter-not-available-img"
+                                src="/assets/images/conection-error.svg"
+                                alt="Medidor no disponible">
+                        </b-col>
+                        <b-col md="3">
                             <p class="current-date">{{date}}</p>
                         </b-col>
                         <b-col
@@ -87,27 +95,25 @@
                                 <i class="far fa-bell"></i>
                             </b-btn>
                         </b-col>
-                        <b-col md="2">
-                            <b-collapse
-                                is-nav
-                                id="nav_dropdown_collapse"
-                                class="menu-dropdown">
-                                <b-navbar-nav>
-                                    <b-nav-item-dropdown
-                                        :text="user.user.name + ' ' + user.user.lastname"
-                                        right>
-                                        <b-dropdown-item 
-                                            v-if="!isAccounting"
-                                            @click="goTo('profile')">
-                                            <i class="far fa-user"></i> Perfil
-                                        </b-dropdown-item>
-                                        <b-dropdown-item @click="logout()">
-                                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                                        </b-dropdown-item>
-                                    </b-nav-item-dropdown>
-                                </b-navbar-nav>
-                            </b-collapse>
-                        </b-col>
+                        <b-collapse
+                            is-nav
+                            id="nav_dropdown_collapse"
+                            class="menu-dropdown">
+                            <b-navbar-nav>
+                                <b-nav-item-dropdown
+                                    :text="user.user.name + ' ' + user.user.lastname"
+                                    right>
+                                    <b-dropdown-item 
+                                        v-if="!isAccounting"
+                                        @click="goTo('profile')">
+                                        <i class="far fa-user"></i> Perfil
+                                    </b-dropdown-item>
+                                    <b-dropdown-item @click="logout()">
+                                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                    </b-dropdown-item>
+                                </b-nav-item-dropdown>
+                            </b-navbar-nav>
+                        </b-collapse>
                     </b-row>
                 </b-col>
                 
@@ -172,6 +178,9 @@ export default {
         },
         location() {
             return this.$store.getters['user/getUserCompany'].location;
+        },
+        meterAvailable() {
+            return this.$store.state.meter.isAvailable;
         }
     },
 
@@ -273,6 +282,7 @@ export default {
                 }
             }).then(designatedMeters => {
                 this.meters = designatedMeters;
+                this.$store.dispatch('meter/setMeterAvailability', this.meters[0].isAvailable);
                 this.services = this.meters[0].services.map(service => service.serviceName);
                 this.$store.commit('setServiceSelected', (this.services) ? this.services[0]: '');
                 this.$store.commit('setUserServices', this.services);
