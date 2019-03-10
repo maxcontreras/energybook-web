@@ -3,7 +3,7 @@
         <div class="date-buttons--container container-fluid">
             <b-row>
                 <b-col
-                    v-show="currentPeriod > 1"
+                    v-show="showMeditionIntervals"
                     md="3"
                     class="text-left">
                     <b-button
@@ -18,7 +18,7 @@
                     </b-button>
                 </b-col>
                 <b-col
-                    :md="(currentPeriod > 1)? 9:12"
+                    :md="showMeditionIntervals? 9:12"
                     class="text-right">
                     <div
                         class="datepickers"
@@ -210,6 +210,10 @@ export default {
                 return moment(this.date_custom.until).diff(moment(this.date_custom.from), 'days');
             }
             return 0;
+        },
+
+        showMeditionIntervals() {
+            return this.currentPeriod > 1 || this.currentPeriod === -1
         }
     },
 
@@ -320,7 +324,7 @@ export default {
             if (!chart.renderer.forExport) {
                 this.showLoading();
                 columnCharts.removeSeries();
-                if (this.currentPeriod < 2) {
+                if (this.currentPeriod !== -1 && this.currentPeriod < 2) {
                     this.getData(this.currentPeriod, 0, chart);
                 } else {
                     this.getData(this.currentPeriod, this.currentMeditionInterval, chart);
@@ -405,7 +409,7 @@ export default {
             let time = parseDateTime(date);
             let day = parseDayName(date);
             let tickInterval = 1;
-            if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
+            if (this.currentMeditionInterval === 1 && (this.currentPeriod > 1 || this.currentPeriod === -1)) {
                 return {res: `${day} ${date.substring(0, 2)}`, tickInterval};
             }
             if (this.currentPeriod === -1) {
