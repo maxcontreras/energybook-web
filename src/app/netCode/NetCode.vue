@@ -138,7 +138,7 @@ export default {
                     { variables: ['Ia', 'Ib', 'Ic'], name: 'Amperaje' },
                     { variables: ['THDIa', 'THDIb', 'THDIc'], name: 'THD' },
                     { variables: ['Vunbl', 'lunbl'], name: 'Desbalance' },
-                    { variables: ['ES'], name: 'kVA' }
+                    { variables: ['Ssist'], name: 'kVA' }
                 ]
             },
             graphInterval: {
