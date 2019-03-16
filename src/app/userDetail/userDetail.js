@@ -50,12 +50,14 @@ export default {
             },
             companyPosition: {lat:20.663782, lng:-103.3916394},
             showCreateUserModal: false,
+            showPasswordResetModal: false,
             newUser: {
                 name: '',
                 lastname: '',
                 email: '',
                 password: ''
-            }
+            },
+            selectedUser: ''
         }
     },
 
@@ -301,6 +303,31 @@ export default {
                         text: 'Error al borrar usuario'
                     });
                 })
+        },
+
+        showPasswordReset(user) {
+            this.selectedUser = user;
+            this.showPasswordResetModal = true;
+        },
+
+        resetPassword() {
+            this.showPasswordResetModal = false;
+            eUsers.resetPassword(this.selectedUser.id)
+                .then(() => {
+                    this.$notify({
+                        group: 'notification',
+                        type: 'success',
+                        text: 'Password reseteado con éxito'
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.$notify({
+                        group: 'notification',
+                        type: 'error',
+                        text: 'Error al resetear contraseña'
+                    });
+                });
         }
     }
 }

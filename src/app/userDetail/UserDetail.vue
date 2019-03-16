@@ -238,6 +238,14 @@
                                         <b-form-input type="text" id="userPassword" v-model="newUser.password"/>
                                     </b-form-group>
                                 </confirmation-dialog>
+                                <confirmation-dialog
+                                    title="Atención"
+                                    :show="showPasswordResetModal"
+                                    @cancel="() => showPasswordResetModal = false"
+                                    @hidden="() => showPasswordResetModal = false"
+                                    @accept="resetPassword">
+                                    <p>Se restablecerá la contraseña del usuario {{selectedUser.Nombre}} a Password123</p>
+                                </confirmation-dialog>
                                 <div class="text-right mb-5 mt-2">
                                     <b-button
                                         variant="success"
@@ -248,7 +256,7 @@
                                 <v-table
                                     :items="items.users"
                                     :fields="fields.users"
-                                    @reset-password="resetUserPassowrd"
+                                    @reset-password="showPasswordReset"
                                     @delete="deleteUser"/>
                             </b-tab>
                             <b-tab

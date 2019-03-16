@@ -19,6 +19,9 @@ let eUsers = Object.assign({}, {
     },
     delete(id) {
         return loopback.delete(`/eUsers/${id}`);
+    },
+    resetPassword(userId) {
+        return loopback.post('/eUsers/resetPassword', {userId});
     }
 }, modelObject);
 
