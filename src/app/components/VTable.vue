@@ -19,6 +19,17 @@
             @row-clicked="rowClickHandler"
             >
             <template
+                slot="status"
+                slot-scope="data">
+                <i v-show="data.item.status" style="color: #2d9b14; font-size: 15px" class="fas fa-check-circle"></i>
+                <i v-show="!data.item.status" style="color: #ba0d0d; font-size: 15px" class="fas fa-times-circle"></i>
+            </template>
+            <template
+                slot="pdf"
+                slot-scope="data">
+                <a class="btn btn-primary" :href="data.item.pdf" target="_blank">Ver PDF</a>
+            </template>
+            <template
                 slot="Status"
                 slot-scope="data">
                 <b-button
@@ -99,7 +110,7 @@ export default {
     data() {
         return {
             currentPage: 1,
-            perPage: 5,
+            perPage: 10,
             pageOptions: [ 5, 10, 15 ]
         }
     },
