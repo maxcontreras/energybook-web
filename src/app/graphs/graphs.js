@@ -322,7 +322,7 @@ export default {
                     if (time === '00:00') {
                         time = '';
                     }
-                    return `${day} ${date.substring(0, 2)} ${time}`;
+                    return `${day} ${time}`;
                 } else {
                     if (time === '00:00') {
                         time = '';
@@ -339,7 +339,7 @@ export default {
                     tickInterval = parseInt(3600/this.graphInterval.selected * interval);
                 break;
                 case 1:
-                    tickInterval = parseInt(3600/this.graphInterval.selected * 12);
+                    tickInterval = parseInt(3600/this.graphInterval.selected * 2);
                 break;
                 case 2:
                     tickInterval = parseInt(3600/this.graphInterval.selected * 24);
