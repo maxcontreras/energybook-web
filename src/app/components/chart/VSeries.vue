@@ -91,7 +91,10 @@ export default {
             for (const plot of data) {
                 this.plots.push({
                     data: plot.data,
-                    name: plot.name
+                    name: plot.name,
+                    color: '#2f7ed8',
+                    zoneAxis: 'x',
+                    zones: plot.zones
                 });
             }
             this.load();
