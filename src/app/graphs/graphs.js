@@ -91,6 +91,10 @@ export default {
         },
         currentChart() {
             return this.$refs.seriesChart;
+        },
+        shouldShowIntervals() {
+            const selected = this.graphType.selected;
+            return this.graphType.options[selected].name !== 'Demanda';
         }
     },
 

@@ -62,7 +62,9 @@
                                 <div v-if="!dangerAlert">
                                     <v-series ref="seriesChart">
                                     </v-series>
-                                    <div class="interval-buttons text-right">
+                                    <div
+                                        v-if="shouldShowIntervals"
+                                        class="interval-buttons text-right">
                                         <b-button
                                             v-for="interval in graphInterval.options"
                                             :key="interval.value"
