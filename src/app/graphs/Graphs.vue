@@ -8,28 +8,82 @@
                         :options="metersFilter.options" class="mb-3" />
                 </div>
             </b-row>
-            <b-row class="list">
+            <b-row id="dp-epimp-graphs">
                 <b-col>
-                    <b-card
-                        class="margin-bottom-1"
-                        v-show="metersFilter.selected !== null">
-                        <v-chart
-                            :meterId="metersFilter.selected"
-                            :variable="'dp'"
-                            :variableName="'Demanda'"
-                            :graph-type="graphType"
-                            ref="dpChart"/>
-                    </b-card>
-                    <b-alert
-                        show
-                        variant="info"
-                        v-if="metersFilter.selected === null">
-                        Selecciona un medidor para desplegar la gráfica.
-                    </b-alert>
-                    <b-card v-if="items.length > 0">
-                        <v-table
-                            :items="items"
-                            :fields="fields"/>
+                    <b-card class="margin-bottom-1">
+                        <div class="graphs">
+                            <div class="date-buttons--container container-fluid">
+                                <b-row>
+                                    <b-col md="5" class="text-left">
+                                        <b-button
+                                            v-for="(type, index) in graphType.options"
+                                            :key="index + 1"
+                                            :class="{
+                                                'btn-success': graphType.selected === index,
+                                                'btn-outline-success': graphType.selected !== index
+                                                }"
+                                            @click="changeType(index)"
+                                            >
+                                            {{ type.name }}
+                                        </b-button>
+                                    </b-col>
+                                    <b-col md="7" class="text-right">
+                                        <div
+                                            class="datepickers"
+                                            v-if="showDatePicker">
+                                            <date-picker
+                                                placeholder="Desde"
+                                                v-model="date_custom.from"
+                                                @dp-change="setCustomDate"
+                                                :config="dateConfig">
+                                            </date-picker>
+                                            <date-picker
+                                                class="mr-0"
+                                                placeholder="Hasta"
+                                                v-model="date_custom.until"
+                                                @dp-change="setCustomDate"
+                                                :config="dateConfig">
+                                            </date-picker>
+                                        </div>
+                                        <b-button
+                                            v-for="(button, index) in graphPeriod.options"
+                                            :key="index"
+                                            :class="{
+                                                'btn-success': graphPeriod.selected === button.value,
+                                                'btn-outline-success': graphPeriod.selected !== button.value
+                                                }"
+                                            @click="changePeriod(button.value)">
+                                            {{ button.text }}
+                                        </b-button>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                            <div class="chart-container">
+                                <div v-if="!dangerAlert">
+                                    <v-series ref="seriesChart">
+                                    </v-series>
+                                    <div class="interval-buttons text-right">
+                                        <b-button
+                                            v-for="interval in graphInterval.options"
+                                            :key="interval.value"
+                                            :class="{
+                                                'btn-success': graphInterval.selected === interval.value,
+                                                'btn-outline-success':graphInterval.selected !== interval.value
+                                                }"
+                                            @click="changeInterval(interval.value)">
+                                            {{ interval.text }}
+                                        </b-button>
+                                    </div>
+                                </div>
+                                <b-alert
+                                    v-else
+                                    show
+                                    class="margin-top-1"
+                                    variant="danger">
+                                    Hubo un error al obtener los datos del medidor. ¡Refresca la página e intenta de nuevo!
+                                </b-alert>
+                            </div>
+                        </div>
                     </b-card>
                 </b-col>
             </b-row>
