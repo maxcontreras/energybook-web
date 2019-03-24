@@ -92,7 +92,7 @@ export default {
                 this.plots.push({
                     data: plot.data,
                     name: plot.name,
-                    color: '#2f7ed8',
+                    color: plot.color,
                     zoneAxis: 'x',
                     zones: plot.zones
                 });
