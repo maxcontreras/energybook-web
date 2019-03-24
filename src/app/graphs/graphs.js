@@ -289,7 +289,6 @@ export default {
             
             let data = values.map(reading => {
                 if (reading.isPeak !== undefined && reading.isPeak !== isPeak) {
-                    console.log('Entered zones');
                     zones.push({
                         value: currVal,
                         color: (reading.isPeak) ? '#2f7ed8' : '#ce1616'
