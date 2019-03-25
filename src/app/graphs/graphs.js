@@ -3,24 +3,17 @@ import designatedMeters from '@/services/designatedMeters';
 import datePicker from 'vue-bootstrap-datetimepicker';
 import VSeries from '@/app/components/chart/VSeries';
 import meters from '@/services/meters';
-import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
+import axisParser from '@/mixins/axisParser';
+import notify from '@/mixins/notify';
 
-function mapReadings(arr, parse, xAxis) {
-    let data = []
-    let val
-    arr.forEach(obj => {
-        val = parseFloat(obj.value)
-        if(parse) {
-            xAxis.push(parseDate(obj.date))
-        }
-        data.push(val)
-    })
-    return data
-}
+const warnTitle = 'Petición en proceso';
+const warnText = 'Por favor, espera mientras los datos de la gráfica se cargan';
 
 export default {
 
     props: ['companyIdProp'],
+
+    mixins: [axisParser, notify('notification')],
 
     components: {
         datePicker,
@@ -62,7 +55,7 @@ export default {
                 ]
             },
             graphInterval: {
-                selected: 3600,
+                selected: 900,
                 options: [
                     {text: '1 hora', value: 3600},
                     {text: '30 minutos', value: 1800},
@@ -92,9 +85,12 @@ export default {
         currentChart() {
             return this.$refs.seriesChart;
         },
-        shouldShowIntervals() {
+        currentVariableSelected () {
             const selected = this.graphType.selected;
-            return this.graphType.options[selected].name !== 'Demanda';
+            return this.graphType.options[selected].name;
+        },
+        shouldShowIntervals() {
+            return this.currentVariableSelected !== 'Demanda';
         }
     },
 
@@ -169,65 +165,45 @@ export default {
                 if(isValid) {
                     this.renderChartWithNewData();
                 } else {
-                    this.$notify({
-                        group: 'notification',
-                        type: 'warn',
-                        title: errorMessage.title,
-                        text: errorMessage.text
-                    });
+                    this.notify(errorMessage.title, errorMessage.text, 'warn');
                 }
             }
         },
         changeType(new_type) {
             if (this.currentChart.isLoading) {
-                this.$notify({
-                    group: 'notification',
-                    type: 'warn',
-                    title: 'Petición en proceso',
-                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
-                });
+                this.notify(warnTitle, warnText, 'warn');
             } else if (new_type !== null && !this.dangerAlert) {
                 this.graphType.selected = new_type;
-                // Reset date picker values
-                this.date_custom = {
-                    from: null,
-                    until: null
-                }
-                this.showDatePicker = false;
                 this.graphPeriod.selected = 0;
+                this.resetOptionsData();
                 this.renderChartWithNewData();
             }
         },
         changePeriod(new_period) {
             if (this.currentChart.isLoading) {
-                this.$notify({
-                    group: 'notification',
-                    type: 'warn',
-                    title: 'Petición en proceso',
-                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
-                });
+                this.notify(warnTitle, warnText, 'warn');
             } else if (new_period !== null && !this.dangerAlert) {
                 this.graphPeriod.selected = new_period;
-                if (new_period === -1) {
-                    this.showDatePicker = true;
-                    return;
-                }
-                this.date_custom = {
-                    from: null,
-                    until: null
-                }
-                this.showDatePicker = false;
+                if (new_period === -1) return this.showDatePicker = true;
+                this.resetOptionsData();
                 this.renderChartWithNewData();
+            }
+        },
+        resetOptionsData() {
+            this.date_custom = {
+                from: null,
+                until: null
+            }
+            this.showDatePicker = false;
+            if (this.currentVariableSelected === 'Demanda') {
+                this.graphInterval.selected = 900;
+            } else {
+                this.graphInterval.selected = 3600;
             }
         },
         changeInterval(new_interval) {
             if (this.currentChart.isLoading) {
-                this.$notify({
-                    group: 'notification',
-                    type: 'warn',
-                    title: 'Petición en proceso',
-                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
-                });
+                this.notify(warnTitle, warnText, 'warn');
             } else if (new_interval !== null && !this.dangerAlert) {
                 this.graphInterval.selected = new_interval;
                 this.renderChartWithNewData();
@@ -304,53 +280,8 @@ export default {
                 dates.push(reading.date);
                 return parseFloat(reading.value);
             });
-            let { xAxis, tickInterval } = this.parseXAxis(dates);
+            let { xAxis, tickInterval } = this.parseXAxis(dates, this.graphPeriod.selected, this.dayDifference, this.graphInterval.selected);
             return { data, xAxis, tickInterval, zones };
-        },
-        parseXAxis(dates) {
-            let tickInterval = 1;
-            const xAxis = dates.map(date => {
-                let time = parseDateTime(date);
-                const day = parseDayName(date);
-                const fullDate = parseDayName(date);
-                time = time.slice(0, 5);
-                if (this.graphPeriod.selected === -1) {
-                    if (time === '00:00') {
-                        time = '';
-                    }
-                    return `${fullDate} ${date.substring(0, 2)} ${time}`;
-                }else if (this.graphPeriod.selected == 0) {
-                    return `${time}`;
-                } else if (this.graphPeriod.selected == 1) {
-                    if (time === '00:00') {
-                        time = '';
-                    }
-                    return `${day} ${time}`;
-                } else {
-                    if (time === '00:00') {
-                        time = '';
-                    }
-                    return `${day} ${date.substring(0, 2)} ${time}`;
-                }
-            });
-            switch (this.graphPeriod.selected) {
-                case -1:
-                    let interval = 0;
-                    if (this.dayDifference === 0) interval = 1;
-                    else if (this.dayDifference <= 2) interval = 12;
-                    else interval = 24;
-                    tickInterval = parseInt(3600/this.graphInterval.selected * interval);
-                break;
-                case 1:
-                    tickInterval = parseInt(3600/this.graphInterval.selected * 2);
-                break;
-                case 2:
-                    tickInterval = parseInt(3600/this.graphInterval.selected * 24);
-                break;
-                default:
-                    tickInterval = parseInt(3600/this.graphInterval.selected);
-            }
-            return { xAxis, tickInterval };
         }
     }
 }
