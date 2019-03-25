@@ -16,12 +16,8 @@ let meters = Object.assign({}, {
         return loopback.post('Meters/getNetCodeReadings', {id, device, filter, variables, interval, custom_dates});
     },
 
-    getDpReadingsByFilter(meter_id, device, service, filter, custom_dates) {
-        return loopback.post('/Meters/getDpReadingsByFilter', {id: meter_id, device, service, filter, custom_dates});
-    },
-
-    getEpimpReadingsByFilter(meter_id, device, service, filter, interval, custom_dates) {
-        return loopback.post('/Meters/getEpimpReadingsByFilter', {id: meter_id, device, service, filter, interval, custom_dates});
+    getStandardReadings(meter_id, device, service, variable, filter, interval, custom_dates) {
+        return loopback.post('/Meters/standardReadings', {id: meter_id, device, service, variable, filter, interval, custom_dates});
     },
 
     getDeviceInfo(id) {

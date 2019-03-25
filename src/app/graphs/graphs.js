@@ -86,12 +86,16 @@ export default {
         currentChart() {
             return this.$refs.seriesChart;
         },
-        currentVariableSelected () {
+        currentVariableNameSelected () {
             const selected = this.graphType.selected;
             return this.graphType.options[selected].name;
         },
+        currentVariableSelected () {
+            const selected = this.graphType.selected;
+            return this.graphType.options[selected].variables[0];
+        },
         shouldShowIntervals() {
-            return this.currentVariableSelected !== 'Demanda';
+            return this.currentVariableNameSelected !== 'Demanda';
         },
         dayDifference() {
             if (this.date_custom.until && this.date_custom.from) {
@@ -196,7 +200,7 @@ export default {
                 until: null
             }
             this.showDatePicker = false;
-            if (this.currentVariableSelected === 'Demanda') {
+            if (this.currentVariableNameSelected === 'Demanda') {
                 this.graphInterval.selected = 900;
             } else {
                 this.graphInterval.selected = 3600;
@@ -217,42 +221,22 @@ export default {
             const meter_id = meter[0];
             const meter_device = (meter[1] === "EDS")? '':meter[1];
             const service = (meter[1] === "EDS")? meter[2]: '';
-            if (this.graphType.selected === 1) {
-                if (this.currentPeriod > 3) {
-                    interval = -1;
+            
+            meters.getStandardReadings(meter_id, meter_device, service, this.currentVariableSelected, this.graphPeriod.selected, this.graphInterval.selected, this.date_custom).then(res => {
+                if(res){
+                    let { xAxis, tickInterval, data, zones } = this.parseMeterValues(res);
+                    const update_data = {
+                        xAxis: { categories: xAxis, tickInterval, tickmarkPlacement: "on" }
+                    };
+                    const series = [{ data, zones, name: this.currentVariableNameSelected, color: '#2f7ed8' }]
+                    this.currentChart.updateChart(update_data);
+                    this.currentChart.updateSeries(series);
                 }
-                meters.getEpimpReadingsByFilter(meter_id, meter_device, service, this.graphPeriod.selected, this.graphInterval.selected, this.date_custom).then(res => {
-                    if(res){
-                        let { xAxis, tickInterval, data, zones } = this.parseMeterValues(res);
-                        const update_data = {
-                            xAxis: { categories: xAxis, tickInterval, tickmarkPlacement: "on" }
-                        };
-                        const series = [{ data, zones, name: 'Consumo', color: '#2f7ed8' }]
-                        this.currentChart.updateChart(update_data);
-                        this.currentChart.updateSeries(series);
-                    }
-                }).catch(error => {
-                    console.log(error);
-                    this.dangerAlert = true;
-                    this.currentChart.load();
-                });
-            } else {
-                meters.getDpReadingsByFilter(meter_id, meter_device, service, this.graphPeriod.selected, this.date_custom).then(res => {
-                    if(res){
-                        let { xAxis, tickInterval, data, zones } = this.parseMeterValues(res);
-                        const update_data = {
-                            xAxis: { categories: xAxis, tickInterval, tickmarkPlacement: "on" }
-                        };
-                        const series = [{ data, zones, name: 'Demanda', color: '#2f7ed8' }];
-                        this.currentChart.updateChart(update_data);
-                        this.currentChart.updateSeries(series);
-                    }
-                }).catch(error => {
-                    console.log(error);
-                    this.dangerAlert = true;
-                    this.currentChart.load();
-                });
-            }
+            }).catch(error => {
+                console.log(error);
+                this.dangerAlert = true;
+                this.currentChart.load();
+            });
         },
         parseMeterValues(values) {
             const dates = [];
@@ -271,7 +255,7 @@ export default {
                 isPeak = reading.isPeak;
 
                 dates.push(reading.date);
-                return parseFloat(reading.value);
+                return reading.value;
             });
             let { xAxis, tickInterval } = this.parseXAxis(dates, this.graphPeriod.selected, this.dayDifference, this.graphInterval.selected);
             return { data, xAxis, tickInterval, zones };
