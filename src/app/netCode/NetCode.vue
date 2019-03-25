@@ -98,13 +98,14 @@ import VSeries from '@/app/components/chart/VSeries';
 import meters from '@/services/meters';
 import axisParser from '@/mixins/axisParser';
 import notify from '@/mixins/notify';
+import datesValidator from '@/mixins/datesValidator';
 
 const warnTitle = 'Petición en proceso';
 const warnText = 'Por favor, espera mientras los datos de la gráfica se cargan';
 
 export default {
 
-    mixins: [axisParser, notify('notification')],
+    mixins: [axisParser, notify('notification'), datesValidator],
 
     components: {
         datePicker,
@@ -217,23 +218,9 @@ export default {
                 });
             });
         },
-        validateDates() {
-            let isValid = false;
-            let errorMessage = {};
-            if (moment(this.date_custom.until).isBefore(this.date_custom.from)) {
-                errorMessage = { title: 'Fecha incorrecta', text: 'La fecha de inicio no puede ser mayor a la final' };
-            } else if (this.dayDifference > 31) {
-                errorMessage = { title: 'Periodo muy grande', text: 'El periodo no puede exceder más de 31 días' };
-            } else if (moment().isBefore(this.date_custom.from)){
-                errorMessage = { title: 'Periodo inexistente', text: 'La fecha de inicio no puede ser mayor a la actual' };
-            } else {
-                isValid = true;
-            }
-            return {isValid, errorMessage};
-        },
         setCustomDate() {
             if (this.date_custom.from && this.date_custom.until && !this.currentChart.isLoading) {
-                const {isValid, errorMessage} = this.validateDates();
+                const {isValid, errorMessage} = this.validateDates(this.date_custom.from, this.date_custom.until, this.dayDifference);
                 if(isValid) {
                     this.renderChartWithNewData();
                 } else {
