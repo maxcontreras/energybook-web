@@ -5,6 +5,7 @@ import VSeries from '@/app/components/chart/VSeries';
 import meters from '@/services/meters';
 import axisParser from '@/mixins/axisParser';
 import notify from '@/mixins/notify';
+import datesValidator from '@/mixins/datesValidator';
 
 const warnTitle = 'Petición en proceso';
 const warnText = 'Por favor, espera mientras los datos de la gráfica se cargan';
@@ -13,7 +14,7 @@ export default {
 
     props: ['companyIdProp'],
 
-    mixins: [axisParser, notify('notification')],
+    mixins: [axisParser, notify('notification'), datesValidator],
 
     components: {
         datePicker,
@@ -91,6 +92,12 @@ export default {
         },
         shouldShowIntervals() {
             return this.currentVariableSelected !== 'Demanda';
+        },
+        dayDifference() {
+            if (this.date_custom.until && this.date_custom.from) {
+                return moment(this.date_custom.until).diff(moment(this.date_custom.from), 'days');
+            }
+            return 0;
         }
     },
 
@@ -145,23 +152,9 @@ export default {
                 }
             })
         },
-        validateDates() {
-            let isValid = false;
-            let errorMessage = {};
-            if (moment(this.date_custom.until).isBefore(this.date_custom.from)) {
-                errorMessage = { title: 'Fecha incorrecta', text: 'La fecha de inicio no puede ser mayor a la final' };
-            } else if (this.dayDifference > 31) {
-                errorMessage = { title: 'Periodo muy grande', text: 'El periodo no puede exceder más de 31 días' };
-            } else if (moment().isBefore(this.date_custom.from)){
-                errorMessage = { title: 'Periodo inexistente', text: 'La fecha de inicio no puede ser mayor a la actual' };
-            } else {
-                isValid = true;
-            }
-            return {isValid, errorMessage};
-        },
         setCustomDate() {
             if (this.date_custom.from && this.date_custom.until && !this.currentChart.isLoading) {
-                const {isValid, errorMessage} = this.validateDates();
+                const {isValid, errorMessage} = this.validateDates(this.date_custom.from, this.date_custom.until, this.dayDifference);
                 if(isValid) {
                     this.renderChartWithNewData();
                 } else {
@@ -189,6 +182,14 @@ export default {
                 this.renderChartWithNewData();
             }
         },
+        changeInterval(new_interval) {
+            if (this.currentChart.isLoading) {
+                this.notify(warnTitle, warnText, 'warn');
+            } else if (new_interval !== null && !this.dangerAlert) {
+                this.graphInterval.selected = new_interval;
+                this.renderChartWithNewData();
+            }
+        },
         resetOptionsData() {
             this.date_custom = {
                 from: null,
@@ -199,14 +200,6 @@ export default {
                 this.graphInterval.selected = 900;
             } else {
                 this.graphInterval.selected = 3600;
-            }
-        },
-        changeInterval(new_interval) {
-            if (this.currentChart.isLoading) {
-                this.notify(warnTitle, warnText, 'warn');
-            } else if (new_interval !== null && !this.dangerAlert) {
-                this.graphInterval.selected = new_interval;
-                this.renderChartWithNewData();
             }
         },
         renderChartWithNewData() {
