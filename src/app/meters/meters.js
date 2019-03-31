@@ -23,6 +23,7 @@ export default {
                 {key: 'Num. de serie'},
                 {key: 'Asignado el'},
                 {key: 'Status', label: 'Estado'},
+                {key: 'Delete', label: 'Eliminar medidor'}
             ],
             companies: [
                 {value: null, text: 'Selecciona una compañía'}
