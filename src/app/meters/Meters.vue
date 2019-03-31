@@ -26,6 +26,7 @@
                                     :items="metersAssignedFormatted"
                                     :fields="fieldsDesignated"
                                     @clicked="openEDSDataModal"
+                                    @delete="deleteMeter"
                                     :alertMessage="'No hay medidores asignados.'"/>
                             </b-tab>
                         </b-tabs>

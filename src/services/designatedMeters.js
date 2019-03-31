@@ -38,6 +38,10 @@ let designatedMeters = Object.assign({}, {
 
     setDeviceDescriptions() {
         return loopback.post('DesignatedMeters/setDeviceDescriptions');
+    },
+
+    deleteMeterWithServices(meterId) {
+        return loopback.post('DesignatedMeters/deleteMeterWithServices', {meterId});
     }
 
 }, modelObject);
