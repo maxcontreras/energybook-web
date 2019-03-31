@@ -283,6 +283,7 @@ export default {
         billablePeriod() {
             moment().locale();
             let start = moment().startOf('month').format('LL');
+            start = start.slice(0, -8);
             let end = moment().endOf('month').format('LL');
             return `${start} - ${end}`
         },

@@ -302,14 +302,15 @@ html, body {
   }
 
   .icon-container {
-      width: 30%;
-      text-align: center;
+      width: 20%;
+      text-align: left;
+      padding-left: 1.2rem;
       font-size: 24px;
   }
 
   .data-container,
   .cost-container {
-      width: 50%;
+      width: 75%;
 
       h5 {
           margin-bottom: 2px;

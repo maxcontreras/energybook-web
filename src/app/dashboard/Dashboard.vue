@@ -126,7 +126,7 @@
                                 <b-card class="dashboard-general" no-body>
                                     <b-row class="analysis-card-header">
                                         <b-col>
-                                            <h5>General</h5>
+                                            <h5>Periodo de facturación</h5>
                                         </b-col>
                                         <b-col>
                                             <h5 class="billable-period">
