@@ -14,7 +14,10 @@
                         <div class="graphs">
                             <div class="date-buttons--container container-fluid">
                                 <b-row>
-                                    <b-col md="5" class="text-left">
+                                    <b-col
+                                        lg="5"
+                                        md="12"
+                                        class="text-left">
                                         <b-button
                                             v-for="(type, index) in graphType.options"
                                             :key="index + 1"
@@ -27,7 +30,10 @@
                                             {{ type.name }}
                                         </b-button>
                                     </b-col>
-                                    <b-col md="7" class="text-right">
+                                    <b-col
+                                        lg="7"
+                                        md="12"
+                                        class="text-right mt-lg-0 mt-md-2">
                                         <div
                                             class="datepickers"
                                             v-if="showDatePicker">

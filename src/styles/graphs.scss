@@ -26,7 +26,7 @@
         input.form-control {
             cursor: pointer;
             display: inline-block;
-            width: 42%;
+            width: 45%;
             max-height: 2rem;
             margin-right: 10px;
         }
@@ -60,10 +60,10 @@
 
 .graphs {
 
-    @media screen and (max-width: 1280px) {
+    @media screen and (max-width: 1440px) {
         
         .datepickers {
-            width: 30%;
+            width: 40%;
             input {
                 max-height: 1.5rem;
             }

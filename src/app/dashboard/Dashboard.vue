@@ -8,13 +8,13 @@
                 <b-row class="dashboard-content-user">
                     <b-col>
                         <b-row class="margin-bottom-2 margin-top-1">
-                            <b-col md="4">
+                            <b-col xl="4" lg="6">
                                 <b-card class="daily-reading-card">
                                     <b-row class="analysis-card-header">
-                                        <b-col md="4">
+                                        <b-col xl="4">
                                             <h5>Hoy</h5>
                                         </b-col>
-                                        <b-col md="8">
+                                        <b-col xl="8">
                                             <h5 class="billable-period">
                                                 {{ currentDay }}
                                             </h5>
@@ -45,13 +45,13 @@
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <b-col md="4">
+                            <b-col xl="4" lg="6">
                                 <b-card class="daily-reading-card">
                                     <b-row class="analysis-card-header">
-                                        <b-col md="4">
+                                        <b-col xl="4">
                                             <h5>Hoy</h5>
                                         </b-col>
-                                        <b-col md="8">
+                                        <b-col xl="8">
                                             <h5 class="billable-period">
                                                 {{ currentDay }}
                                             </h5>
@@ -82,13 +82,13 @@
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <b-col md="4">
+                            <b-col xl="4" lg="12">
                                 <b-card class="daily-reading-card">
                                     <b-row class="analysis-card-header">
-                                        <b-col md="4">
+                                        <b-col xl="4">
                                             <h5>Hoy</h5>
                                         </b-col>
-                                        <b-col md="8">
+                                        <b-col xl="8">
                                             <h5 class="billable-period">
                                                 {{ currentDay }}
                                             </h5>
@@ -122,7 +122,7 @@
                         </b-row>
 
                         <b-row class="margin-bottom-2">
-                            <b-col cols="9">
+                            <b-col xl="9">
                                 <b-card class="dashboard-general" no-body>
                                     <b-row class="analysis-card-header">
                                         <b-col>
@@ -246,7 +246,9 @@
                                     </b-row>
                                 </b-card>
                             </b-col>
-                            <b-col cols="3">
+                            <b-col
+                                xl="3"
+                                class="mt-xl-0 mt-lg-4">
                                 <b-card class="dashboard-general" no-body>
                                     <b-row class="analysis-card-header">
                                         <b-col>
