@@ -38,7 +38,7 @@
                                             </h5>
                                         </b-col>
                                     </b-row>
-                                    <b-row class="mt-2">
+                                    <b-row class="mt-3">
                                         <b-col class="text-right">
                                             Última actualización:  {{dailyLastUpdatedTime}}
                                         </b-col>
@@ -75,7 +75,7 @@
                                             </h5>
                                         </b-col>
                                     </b-row>
-                                    <b-row class="mt-2">
+                                    <b-row class="mt-3">
                                         <b-col class="text-right">
                                             Última actualización:  {{dailyLastUpdatedTime}}
                                         </b-col>
@@ -112,7 +112,7 @@
                                             </h5>
                                         </b-col>
                                     </b-row>
-                                    <b-row class="mt-2">
+                                    <b-row class="mt-3">
                                         <b-col class="text-right">
                                             Última actualización:  {{dailyLastUpdatedTime}}
                                         </b-col>
