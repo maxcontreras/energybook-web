@@ -101,7 +101,7 @@ export default {
             this.hideMeterForm();
             this.$store.dispatch('meter/createMeter', meter)
                 .then(res => {
-                    this.notify('', 'Medidor creado exitósamente', 'success');
+                    this.notify('', 'Medidor creado exitosamente', 'success');
                 })
                 .catch(() => {
                     this.notify('', 'Error al crear medidor', 'error');
