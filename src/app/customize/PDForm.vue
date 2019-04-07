@@ -37,10 +37,15 @@
             @click="createPDF">
             Subir archivo
         </b-btn>
+        <b-btn
+            @click="clearData">
+            Limpiar celdas
+        </b-btn>
     </div>
 </template>
 
 <script>
+import informationFile from '@/services/informationFiles';
 import notify from '@/mixins/notify';
 
 export default {
@@ -70,9 +75,34 @@ export default {
             return inputsFilled && linkValid;
         },
 
+        clearData() {
+            this.pdf = {
+                title: '',
+                link: '',
+                description: '',
+                number: ''
+            };
+        },
+
         createPDF() {
             if (this.validateFields()) {
-
+                informationFile.create({
+                    data: {
+                        pdfFile: this.pdf.link,
+                        title: this.pdf.title,
+                        description: this.pdf.description,
+                        number: this.pdf.number,
+                        date: new Date()
+                    }
+                }).then(res => {
+                    this.$emit('createFile', res);
+                    this.notify('Archivo PDF subido con éxito', '', 'success');
+                    
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.notify('No se pudo subir el PDF', '', 'error');
+                });
             } else {
                 this.notify('No se pudo subir el PDF', 'Revisa los datos', 'warn');
             }
