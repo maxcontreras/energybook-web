@@ -31,7 +31,8 @@
                         <h3>Archivos en línea</h3>
                         <v-table
                             :items="formatedInfoFiles"
-                            :fields="infoFields">
+                            :fields="infoFields"
+                            @delete="deleteFile">
                         </v-table>
                     </b-col>
                 </b-row>
@@ -68,15 +69,7 @@ export default {
         informationFile.find({})
             .then(files => {
                 files.forEach(file => {
-                    this.addNewPdf({
-                        date: file.date,
-                        number: file.number,
-                        title: file.title,
-                        description: file.description,
-                        status: file.status,
-                        pdf: file.pdfFile,
-                        id: file.id
-                    });
+                    this.addNewPdf(file);
                 });
             });
     },
@@ -85,15 +78,32 @@ export default {
         formatedInfoFiles() {
             return this.infoFiles.map(file => {
                 file.date = moment(file.date).format('LL');
-                console.log(file);
                 return file;
             });
         }
     },
 
     methods: {
-        addNewPdf(pdf) {
-            this.infoFiles.push(pdf);
+        addNewPdf(file) {
+            this.infoFiles.push({
+                date: file.date,
+                number: file.number,
+                title: file.title,
+                description: file.description,
+                status: file.status,
+                pdf: file.pdfFile,
+                id: file.id
+            });
+        },
+        deleteFile(pdf) {
+            informationFile.destroyById({id: pdf.id})
+                .then(() => {
+                    this.infoFiles = this.infoFiles.filter(file => file.id !== pdf.id);
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.notify('No se pudo borrar el archivo PDF', '', 'error');
+                });
         }
     }
 }

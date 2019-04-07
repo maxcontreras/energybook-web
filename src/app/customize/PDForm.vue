@@ -97,7 +97,7 @@ export default {
                 }).then(res => {
                     this.$emit('createFile', res);
                     this.notify('Archivo PDF subido con éxito', '', 'success');
-                    
+                    this.clearData();
                 })
                 .catch(err => {
                     console.log(err);
