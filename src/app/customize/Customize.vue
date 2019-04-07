@@ -30,7 +30,7 @@
                     <b-col>
                         <h3>Archivos en línea</h3>
                         <v-table
-                            :items="formatedInfoFiles"
+                            :items="formattedInfoFiles"
                             :fields="infoFields"
                             @delete="deleteFile">
                         </v-table>
@@ -75,7 +75,7 @@ export default {
     },
 
     computed: {
-        formatedInfoFiles() {
+        formattedInfoFiles() {
             return this.infoFiles.map(file => {
                 file.date = moment(file.date).format('LL');
                 return file;
