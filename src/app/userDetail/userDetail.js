@@ -292,7 +292,7 @@ export default {
                     this.$notify({
                         group: 'notification',
                         type: 'success',
-                        text: 'Usuario eliminado exitósamente'
+                        text: 'Usuario eliminado exitosamente'
                     });
                 })
                 .catch(err => {

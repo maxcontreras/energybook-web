@@ -22,18 +22,18 @@ $egray2: #8D8D8D;
     .meter-not-available-img {
         width: 4rem;
         cursor: pointer;
-        position: absolute;
-        top: 0;
-        right: 0;
+        margin-right: 2rem;
     }
 
     p.current-date {
         margin-top: .5rem;
+        display: inline-block;
         margin-bottom: 0;
     }
 
     .alert {
         margin-bottom: 0;
+        text-align: center;
         font-size: 18px;
         padding: 5px 10px;
         color: $egreen1;
@@ -51,9 +51,8 @@ $egray2: #8D8D8D;
 
     .menu-dropdown {
 
-        display: block !important;
+        display: inline-block !important;
         text-align: right;
-        width: 4rem;
 
         .b-nav-dropdown {
             width: 100%;

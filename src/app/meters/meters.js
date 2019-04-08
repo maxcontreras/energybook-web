@@ -1,10 +1,12 @@
 /* eslint-disable */
 import meters from '@/services/meters'
+import designatedMeters from '@/services/designatedMeters';
 import companies from '@/services/companies'
 import MeterForm from '@/app/meters/MeterForm.vue'
 import VHeader from '@/app/components/VHeader.vue'
 import VTable from '@/app/components/VTable.vue'
 import MeterData from './MeterData.vue';
+import notify from '@/mixins/notify';
 
 export default {
     components: {
@@ -13,6 +15,8 @@ export default {
         MeterForm,
         MeterData
     },
+
+    mixins: [notify('notification')],
 
     data() {
         return {
@@ -23,6 +27,7 @@ export default {
                 {key: 'Num. de serie'},
                 {key: 'Asignado el'},
                 {key: 'Status', label: 'Estado'},
+                {key: 'Delete', label: 'Eliminar medidor'}
             ],
             companies: [
                 {value: null, text: 'Selecciona una compañía'}
@@ -96,18 +101,10 @@ export default {
             this.hideMeterForm();
             this.$store.dispatch('meter/createMeter', meter)
                 .then(res => {
-                    this.$notify({
-                        group: 'notification',
-                        type: 'success',
-                        text: 'Medidor creado exitósamente'
-                    });
+                    this.notify('', 'Medidor creado exitosamente', 'success');
                 })
                 .catch(() => {
-                    this.$notify({
-                        group: 'notification',
-                        type: 'error',
-                        text: 'Error al crear medidor'
-                    });
+                    this.notify('', 'Error al crear medidor', 'error');
                 });
         },
 
@@ -117,11 +114,7 @@ export default {
 
         editMeter() {
             if (!this.verifyServices()) {
-                this.$notify({
-                    group: 'notification',
-                    type: 'warn',
-                    text: 'Debe haber al menos un dispositivo por servicio'
-                });
+                this.notify('', 'Debe haber al menos un dispositivo por servicio', 'warn');
                 return;
             }
             const selectedServices = {};
@@ -130,19 +123,11 @@ export default {
             }
             this.$store.dispatch('meter/editAssignedMeter', {meter: this.shownMeter, services: selectedServices})
                 .then(() => {
-                    this.$notify({
-                        group: 'notification',
-                        type: 'success',
-                        text: 'Medidor actualizado'
-                    });
+                    this.notify('', 'Medidor actualizado', 'success');
                 })
                 .catch(err => {
                     console.log(err);
-                    this.$notify({
-                        group: 'notification',
-                        type: 'error',
-                        text: 'Error al editar medidor'
-                    });
+                    this.notify('', 'Error al editar medidor', 'error');
                 });
         },
 
@@ -179,6 +164,18 @@ export default {
                     if(devices){
                         this.connectedDevices = devices;
                     }
+                });
+        },
+
+        deleteMeter(meter) {
+            designatedMeters.deleteMeterWithServices(meter.id)
+                .then(() => {
+                    this.$store.dispatch('meter/loadAssignedMeters');
+                    this.notify('', 'Medidor eliminado exitosamente', 'success');
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.notify('', 'Error al borrar medidor', 'error');
                 });
         }
     }

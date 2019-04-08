@@ -283,6 +283,7 @@ export default {
         billablePeriod() {
             moment().locale();
             let start = moment().startOf('month').format('LL');
+            start = start.slice(0, -8);
             let end = moment().endOf('month').format('LL');
             return `${start} - ${end}`
         },
@@ -415,22 +416,22 @@ export default {
             }); */
             
             designatedMeters.odometerReadings(this.companyId)
-                .then((val) => {
+                .finally(() => {
                     return designatedMeters.dailyReadings(this.companyId);
                 })
-                .then((val) => {
+                .finally(() => {
                     return designatedMeters.fpReadings(this.companyId);
                 })
-                .then((val) => {
+                .finally(() => {
                     return designatedMeters.monthlyReadings(this.companyId);
                 })
-                .then((val) => {
+                .finally(() => {
                     return designatedMeters.epimpHistory(this.companyId);
                 })
-                .then((val) => {
+                .finally(() => {
                     return designatedMeters.consumptionSummary(this.companyId);
                 })
-                .then(val => {
+                .then(() => {
                     this.getMeters();
                     this.load();
                     this.refreshingData = false;

@@ -68,53 +68,48 @@
         <div id="main">
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
-                <b-col md="4">
+                <b-col
+                    xl="4"
+                    md="6">
                     <v-weather
                         :lat="(position)? position.lat: 0"
                         :lon="(position)? position.lon: 0"/>
                 </b-col>
-                <b-col md="8" class="text-right">
-                    <b-row>
-                        <b-col md="6">
-                            <img
-                                v-show="!meterAvailable"
-                                v-b-tooltip.hover title="Medidor no disponible"
-                                class="meter-not-available-img"
-                                src="/assets/images/conection-error.svg"
-                                alt="Medidor no disponible">
-                        </b-col>
-                        <b-col md="3">
-                            <p class="current-date">{{date}}</p>
-                        </b-col>
-                        <b-col
-                            md="1"
-                            class="text-center">
-                            <b-btn
-                                class="alert"
-                                variant="outline-secondary">
-                                <i class="far fa-bell"></i>
-                            </b-btn>
-                        </b-col>
-                        <b-collapse
-                            is-nav
-                            id="nav_dropdown_collapse"
-                            class="menu-dropdown">
-                            <b-navbar-nav>
-                                <b-nav-item-dropdown
-                                    :text="user.user.name + ' ' + user.user.lastname"
-                                    right>
-                                    <b-dropdown-item 
-                                        v-if="!isAccounting"
-                                        @click="goTo('profile')">
-                                        <i class="far fa-user"></i> Perfil
-                                    </b-dropdown-item>
-                                    <b-dropdown-item @click="logout()">
-                                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                                    </b-dropdown-item>
-                                </b-nav-item-dropdown>
-                            </b-navbar-nav>
-                        </b-collapse>
-                    </b-row>
+                <b-col
+                    xl="8"
+                    md="6"
+                    class="text-right">
+                    <img
+                        v-show="!meterAvailable"
+                        v-b-tooltip.hover title="Medidor no disponible"
+                        class="meter-not-available-img"
+                        src="/assets/images/conection-error.svg"
+                        alt="Medidor no disponible">
+                    <p class="current-date">{{date}}</p>
+                    <b-btn
+                        class="alert"
+                        variant="outline-secondary">
+                        <i class="far fa-bell"></i>
+                    </b-btn>
+                    <b-collapse
+                        is-nav
+                        id="nav_dropdown_collapse"
+                        class="menu-dropdown">
+                        <b-navbar-nav>
+                            <b-nav-item-dropdown
+                                :text="user.user.name + ' ' + user.user.lastname"
+                                right>
+                                <b-dropdown-item 
+                                    v-if="!isAccounting"
+                                    @click="goTo('profile')">
+                                    <i class="far fa-user"></i> Perfil
+                                </b-dropdown-item>
+                                <b-dropdown-item @click="logout()">
+                                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                </b-dropdown-item>
+                            </b-nav-item-dropdown>
+                        </b-navbar-nav>
+                    </b-collapse>
                 </b-col>
                 
             </b-navbar>

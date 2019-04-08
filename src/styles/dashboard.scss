@@ -124,7 +124,7 @@ $white: #ffffff;
 
             h5 {
                 margin-top: 0.5rem;
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 letter-spacing: 1px;
                 display: inline-block;
                 width: 47%;
@@ -133,6 +133,7 @@ $white: #ffffff;
             p {
                 margin-bottom: 0;
                 font-size: 1.2rem;
+                font-weight: 600;
                 letter-spacing: 1px;
             }
         }
@@ -140,6 +141,7 @@ $white: #ffffff;
         .dashboard-general,
         .dashboard-history,
         .daily-reading-card {
+            margin-bottom: 1rem;
             .analysis-card-header {
                 h5 {
                     font-size: 1.1rem;
@@ -158,7 +160,7 @@ $white: #ffffff;
             .analysis-card-header {
                 border-top-left-radius: 0.4rem;
                 border-top-right-radius: 0.4rem;
-                padding: 1.5rem 2rem 1rem;
+                padding: 1.5rem 2rem .5rem;
                 background-color: $white;
                 border-bottom: 1px solid $gray;
                 margin: 0;
