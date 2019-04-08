@@ -10,7 +10,7 @@
                 <b-row class="card-body">
                     <b-col>
                         <v-table
-                            :items="documents"
+                            :items="formattedDocuments"
                             :fields="fields">
                         </v-table>
                     </b-col>
@@ -22,6 +22,7 @@
 
 <script>
 import VTable from '@/app/components/VTable.vue';
+import informationFile from '@/services/informationFiles';
 
 export default {
     components: {
@@ -30,16 +31,7 @@ export default {
 
     data() {
         return {
-            documents: [
-                {
-                    number: 1,
-                    title: 'Registro nacional de emisiones',
-                    description: 'Guía de usuario para el reporte de emisiones',
-                    date: moment().format('LL'),
-                    status: true,
-                    pdf: "https://drive.google.com/file/d/1BLPQ933ajXswP23OQsO-jKPsjEkFfJKt/view"
-                }
-            ],
+            documents: [],
             fields: [
                 { key: 'number', label: 'Número de artículo' },
                 { key: 'title', label: 'Título de artículo' },
@@ -48,6 +40,32 @@ export default {
                 { key: 'status', label: 'Estado' },
                 { key: 'pdf', label: 'Archivo' }
             ]
+        }
+    },
+
+    beforeMount() {
+        informationFile.find({})
+            .then(files => {
+                files.forEach(file => {
+                    this.documents.push({
+                        date: file.date,
+                        number: file.number,
+                        title: file.title,
+                        description: file.description,
+                        status: file.status,
+                        pdf: file.pdfFile,
+                        id: file.id
+                    });
+                });
+            });
+    },
+
+    computed: {
+        formattedDocuments() {
+            return this.documents.map(file => {
+                file.date = moment(file.date).format('LL');
+                return file;
+            });
         }
     }
 }

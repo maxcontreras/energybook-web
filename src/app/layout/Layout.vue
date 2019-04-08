@@ -57,6 +57,9 @@
                 <b-nav-item v-if="isManager" v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')">
                    <div class="menu-icon-container"> <i class="fas fa-dollar-sign"></i></div> Facturación
                 </b-nav-item>
+                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'customize'}" @click="goTo('customize')">
+                    <div class="menu-icon-container"><i class="fas fa-cogs"></i></div> Personalizar
+                </b-nav-item>
                 <b-nav-item v-bind:class="{'current-view': currentView === 'generation'}" @click="goTo('generation')" v-if="isUser">
                     <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> Generación
                 </b-nav-item>
