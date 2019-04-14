@@ -1,8 +1,12 @@
 /* eslint-disable */
 
 import companies from '@/services/companies';
+import notify from '@/mixins/notify';
 
 export default {
+
+    mixins: [notify('register')],
+
 	data() {
 		return {
             name: '',
@@ -69,10 +73,43 @@ export default {
             password: '',
             passwordConfirm: ''
 		};
-	},
+    },
+    
 	methods: {
+        validateData() {
+            const phoneRegexp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+            const mailRegexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            
+            const dropDownsSelected = this.size_selected !== null && this.state_selected !== null && this.business_line_selected !== null;
+            const nonEmptyValues = this.name.replace(/ /g, '') !== '' && this.phone.replace(/ /g, '') !== '' &&
+                this.password.replace(/ /g, '') !== '' && this.passwordConfirm.replace(/ /g, '') !== '' &&
+                this.lastname.replace(/ /g, '') !== '' && this.company_name.replace(/ /g, '') !== '' && this.email.replace(/ /g, '') !== '';
+            if (!dropDownsSelected || !nonEmptyValues) {
+                return { valid: false, message: 'Falta llenar algunos campos' };
+            }
+            if (!phoneRegexp.test(this.phone)) {
+                return { valid: false, message: 'El número de teléfono no tiene un formato válido' };
+            }
+            if (!mailRegexp.test(this.email)) {
+                return { valid: false, message: 'Correo electrónico no tiene formato válido' };
+            }
+            if (this.password !== this.passwordConfirm) {
+                return { valid: false, message: 'La contraseña debe ser la misma' };
+            }
+            return { valid: true, message: '' };
+        },
+
 		signUp() {
-            companies.register({
+
+            const { valid, message } = this.validateData();
+
+            if (!valid) {
+                this.notify('Error', message, 'warn');
+            } else {
+                console.log('Valores válidos');
+            }
+
+            /* companies.register({
                 data: {
                     name: this.name,
                     lastname: this.lastname,
@@ -88,7 +125,7 @@ export default {
                 if(res.response) {
                     this.$router.push({ name: 'login' });
                 }
-            });
+            }); */
         }
 	}
 };
