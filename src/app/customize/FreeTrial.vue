@@ -99,12 +99,15 @@ import ConfirmationDialog from '@/app/components/ConfirmationDialog.vue';
 import VTable from '@/app/components/VTable.vue';
 import company from '@/services/companies';
 import eUsers from '@/services/eUsers';
+import notify from '@/mixins/notify';
 
 export default {
     components: {
         VTable,
         ConfirmationDialog
     },
+
+    mixins: [notify('notification')],
 
     data() {
         return {
@@ -208,9 +211,15 @@ export default {
             
         },
 
-        revokeFreeTrial() {
-            
-
+        revokeFreeTrial(user) {
+            eUsers.destroyById({ id: user.id })
+                .then(() => {
+                    this.notify('Licencia revocada', `El periodo de prueba del usuario ${user.name} ha terminado`, 'success');
+                    this.freeTrialUsers = this.freeTrialUsers.filter(usr => usr.id !== user.id);
+                })
+                .catch(() => {
+                    this.notify('Error al revocar licencia', 'No se pudo revocar la licencia en este momento', 'error');
+                })
         },
 
         showPersonalData(item) {
