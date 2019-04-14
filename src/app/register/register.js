@@ -100,13 +100,27 @@ export default {
         },
 
 		signUp() {
-
             const { valid, message } = this.validateData();
 
-            if (!valid) {
-                this.notify('Error', message, 'warn');
+            if (valid) {
+                const contactData = {
+                    full_name: `${this.name} ${this.lastname}`,
+                    company_name: this.company_name,
+                    business_line: this.business_lines.find(line => line.value === this.business_line_selected).text,
+                    state: this.states.find(state => state.value === this.state_selected).text,
+                    size: this.sizes.find(size => size.value === this.size_selected).text,
+                    phone: this.phone
+                };
+                const newUser = {
+                    name: this.name,
+                    lastname: this.lastname,
+                    email: this.email,
+                    password: this.password,
+                    phone: this.phone
+                };
+                console.log(contactData, newUser);
             } else {
-                console.log('Valores válidos');
+                this.notify('Error', message, 'warn');
             }
 
             /* companies.register({
