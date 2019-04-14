@@ -8,8 +8,8 @@ let companies = Object.assign({}, {
 
     relation: '',
 
-    register(data) {
-        return loopback.post(`/Companies/register`, data);
+    register(contactData, user) {
+        return loopback.post(`/Companies/register`, { contactData, user });
     },
 
     addUsers(data) {

@@ -65,9 +65,9 @@ export default {
             sizes: [
                 { value: null, text: '¿Cuánta gente trabaja en tu empresa?' },
                 { value: 0, text: '2-10' },
-                { value: 0, text: '11-50' },
-                { value: 0, text: '51-200' },
-                { value: 0, text: '2001-1000' }
+                { value: 1, text: '11-50' },
+                { value: 2, text: '51-200' },
+                { value: 3, text: '2001-1000' }
             ],
             phone: '',
             password: '',
@@ -99,6 +99,19 @@ export default {
             return { valid: true, message: '' };
         },
 
+        resetValues() {
+            this.name = '';
+            this.lastname = ''
+            this.email = '';
+            this.company_name = '';
+            this.business_line_selected = null;
+            this.state_selected = null;
+            this.size_selected = null;
+            this.phone = '';
+            this.password = '';
+            this.passwordConfirm = '';
+        },
+
 		signUp() {
             const { valid, message } = this.validateData();
 
@@ -118,28 +131,17 @@ export default {
                     password: this.password,
                     phone: this.phone
                 };
-                console.log(contactData, newUser);
+                companies.register(contactData, newUser)
+                    .then(() => {
+                        this.notify('Éxito', 'Usuario de prueba creado exitosamente. Inicia sesión para comenzar', 'success');
+                        this.resetValues();
+                    }) 
+                    .catch(() => {
+                        this.notify('Error', 'No fue posible crear una cuenta de prueba. Contacta a un administrador', 'error');
+                    });
             } else {
                 this.notify('Error', message, 'warn');
             }
-
-            /* companies.register({
-                data: {
-                    name: this.name,
-                    lastname: this.lastname,
-                    email: this.email,
-                    company_name: this.company_name,
-                    type_id: 1,
-                    size: this.size,
-                    phone: this.phone,
-                    password: this.password,
-                    location: this.place.formatted_address
-                }
-            }).then(res => {
-                if(res.response) {
-                    this.$router.push({ name: 'login' });
-                }
-            }); */
         }
 	}
 };
