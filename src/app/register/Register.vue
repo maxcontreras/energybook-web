@@ -24,27 +24,26 @@
                     </b-col>
                     <b-col md="6">
                         <b-form-group>
-                            <b-form-input type="text" v-model="company_name" required placeholder="Empresa"></b-form-input>
+                            <b-form-input type="text" v-model="company_name" required placeholder="Nombre de la empresa"></b-form-input>
                         </b-form-group>
                         <b-form-group>
-                            <b-form-input type="text" v-model="businessLine" required placeholder="Giro de tu empresa"></b-form-input>
+                            <b-form-select v-model="business_line_selected" :options="business_lines"/>
                         </b-form-group>
                         <b-form-group>
-                            <b-form-input type="text" v-model="size" required placeholder="¿Cuánta gente trabaja en tu empresa?"></b-form-input>
+                             <b-form-select v-model="size_selected" :options="sizes"/>
                         </b-form-group>
                         <b-form-group>
                             <b-form-input type="text" v-model="phone" placeholder="Teléfono"></b-form-input>
                         </b-form-group>
                         <b-form-group>
-                            <gmap-autocomplete
-                                class="form-control"
-                                placeholder="Estado"
-                                @place_changed="setPlace">
-                            </gmap-autocomplete>
+                            <b-form-select v-model="state_selected" :options="states"/>
                         </b-form-group>
                     </b-col>
                 </b-row>
                 <b-row align-h="end">
+                    <b-col md="6">
+                        <b-alert show variant="info">Tus datos están protegidos</b-alert>
+                    </b-col>
                     <b-col md="6">
                         <b-button type="submit" variant="primary">Registrarse</b-button>
                         <p>¿Ya tienes tu cuenta?
