@@ -27,23 +27,100 @@
                 </b-btn>
             </div>
         </b-col>
+        <b-col>
+            <h3>Usuarios de prueba</h3>
+            <v-table
+                :items="freeTrialUsers"
+                :fields="userFields"
+                @delete="revokeFreeTrial"
+                @clicked="showPersonalData">
+            </v-table>
+            <confirmation-dialog
+                title="Información de contacto"
+                :showAcceptButton="false"
+                :show="showContactData"
+                @cancel="hidePersonalData"
+                @hidden="hidePersonalData">
+                <b-form-group
+                    label="Nombre completo"
+                    label-for="fullname">
+                    <b-form-input
+                        id="fullname"
+                        v-model="contactData.full_name"/>
+                </b-form-group>
+                <b-form-group
+                    label="Nombre de la empresa"
+                    label-for="company-name">
+                    <b-form-input
+                        id="company-name"
+                        v-model="contactData.company_name"/>
+                </b-form-group>
+                <b-form-group
+                    label="Giro de la empresa"
+                    label-for="line">
+                    <b-form-input
+                        id="line"
+                        v-model="contactData.business_line"/>
+                </b-form-group>
+                <b-form-group
+                    label="Número de empleados"
+                    label-for="size">
+                    <b-form-input
+                        id="size"
+                        v-model="contactData.size"/>
+                </b-form-group>
+                <b-form-group
+                    label="Estado"
+                    label-for="state">
+                    <b-form-input
+                        id="state"
+                        v-model="contactData.state"/>
+                </b-form-group>
+                <b-form-group
+                    label="Teléfono"
+                    label-for="phone">
+                    <b-form-input
+                        id="phone"
+                        v-model="contactData.phone"/>
+                </b-form-group>
+            </confirmation-dialog>
+        </b-col>
     </b-row>
 </template>
 
 <script>
+import ConfirmationDialog from '@/app/components/ConfirmationDialog.vue';
+import VTable from '@/app/components/VTable.vue';
 import company from '@/services/companies';
+import eUsers from '@/services/eUsers';
 
 export default {
+    components: {
+        VTable,
+        ConfirmationDialog
+    },
+
     data() {
         return {
             selectedCompany: null,
             raw_companies: [],
-            freeTrialCompany: null
+            freeTrialCompany: null,
+            freeTrialUsers: [],
+            showContactData: false,
+            contactData: {},
+            userFields: [
+                { key: 'name', label: 'Nombre del usuario' },
+                { key: 'created_at', label: 'Fecha de creación' },
+                { key: 'company_name', label: 'Compañía asociada de prueba' },
+                { key: 'phone', label: 'Teléfono' },
+                { key: 'Delete', label: 'Revocar periodo de prueba' }
+            ]
         };
     },
 
     beforeMount() {
         this.getCompanies();
+        this.getTrialUsers();
     },
 
     computed: {
@@ -58,6 +135,29 @@ export default {
     },
 
     methods: {
+        getTrialUsers() {
+            eUsers.find({
+                filter: {
+                    where: {
+                        free_trial: true
+                    },
+                    include: ['company']
+                }
+                
+            }).then(users => {
+                this.freeTrialUsers = users.map(user =>
+                    ({
+                        company_name: user.company.company_name,
+                        contact_data: user.contact_data,
+                        name: `${user.name} ${user.lastname}`,
+                        phone: user.phone,
+                        created_at: moment(user.created_at).format("LL"),
+                        id: user.id
+                    })
+                );
+            });
+        },
+
         getCompanies() {
             company.find({
                 where: { status: 1 }
@@ -100,6 +200,20 @@ export default {
                     });
             }
             
+        },
+
+        revokeFreeTrial() {
+            
+
+        },
+
+        showPersonalData(item) {
+            this.contactData = item.item.contact_data;
+            this.showContactData = true;
+        },
+
+        hidePersonalData() {
+            this.showContactData = false;
         },
 
         removeCompany() {
