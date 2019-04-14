@@ -46,6 +46,7 @@
                     label-for="fullname">
                     <b-form-input
                         id="fullname"
+                        disabled
                         v-model="contactData.full_name"/>
                 </b-form-group>
                 <b-form-group
@@ -53,6 +54,7 @@
                     label-for="company-name">
                     <b-form-input
                         id="company-name"
+                        disabled
                         v-model="contactData.company_name"/>
                 </b-form-group>
                 <b-form-group
@@ -60,6 +62,7 @@
                     label-for="line">
                     <b-form-input
                         id="line"
+                        disabled
                         v-model="contactData.business_line"/>
                 </b-form-group>
                 <b-form-group
@@ -67,6 +70,7 @@
                     label-for="size">
                     <b-form-input
                         id="size"
+                        disabled
                         v-model="contactData.size"/>
                 </b-form-group>
                 <b-form-group
@@ -74,6 +78,7 @@
                     label-for="state">
                     <b-form-input
                         id="state"
+                        disabled
                         v-model="contactData.state"/>
                 </b-form-group>
                 <b-form-group
@@ -81,6 +86,7 @@
                     label-for="phone">
                     <b-form-input
                         id="phone"
+                        disabled
                         v-model="contactData.phone"/>
                 </b-form-group>
             </confirmation-dialog>
