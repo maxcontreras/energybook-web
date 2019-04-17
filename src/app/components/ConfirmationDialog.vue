@@ -10,6 +10,7 @@
             slot="modal-footer"
             class="w-100">
             <b-button
+                v-if="showAcceptButton"
                 class="float-right"
                 @click="$emit('accept')"
                 :disabled="acceptDisable">
@@ -34,6 +35,10 @@ export default {
         acceptText: {
             type: String,
             default: 'Aceptar'
+        },
+        showAcceptButton: {
+            type: Boolean,
+            default: true
         },
         acceptDisable: {
             type: Boolean,

@@ -33,6 +33,10 @@ export default {
 		return loopback.post(`/${this.model}/${id}${this.relation}`, data);
 	},
 
+	patch({ id }, data) {
+        return loopback.patch(`/${this.model}/${id}`, data);
+    },
+
 	updateById({ id, fk }, data) {
 		return loopback.put(`/${this.model}/${id}${this.relation}/${fk}`, data);
 	},

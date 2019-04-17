@@ -9,6 +9,7 @@
                 </b-row>
                 <b-row class="card-body">
                     <b-col>
+                        <free-trial />
                     </b-col>
                 </b-row>
             </b-card>
@@ -42,6 +43,7 @@
 </template>
 
 <script>
+import FreeTrial from './FreeTrial.vue';
 import PdfForm from './PDForm.vue';
 import VTable from '@/app/components/VTable.vue';
 import informationFile from '@/services/informationFiles';
@@ -49,6 +51,7 @@ import informationFile from '@/services/informationFiles';
 export default {
     components: {
         PdfForm,
+        FreeTrial,
         VTable
     },
 
