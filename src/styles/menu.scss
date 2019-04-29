@@ -121,6 +121,10 @@ $egray2: #8D8D8D;
     .menu-icon-container {
         width: 30px;
         display: inline-block;
+
+        img {
+            width: 1.5rem;
+        }
     }
 
     .nav-item{

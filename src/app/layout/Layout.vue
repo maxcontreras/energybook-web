@@ -8,14 +8,22 @@
                 <b-nav-item
                     v-if="isAdmin"
                     v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
-                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
+                    <div class="menu-icon-container">
+                        <img v-show="currentView === 'dashboard'" src="/assets/icons/ic_dashboard.svg" alt="">
+                        <img v-show="currentView !== 'dashboard'" src="/assets/icons/ic_dashboard_gris.svg" alt="">
+                    </div>
+                    Dashboard
                 </b-nav-item>
                 <div v-else>
                     <b-nav-item
                         v-b-toggle.serviceSelection
                         v-bind:class="{'current-view': currentView === 'dashboard'}"
                         @click="showCollapse = !showCollapse">
-                        <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
+                        <div class="menu-icon-container">
+                            <img v-show="currentView === 'dashboard'" src="/assets/icons/ic_dashboard.svg" alt="">
+                            <img v-show="currentView !== 'dashboard'" src="/assets/icons/ic_dashboard_gris.svg" alt="">
+                        </div>
+                        Dashboard
                     </b-nav-item>
                     <b-collapse
                         id="serviceSelection"
@@ -40,19 +48,38 @@
                     <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> CFE
                 </b-nav-item>
                 <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')">
-                    <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
+                    <div class="menu-icon-container">
+                        <img v-show="currentView === 'graphs'" src="/assets/icons/ic_graphs.svg" alt="">
+                        <img v-show="currentView !== 'graphs'" src="/assets/icons/ic_graphs_gris.svg" alt="">
+                    </div>
+                    Gráficas
                 </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'userCosts'}" @click="goTo('userCosts')">
-                    <div class="menu-icon-container"><i class="fas fa-coins"></i></div> Costos
+                    <div class="menu-icon-container">
+                        <img v-show="currentView === 'userCosts'" src="/assets/icons/ic_costs.svg" alt="">
+                        <img v-show="currentView !== 'userCosts'" src="/assets/icons/ic_costs_gris.svg" alt="">
+                    </div> Costos
                 </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'netCode'}" @click="goTo('netCode')">
-                    <div class="menu-icon-container"><i class="fas fa-gavel"></i></div> Código de red
+                    <div class="menu-icon-container">
+                        <img v-show="currentView === 'netCode'" src="/assets/icons/ic_netcode.svg" alt="">
+                        <img v-show="currentView !== 'netCode'" src="/assets/icons/ic_netcode_gris.svg" alt="">
+                    </div>
+                    Código de red
                 </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'history'}" @click="goTo('history')">
-                    <div class="menu-icon-container"><i class="fas fa-history"></i></div> Historial
+                    <div class="menu-icon-container">
+                        <img v-show="currentView === 'history'" src="/assets/icons/ic_history.svg" alt="">
+                        <img v-show="currentView !== 'history'" src="/assets/icons/ic_history_gris.svg" alt="">
+                    </div>
+                    Historial
                 </b-nav-item>
                 <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'carbonFootprint'}" @click="goTo('carbonFootprint')">
-                    <div class="menu-icon-container"><i class="fas fa-shoe-prints"></i></div> Huella de carbono
+                    <div class="menu-icon-container">
+                        <img v-show="currentView === 'carbonFootprint'" src="/assets/icons/ic_huella.svg" alt="">
+                        <img v-show="currentView !== 'carbonFootprint'" src="/assets/icons/ic_huella_gris.svg" alt="">
+                    </div>
+                    Huella de carbono
                 </b-nav-item>
                 <b-nav-item v-if="isManager" v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')">
                    <div class="menu-icon-container"> <i class="fas fa-dollar-sign"></i></div> Facturación
@@ -61,16 +88,22 @@
                     <div class="menu-icon-container"><i class="fas fa-cogs"></i></div> Personalizar
                 </b-nav-item>
                 <b-nav-item v-bind:class="{'current-view': currentView === 'generation'}" @click="goTo('generation')" v-if="isUser">
-                    <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> Generación
+                    <div class="menu-icon-container">
+                        <img v-show="currentView === 'generation'" src="/assets/icons/ic_generator.svg" alt="">
+                        <img v-show="currentView !== 'generation'" src="/assets/icons/ic_generator_gris.svg" alt="">
+                    </div>
+                    Generación
                 </b-nav-item>
                 <b-nav-item v-bind:class="{'current-view': currentView === 'information'}" @click="goTo('information')" v-if="isUser">
-                    <div class="menu-icon-container"><i class="fas fa-info-circle"></i></div> Información
+                    <div class="menu-icon-container">
+                        <img v-show="currentView === 'information'" src="/assets/icons/ic_info.svg" alt="">
+                        <img v-show="currentView !== 'information'" src="/assets/icons/ic_info_gris.svg" alt="">
+                    </div> Información
                 </b-nav-item>
             </b-nav>
         </div>
         <div id="main">
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
-                <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
                 <b-col
                     xl="4"
                     md="6">
