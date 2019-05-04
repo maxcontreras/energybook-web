@@ -38,7 +38,7 @@ export default {
     align-items: center;
 
     h5 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .property {

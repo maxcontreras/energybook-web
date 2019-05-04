@@ -13,7 +13,7 @@
                             <b-row class="properties">
                                 <b-col cols="12">
                                     <v-property
-                                        property-name="Generacion"
+                                        property-name="Generación"
                                         property-value="100,000"
                                         property-unit="kWh"/>
                                 </b-col>
@@ -44,7 +44,7 @@
                             <b-row class="properties">
                                 <b-col cols="12">
                                     <v-property
-                                        property-name="Generacion"
+                                        property-name="Generación"
                                         property-value="$100.00"/>
                                 </b-col>
                                 <b-col cols="12">
@@ -99,7 +99,7 @@
 
 <script>
 import ReadingCard from '@/app/components/ReadingCard';
-import VProperty from './VProperty';
+import VProperty from '@/app/components/VProperty';
 
 export default {
     components: {
@@ -126,6 +126,10 @@ export default {
 .properties {
     > * {
         margin-bottom: .5rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
 
         &:first-child {
             margin-top: .5rem;
