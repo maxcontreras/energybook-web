@@ -1,6 +1,6 @@
 <template>
     <b-row id="energy-generation">
-        <b-col>
+        <b-col cols="12">
             <b-row>
                 <b-col xl="4" lg="6">
                     <reading-card>
@@ -93,6 +93,9 @@
                     </reading-card>
                 </b-col>
             </b-row>
+        </b-col>
+        <b-col>
+            <p>Graph goes here</p>
         </b-col>
     </b-row>
 </template>
