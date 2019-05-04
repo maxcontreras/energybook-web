@@ -95,7 +95,7 @@
             </b-row>
         </b-col>
         <b-col>
-            <p>Graph goes here</p>
+            <graph-holder></graph-holder>
         </b-col>
     </b-row>
 </template>
@@ -103,11 +103,13 @@
 <script>
 import ReadingCard from '@/app/components/ReadingCard';
 import VProperty from '@/app/components/VProperty';
+import graphHolder from '@/app/components/graphHolder/graphHolder.vue';
 
 export default {
     components: {
         ReadingCard,
-        VProperty
+        VProperty,
+        graphHolder
     },
 
     data() {
