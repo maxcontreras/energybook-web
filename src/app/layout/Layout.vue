@@ -70,7 +70,6 @@
         </div>
         <div id="main">
             <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
-                <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
                 <b-col
                     xl="4"
                     md="6">
