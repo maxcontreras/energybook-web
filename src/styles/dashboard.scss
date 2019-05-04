@@ -139,18 +139,13 @@ $white: #ffffff;
         }
 
         .dashboard-general,
-        .dashboard-history,
-        .daily-reading-card {
+        .dashboard-history {
             margin-bottom: 1rem;
             .analysis-card-header {
                 h5 {
                     font-size: 1.1rem;
                     letter-spacing: 1px;
                 }
-            }
-
-            .billable-period {
-                text-align: right;
             }
         }
 
@@ -173,19 +168,6 @@ $white: #ffffff;
 
             >div.row:nth-child(2) {
                 padding: 2rem;
-            }
-        }
-
-        .daily-reading-card {
-
-            .analysis-card-header {
-                background-color: $white;
-                border-bottom: 1px solid $gray;
-                padding: 0 1rem .2rem;
-            }
-
-            .analysis-card-body {
-                padding-top: 1rem;
             }
         }
     }

@@ -9,41 +9,39 @@
                     <b-col>
                         <b-row class="margin-bottom-2 margin-top-1">
                             <b-col xl="4" lg="6">
-                                <b-card class="daily-reading-card">
-                                    <b-row class="analysis-card-header">
-                                        <b-col xl="4">
-                                            <h5>Hoy</h5>
-                                        </b-col>
-                                        <b-col xl="8">
-                                            <h5 class="billable-period">
-                                                {{ currentDay }}
-                                            </h5>
-                                        </b-col>
-                                    </b-row>
-                                    <b-row class="analysis-card-body">
-                                        <b-col
-                                            md="2"
-                                            class="dashboard-icon-container">
-                                            <img class="dashboard-image" src="/assets/images/consumption.png" />
-                                        </b-col>
-                                        <b-col
-                                            md="10"
-                                            class="dashboard-data-container">
-                                            <p>Consumo</p>
-                                            <h5>
-                                                {{ consumption ? consumption : 0 }} kWh
-                                            </h5>
-                                            <h5>
-                                                $ {{ consumptionCost ? consumptionCost : 0 }}
-                                            </h5>
-                                        </b-col>
-                                    </b-row>
-                                    <b-row class="mt-3">
-                                        <b-col class="text-right">
-                                            Última actualización:  {{dailyLastUpdatedTime}}
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
+                                <v-card>
+                                    <template v-slot:left-header>
+                                        <h5>Hoy</h5>
+                                    </template>
+                                    <template v-slot:right-header>
+                                        <h5 class="billable-period">
+                                            {{ currentDay }}
+                                        </h5>
+                                    </template>
+                                    <template v-slot:body>
+                                        <b-row>
+                                            <b-col
+                                                md="2"
+                                                class="dashboard-icon-container">
+                                                <img class="dashboard-image" src="/assets/images/consumption.png" />
+                                            </b-col>
+                                            <b-col
+                                                md="10"
+                                                class="dashboard-data-container">
+                                                <p>Consumo</p>
+                                                <h5>
+                                                    {{ consumption ? consumption : 0 }} kWh
+                                                </h5>
+                                                <h5>
+                                                    $ {{ consumptionCost ? consumptionCost : 0 }}
+                                                </h5>
+                                            </b-col>
+                                        </b-row>
+                                    </template>
+                                    <template v-slot:footer>
+                                        Última actualización:  {{dailyLastUpdatedTime}}
+                                    </template>
+                                </v-card>
                             </b-col>
                             <b-col xl="4" lg="6">
                                 <b-card class="daily-reading-card">
