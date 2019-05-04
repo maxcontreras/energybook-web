@@ -31,6 +31,7 @@ $gray: #ADADAD;
 $white: #ffffff;
 
 .standard-card {
+    box-shadow: 5px 5px 13px 2px rgba(0, 0, 0, 0.322);
     margin-bottom: 1rem;
 
     .standard-card-header {
