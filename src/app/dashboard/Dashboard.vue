@@ -9,7 +9,7 @@
                     <b-col>
                         <b-row class="margin-bottom-2 margin-top-1">
                             <b-col xl="4" lg="6">
-                                <v-card>
+                                <reading-card>
                                     <template v-slot:left-header>
                                         <h5>Hoy</h5>
                                     </template>
@@ -41,7 +41,7 @@
                                     <template v-slot:footer>
                                         Última actualización:  {{dailyLastUpdatedTime}}
                                     </template>
-                                </v-card>
+                                </reading-card>
                             </b-col>
                             <b-col xl="4" lg="6">
                                 <b-card class="daily-reading-card">
