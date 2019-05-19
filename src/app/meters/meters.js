@@ -33,6 +33,7 @@ export default {
                 {value: null, text: 'Selecciona una compañía'}
             ],
             connectedDevices: [],
+            generationDevices: [],
             showMeterForm: false,
             shownMeter: {},
             shownServices: []
@@ -64,7 +65,7 @@ export default {
                 }
                 return f_meter;
             });
-        },
+        }
     },
 
     watch: {
@@ -162,7 +163,12 @@ export default {
             meters.connectedDevices({id: value.id})
                 .then(devices => {
                     if(devices){
-                        this.connectedDevices = devices;
+                        this.connectedDevices = devices.map(device =>
+                            ({
+                                text: device.description,
+                                value: device.name
+                            })
+                        ).filter((device, idx) => idx !== 0);
                     }
                 });
         },
