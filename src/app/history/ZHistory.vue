@@ -287,8 +287,9 @@ $darkgray: #485658;
     }
     .card-body {
         .service-selector {
-            .form-control {
-                width: 13%;
+            .custom-select {
+                margin: 0 auto;
+                width: 200px;
                 background-color: #e9ecef;
             }
         }
