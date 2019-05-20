@@ -51,11 +51,12 @@ export function createMeter({dispatch}, meter) {
     });
 }
 
-export function editAssignedMeter({commit, state}, {meter, services}) {
+export function editAssignedMeter({commit, state}, {meter, services, generation}) {
     return new Promise((resolve, reject) => {
-        meters.updateDesignatedMeter({meter, services})
+        meters.updateDesignatedMeter({meter, services, generation})
             .then(res => {
                 meter.services = res;
+                meter.generationDevices = generation;
                 const index = state.metersAssigned.findIndex(_ => _.id === meter.id);
                 commit(mutation.UPDATE_ASSIGNED, {index, meter});
                 resolve();

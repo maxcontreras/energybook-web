@@ -122,7 +122,7 @@ export default {
             for (const service of this.shownServices) {
                 selectedServices[service.name] = service.selected;
             }
-            this.$store.dispatch('meter/editAssignedMeter', {meter: this.shownMeter, services: selectedServices})
+            this.$store.dispatch('meter/editAssignedMeter', {meter: this.shownMeter, services: selectedServices, generation: this.generationDevices})
                 .then(() => {
                     this.notify('', 'Medidor actualizado', 'success');
                 })
@@ -156,6 +156,8 @@ export default {
                 );
                 return {name: service.serviceName, selected, options};
             });
+
+            this.generationDevices = this.shownMeter.generationDevices;
 
             this.connectedDevices = {};
             this.$refs.edsDataModal.show();

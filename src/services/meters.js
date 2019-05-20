@@ -44,8 +44,8 @@ let meters = Object.assign({}, {
         return loopback.post('/Meters/consumptionMaxMinValues', id);
     },
 
-    updateDesignatedMeter({meter, services}) {
-        return loopback.post('/Meters/updateDesignatedMeter', {meter, services});
+    updateDesignatedMeter(data) {
+        return loopback.post('/Meters/updateDesignatedMeter', data);
     },
 
 }, modelObject);
