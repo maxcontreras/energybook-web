@@ -82,6 +82,9 @@
                     xl="8"
                     md="6"
                     class="text-right">
+                    <template v-if="this.user.user.free_trial">
+                        <p class="trial-days-remaining">{{getTrialDaysLeft()}} días restantes de prueba </p>
+                    </template>
                     <img
                         v-show="!meterAvailable"
                         v-b-tooltip.hover title="Medidor no disponible"
@@ -129,6 +132,7 @@
 import Notification from '@/app/components/notificationPanel/NotificationPanel.vue';
 import designatedMeters from '@/services/designatedMeters';
 import VWeather from '@/app/components/Weather/VWeather.vue';
+import constants from '@/constants.json'; 
 
 export default {
     components: {
@@ -285,6 +289,10 @@ export default {
                 this.$store.commit('setServiceSelected', (this.services) ? this.services[0]: '');
                 this.$store.commit('setUserServices', this.services);
             });
+        },
+        getTrialDaysLeft() {
+            let lastTrialDay = moment(this.user.user.created_at).add(constants.Trial.days, 'days');
+            return moment(lastTrialDay).diff(moment(), 'days');
         }
     }
 }

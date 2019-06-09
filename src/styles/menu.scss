@@ -31,6 +31,14 @@ $egray2: #8D8D8D;
         margin-bottom: 0;
     }
 
+    p.trial-days-remaining {
+        margin-top: .5rem;
+        display: inline-block;
+        margin-bottom: 0;
+        color: red;
+        white-space: pre;
+    }
+
     .alert {
         margin-bottom: 0;
         text-align: center;
