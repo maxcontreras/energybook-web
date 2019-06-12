@@ -14,12 +14,12 @@
                     <b-nav-item
                         v-b-toggle.serviceSelection
                         v-bind:class="{'current-view': currentView === 'dashboard'}"
-                        @click="showCollapse = !showCollapse">
+                        @click="this.showCollapse = !this.showCollapse">
                         <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                     </b-nav-item>
                     <b-collapse
                         id="serviceSelection"
-                        v-model="showCollapse">
+                        v-model="this.showCollapse">
                         <b-nav-item
                             v-for="(service, index) in services"
                             :key="index"
