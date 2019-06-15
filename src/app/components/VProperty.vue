@@ -2,7 +2,9 @@
     <div class="record">
         <div class="property">
             <i class="fas fa-leaf"></i>
-            <h5>{{propertyName}}</h5>
+            <div style="max-width:80%">
+                <h5>{{propertyName}}</h5>
+            </div>
         </div>
         <div class="value">
             <h5>{{propertyValue}} {{propertyUnit}}</h5>
@@ -32,7 +34,7 @@ export default {
 
 <style lang="scss" scoped>
 .record {
-    padding: 0 3rem;
+    padding: 0 .8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,6 +44,8 @@ export default {
     }
 
     .property {
+        width: 65%;
+
         * {
             display: inline-block;
         }
@@ -51,6 +55,12 @@ export default {
             color: #1d4e10;
             margin-right: 1rem;
         }
+        
+        h5 {
+            word-wrap:break-word;
+        }
+
+
     }
 }
 </style>

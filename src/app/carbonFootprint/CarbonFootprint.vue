@@ -3,7 +3,7 @@
         <b-col>
             <b-row>
                 <b-col xl="4" lg="6">
-                    <reading-card>
+                    <reading-card :style="cardStyle">
                         <template v-slot:right-header>
                             <h5>
                                 {{ currentDay }}
@@ -34,30 +34,18 @@
                     </reading-card>
                 </b-col>
                 <b-col xl="4" lg="6">
-                    <reading-card>
+                    <reading-card :style="cardStyle">
                         <template v-slot:right-header>
                             <h5>
                                 {{ currentDay }}
                             </h5>
                         </template>
                         <template v-slot:body>
-                            <b-row class="properties">
+                            <b-row class="properties" >
                                 <b-col cols="12">
                                     <v-property
                                         property-name="Emisiones de CO2"
                                         property-value="100.00"
-                                        property-unit="t"/>
-                                </b-col>
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Emisiones de CH4"
-                                        property-value="200.00"
-                                        property-unit="t"/>
-                                </b-col>
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Emisiones N2O"
-                                        property-value="400.00"
                                         property-unit="t"/>
                                 </b-col>
                             </b-row>
@@ -65,7 +53,7 @@
                     </reading-card>
                 </b-col>
                 <b-col xl="4" lg="6">
-                    <reading-card>
+                    <reading-card :style="cardStyle">
                         <template v-slot:right-header>
                             <h5>
                                 {{ currentDay }}
@@ -77,11 +65,6 @@
                                     <v-property
                                         property-name="Factor de emisión"
                                         property-value=".54"/>
-                                </b-col>
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Emisión de CO2e"
-                                        property-value="1,000"/>
                                 </b-col>
                                 <b-col cols="12">
                                     <v-property
@@ -100,6 +83,8 @@
 <script>
 import ReadingCard from '@/app/components/ReadingCard';
 import VProperty from '@/app/components/VProperty';
+import designatedMeters from '@/services/designatedMeters';
+import companies from '@/services/companies';
 
 export default {
     components: {
@@ -109,7 +94,10 @@ export default {
 
     data() {
         return {
-
+            devices: [],
+            cardStyle: {
+                height: '160px'
+            }
         };
     },
 
@@ -118,6 +106,9 @@ export default {
             moment().locale();
             return moment().format('dddd D [de] MMMM');
         }
+    },
+    created() {
+        console.log("created");
     }
 }
 </script>
