@@ -21,7 +21,7 @@ export default {
             required: true
         },
         propertyValue: {
-            type: String,
+            type: Number,
             default: 0
         },
         propertyUnit: {
