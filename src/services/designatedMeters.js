@@ -12,6 +12,15 @@ let designatedMeters = Object.assign({}, {
         return loopback.post('DesignatedMeters/getWeather', {lat, lon});
     },
 
+    getCarbonFootprint(company_id, serviceName) {
+        return loopback.get('DesignatedMeters/carbonFootprint', {
+            params: {
+                company_id,
+                serviceName
+            }
+        });
+    },
+
     epimpHistory(company_id) {
         return loopback.post('DesignatedMeters/epimpHistory', {company_id});
     },
