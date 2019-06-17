@@ -1,91 +1,102 @@
 <template>
     <b-row class="main">
-        <b-row class="header">
-            <div class="filters-container">
-                <b-form-select
-                    v-model="metersFilter.selected"
-                    :options="metersFilter.options" class="mb-3" />
-            </div>
-        </b-row>
-        <b-row id="carbon-footprint">
-            <b-col>
-                <b-row>
-                    <b-col xl="4" lg="6">
-                        <reading-card :style="cardStyle">
-                            <template v-slot:right-header>
-                                <h5>
-                                    {{ currentDay }}
-                                </h5>
-                            </template>
-                            <template v-slot:body>
-                                <b-row class="properties">
-                                    <b-col cols="12">
-                                        <v-property
-                                            property-name="Consumo"
-                                            :property-value="consumption"
-                                            property-unit="kWh"/>
-                                    </b-col>
-                                    <b-col cols="12">
-                                        <v-property
-                                            property-name="Generación"
-                                            :property-value="generation"
-                                            property-unit="kWh"/>
-                                    </b-col>
-                                    <b-col cols="12">
-                                        <v-property
-                                            property-name="Total"
-                                            :property-value="total"
-                                            property-unit="kWh"/>
-                                    </b-col>
-                                </b-row>
-                            </template>
-                        </reading-card>
-                    </b-col>
-                    <b-col xl="4" lg="6">
-                        <reading-card :style="cardStyle">
-                            <template v-slot:right-header>
-                                <h5>
-                                    {{ currentDay }}
-                                </h5>
-                            </template>
-                            <template v-slot:body>
-                                <b-row class="properties" >
-                                    <b-col cols="12">
-                                        <v-property
-                                            property-name="Emisiones de CO2"
-                                            :property-value="co2Emission"
-                                            property-unit="t"/>
-                                    </b-col>
-                                </b-row>
-                            </template>
-                        </reading-card>
-                    </b-col>
-                    <b-col xl="4" lg="6">
-                        <reading-card :style="cardStyle">
-                            <template v-slot:right-header>
-                                <h5>
-                                    {{ currentDay }}
-                                </h5>
-                            </template>
-                            <template v-slot:body>
-                                <b-row class="properties">
-                                    <b-col cols="12">
-                                        <v-property
-                                            property-name="Factor de emisión"
-                                            :property-value="emissionFactor"/>
-                                    </b-col>
-                                    <b-col cols="12">
-                                        <v-property
-                                            property-name="Límite de emisiones de CO2"
-                                            :property-value="co2Limit"/>
-                                    </b-col>
-                                </b-row>
-                            </template>
-                        </reading-card>
-                    </b-col>
-                </b-row>
-            </b-col>
-        </b-row>
+        <b-col>
+            <b-row class="header">
+                <div class="filters-container">
+                    <b-form-select
+                        v-model="metersFilter.selected"
+                        :options="metersFilter.options" class="mb-3" />
+                </div>
+            </b-row>
+            <b-row id="carbon-footprint-cards">
+                <b-col>
+                    <b-row>
+                        <b-col xl="4" lg="6">
+                            <reading-card :style="cardStyle">
+                                <template v-slot:right-header>
+                                    <h5>
+                                        {{ currentDay }}
+                                    </h5>
+                                </template>
+                                <template v-slot:body>
+                                    <b-row class="properties">
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Consumo"
+                                                :property-value="consumption"
+                                                property-unit="kWh"/>
+                                        </b-col>
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Generación"
+                                                :property-value="generation"
+                                                property-unit="kWh"/>
+                                        </b-col>
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Total"
+                                                :property-value="total"
+                                                property-unit="kWh"/>
+                                        </b-col>
+                                    </b-row>
+                                </template>
+                            </reading-card>
+                        </b-col>
+                        <b-col xl="4" lg="6">
+                            <reading-card :style="cardStyle">
+                                <template v-slot:right-header>
+                                    <h5>
+                                        {{ currentDay }}
+                                    </h5>
+                                </template>
+                                <template v-slot:body>
+                                    <b-row class="properties" >
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Emisiones de CO2"
+                                                :property-value="co2Emission"
+                                                property-unit="t"/>
+                                        </b-col>
+                                    </b-row>
+                                </template>
+                            </reading-card>
+                        </b-col>
+                        <b-col xl="4" lg="6">
+                            <reading-card :style="cardStyle">
+                                <template v-slot:right-header>
+                                    <h5>
+                                        {{ currentDay }}
+                                    </h5>
+                                </template>
+                                <template v-slot:body>
+                                    <b-row class="properties">
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Factor de emisión"
+                                                :property-value="emissionFactor"/>
+                                        </b-col>
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Límite de emisiones de CO2"
+                                                :property-value="co2Limit"/>
+                                        </b-col>
+                                    </b-row>
+                                </template>
+                            </reading-card>
+                        </b-col>
+                    </b-row>
+                </b-col>
+            </b-row>
+            <b-row class="list">
+                <b-col>
+                    <b-card
+                        class="margin-bottom-1"
+                        v-show="metersFilter.selected !== null">
+                        <v-columns :meterId="metersFilter.selected"/>
+                    </b-card>
+                </b-col>
+            </b-row>
+        </b-col>
     </b-row>
 </template>
 
@@ -95,11 +106,13 @@ import VProperty from '@/app/components/VProperty';
 import designatedMeters from '@/services/designatedMeters';
 import companies from '@/services/companies';
 import meters from '@/services/meters';
+import VColumns from '@/app/components/chart/VColumnsCarbonFootprint.vue';
 
 export default {
     components: {
         ReadingCard,
-        VProperty
+        VProperty,
+        VColumns
     },
 
     data() {
@@ -176,17 +189,20 @@ export default {
         },
         getServerData() {
             let selectedDevice = this.metersFilter.selected.split("*");
-            selectedDevice = selectedDevice[2];
+            if (selectedDevice.length === 3) {
+                selectedDevice = selectedDevice[2];
+            } else {
+                selectedDevice = selectedDevice[1];
+            }
             designatedMeters.getCarbonFootprint(this.companyId, selectedDevice)
             .then((data) => {
                 let response = data.response;
-                //console.log(response);
-                this.consumption = response.consumption;
-                this.generation = response.generation;
-                this.total = response.total;
-                this.emissionFactor = response.emissionFactor;
-                this.co2Emission = response.co2Emission;
-                this.co2Limit = response.co2Limit;
+                this.consumption = parseFloat(response.consumption.toFixed(2));
+                this.generation = parseFloat(response.generation.toFixed(2));
+                this.total = parseFloat(response.total.toFixed(2));
+                this.emissionFactor = parseFloat(response.emissionFactor.toFixed(2));
+                this.co2Emission = parseFloat(response.cO2Emissions.toFixed(2));
+                this.co2Limit = parseFloat(response.co2Limit.toFixed(2));
             });
             
         }
@@ -212,5 +228,9 @@ export default {
             margin-top: .5rem;
         }
     }
+}
+
+.list {
+    margin-top: 1rem;
 }
 </style>
