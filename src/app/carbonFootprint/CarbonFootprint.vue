@@ -119,7 +119,7 @@ export default {
         return {
             devices: [],
             cardStyle: {
-                height: '160px'
+                height: '170px'
             },
             metersFilter: {
                 selected: "",
