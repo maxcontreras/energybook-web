@@ -33,7 +33,7 @@
                                 <b-col cols="12">
                                     <v-property
                                         property-name="Inyección a la red"
-                                        :property-value="networkInyection"
+                                        :property-value="networkInjection"
                                         property-unit="kWh"/>
                                 </b-col>
                             </b-row>
@@ -62,7 +62,7 @@
                                 <b-col cols="12">
                                     <v-property
                                         property-name="Inyección a la red"
-                                        :property-value="networkInyection"/>
+                                        :property-value="networkInjection"/>
                                 </b-col>
                             </b-row>
                         </template>
@@ -81,7 +81,7 @@
                                     <v-property
                                         property-name="Emisiones de CO2"
                                         :property-value="co2e"
-                                        property-unit="kWh"/>
+                                        property-unit="t"/>
                                 </b-col>
                                 <b-col cols="12">
                                     <v-property
@@ -129,7 +129,7 @@ export default {
             },
             generation: 0,
             selfConsumption: 0,
-            networkInyection: 0,
+            networkInjection: 0,
             emissionFactor: 0,
             co2e: 0
         };
@@ -144,6 +144,38 @@ export default {
         }
     },
     methods: {
+        getServerData() {
+            let tmpArr = this.metersFilter.selected.split("*"); 
+            let serviceName;
+            let deviceName;
+            if(tmpArr.length === 3) {
+                //its service
+                serviceName = tmpArr[2];
+            } else if (tmpArr.length == 2) {
+                //its device 
+                deviceName = tmpArr[1];
+            }
+            console.log(this.companyId);
+            console.log(this.metersFilter.selected.split("*"));
+            console.log("serviceName");
+            console.log(serviceName);
+            console.log("deviceName");
+            console.log(deviceName);
+            designatedMeters.getGeneration(this.companyId, serviceName, deviceName)
+            .then(res => {
+                res = res.response;
+                this.co2e = parseFloat(res.co2e.toFixed(2));
+                this.generation = parseFloat(res.generation.toFixed(2));
+                this.selfConsumption = parseFloat(res.selfConsumption.toFixed(2));
+                this.networkInjection = parseFloat(res.networkInjection.toFixed(2));
+                this.emissionFactor = parseFloat(res.emissionFactor.toFixed(2));
+
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        },
         updateServices() {
             designatedMeters.find({
                 filter: {
@@ -182,10 +214,14 @@ export default {
     watch: {
         companyId() {
             this.updateServices();
+        },
+        'metersFilter.selected': function() {
+            this.getServerData();
         }
     },
     mounted() {
         this.updateServices();
+        this.getServerData();
     }
 }
 </script>
