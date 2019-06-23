@@ -6,7 +6,10 @@
                 <h5>{{propertyName}}</h5>
             </div>
         </div>
-        <div class="value">
+        <div class="value" v-if="propertyUnit !== undefined && propertyUnit === '$' " :class="{negativeValue: isNegative}">
+            <h5>{{isNegative ? '-': ''}} {{propertyUnit}} {{Math.abs(propertyValue)}}</h5>
+        </div>
+        <div class="value" v-else>
             <h5>{{propertyValue}} {{propertyUnit}}</h5>
         </div>
     </div>
@@ -28,6 +31,11 @@ export default {
             type: String,
             required: false
         }
+    },
+    computed: {
+        isNegative() {
+            return this.propertyValue >= 0 ? false : true; 
+        }
     }
 }
 </script>
@@ -41,6 +49,12 @@ export default {
 
     h5 {
         font-size: 1.1rem;
+    }
+
+    .negativeValue {
+        h5 {
+            color: red;
+        }
     }
 
     .property {
