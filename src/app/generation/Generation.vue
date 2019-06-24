@@ -1,105 +1,116 @@
 <template>
-    <b-row id="energy-generation">
+    <b-row class="main">
         <b-col>
-            <b-row class="header">
-                <div class="filters-container">
-                    <b-form-select
-                        v-model="metersFilter.selected"
-                        :options="metersFilter.options" class="mb-3" />
-                </div>
+            <b-row id="energy-generation">
+                <b-col>
+                    <b-row class="header">
+                        <div class="filters-container">
+                            <b-form-select
+                                v-model="metersFilter.selected"
+                                :options="metersFilter.options" class="mb-3" />
+                        </div>
+                    </b-row>
+                    <b-row>
+                        <b-col xl="4" lg="6">
+                            <reading-card :style="cardStyle">
+                                <template v-slot:right-header>
+                                    <h5>
+                                        {{ currentDay }}
+                                    </h5>
+                                </template>
+                                <template v-slot:body>
+                                    <b-row class="properties">
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Generación"
+                                                :property-value="generation"
+                                                property-unit="kWh"/>
+                                        </b-col>
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Auto consumo"
+                                                :property-value="selfConsumption"
+                                                property-unit="kWh"/>
+                                        </b-col>
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Inyección a la red"
+                                                :property-value="networkInjection"
+                                                property-unit="kWh"/>
+                                        </b-col>
+                                    </b-row>
+                                </template>
+                            </reading-card>
+                        </b-col>
+                        <b-col xl="4" lg="6">
+                            <reading-card :style="cardStyle">
+                                <template v-slot:right-header>
+                                    <h5>
+                                        {{ currentDay }}
+                                    </h5>
+                                </template>
+                                <template v-slot:body>
+                                    <b-row class="properties">
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Generación"
+                                                :property-value="generationValue"
+                                                property-unit="$"/>
+                                        </b-col>
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Auto consumo"
+                                                :property-value="selfConsumptionValue"
+                                                property-unit="$"/>
+                                        </b-col>
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Inyección a la red"
+                                                :property-value="networkInjectionValue"
+                                                property-unit="$"/>
+                                        </b-col>
+                                    </b-row>
+                                </template>
+                            </reading-card>
+                        </b-col>
+                        <b-col xl="4" lg="6">
+                            <reading-card :style="cardStyle">
+                                <template v-slot:right-header>
+                                    <h5>
+                                        {{ currentDay }}
+                                    </h5>
+                                </template>
+                                <template v-slot:body>
+                                    <b-row class="properties">
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Emisiones de CO2"
+                                                :property-value="co2e"
+                                                property-unit="t"/>
+                                        </b-col>
+                                        <b-col cols="12">
+                                            <v-property
+                                                property-name="Factor de emisión"
+                                                :property-value="emissionFactor "
+                                                />
+                                        </b-col>
+                                    </b-row>
+                                </template>
+                            </reading-card>
+                        </b-col>
+                    </b-row>
+                </b-col>
             </b-row>
-            <b-row>
-                <b-col xl="4" lg="6">
-                    <reading-card :style="cardStyle">
-                        <template v-slot:right-header>
-                            <h5>
-                                {{ currentDay }}
-                            </h5>
-                        </template>
-                        <template v-slot:body>
-                            <b-row class="properties">
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Generación"
-                                        :property-value="generation"
-                                        property-unit="kWh"/>
-                                </b-col>
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Auto consumo"
-                                        :property-value="selfConsumption"
-                                        property-unit="kWh"/>
-                                </b-col>
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Inyección a la red"
-                                        :property-value="networkInjection"
-                                        property-unit="kWh"/>
-                                </b-col>
-                            </b-row>
-                        </template>
-                    </reading-card>
-                </b-col>
-                <b-col xl="4" lg="6">
-                    <reading-card :style="cardStyle">
-                        <template v-slot:right-header>
-                            <h5>
-                                {{ currentDay }}
-                            </h5>
-                        </template>
-                        <template v-slot:body>
-                            <b-row class="properties">
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Generación"
-                                        :property-value="generation"/>
-                                </b-col>
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Auto consumo"
-                                        :property-value="selfConsumption"/>
-                                </b-col>
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Inyección a la red"
-                                        :property-value="networkInjection"/>
-                                </b-col>
-                            </b-row>
-                        </template>
-                    </reading-card>
-                </b-col>
-                <b-col xl="4" lg="6">
-                    <reading-card :style="cardStyle">
-                        <template v-slot:right-header>
-                            <h5>
-                                {{ currentDay }}
-                            </h5>
-                        </template>
-                        <template v-slot:body>
-                            <b-row class="properties">
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Emisiones de CO2"
-                                        :property-value="co2e"
-                                        property-unit="t"/>
-                                </b-col>
-                                <b-col cols="12">
-                                    <v-property
-                                        property-name="Factor de emisión"
-                                        :property-value="emissionFactor "
-                                        />
-                                </b-col>
-                            </b-row>
-                        </template>
-                    </reading-card>
+            <b-row id="generation-graphs" class="list">
+                <b-col>
+                    <b-card
+                        class="margin-bottom-1"
+                        v-show="metersFilter.selected !== null">
+                        <v-columns :meterId="metersFilter.selected"/>
+                    </b-card>
                 </b-col>
             </b-row>
         </b-col>
-        <b-row>
-            <b-col>
-                <!-- <graph-holder></graph-holder> -->
-            </b-col>
-        </b-row>
     </b-row>
 </template>
 
@@ -107,14 +118,15 @@
 import ReadingCard from '@/app/components/ReadingCard';
 import VProperty from '@/app/components/VProperty';
 import designatedMeters from '@/services/designatedMeters';
-import graphHolder from '@/app/components/graphHolder/graphHolder.vue';
 import meters from '@/services/meters';
+import VColumns from '@/app/components/chart/VColumnsGeneration.vue';
+
 
 export default {
     components: {
         ReadingCard,
         VProperty,
-        graphHolder
+        VColumns
     },
 
     data() {
@@ -128,8 +140,11 @@ export default {
                 height: '170px'
             },
             generation: 0,
+            generationValue: 0,
             selfConsumption: 0,
+            selfConsumptionValue: 0,
             networkInjection: 0,
+            networkInjectionValue: 0,
             emissionFactor: 0,
             co2e: 0
         };
@@ -155,12 +170,6 @@ export default {
                 //its device 
                 deviceName = tmpArr[1];
             }
-            console.log(this.companyId);
-            console.log(this.metersFilter.selected.split("*"));
-            console.log("serviceName");
-            console.log(serviceName);
-            console.log("deviceName");
-            console.log(deviceName);
             designatedMeters.getGeneration(this.companyId, serviceName, deviceName)
             .then(res => {
                 res = res.response;
@@ -169,8 +178,10 @@ export default {
                 this.selfConsumption = parseFloat(res.selfConsumption.toFixed(2));
                 this.networkInjection = parseFloat(res.networkInjection.toFixed(2));
                 this.emissionFactor = parseFloat(res.emissionFactor.toFixed(2));
-
-                console.log(res);
+                this.generationValue = parseFloat(res.generationValue.toFixed(2));
+                this.selfConsumptionValue = parseFloat(res.selfConsumptionValue.toFixed(2));
+                this.networkInjectionValue = parseFloat(res.networkInjectionValue.toFixed(2));
+                // console.log(res);
             })
             .catch(err => {
                 console.log(err);
@@ -221,7 +232,6 @@ export default {
     },
     mounted() {
         this.updateServices();
-        this.getServerData();
     }
 }
 </script>
@@ -239,5 +249,9 @@ export default {
             margin-top: .5rem;
         }
     }
+}
+
+.list {
+    margin-top: 1rem;
 }
 </style>
