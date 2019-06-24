@@ -15,6 +15,10 @@ let meters = Object.assign({}, {
     getCo2e(id, device, service, filter, interval, custom_dates) {
         return loopback.post('Meters/co2e', {id, device, service, filter, interval, custom_dates});
     },
+
+    getGenerationReadings(id, device, service, filter, interval, variable, custom_dates) {
+        return loopback.post('Meters/generationReadings', {id, device, service, filter, interval, variable, custom_dates});
+    },
     
     getNetCodeReadings(id, device, filter, variables, interval, custom_dates) {
         return loopback.post('Meters/getNetCodeReadings', {id, device, filter, variables, interval, custom_dates});
