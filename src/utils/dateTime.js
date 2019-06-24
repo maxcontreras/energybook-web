@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 const weekLabels = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+const monthLabels = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 export const parseDate = function (rawDate) {
   let day, month, year;
@@ -8,6 +9,11 @@ export const parseDate = function (rawDate) {
   month = rawDate.substring(2, 4);
   year = rawDate.substring(4, 8);
   return `${day}/${month}/${year}`;
+}
+
+export const parseMonth = function (rawDate) {
+  let month = rawDate.substring(2,4);
+  return monthLabels[parseInt(month)];
 }
 
 export const parseDateTime = function (rawDate) {
