@@ -72,7 +72,7 @@
 import VueHighcharts from 'vue2-highcharts';
 import meters from '@/services/meters';
 import datePicker from 'vue-bootstrap-datetimepicker';
-import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
+import { parseDate, parseDateTime, parseDayName, parseMonth } from '@/utils/dateTime';
 
 var dataColumn = {
     chart: {
@@ -174,18 +174,6 @@ export default {
     },
 
     computed: {
-        rate_types() {
-            if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
-                return [ 'Diario' ]
-            } else {
-                return [
-                    'Base',
-                    'Intermedia',
-                    'Punta'
-                ]
-            }
-        },
-
         dayDifference() {
             if (this.date_custom.until && this.date_custom.from) {
                 return moment(this.date_custom.until).diff(moment(this.date_custom.from), 'days');
@@ -335,7 +323,6 @@ export default {
                     });
                     let plotOptions = this.formatPlotOptions(this.currentPeriod, res.length);
                     let tooltip = this.formatTooltip(this.currentMeditionInterval, this.currentPeriod);
-                    
                     chart.update({
                         xAxis: { categories: xAxis, tickInterval },
                         plotOptions: plotOptions,
@@ -383,6 +370,7 @@ export default {
         formatxAxis(date) {
             let time = parseDateTime(date);
             let day = parseDayName(date);
+            let month = parseMonth(date);
             let tickInterval = 1;
             if (this.currentMeditionInterval === 1 && (this.currentPeriod > 1 || this.currentPeriod === -1)) {
                 return {res: `${day} ${date.substring(0, 2)}`, tickInterval};
@@ -404,8 +392,8 @@ export default {
                     return {res: `${time}`, tickInterval};
                 }
             } else if (this.currentPeriod === 4) {
-                tickInterval = 12;
-                return {res: `${time}`, tickInterval};
+                tickInterval = 1;
+                return {res: `${month}`, tickInterval};
             }
         },
 
@@ -413,6 +401,7 @@ export default {
             let time = parseDateTime(date);
             let day = parseDayName(date);
             let dat = parseDate(date);
+            let month = parseMonth(date);
             if (this.currentMeditionInterval === 1 && this.currentPeriod === 2) {
                 return {name: `${'CO2e'} - ${day} ${date.substring(0, 2)}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
             } else if (this.currentMeditionInterval === 1 && this.currentPeriod === 3) {
@@ -425,7 +414,7 @@ export default {
                 return {name: `${'CO2e'} - ${dat} ${time}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
             }
             else {
-                return {name: `${'CO2e'} - ${time}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
+                return {name: `${'CO2e'} - ${month}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
             }
         }
     }
