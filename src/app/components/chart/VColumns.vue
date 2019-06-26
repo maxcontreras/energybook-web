@@ -6,7 +6,7 @@
                     v-show="showMeditionIntervals"
                     md="3"
                     class="text-left">
-                    <b-button
+                    <b-button variant="outline-dark"
                         v-for="(interval, index) in meditionIntervals"
                         :key="index"
                         :class="{
@@ -37,7 +37,7 @@
                             :config="dateConfig">
                         </date-picker>
                     </div>
-                    <b-button
+                    <b-button variant="outline-dark"
                         v-for="(button, index) in buttons.options"
                         :key="index"
                         :class="{

@@ -45,6 +45,7 @@
                                 cols="12"
                                 class="text-center">
                                 <b-button
+                                    variant="outline-dark"
                                     :disabled="isLoading"
                                     class="btn-confirmation"
                                     @click="getMonthlyHistory">

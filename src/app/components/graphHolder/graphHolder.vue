@@ -16,6 +16,7 @@
                                 <b-row>
                                     <b-col md="5" class="text-left">
                                         <b-button
+                                            variant="outline-dark"
                                             v-for="(type, index) in graphType.options"
                                             :key="index + 1"
                                             :class="{
@@ -45,7 +46,7 @@
                                                 :config="dateConfig">
                                             </date-picker>
                                         </div>
-                                        <b-button
+                                        <b-button variant="outline-dark"
                                             v-for="(button, index) in graphPeriod.options"
                                             :key="index"
                                             :class="{
@@ -65,7 +66,7 @@
                                     <div
                                         v-if="shouldShowIntervals"
                                         class="interval-buttons text-right">
-                                        <b-button
+                                        <b-button variant="outline-dark"
                                             v-for="interval in graphInterval.options"
                                             :key="interval.value"
                                             :class="{

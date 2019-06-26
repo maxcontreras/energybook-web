@@ -5,7 +5,7 @@
                 <b-col 
                     xl="5"
                     class="text-left">
-                    <b-button
+                    <b-button variant="outline-dark"
                         v-for="(type, index) in graphType.options"
                         :key="index + 1"
                         :class="{
@@ -20,7 +20,7 @@
                 <b-col
                     xl="7"
                     class="text-right">
-                    <b-button
+                    <b-button variant="outline-dark"
                         v-for="(button, index) in buttons.options"
                         :key="index"
                         :class="{
@@ -71,7 +71,7 @@
             <b-row>
                 <b-col
                 class="text-right">
-                    <b-button 
+                    <b-button variant="outline-dark"
                     v-for="(medition, index) in meditionIntervals"
                     :key="index"
                     :class="{
