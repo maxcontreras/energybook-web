@@ -180,7 +180,7 @@ export default {
             currentPeriod: 0,
             dangerAlert: false,
             colors: {
-                'base': '#eddc49',
+                'base': '#1dd6c0',
             },
             meditionIntervals: [
                 'Cada hora',
