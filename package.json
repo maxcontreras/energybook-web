@@ -19,7 +19,7 @@
     "moment": "^2.22.2",
     "pc-bootstrap4-datetimepicker": "^4.17.50",
     "popper.js": "^1.14.3",
-    "vue": "^2.1.10",
+    "vue": "^2.6.10",
     "vue-asset-loader": "^0.1.5",
     "vue-bootstrap-datetimepicker": "5.0.1",
     "vue-canvas-gauges": "0.0.0",
