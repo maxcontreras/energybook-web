@@ -1,10 +1,10 @@
 <template>
     <b-card class="standard-card">
         <b-row class="standard-card-header">
-            <b-col xl="4">
+            <b-col xl="3">
                 <slot name="left-header"></slot>
             </b-col>
-            <b-col xl="8" class="text-right">
+            <b-col xl="9" class="text-right">
                 <slot name="right-header"></slot>
             </b-col>
         </b-row>
