@@ -14,6 +14,9 @@ let eUsers = Object.assign({}, {
     login(data) {
         return loopback.post(`/eUsers/login`, data);
     },
+    getTrialDaysLeft(id) {
+        return loopback.get(`/eUsers/trialDaysLeft`,{ params: { id } });
+    },
     logout() {
         return loopback.post(`/eUsers/logout`);
     },

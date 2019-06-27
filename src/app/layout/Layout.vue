@@ -69,7 +69,7 @@
             </b-nav>
         </div>
         <div id="main">
-            <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
+            <b-navbar id="top-bar" :sticky="true" type="light" variant="light" :toggleable="false">
                 <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
                 <b-col
                     xl="4"
@@ -82,6 +82,9 @@
                     xl="8"
                     md="6"
                     class="text-right">
+                    <template v-if="this.user.user.free_trial">
+                        <p class="trial-days-remaining">{{getTrialDaysLeft()}}{{trialDaysLeft}} días restantes de prueba </p>
+                    </template>
                     <img
                         v-show="!meterAvailable"
                         v-b-tooltip.hover title="Medidor no disponible"
@@ -128,7 +131,9 @@
 
 import Notification from '@/app/components/notificationPanel/NotificationPanel.vue';
 import designatedMeters from '@/services/designatedMeters';
+import eUsers from '@/services/eUsers';
 import VWeather from '@/app/components/Weather/VWeather.vue';
+import constants from '@/constants.json'; 
 
 export default {
     components: {
@@ -145,7 +150,8 @@ export default {
                 lon: 0
             },
             showCollapse: false,
-            services: []
+            services: [],
+            trialDaysLeft: ''
         }
     },
 
@@ -284,6 +290,16 @@ export default {
                 this.services = this.meters[0].services.map(service => service.serviceName);
                 this.$store.commit('setServiceSelected', (this.services) ? this.services[0]: '');
                 this.$store.commit('setUserServices', this.services);
+            });
+        },
+        getTrialDaysLeft() {
+            eUsers.getTrialDaysLeft(
+                this.user.user.id,
+            ).then(res => {
+                if(res.days < 0)  {
+                    this.logout();
+                }
+                this.trialDaysLeft = res.days;
             });
         }
     }
