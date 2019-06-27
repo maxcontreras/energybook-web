@@ -23,7 +23,7 @@
                                             <b-col
                                                 md="2"
                                                 class="dashboard-icon-container">
-                                                <img class="dashboard-image" src="/assets/images/consumption.png" />
+                                                <img class="dashboard-image" src="/assets/images/consumption.svg" />
                                             </b-col>
                                             <b-col
                                                 md="10"
@@ -58,7 +58,7 @@
                                             <b-col
                                                 md="2"
                                                 class="dashboard-icon-container">
-                                                <img class="dashboard-image" src="/assets/images/capacity.png"/>
+                                                <img class="dashboard-image" src="/assets/images/capacity.svg"/>
                                             </b-col>
                                             <b-col
                                                 md="10"
@@ -93,7 +93,7 @@
                                             <b-col
                                                 md="2"
                                                 class="dashboard-icon-container">
-                                                <img class="dashboard-image" src="/assets/images/distribution.png"/>
+                                                <img class="dashboard-image" src="/assets/images/distribution.svg"/>
                                             </b-col>
                                             <b-col
                                                 md="10"
@@ -134,7 +134,7 @@
                                                 <b-col>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <img class="dashboard-image" src="/assets/images/consumption.png"/>
+                                                            <img class="dashboard-image" src="/assets/images/consumption.svg"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Consumo</p>
@@ -152,7 +152,7 @@
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <img class="dashboard-image" src="/assets/images/distribution.png"/>
+                                                            <img class="dashboard-image" src="/assets/images/distribution.svg"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Distribución</p>
@@ -170,7 +170,7 @@
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <img class="dashboard-image" src="/assets/images/capacity.png"/>
+                                                            <img class="dashboard-image" src="/assets/images/capacity.svg"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Capacidad</p>
@@ -188,7 +188,7 @@
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <img class="dashboard-image" src="/assets/images/fp.png"/>
+                                                            <img class="dashboard-image" src="/assets/images/fp.svg"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <p>F.P</p>
