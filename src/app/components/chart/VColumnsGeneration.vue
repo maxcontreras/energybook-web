@@ -234,6 +234,15 @@ export default {
 
     methods: {
         changeCurrentMeditionInterval(new_medition) {
+            if (this.isLoading) {
+                this.$notify({
+                    group: 'notification',
+                    type: 'warn',
+                    title: 'Petición en proceso',
+                    text: 'Por favor, espera mientras los datos de la gráfica se cargan'
+                });
+                return;
+            }
             this.currentMeditionInterval = new_medition;
             this.renderChartWithData();
         },
