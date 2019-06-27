@@ -83,7 +83,7 @@
                     md="6"
                     class="text-right">
                     <template v-if="this.user.user.free_trial">
-                        <p class="trial-days-remaining">{{getTrialDaysLeft()}} días restantes de prueba </p>
+                        <p class="trial-days-remaining">{{getTrialDaysLeft()}}{{trialDaysLeft}} días restantes de prueba </p>
                     </template>
                     <img
                         v-show="!meterAvailable"
@@ -131,6 +131,7 @@
 
 import Notification from '@/app/components/notificationPanel/NotificationPanel.vue';
 import designatedMeters from '@/services/designatedMeters';
+import eUsers from '@/services/eUsers';
 import VWeather from '@/app/components/Weather/VWeather.vue';
 import constants from '@/constants.json'; 
 
@@ -149,7 +150,8 @@ export default {
                 lon: 0
             },
             showCollapse: false,
-            services: []
+            services: [],
+            trialDaysLeft: ''
         }
     },
 
@@ -291,8 +293,14 @@ export default {
             });
         },
         getTrialDaysLeft() {
-            let lastTrialDay = moment(this.user.user.created_at).add(constants.Trial.days, 'days');
-            return moment(lastTrialDay).diff(moment(), 'days');
+            eUsers.getTrialDaysLeft(
+                this.user.user.id,
+            ).then(res => {
+                if(res.days < 0)  {
+                    this.logout();
+                }
+                this.trialDaysLeft = res.days;
+            });
         }
     }
 }
