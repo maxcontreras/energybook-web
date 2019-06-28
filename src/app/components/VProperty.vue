@@ -80,8 +80,7 @@ export default {
         }
 
         img {
-            width: 2.4rem;
-            height: 2.4rem;
+            width: 32px;
         }
     }
 
