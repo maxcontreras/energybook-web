@@ -46,7 +46,7 @@
                         <b-alert show variant="info">Tus datos están protegidos</b-alert>
                     </b-col>
                     <b-col md="6">
-                        <b-button type="submit" variant="primary">Registrarse</b-button>
+                        <b-button type="submit" variant="primary" class="btn-register">Registrarse</b-button>
                         <p>¿Ya tienes tu cuenta?
                             <a><router-link to="login">Inicia sesión</router-link></a>
                         </p>
@@ -56,5 +56,11 @@
         </b-card>
     </div>
 </template>
+
+<style scoped>
+    .btn-register:active{
+        background-color: darkgray!important;
+    }
+</style>
 
 <script src="./register"></script>
