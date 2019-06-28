@@ -56,7 +56,7 @@ export default {
 <style lang="scss" scoped>
 .record {
     h5 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
     .negativeValue {
