@@ -14,12 +14,12 @@
                     <b-nav-item
                         v-b-toggle.serviceSelection
                         v-bind:class="{'current-view': currentView === 'dashboard'}"
-                        @click="this.showCollapse = !this.showCollapse">
+                        @click="toggleShowCollapse">
                         <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                     </b-nav-item>
                     <b-collapse
                         id="serviceSelection"
-                        v-model="this.showCollapse">
+                        v-if="showCollapse">
                         <b-nav-item
                             v-for="(service, index) in services"
                             :key="index"
@@ -69,7 +69,8 @@
             </b-nav>
         </div>
         <div id="main">
-            <b-navbar id="top-bar" :sticky="true" type="light" variant="light" toggleable>
+            <b-navbar id="top-bar" :sticky="true" type="light" variant="light" :toggleable="false">
+                <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
                 <b-col
                     xl="4"
                     md="6">
@@ -81,7 +82,7 @@
                     xl="8"
                     md="6"
                     class="text-right">
-                    <template v-if="this.user.user.free_trial">
+                    <template v-if="user.user.free_trial">
                         <p class="trial-days-remaining">{{getTrialDaysLeft()}}{{trialDaysLeft}} días restantes de prueba </p>
                     </template>
                     <img
@@ -192,6 +193,7 @@ export default {
             this.position = this.location;
         },
         currentView: function(newVal) {
+            console.log("newval: " + newVal);
             if (newVal !== 'dashboard') {
                 this.showCollapse = false;
             }
@@ -237,6 +239,9 @@ export default {
     },
 
     methods: {
+        toggleShowCollapse() {
+            this.showCollapse = !this.showCollapse;
+        },
         goTo(route) {
             this.$router.push({name: route});
         },
@@ -308,3 +313,4 @@ export default {
 <style lang="scss">
 @import '../../styles/menu.scss';
 </style>
+g
