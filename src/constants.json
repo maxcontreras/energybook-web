@@ -84,5 +84,16 @@
         "Jaconá Michoacán",
         "Purepero Michoacán",
         "Ciudad Guzmán"
-    ]
+    ],
+    "images": {
+        "consumption": "/assets/images/consumption.svg",
+        "generation": "/assets/images/generation.svg",
+        "generationCircle": "/assets/images/generationCircle.svg",
+        "total": "/assets/images/total.svg",
+        "co2e": "/assets/images/CO2Emissions.svg",
+        "emissionFactor": "/assets/images/emissionFactor.svg",
+        "co2eLimit": "/assets/images/emissionLimit.svg",
+        "selfConsumption": "/assets/images/selfConsumption.svg",
+        "netInjection": "/assets/images/networkInjection.svg"
+    }
 }
