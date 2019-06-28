@@ -1,18 +1,27 @@
 <template>
-    <div class="record">
-        <div class="property">
-            <i class="fas fa-leaf"></i>
-            <div style="max-width:80%">
-                <h5>{{propertyName}}</h5>
-            </div>
-        </div>
-        <div class="value" v-if="propertyUnit !== undefined && propertyUnit === '$' " :class="{negativeValue: isNegative}">
-            <h5>{{isNegative ? '-': ''}} {{propertyUnit}} {{Math.abs(propertyValue)}}</h5>
-        </div>
-        <div class="value" v-else>
-            <h5>{{propertyValue}} {{propertyUnit}}</h5>
-        </div>
-    </div>
+    <b-container class="record">
+        <b-row>
+            <b-col cols="2" class="property flex-item">
+                <template v-if="propertyImage">
+                    <img :src="propertyImage.src" :alt="propertyImage.alt"/>
+                </template>
+                <template v-else>
+                    <i class="fas fa-leaf"></i>
+                </template>
+            </b-col>
+            <b-col class="property flex-item" cols="5">
+                    <h5>{{propertyName}}</h5>
+            </b-col>
+            <b-col cols="5">
+                <div class="value" v-if="propertyUnit !== undefined && propertyUnit === '$' " :class="{negativeValue: isNegative}">
+                    <h5>{{isNegative ? '-': ''}} {{propertyUnit}} {{Math.abs(propertyValue)}}</h5>
+                </div>
+                <div class="value" v-else>
+                    <h5>{{propertyValue}} {{propertyUnit}}</h5>
+                </div>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
@@ -30,6 +39,10 @@ export default {
         propertyUnit: {
             type: String,
             required: false
+        },
+        propertyImage: {
+            type: Object,
+            required: false
         }
     },
     computed: {
@@ -42,13 +55,8 @@ export default {
 
 <style lang="scss" scoped>
 .record {
-    padding: 0 .8rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
     h5 {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
     }
 
     .negativeValue {
@@ -58,8 +66,6 @@ export default {
     }
 
     .property {
-        width: 65%;
-
         * {
             display: inline-block;
         }
@@ -67,14 +73,25 @@ export default {
         i {
             font-size: 1.3rem;
             color: #1d4e10;
-            margin-right: 1rem;
         }
         
         h5 {
             word-wrap:break-word;
         }
 
+        img {
+            width: 2.4rem;
+            height: 2.4rem;
+        }
+    }
 
+    .flex-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .value {
+        text-align: right;
     }
 }
 </style>
