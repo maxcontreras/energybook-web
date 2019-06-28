@@ -153,7 +153,7 @@ export default {
             },
             eds: [],
             cardStyle: {
-                minHeight: '200px'
+                minHeight: '225px'
             },
             generation: 0,
             generationValue: 0,

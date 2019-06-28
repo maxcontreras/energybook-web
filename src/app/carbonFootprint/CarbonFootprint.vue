@@ -128,7 +128,7 @@ export default {
         return {
             devices: [],
             cardStyle: {
-                minHeight: '200px'
+                minHeight: '225px'
             },
             metersFilter: {
                 selected: "",
