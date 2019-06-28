@@ -24,19 +24,24 @@
                                             <v-property
                                                 property-name="Consumo"
                                                 :property-value="consumption"
-                                                property-unit="kWh"/>
+                                                property-unit="kWh"
+                                                :property-image="images.consumption"
+                                                />
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
+                                                :property-image="images.generation"
                                                 property-name="Generación"
                                                 :property-value="generation"
-                                                property-unit="kWh"/>
+                                                property-unit="kWh"
+                                                />
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
                                                 property-name="Total"
                                                 :property-value="total"
-                                                property-unit="kWh"/>
+                                                property-unit="kWh"
+                                                :property-image="images.total"/>
                                         </b-col>
                                     </b-row>
                                 </template>
@@ -53,6 +58,7 @@
                                     <b-row class="properties" >
                                         <b-col cols="12">
                                             <v-property
+                                                :property-image="images.co2e"
                                                 property-name="Emisiones de CO2"
                                                 :property-value="co2Emission"
                                                 property-unit="t"/>
@@ -72,11 +78,13 @@
                                     <b-row class="properties">
                                         <b-col cols="12">
                                             <v-property
+                                                :property-image="images.emissionFactor"    
                                                 property-name="Factor de emisión"
                                                 :property-value="emissionFactor"/>
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
+                                                :property-image="images.co2eLimit"
                                                 property-name="Límite de emisiones de CO2"
                                                 :property-value="co2Limit"/>
                                         </b-col>
@@ -107,6 +115,7 @@ import designatedMeters from '@/services/designatedMeters';
 import companies from '@/services/companies';
 import meters from '@/services/meters';
 import VColumns from '@/app/components/chart/VColumnsCarbonFootprint.vue';
+import Constants from '@/constants.json';
 
 export default {
     components: {
@@ -119,7 +128,7 @@ export default {
         return {
             devices: [],
             cardStyle: {
-                height: '170px'
+                minHeight: '200px'
             },
             metersFilter: {
                 selected: "",
@@ -132,7 +141,32 @@ export default {
             co2Limit: 0,
             co2Emission: 0,
             total: 0,
-            
+            images: {
+                generation: {
+                    src: Constants.images.generationCircle,
+                    alt: "generationg img"
+                },
+                consumption: {
+                    src: Constants.images.consumption,
+                    alt: "consumption img"
+                },
+                total: {
+                    src: Constants.images.total,
+                    alt: "total img"
+                },
+                co2e: {
+                    src: Constants.images.co2e,
+                    alt: "co2e img"
+                },
+                emissionFactor: {
+                    src: Constants.images.emissionFactor,
+                    alt: "emissionFactor img"
+                },
+                co2eLimit: {
+                    src: Constants.images.co2eLimit,
+                    alt: "co2eLimit img"
+                }
+            }
         };
     },
     computed: {

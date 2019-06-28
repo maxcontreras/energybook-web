@@ -22,21 +22,28 @@
                                     <b-row class="properties">
                                         <b-col cols="12">
                                             <v-property
+                                                
                                                 property-name="Generación"
                                                 :property-value="generation"
-                                                property-unit="kWh"/>
+                                                property-unit="kWh"
+                                                :property-image="images.generation"
+                                                />
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
                                                 property-name="Auto consumo"
                                                 :property-value="selfConsumption"
-                                                property-unit="kWh"/>
+                                                property-unit="kWh"
+                                                :property-image="images.selfConsumption"
+                                                />
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
                                                 property-name="Inyección a la red"
-                                                :property-value="networkInjection"
-                                                property-unit="kWh"/>
+                                                :property-value="netInjection"
+                                                property-unit="kWh"
+                                                :property-image="images.netInjection"
+                                                />
                                         </b-col>
                                     </b-row>
                                 </template>
@@ -55,19 +62,25 @@
                                             <v-property
                                                 property-name="Generación"
                                                 :property-value="generationValue"
-                                                property-unit="$"/>
+                                                property-unit="$"
+                                                :property-image="images.generation"
+                                                />
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
                                                 property-name="Auto consumo"
                                                 :property-value="selfConsumptionValue"
-                                                property-unit="$"/>
+                                                property-unit="$"
+                                                :property-image="images.selfConsumption"
+                                                />
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
                                                 property-name="Inyección a la red"
-                                                :property-value="networkInjectionValue"
-                                                property-unit="$"/>
+                                                :property-value="netInjectionValue"
+                                                property-unit="$"
+                                                :property-image="images.netInjection"
+                                                />
                                         </b-col>
                                     </b-row>
                                 </template>
@@ -86,12 +99,15 @@
                                             <v-property
                                                 property-name="Emisiones de CO2"
                                                 :property-value="co2e"
-                                                property-unit="t"/>
+                                                property-unit="t"
+                                                :property-image="images.co2e"
+                                                />
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
                                                 property-name="Factor de emisión"
                                                 :property-value="emissionFactor "
+                                                :property-image="images.emissionFactor"
                                                 />
                                         </b-col>
                                     </b-row>
@@ -120,7 +136,7 @@ import VProperty from '@/app/components/VProperty';
 import designatedMeters from '@/services/designatedMeters';
 import meters from '@/services/meters';
 import VColumns from '@/app/components/chart/VColumnsGeneration.vue';
-
+import Constants from '@/constants.json'; 
 
 export default {
     components: {
@@ -137,16 +153,38 @@ export default {
             },
             eds: [],
             cardStyle: {
-                height: '170px'
+                minHeight: '200px'
             },
             generation: 0,
             generationValue: 0,
             selfConsumption: 0,
             selfConsumptionValue: 0,
-            networkInjection: 0,
-            networkInjectionValue: 0,
+            netInjection: 0,
+            netInjectionValue: 0,
             emissionFactor: 0,
-            co2e: 0
+            co2e: 0,
+            images: {
+                generation: {
+                    src: Constants.images.generationCircle,
+                    alt: "generation img"
+                },
+                selfConsumption: {
+                    src: Constants.images.selfConsumption,
+                    alt: "self consumption img"
+                },
+                netInjection: {
+                    src: Constants.images.netInjection,
+                    alt: "net injection img"
+                },
+                co2e: {
+                    src: Constants.images.co2e,
+                    alt: "co2e img"
+                },
+                emissionFactor: {
+                    src: Constants.images.emissionFactor,
+                    alt: "emission factor image"
+                }
+            }
         };
     },
     computed: {
@@ -176,11 +214,11 @@ export default {
                 this.co2e = parseFloat(res.co2e.toFixed(2));
                 this.generation = parseFloat(res.generation.toFixed(2));
                 this.selfConsumption = parseFloat(res.selfConsumption.toFixed(2));
-                this.networkInjection = parseFloat(res.networkInjection.toFixed(2));
+                this.netInjection = parseFloat(res.networkInjection.toFixed(2));
                 this.emissionFactor = parseFloat(res.emissionFactor.toFixed(2));
                 this.generationValue = parseFloat(res.generationValue.toFixed(2));
                 this.selfConsumptionValue = parseFloat(res.selfConsumptionValue.toFixed(2));
-                this.networkInjectionValue = parseFloat(res.networkInjectionValue.toFixed(2));
+                this.netInjectionValue = parseFloat(res.networkInjectionValue.toFixed(2));
                 // console.log(res);
             })
             .catch(err => {
