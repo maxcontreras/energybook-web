@@ -1,5 +1,5 @@
 <template>
-    <div id="graph-costs" >
+    <div id="graph-carbon" >
         <div class="date-buttons--container container-fluid">
             <b-row>
                 <b-col
@@ -45,7 +45,7 @@
                             'btn-outline-success':currentPeriod !== button.value
                             }"
                         @click="changePeriod(button.value)"
-                        :disabled="button.value === 4">
+                        >
                         {{ button.text }}
                     </b-button>
                 </b-col>
@@ -57,21 +57,6 @@
                 :options="ColumnOptions"
                 ref="columnCharts">
             </vue-highcharts >
-            <b-row
-                class="text-center"
-                v-if="!dangerAlert">
-                <b-col class="column-legends">
-                    <ul>
-                        <li
-                            v-for="(rate, index) in rate_types"
-                            :key=index
-                            class="legend">
-                            <div class="square" :style="{backgroundColor: colors[rate]}"></div>
-                            <p class="legend-text">{{rate}}</p>
-                        </li>
-                    </ul>
-                </b-col>
-            </b-row>
             <b-alert
                 v-else
                 show
@@ -87,9 +72,7 @@
 import VueHighcharts from 'vue2-highcharts';
 import meters from '@/services/meters';
 import datePicker from 'vue-bootstrap-datetimepicker';
-import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
-
-const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c', 'diario': '#f48c42'};
+import { parseDate, parseDateTime, parseDayName, parseMonth } from '@/utils/dateTime';
 
 var dataColumn = {
     chart: {
@@ -109,8 +92,8 @@ var dataColumn = {
     tooltip: {
         crosshairs: true,
         shared: true,
-        pointFormat: '<span style="color:{point.color}">\u25CF</span> Costo: <b>${point.y}</b><br/>',
-        valueSuffix: ' MXN'
+        pointFormat: '<span style="color:{point.color}">\u25CF</span> CO2e: <b>${point.y}</b><br/>',
+        valueSuffix: ' T'
     },
     credits: {
         enabled: false
@@ -166,16 +149,14 @@ export default {
                     {value: 0, text: 'Hoy'},
                     {value: 1, text: 'Ayer'},
                     {value: 2, text: 'Esta Semana'},
-                    {value: 3, text: 'Este Mes'}
+                    {value: 3, text: 'Este Mes'},
+                    {value: 4, text: 'Este Año'}
                 ]
             },
             currentPeriod: 0,
             dangerAlert: false,
             colors: {
-                'Base': '#eddc49',
-                'Intermedia': '#1dd6c0',
-                'Punta': '#db3c1c',
-                'Diario': '#f48c42'
+                'base': '#1dd6c0',
             },
             meditionIntervals: [
                 'Cada hora',
@@ -193,18 +174,6 @@ export default {
     },
 
     computed: {
-        rate_types() {
-            if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
-                return [ 'Diario' ]
-            } else {
-                return [
-                    'Base',
-                    'Intermedia',
-                    'Punta'
-                ]
-            }
-        },
-
         dayDifference() {
             if (this.date_custom.until && this.date_custom.from) {
                 return moment(this.date_custom.until).diff(moment(this.date_custom.from), 'days');
@@ -213,12 +182,12 @@ export default {
         },
 
         showMeditionIntervals() {
-            return this.currentPeriod > 1 || this.currentPeriod === -1
+            return (this.currentPeriod > 1 && this.currentPeriod < 4) || this.currentPeriod === -1 
         }
     },
 
     beforeMount() {
-        this.plot.name = "Costos";
+        this.plot.name = "CO2e";
     },
 
     methods: {
@@ -326,6 +295,8 @@ export default {
                 columnCharts.removeSeries();
                 if (this.currentPeriod !== -1 && this.currentPeriod < 2) {
                     this.getData(this.currentPeriod, 0, chart);
+                } else if (this.currentPeriod === 4) {
+                    this.getData(this.currentPeriod, 2, chart);
                 } else {
                     this.getData(this.currentPeriod, this.currentMeditionInterval, chart);
                 }
@@ -337,34 +308,34 @@ export default {
             let meter_id = meter[0];
             let meter_device = (meter[1] === "EDS")? '':meter[1];
             let service = (meter[1] === "EDS")? meter[2]: '';
-            meters.getConsumptionCostsByFilter(meter_id, meter_device, service, filter, interval, this.date_custom)
-                .then(res => {
-                    if (res) {
-                        let data = [];
-                        let tickInterval;
-                        let xAxis = res.map(item => {
-                            let time = parseDateTime(item.date);
-                            data.push(this.formatData(item.date, item.cost, item.rate, item.rateCosts));
-                            let result = this.formatxAxis(item.date);
-                            tickInterval = result.tickInterval;
-                            return result.res;
-                        });
-                        let plotOptions = this.formatPlotOptions(this.currentPeriod, res.length);
-                        let tooltip = this.formatTooltip(this.currentMeditionInterval, this.currentPeriod);
-                        
-                        chart.update({
-                            xAxis: { categories: xAxis, tickInterval },
-                            plotOptions: plotOptions,
-                            tooltip
-                        });
-                        this.updateSeries(data);
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    this.dangerAlert = true;
-                    this.load();
-                });
+            
+            meters.getCo2e(meter_id, meter_device, service, filter, interval, this.date_custom)
+            .then(res => {
+                if (res) {
+                    let data = [];
+                    let tickInterval;
+                    let xAxis = res.map(item => {
+                        let time = parseDateTime(item.date);
+                        data.push(this.formatData(item.date, parseFloat(item.co2e)));
+                        let result = this.formatxAxis(item.date);
+                        tickInterval = result.tickInterval;
+                        return result.res;
+                    });
+                    let plotOptions = this.formatPlotOptions(this.currentPeriod, res.length);
+                    let tooltip = this.formatTooltip(this.currentMeditionInterval, this.currentPeriod);
+                    chart.update({
+                        xAxis: { categories: xAxis, tickInterval },
+                        plotOptions: plotOptions,
+                        tooltip
+                    });
+                    this.updateSeries(data);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                this.dangerAlert = true;
+                this.load();
+            });
         },
 
         updateSeries(data) {
@@ -373,17 +344,8 @@ export default {
         },
 
         formatTooltip(interval, period) {
-            if (interval === 1 && period > 1) {
-                return {
-                    pointFormat: '<span style="color:{point.color}">\u25CF</span> Costo Total: <b>${point.y}</b><br>\
-                                <span style="color:{point.colors.base}">\u25CF</span> Base: <b>$ {point.rateCosts.base}</b><br>\
-                                <span style="color:{point.colors.middle}">\u25CF</span> Media: <b>$ {point.rateCosts.middle}</b><br>\
-                                <span style="color:{point.colors.peak}">\u25CF</span> Punta: <b>$ {point.rateCosts.peak}</b><br>'
-                }
-            } else {
-                return {
-                    pointFormat: '<span style="color:{point.color}">\u25CF</span> Costo: <b>${point.y}</b><br/>'
-                }
+            return {
+                pointFormat: '<span style="color:{point.color}">\u25CF</span> Emisiones: <b>{point.y}</b><br/>'
             }
         },
 
@@ -408,6 +370,7 @@ export default {
         formatxAxis(date) {
             let time = parseDateTime(date);
             let day = parseDayName(date);
+            let month = parseMonth(date);
             let tickInterval = 1;
             if (this.currentMeditionInterval === 1 && (this.currentPeriod > 1 || this.currentPeriod === -1)) {
                 return {res: `${day} ${date.substring(0, 2)}`, tickInterval};
@@ -428,26 +391,30 @@ export default {
                 } else {
                     return {res: `${time}`, tickInterval};
                 }
+            } else if (this.currentPeriod === 4) {
+                tickInterval = 1;
+                return {res: `${month}`, tickInterval};
             }
         },
 
-        formatData(date, cost, rate, rateCosts) {
+        formatData(date, co2e) {
             let time = parseDateTime(date);
             let day = parseDayName(date);
             let dat = parseDate(date);
+            let month = parseMonth(date);
             if (this.currentMeditionInterval === 1 && this.currentPeriod === 2) {
-                return {name: `${rate} - ${day} ${date.substring(0, 2)}`, y: parseFloat(cost), color: colors[rate], rateCosts, colors};
+                return {name: `${'CO2e'} - ${day} ${date.substring(0, 2)}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
             } else if (this.currentMeditionInterval === 1 && this.currentPeriod === 3) {
-                return {name: `${rate} - ${dat}`, y: parseFloat(cost), color: colors[rate], rateCosts, colors};
+                return {name: `${'CO2e'} - ${dat}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
             }
             if (this.currentPeriod === 2) {
-                return {name: `${rate} - ${day} ${time}`, y: parseFloat(cost), color: colors[rate]};
+                return {name: `${'CO2e'} - ${day} ${time}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
             }
             else if (this.currentPeriod === 3) {
-                return {name: `${rate} - ${dat} ${time}`, y: parseFloat(cost), color: colors[rate]};
+                return {name: `${'CO2e'} - ${dat} ${time}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
             }
             else {
-                return {name: `${rate} - ${time}`, y: parseFloat(cost), color: colors[rate]};
+                return {name: `${'CO2e'} - ${month}`, y: parseFloat(co2e.toFixed(6)), color: this.colors['base']};
             }
         }
     }

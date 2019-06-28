@@ -45,6 +45,7 @@
                                 cols="12"
                                 class="text-center">
                                 <b-button
+                                    variant="outline-dark"
                                     :disabled="isLoading"
                                     class="btn-confirmation"
                                     @click="getMonthlyHistory">
@@ -70,7 +71,7 @@
                             <b-col>
                                 <div class="analysis-item--cat">
                                     <div class="icon-container">
-                                        <img class="dashboard-image" src="/assets/images/consumption.png"/>
+                                        <img class="dashboard-image" src="/assets/images/consumption.svg"/>
                                     </div>
                                     <div class="data-container">
                                         <p>Consumo</p>
@@ -88,7 +89,7 @@
                                 </div>
                                 <div class="analysis-item--cat">
                                     <div class="icon-container">
-                                        <img class="dashboard-image" src="/assets/images/distribution.png"/>
+                                        <img class="dashboard-image" src="/assets/images/distribution.svg"/>
                                     </div>
                                     <div class="data-container">
                                         <p>Distribución</p>
@@ -106,7 +107,7 @@
                                 </div>
                                 <div class="analysis-item--cat">
                                     <div class="icon-container">
-                                        <img class="dashboard-image" src="/assets/images/capacity.png"/>
+                                        <img class="dashboard-image" src="/assets/images/capacity.svg"/>
                                     </div>
                                     <div class="data-container">
                                         <p>Capacidad</p>
@@ -124,7 +125,7 @@
                                 </div>
                                 <div class="analysis-item--cat">
                                     <div class="icon-container">
-                                        <img class="dashboard-image" src="/assets/images/fp.png"/>
+                                        <img class="dashboard-image" src="/assets/images/fp.svg"/>
                                     </div>
                                     <div class="data-container">
                                         <p>F.P</p>
@@ -287,8 +288,9 @@ $darkgray: #485658;
     }
     .card-body {
         .service-selector {
-            .form-control {
-                width: 13%;
+            .custom-select {
+                margin: 0 auto;
+                width: 200px;
                 background-color: #e9ecef;
             }
         }

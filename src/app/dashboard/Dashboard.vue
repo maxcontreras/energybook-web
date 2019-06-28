@@ -9,115 +9,109 @@
                     <b-col>
                         <b-row class="margin-bottom-2 margin-top-1">
                             <b-col xl="4" lg="6">
-                                <b-card class="daily-reading-card">
-                                    <b-row class="analysis-card-header">
-                                        <b-col xl="4">
-                                            <h5>Hoy</h5>
-                                        </b-col>
-                                        <b-col xl="8">
-                                            <h5 class="billable-period">
-                                                {{ currentDay }}
-                                            </h5>
-                                        </b-col>
-                                    </b-row>
-                                    <b-row class="analysis-card-body">
-                                        <b-col
-                                            md="2"
-                                            class="dashboard-icon-container">
-                                            <img class="dashboard-image" src="/assets/images/consumption.png" />
-                                        </b-col>
-                                        <b-col
-                                            md="10"
-                                            class="dashboard-data-container">
-                                            <p>Consumo</p>
-                                            <h5>
-                                                {{ consumption ? consumption : 0 }} kWh
-                                            </h5>
-                                            <h5>
-                                                $ {{ consumptionCost ? consumptionCost : 0 }}
-                                            </h5>
-                                        </b-col>
-                                    </b-row>
-                                    <b-row class="mt-3">
-                                        <b-col class="text-right">
-                                            Última actualización:  {{dailyLastUpdatedTime}}
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
+                                <reading-card>
+                                    <template v-slot:left-header>
+                                        <h5>Hoy</h5>
+                                    </template>
+                                    <template v-slot:right-header>
+                                        <h5>
+                                            {{ currentDay }}
+                                        </h5>
+                                    </template>
+                                    <template v-slot:body>
+                                        <b-row>
+                                            <b-col
+                                                md="2"
+                                                class="dashboard-icon-container">
+                                                <img class="dashboard-image" src="/assets/images/consumption.svg" />
+                                            </b-col>
+                                            <b-col
+                                                md="10"
+                                                class="dashboard-data-container">
+                                                <p>Consumo</p>
+                                                <h5>
+                                                    {{ consumption ? consumption : 0 }} kWh
+                                                </h5>
+                                                <h5>
+                                                    $ {{ consumptionCost ? consumptionCost : 0 }}
+                                                </h5>
+                                            </b-col>
+                                        </b-row>
+                                    </template>
+                                    <template v-slot:footer>
+                                        Última actualización:  {{dailyLastUpdatedTime}}
+                                    </template>
+                                </reading-card>
                             </b-col>
                             <b-col xl="4" lg="6">
-                                <b-card class="daily-reading-card">
-                                    <b-row class="analysis-card-header">
-                                        <b-col xl="4">
-                                            <h5>Hoy</h5>
-                                        </b-col>
-                                        <b-col xl="8">
-                                            <h5 class="billable-period">
-                                                {{ currentDay }}
-                                            </h5>
-                                        </b-col>
-                                    </b-row>
-                                    <b-row class="analysis-card-body">
-                                        <b-col
-                                            md="2"
-                                            class="dashboard-icon-container">
-                                            <img class="dashboard-image" src="/assets/images/capacity.png"/>
-                                        </b-col>
-                                        <b-col
-                                            md="10"
-                                            class="dashboard-data-container">
-                                            <p>Capacidad</p>
-                                            <h5>
-                                                {{ capacity ? capacity : 0 }} kW
-                                            </h5>
-                                            <h5>
-                                                $ {{ capacityCost ? capacityCost : 0 }}
-                                            </h5>
-                                        </b-col>
-                                    </b-row>
-                                    <b-row class="mt-3">
-                                        <b-col class="text-right">
-                                            Última actualización:  {{dailyLastUpdatedTime}}
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
+                                <reading-card>
+                                    <template v-slot:left-header>
+                                        <h5>Hoy</h5>
+                                    </template>
+                                    <template v-slot:right-header>
+                                        <h5>
+                                            {{ currentDay }}
+                                        </h5>
+                                    </template>
+                                    <template v-slot:body>
+                                        <b-row>
+                                            <b-col
+                                                md="2"
+                                                class="dashboard-icon-container">
+                                                <img class="dashboard-image" src="/assets/images/capacity.svg"/>
+                                            </b-col>
+                                            <b-col
+                                                md="10"
+                                                class="dashboard-data-container">
+                                                <p>Capacidad</p>
+                                                <h5>
+                                                    {{ capacity ? capacity : 0 }} kW
+                                                </h5>
+                                                <h5>
+                                                    $ {{ capacityCost ? capacityCost : 0 }}
+                                                </h5>
+                                            </b-col>
+                                        </b-row>
+                                    </template>
+                                    <template v-slot:footer>
+                                        Última actualización:  {{dailyLastUpdatedTime}}
+                                    </template>
+                                </reading-card>
                             </b-col>
                             <b-col xl="4" lg="12">
-                                <b-card class="daily-reading-card">
-                                    <b-row class="analysis-card-header">
-                                        <b-col xl="4">
-                                            <h5>Hoy</h5>
-                                        </b-col>
-                                        <b-col xl="8">
-                                            <h5 class="billable-period">
-                                                {{ currentDay }}
-                                            </h5>
-                                        </b-col>
-                                    </b-row>
-                                    <b-row class="analysis-card-body">
-                                        <b-col
-                                            md="2"
-                                            class="dashboard-icon-container">
-                                            <img class="dashboard-image" src="/assets/images/distribution.png"/>
-                                        </b-col>
-                                        <b-col
-                                            md="10"
-                                            class="dashboard-data-container">
-                                            <p>Distribución</p>
-                                            <h5>
-                                                {{ distribution ? distribution : 0 }} kW
-                                            </h5>
-                                            <h5>
-                                                $ {{ distributionCost ? distributionCost : 0 }}
-                                            </h5>
-                                        </b-col>
-                                    </b-row>
-                                    <b-row class="mt-3">
-                                        <b-col class="text-right">
-                                            Última actualización:  {{dailyLastUpdatedTime}}
-                                        </b-col>
-                                    </b-row>
-                                </b-card>
+                                <reading-card>
+                                    <template v-slot:left-header>
+                                        <h5>Hoy</h5>
+                                    </template>
+                                    <template v-slot:right-header>
+                                        <h5>
+                                            {{ currentDay }}
+                                        </h5>
+                                    </template>
+                                    <template v-slot:body>
+                                        <b-row>
+                                            <b-col
+                                                md="2"
+                                                class="dashboard-icon-container">
+                                                <img class="dashboard-image" src="/assets/images/distribution.svg"/>
+                                            </b-col>
+                                            <b-col
+                                                md="10"
+                                                class="dashboard-data-container">
+                                                <p>Distribución</p>
+                                                <h5>
+                                                    {{ distribution ? distribution : 0 }} kW
+                                                </h5>
+                                                <h5>
+                                                    $ {{ distributionCost ? distributionCost : 0 }}
+                                                </h5>
+                                            </b-col>
+                                        </b-row>
+                                    </template>
+                                    <template v-slot:footer>
+                                        Última actualización:  {{dailyLastUpdatedTime}}
+                                    </template>
+                                </reading-card>
                             </b-col>
                         </b-row>
 
@@ -140,7 +134,7 @@
                                                 <b-col>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <img class="dashboard-image" src="/assets/images/consumption.png"/>
+                                                            <img class="dashboard-image" src="/assets/images/consumption.svg"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Consumo</p>
@@ -158,7 +152,7 @@
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <img class="dashboard-image" src="/assets/images/distribution.png"/>
+                                                            <img class="dashboard-image" src="/assets/images/distribution.svg"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Distribución</p>
@@ -176,7 +170,7 @@
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <img class="dashboard-image" src="/assets/images/capacity.png"/>
+                                                            <img class="dashboard-image" src="/assets/images/capacity.svg"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <p>Capacidad</p>
@@ -194,7 +188,7 @@
                                                     </div>
                                                     <div class="analysis-item--cat">
                                                         <div class="icon-container">
-                                                            <img class="dashboard-image" src="/assets/images/fp.png"/>
+                                                            <img class="dashboard-image" src="/assets/images/fp.svg"/>
                                                         </div>
                                                         <div class="data-container">
                                                             <p>F.P</p>

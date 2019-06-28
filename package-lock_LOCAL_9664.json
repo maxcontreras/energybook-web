@@ -4607,7 +4607,6 @@
           "version": "1.0.0",
           "bundled": true,
           "dev": true,
-          "optional": true,
           "requires": {
             "number-is-nan": "^1.0.0"
           }
@@ -4629,14 +4628,12 @@
         "minimist": {
           "version": "0.0.8",
           "bundled": true,
-          "dev": true,
-          "optional": true
+          "dev": true
         },
         "minipass": {
           "version": "2.3.5",
           "bundled": true,
           "dev": true,
-          "optional": true,
           "requires": {
             "safe-buffer": "^5.1.2",
             "yallist": "^3.0.0"
@@ -4735,8 +4732,7 @@
         "number-is-nan": {
           "version": "1.0.1",
           "bundled": true,
-          "dev": true,
-          "optional": true
+          "dev": true
         },
         "object-assign": {
           "version": "4.1.1",
@@ -4833,8 +4829,7 @@
         "safe-buffer": {
           "version": "5.1.2",
           "bundled": true,
-          "dev": true,
-          "optional": true
+          "dev": true
         },
         "safer-buffer": {
           "version": "2.1.2",
@@ -4870,7 +4865,6 @@
           "version": "1.0.2",
           "bundled": true,
           "dev": true,
-          "optional": true,
           "requires": {
             "code-point-at": "^1.0.0",
             "is-fullwidth-code-point": "^1.0.0",

@@ -12,6 +12,14 @@ let meters = Object.assign({}, {
         return loopback.post('Meters/getConsumptionCostsByFilter', {id, device, service, filter, interval, custom_dates});
     },
 
+    getCo2e(id, device, service, filter, interval, custom_dates) {
+        return loopback.post('Meters/co2e', {id, device, service, filter, interval, custom_dates});
+    },
+
+    getGenerationReadings(id, device, service, filter, interval, variable, custom_dates) {
+        return loopback.post('Meters/generationReadings', {id, device, service, filter, interval, variable, custom_dates});
+    },
+    
     getNetCodeReadings(id, device, filter, variables, interval, custom_dates) {
         return loopback.post('Meters/getNetCodeReadings', {id, device, filter, variables, interval, custom_dates});
     },
@@ -44,8 +52,8 @@ let meters = Object.assign({}, {
         return loopback.post('/Meters/consumptionMaxMinValues', id);
     },
 
-    updateDesignatedMeter({meter, services}) {
-        return loopback.post('/Meters/updateDesignatedMeter', {meter, services});
+    updateDesignatedMeter(data) {
+        return loopback.post('/Meters/updateDesignatedMeter', data);
     },
 
 }, modelObject);

@@ -53,10 +53,10 @@
                         active>
                         <b-list-group flush>
                             <b-list-group-item
-                                v-for="(device, index) in connectedDevices"
-                                :key="device.name">
+                                v-for="device in connectedDevices"
+                                :key="device.value">
                                 <a href="#" class="card-link">
-                                    {{ index !== 0 ? device.description : undefined }}
+                                    {{ device.text }}
                                 </a>
                             </b-list-group-item>
                         </b-list-group>
@@ -68,6 +68,12 @@
                                 Obteniendo la información del EDS...
                             </b-alert>
                         </b-card>
+                    </b-tab>
+                    <b-tab
+                        title="Generación">
+                        <b-form-group>
+                            <b-form-checkbox-group v-model="generationDevices" stacked :options="connectedDevices" />
+                        </b-form-group>
                     </b-tab>
                     <b-tab
                         v-for="(service, index) in shownServices"

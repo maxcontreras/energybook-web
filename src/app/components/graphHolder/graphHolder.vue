@@ -1,24 +1,22 @@
 <template>
     <b-row class="main">
         <b-col>
-            <b-row class="header">
+             <b-row class="header">
                 <div class="filters-container">
                     <b-form-select
                         v-model="metersFilter.selected"
                         :options="metersFilter.options" class="mb-3" />
                 </div>
             </b-row>
-            <b-row id="net-code-graphs">
+            <b-row id="dp-epimp-graphs">
                 <b-col>
                     <b-card class="margin-bottom-1">
                         <div class="graphs">
                             <div class="date-buttons--container container-fluid">
                                 <b-row>
-                                    <b-col
-                                        lg="5"
-                                        md="12"
-                                        class="text-left">
-                                        <b-button variant="outline-dark"
+                                    <b-col md="5" class="text-left">
+                                        <b-button
+                                            variant="outline-dark"
                                             v-for="(type, index) in graphType.options"
                                             :key="index + 1"
                                             :class="{
@@ -30,10 +28,7 @@
                                             {{ type.name }}
                                         </b-button>
                                     </b-col>
-                                    <b-col
-                                        lg="7"
-                                        md="12"
-                                        class="text-right mt-lg-0 mt-md-2">
+                                    <b-col md="7" class="text-right">
                                         <div
                                             class="datepickers"
                                             v-if="showDatePicker">
@@ -68,7 +63,9 @@
                                 <div v-if="!dangerAlert">
                                     <v-series ref="seriesChart">
                                     </v-series>
-                                    <div class="interval-buttons text-right">
+                                    <div
+                                        v-if="shouldShowIntervals"
+                                        class="interval-buttons text-right">
                                         <b-button variant="outline-dark"
                                             v-for="interval in graphInterval.options"
                                             :key="interval.value"
@@ -97,4 +94,4 @@
     </b-row>
 </template>
 
-<script src="./netCode"></script>
+<script src="./graphHolder"></script>
