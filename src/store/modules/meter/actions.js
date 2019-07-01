@@ -89,7 +89,8 @@ export function changeCfePeriod({commit, state}, {date, city}) {
         });
 }
 
-export function setCfePrices({commit, state}, {payload, city}) {
+export function setCfePrices({commit, state}, {payload, city, tariffType}) {
+    console.log(tariffType);
     return new Promise((resolve, reject) => {
         adminValues.createOrUpdatePrices(state.cfeValues.date, city, payload)
             .then(({cfeValue}) => {
