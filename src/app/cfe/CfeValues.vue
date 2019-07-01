@@ -127,9 +127,6 @@ export default {
 
     methods: {
         changePeriod(type, quantity) {
-            console.log("type: " + type);
-            console.log("quantity: " + quantity);
-            
             if (!this.$refs.cfeValues.isEditing) {
                 if (type === 0) {   // Year
                     this.$store.dispatch('meter/changeCfePeriod', {date: {years: quantity, months: 0}, city: this.cities[this.city]});
