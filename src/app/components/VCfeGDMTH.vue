@@ -194,7 +194,7 @@ export default {
                 } else {
                     city = this.userCompany.city;
                 }
-                this.$store.dispatch('meter/setCfePrices', {city, payload})
+                this.$store.dispatch('meter/setCfePrices', {city, payload, tariffType: "GDMTH"})
                     .then(() => {
                         this.$notify({
                             group: 'notification',

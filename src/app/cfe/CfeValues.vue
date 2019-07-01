@@ -33,13 +33,28 @@
                                     <span @click="changePeriod(0, 1)"><i class="fas fa-arrow-alt-circle-right"></i></span>
                                 </div>
                             </b-col>
+                        </b-row>
+                        <hr>
+                        <b-row>
                             <b-col
-                                cols="12"
+                                lg="6"
+                                md="12"
                                 class="prices">
-                                <v-cfe
+                                <p style="text-align:center"><b>GRAN DEMANDA EN MEDIA TENSIÓN HORARIA</b></p>
+                                <v-cfeGDMTH
                                     ref="cfeValues"
                                     :fullWidth="false"
                                     :forceCurrentMonth="false"/>
+                            </b-col>
+                            <b-col
+                                lg="6"
+                                md="12"
+                                class="prices">
+                                <p style="text-align:center"><b>GRAN DEMANDA EN MEDIA TENSIÓN ORDINARIA</b></p>
+                                <v-cfeGDMTO
+                                    :fullWidth="false"
+                                    :forceCurrentMonth="false"
+                                />
                             </b-col>
                         </b-row>
                     </b-col>
@@ -52,12 +67,14 @@
 <script>
 import moment from 'moment';
 import constants from '@/constants.json';
-import VCfe from '@/app/components/VCfe';
+import VCfeGDMTH from '@/app/components/VCfeGDMTH';
+import VCfeGDMTO from '@/app/components/VCfeGDMTO';
 import _l from 'lodash';
 
 export default {
     components: {
-        VCfe
+        VCfeGDMTH,        
+        VCfeGDMTO
     },
 
     beforeMount() {
@@ -110,6 +127,9 @@ export default {
 
     methods: {
         changePeriod(type, quantity) {
+            console.log("type: " + type);
+            console.log("quantity: " + quantity);
+            
             if (!this.$refs.cfeValues.isEditing) {
                 if (type === 0) {   // Year
                     this.$store.dispatch('meter/changeCfePeriod', {date: {years: quantity, months: 0}, city: this.cities[this.city]});

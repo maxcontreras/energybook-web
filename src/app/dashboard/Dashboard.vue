@@ -251,7 +251,7 @@
                                     </b-row>
                                     <b-row class="general-body">
                                         <b-col>
-                                            <v-cfe
+                                            <v-cfeGDMTH
                                                 :allowEditing="false"
                                                 :forceCurrentMonth="true"/>
                                         </b-col>

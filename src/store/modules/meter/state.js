@@ -22,6 +22,18 @@ const defaultState = {
             peak: constants.CFE.prices.peak,
             capacity: constants.CFE.prices.capacity,
             distribution: constants.CFE.prices.distribution
+        },
+        GDMTO: {
+            prices: { 
+                price: constants.CFE.GDMTO.prices.price,
+                capacity: constants.CFE.GDMTO.prices.capacity,
+                distribution: constants.CFE.GDMTO.prices.distribution
+            },
+            currentPrices: {
+                price: constants.CFE.GDMTO.prices.price,
+                capacity: constants.CFE.GDMTO.prices.capacity,
+                distribution: constants.CFE.GDMTO.prices.distribution
+            }
         }
     }
 };

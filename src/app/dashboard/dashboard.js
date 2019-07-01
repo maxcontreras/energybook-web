@@ -1,6 +1,6 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters'
-import VCfe from '@/app/components/VCfe';
+import VCfeGDMTH from '@/app/components/VCfeGDMTH';
 import ReadingCard from '@/app/components/ReadingCard';
 import meters from '@/services/meters'
 import VTable from '@/app/components/VTable.vue'
@@ -154,7 +154,7 @@ export default {
         VueHighcharts ,
         VueHighChartsComponent,
         DashboardAdmin,
-        VCfe,
+        VCfeGDMTH,
         ReadingCard
     },
 
