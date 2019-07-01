@@ -193,7 +193,6 @@ export default {
             this.position = this.location;
         },
         currentView: function(newVal) {
-            console.log("newval: " + newVal);
             if (newVal !== 'dashboard') {
                 this.showCollapse = false;
             }
