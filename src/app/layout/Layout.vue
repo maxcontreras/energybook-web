@@ -14,12 +14,12 @@
                     <b-nav-item
                         v-b-toggle.serviceSelection
                         v-bind:class="{'current-view': currentView === 'dashboard'}"
-                        @click="this.showCollapse = !this.showCollapse">
+                        @click="showCollapse = !showCollapse">
                         <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                     </b-nav-item>
                     <b-collapse
                         id="serviceSelection"
-                        v-model="this.showCollapse">
+                        v-if="showCollapse">
                         <b-nav-item
                             v-for="(service, index) in services"
                             :key="index"
@@ -81,7 +81,7 @@
                     xl="8"
                     md="6"
                     class="text-right">
-                    <template v-if="this.user.user.free_trial">
+                    <template v-if="user.user.free_trial">
                         <p class="trial-days-remaining">{{getTrialDaysLeft()}}{{trialDaysLeft}} días restantes de prueba </p>
                     </template>
                     <img
