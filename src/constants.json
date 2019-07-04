@@ -80,7 +80,7 @@
         },
         "GDMTO": {
             "prices": {
-                "price": 1.269,
+                "ordinary": 1.269,
                 "distribution": 150,
                 "capacity":  269.65
             }
