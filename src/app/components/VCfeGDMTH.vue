@@ -116,23 +116,23 @@ export default {
     computed: {
         basePrice() {
             let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].base;
+            return this.$store.state.meter.cfeValues.GDMTH[priceType].base;
         },
         middlePrice() {
             let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].middle;
+            return this.$store.state.meter.cfeValues.GDMTH[priceType].middle;
         },
         peakPrice() {
             let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].peak;
+            return this.$store.state.meter.cfeValues.GDMTH[priceType].peak;
         },
         capacityPrice() {
             let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].capacity;
+            return this.$store.state.meter.cfeValues.GDMTH[priceType].capacity;
         },
         distributionPrice() {
             let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].distribution;
+            return this.$store.state.meter.cfeValues.GDMTH[priceType].distribution;
         },
         userCompany() {
             return this.$store.getters['user/getUserCompany'];
@@ -182,11 +182,11 @@ export default {
                 !isNaN(this.capacity) && parseFloat(this.capacity) > 0 &&
                 !isNaN(this.distribution) && parseFloat(this.distribution) > 0) {
                 let payload = {
-                    base: this.base,
-                    middle: this.middle,
-                    peak: this.peak,
-                    capacity: this.capacity,
-                    distribution: this.distribution
+                    base: parseFloat(this.base),
+                    middle: parseFloat(this.middle),
+                    peak: parseFloat(this.peak),
+                    capacity: parseFloat(this.capacity),
+                    distribution: parseFloat(this.distribution)
                 }
                 let city = '';
                 if (this.isAdmin) {

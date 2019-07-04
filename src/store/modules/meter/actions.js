@@ -90,11 +90,10 @@ export function changeCfePeriod({commit, state}, {date, city}) {
 }
 
 export function setCfePrices({commit, state}, {payload, city, tariffType}) {
-    console.log(tariffType);
     return new Promise((resolve, reject) => {
-        adminValues.createOrUpdatePrices(state.cfeValues.date, city, payload)
+        adminValues.createOrUpdatePrices(state.cfeValues.date, city, payload, tariffType)
             .then(({cfeValue}) => {
-                commit(mutation.GET_CFE_VALUES, Object.assign({new_date: cfeValue.date}, cfeValue));
+                commit(mutation.GET_CFE_VALUES, Object.assign({new_date: cfeValue.date}, cfeValue, {tariff_type: tariffType}));
                 resolve();
             })
             .catch(err => {

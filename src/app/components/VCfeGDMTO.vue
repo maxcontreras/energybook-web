@@ -23,11 +23,11 @@
             </span>
         </div>
         <b-form-group
-            label="Precio:"
-            label-for="price">
+            label="Precio ordinario:"
+            label-for="ordinary">
             <b-form-input
-                v-model="price"
-                id="price"
+                v-model="ordinary"
+                id="ordinary"
                 :disabled="!isEditing"
                 step="any"
                 type="text">
@@ -78,7 +78,7 @@ export default {
 
     data() {
         return {
-            price: null,
+            ordinary: null,
             capacity: null,
             distribution: null,
             isEditing: false
@@ -90,9 +90,9 @@ export default {
     },
 
     computed: {
-        fixPricePrice() {
+        ordinaryPrice() {
             let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTO[priceType].price;
+            return this.$store.state.meter.cfeValues.GDMTO[priceType].ordinary;
         },
         capacityPrice() {
             let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
@@ -117,9 +117,8 @@ export default {
     },
 
     watch: {
-        fixPricePrice(newValue) {
-            console.log("fixprice changed");
-            this.price = newValue;
+        ordinaryPrice(newValue) {
+            this.ordinary = newValue;
         },
         capacityPrice(newValue) {
             this.capacity = newValue;
@@ -139,13 +138,13 @@ export default {
 
     methods: {
         savePrices() {
-            if (!isNaN(this.price) && parseFloat(this.price) > 0 &&
+            if (!isNaN(this.ordinary) && parseFloat(this.ordinary) > 0 &&
                 !isNaN(this.capacity) && parseFloat(this.capacity) > 0 &&
                 !isNaN(this.distribution) && parseFloat(this.distribution) > 0) {
                 let payload = {
-                    price: this.price,
-                    capacity: this.capacity,
-                    distribution: this.distribution
+                    ordinary: parseFloat(this.ordinary),
+                    capacity: parseFloat(this.capacity),
+                    distribution: parseFloat(this.distribution)
                 }
                 let city = '';
                 if (this.isAdmin) {
@@ -180,8 +179,7 @@ export default {
             }
         },
         resetPrices() {
-            console.log("resetprices");
-            this.price = this.fixPricePrice;
+            this.ordinary = this.ordinaryPrice;
             this.capacity = this.capacityPrice;
             this.distribution = this.distributionPrice;
         },
