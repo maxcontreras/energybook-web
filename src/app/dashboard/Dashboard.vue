@@ -251,9 +251,16 @@
                                     </b-row>
                                     <b-row class="general-body">
                                         <b-col>
+                                            <template v-if="tariffType=='GDMTH'">
                                             <v-cfeGDMTH
                                                 :allowEditing="false"
                                                 :forceCurrentMonth="true"/>
+                                            </template>
+                                            <template v-else>
+                                                <v-cfeGDMTO
+                                                    :allowEditing="false"
+                                                    :forceCurrentMonth="true"/>
+                                            </template>
                                         </b-col>
                                     </b-row>
                                 </b-card>

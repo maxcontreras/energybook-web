@@ -1,6 +1,7 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters'
 import VCfeGDMTH from '@/app/components/VCfeGDMTH';
+import VCfeGDMTO from '@/app/components/VCfeGDMTO';
 import ReadingCard from '@/app/components/ReadingCard';
 import meters from '@/services/meters'
 import VTable from '@/app/components/VTable.vue'
@@ -155,6 +156,7 @@ export default {
         VueHighChartsComponent,
         DashboardAdmin,
         VCfeGDMTH,
+        VCfeGDMTO,
         ReadingCard
     },
 
@@ -212,6 +214,10 @@ export default {
             return this.$store.state.socket.epimpHistory;
         },
 
+        tariffType() {
+            return this.$store.state.user.company.tariff_type;
+        },
+
         distribution() {
             let prettyDist = this.prettifyNumbers(this.$store.state.socket.distribution);
             return prettyDist;
@@ -253,6 +259,8 @@ export default {
         },
 
         capacityCost() {
+            // console.log("capacityPrice: " + this.cfePrices.capacity);
+            // console.log("this capacity: " + this.capacity);
             return (this.cfePrices.capacity * parseFloat(this.capacity)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
