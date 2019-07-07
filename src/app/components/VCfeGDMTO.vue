@@ -87,6 +87,7 @@ export default {
 
     beforeMount() {
         this.resetPrices();
+        this.$store.dispatch('meter/getCurrentCfePeriod', this.userCompany);
     },
 
     computed: {
@@ -128,7 +129,7 @@ export default {
         },
         userCompany(company) {
             if (this.forceCurrentMonth) {
-                this.$store.dispatch('meter/getCurrentCfePeriod', company.city);
+                this.$store.dispatch('meter/getCurrentCfePeriod', company);
             } else {
                 this.$store.dispatch('meter/changeCfePeriod', {date: {years: 0, months: 0}, city: company.city});
             }

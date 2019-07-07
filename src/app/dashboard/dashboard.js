@@ -228,7 +228,7 @@ export default {
         },
 
         distributionCost() {
-            return (this.cfePrices.distribution * parseFloat(this.distribution)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.distributionPrice * parseFloat(this.distribution)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         distributionCharge() {
@@ -242,7 +242,7 @@ export default {
         },
 
         distributionMonthCost() {
-            return (this.cfePrices.distribution * parseFloat(this.distributionMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.distributionPrice * parseFloat(this.distributionMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         odometer() {
@@ -259,9 +259,7 @@ export default {
         },
 
         capacityCost() {
-            // console.log("capacityPrice: " + this.cfePrices.capacity);
-            // console.log("this capacity: " + this.capacity);
-            return (this.cfePrices.capacity * parseFloat(this.capacity)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.capacityPrice * parseFloat(this.capacity)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         capacityMonth() {
@@ -269,7 +267,7 @@ export default {
         },
 
         capacityMonthCost() {
-            return (this.cfePrices.capacity * parseFloat(this.capacityMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.capacityPrice * parseFloat(this.capacityMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         consumptionMonth() {
@@ -508,7 +506,7 @@ export default {
                     if(metersCount > 0 && this.serviceSelected !== '') {
                         let currService = this.meters[0].services.filter(service => service.serviceName === this.serviceSelected)[0];
                         this.edsId = this.meters[0].meter_id;
-
+                        
                         this.$store.dispatch('socket/odometerReading', currService.dp);
                         this.$store.dispatch('socket/dailyReading', currService.dailyReadings);
                         this.$store.dispatch('socket/monthlyReading', currService.monthlyReadings);

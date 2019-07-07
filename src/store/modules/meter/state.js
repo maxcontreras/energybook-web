@@ -17,11 +17,11 @@ const defaultState = {
         },
         currentDate: moment().startOf('month').format(),
         currentPrices: {
-            base: constants.CFE.prices.base,
-            middle: constants.CFE.prices.middle,
-            peak: constants.CFE.prices.peak,
-            capacity: constants.CFE.prices.capacity,
-            distribution: constants.CFE.prices.distribution
+            basePrice: constants.CFE.prices.base,
+            middlePrice: constants.CFE.prices.middle,
+            peakPrice: constants.CFE.prices.peak,
+            capacityPrice: constants.CFE.prices.capacity,
+            distributionPrice: constants.CFE.prices.distribution
         },
         GDMTO: {
             prices: { 

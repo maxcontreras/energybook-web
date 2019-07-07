@@ -61,14 +61,8 @@ export default {
         state.cfeValues["GDMTO"].prices.capacity = GDMTO.capacityPrice;
         state.cfeValues["GDMTO"].prices.distribution = GDMTO.distributionPrice;        
     },
-    [mutation.GET_CURRENT_CFE_VALUES](state, {basePrice, middlePrice, peakPrice, capacityPrice, distributionPrice }) {
-        state.cfeValues.currentPrices = {
-            base: basePrice,
-            middle: middlePrice,
-            peak: peakPrice,
-            capacity: capacityPrice,
-            distribution: distributionPrice
-        }
+    [mutation.GET_CURRENT_CFE_VALUES](state, cfeValues) {
+        state.cfeValues.currentPrices = cfeValues;
     },
     [mutation.UPDATE_METER_AVAILABLE](state, isAvailable) {
         state.isAvailable = isAvailable;

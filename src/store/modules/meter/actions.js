@@ -67,10 +67,10 @@ export function editAssignedMeter({commit, state}, {meter, services, generation}
     });
 }
 
-export function getCurrentCfePeriod({commit, state}, city) {
-    adminValues.findByDate(state.cfeValues.currentDate, city)
+export function getCurrentCfePeriod({commit, state}, company) {
+    adminValues.findByDate(state.cfeValues.currentDate, company.city)
         .then(({cfeValue}) => {
-            commit(mutation.GET_CURRENT_CFE_VALUES, Object.assign({}, cfeValue));
+            commit(mutation.GET_CURRENT_CFE_VALUES, Object.assign({}, cfeValue[company.tariff_type]));
         })
         .catch(err => {
             console.log(err);
