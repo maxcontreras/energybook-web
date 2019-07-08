@@ -20,11 +20,11 @@
                 </div>
                 <h5>¡Bienvenido! Ingresa a tu cuenta</h5>
                 <b-form-group id="login-user">
-                    <b-form-input type="text" v-model="email" required placeholder="Usuario">
+                    <b-form-input type="text" v-model="email" required placeholder="Usuario" autocomplete="on">
                     </b-form-input>
                 </b-form-group>
                 <b-form-group id="login-password">
-                    <b-form-input type="password" v-model="password" required placeholder="Contraseña">
+                    <b-form-input type="password" v-model="password" required placeholder="Contraseña" autocomplete="on">
                     </b-form-input>
                 </b-form-group>
                 <b-button type="submit" variant="primary">Iniciar Sesión</b-button>
