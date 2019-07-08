@@ -89,7 +89,7 @@ import meters from '@/services/meters';
 import datePicker from 'vue-bootstrap-datetimepicker';
 import { parseDate, parseDateTime, parseDayName } from '@/utils/dateTime';
 
-const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c', 'diario': '#f48c42'};
+const colors = {'base': '#eddc49', 'middle': '#1dd6c0', 'peak': '#db3c1c', 'diario': '#f48c42', 'ordinary': '#1dd6c0'};
 
 var dataColumn = {
     chart: {
@@ -175,7 +175,8 @@ export default {
                 'Base': '#eddc49',
                 'Intermedia': '#1dd6c0',
                 'Punta': '#db3c1c',
-                'Diario': '#f48c42'
+                'Diario': '#f48c42',
+                'Ordinario': '#1dd6c0'
             },
             meditionIntervals: [
                 'Cada hora',
@@ -196,6 +197,11 @@ export default {
         rate_types() {
             if (this.currentMeditionInterval === 1 && this.currentPeriod > 1) {
                 return [ 'Diario' ]
+            } 
+            else if (this.company.tariff_type === 'GDMTO') {
+                return [
+                    'Ordinario'
+                ]
             } else {
                 return [
                     'Base',
@@ -214,6 +220,10 @@ export default {
 
         showMeditionIntervals() {
             return this.currentPeriod > 1 || this.currentPeriod === -1
+        },
+
+        company() {
+            return this.$store.state.user.company;
         }
     },
 
@@ -373,12 +383,12 @@ export default {
         },
 
         formatTooltip(interval, period) {
-            if (interval === 1 && period > 1) {
+            if (interval === 1 && period > 1 && this.company.tariff_type === "GDMTH") {
                 return {
                     pointFormat: '<span style="color:{point.color}">\u25CF</span> Costo Total: <b>${point.y}</b><br>\
-                                <span style="color:{point.colors.base}">\u25CF</span> Base: <b>$ {point.rateCosts.base}</b><br>\
-                                <span style="color:{point.colors.middle}">\u25CF</span> Media: <b>$ {point.rateCosts.middle}</b><br>\
-                                <span style="color:{point.colors.peak}">\u25CF</span> Punta: <b>$ {point.rateCosts.peak}</b><br>'
+                        <span style="color:{point.colors.base}">\u25CF</span> Base: <b>$ {point.rateCosts.base}</b><br>\
+                        <span style="color:{point.colors.middle}">\u25CF</span> Media: <b>$ {point.rateCosts.middle}</b><br>\
+                        <span style="color:{point.colors.peak}">\u25CF</span> Punta: <b>$ {point.rateCosts.peak}</b><br>'
                 }
             } else {
                 return {
@@ -436,18 +446,18 @@ export default {
             let day = parseDayName(date);
             let dat = parseDate(date);
             if (this.currentMeditionInterval === 1 && this.currentPeriod === 2) {
-                return {name: `${rate} - ${day} ${date.substring(0, 2)}`, y: parseFloat(cost), color: colors[rate], rateCosts, colors};
+                return {name: `${rate} - ${day} ${date.substring(0, 2)}`, y: parseFloat(cost.toFixed(2)), color: colors[rate], rateCosts, colors};
             } else if (this.currentMeditionInterval === 1 && this.currentPeriod === 3) {
-                return {name: `${rate} - ${dat}`, y: parseFloat(cost), color: colors[rate], rateCosts, colors};
+                return {name: `${rate} - ${dat}`, y: parseFloat(cost.toFixed(2)), color: colors[rate], rateCosts, colors};
             }
             if (this.currentPeriod === 2) {
-                return {name: `${rate} - ${day} ${time}`, y: parseFloat(cost), color: colors[rate]};
+                return {name: `${rate} - ${day} ${time}`, y: parseFloat(cost.toFixed(2)), color: colors[rate]};
             }
             else if (this.currentPeriod === 3) {
-                return {name: `${rate} - ${dat} ${time}`, y: parseFloat(cost), color: colors[rate]};
+                return {name: `${rate} - ${dat} ${time}`, y: parseFloat(cost.toFixed(2)), color: colors[rate]};
             }
             else {
-                return {name: `${rate} - ${time}`, y: parseFloat(cost), color: colors[rate]};
+                return {name: `${rate} - ${time}`, y: parseFloat(cost.toFixed(2)), color: colors[rate]};
             }
         }
     }
