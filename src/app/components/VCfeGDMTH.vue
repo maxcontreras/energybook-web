@@ -116,24 +116,34 @@ export default {
 
     computed: {
         basePrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTH[priceType].base;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.basePrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTH.prices.base;
         },
         middlePrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTH[priceType].middle;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.middlePrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTH.prices.middle;
         },
         peakPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTH[priceType].peak;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.peakPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTH.prices.peak;
         },
         capacityPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTH[priceType].capacity;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.capacityPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTH.prices.capacity;
         },
         distributionPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTH[priceType].distribution;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.distributionPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTH.prices.distribution;
         },
         userCompany() {
             return this.$store.getters['user/getUserCompany'];

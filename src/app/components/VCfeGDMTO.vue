@@ -92,16 +92,22 @@ export default {
 
     computed: {
         ordinaryPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTO[priceType].ordinary;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.ordinaryPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTO.prices.ordinary;
         },
         capacityPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTO[priceType].capacity;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.capacityPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTO.prices.capacity;
         },
         distributionPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues.GDMTO[priceType].distribution;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.distributionPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTO.prices.distribution;
         },
         userCompany() {
             return this.$store.getters['user/getUserCompany'];
