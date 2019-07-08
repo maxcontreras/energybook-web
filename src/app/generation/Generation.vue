@@ -97,7 +97,7 @@
                                     <b-row class="properties">
                                         <b-col cols="12">
                                             <v-property
-                                                property-name="Emisiones de CO2"
+                                                property-name="Eco2E"
                                                 :property-value="co2e"
                                                 property-unit="t"
                                                 :property-image="images.co2e"
@@ -105,7 +105,7 @@
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
-                                                property-name="Factor de emisión"
+                                                property-name="FE"
                                                 :property-value="emissionFactor "
                                                 :property-image="images.emissionFactor"
                                                 />
@@ -153,7 +153,7 @@ export default {
             },
             eds: [],
             cardStyle: {
-                minHeight: '225px'
+                height: '205px'
             },
             generation: 0,
             generationValue: 0,

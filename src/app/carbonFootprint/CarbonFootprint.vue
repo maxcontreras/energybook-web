@@ -59,7 +59,7 @@
                                         <b-col cols="12">
                                             <v-property
                                                 :property-image="images.co2e"
-                                                property-name="Emisiones de CO2"
+                                                property-name="Eco2E"
                                                 :property-value="co2Emission"
                                                 property-unit="t"/>
                                         </b-col>
@@ -79,13 +79,13 @@
                                         <b-col cols="12">
                                             <v-property
                                                 :property-image="images.emissionFactor"    
-                                                property-name="Factor de emisión"
+                                                property-name="FE"
                                                 :property-value="emissionFactor"/>
                                         </b-col>
                                         <b-col cols="12">
                                             <v-property
                                                 :property-image="images.co2eLimit"
-                                                property-name="Límite de emisiones de CO2"
+                                                property-name="Límite Eco2e"
                                                 :property-value="co2Limit"/>
                                         </b-col>
                                     </b-row>
@@ -128,7 +128,7 @@ export default {
         return {
             devices: [],
             cardStyle: {
-                minHeight: '225px'
+                height: '190px'
             },
             metersFilter: {
                 selected: "",
