@@ -67,10 +67,10 @@ export function editAssignedMeter({commit, state}, {meter, services, generation}
     });
 }
 
-export function getCurrentCfePeriod({commit, state}, city) {
-    adminValues.findByDate(state.cfeValues.currentDate, city)
+export function getCurrentCfePeriod({commit, state}, company) {
+    adminValues.findByDate(state.cfeValues.currentDate, company.city)
         .then(({cfeValue}) => {
-            commit(mutation.GET_CURRENT_CFE_VALUES, Object.assign({}, cfeValue));
+            commit(mutation.GET_CURRENT_CFE_VALUES, Object.assign({}, cfeValue[company.tariff_type]));
         })
         .catch(err => {
             console.log(err);
@@ -89,11 +89,11 @@ export function changeCfePeriod({commit, state}, {date, city}) {
         });
 }
 
-export function setCfePrices({commit, state}, {payload, city}) {
+export function setCfePrices({commit, state}, {payload, city, tariffType}) {
     return new Promise((resolve, reject) => {
-        adminValues.createOrUpdatePrices(state.cfeValues.date, city, payload)
+        adminValues.createOrUpdatePrices(state.cfeValues.date, city, payload, tariffType)
             .then(({cfeValue}) => {
-                commit(mutation.GET_CFE_VALUES, Object.assign({new_date: cfeValue.date}, cfeValue));
+                commit(mutation.GET_CFE_VALUES, Object.assign({new_date: cfeValue.date}, cfeValue, {tariff_type: tariffType}));
                 resolve();
             })
             .catch(err => {

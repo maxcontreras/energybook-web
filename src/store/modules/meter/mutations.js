@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import * as mutation from './mutations-types';
 import defaultState from './state';
+import { isBuffer } from 'util';
 
 export default {
     [mutation.RESET](state) {
@@ -49,24 +50,19 @@ export default {
     [mutation.DELETE_ALL_ASSIGNED](state) {
         state.metersAssigned = [];
     },
-    [mutation.GET_CFE_VALUES](state, {new_date, basePrice, middlePrice, peakPrice, capacityPrice, distributionPrice }) {
+    [mutation.GET_CFE_VALUES](state, {new_date, GDMTH, GDMTO}) {
         state.cfeValues.date = new_date;
-        state.cfeValues.prices = {
-            base: basePrice,
-            middle: middlePrice,
-            peak: peakPrice,
-            capacity: capacityPrice,
-            distribution: distributionPrice
-        }
+        state.cfeValues["GDMTH"].prices.base = GDMTH.basePrice;
+        state.cfeValues["GDMTH"].prices.middle = GDMTH.middlePrice;
+        state.cfeValues["GDMTH"].prices.peak = GDMTH.peakPrice;    
+        state.cfeValues["GDMTH"].prices.capacity = GDMTH.capacityPrice;
+        state.cfeValues["GDMTH"].prices.distribution = GDMTH.distributionPrice;  
+        state.cfeValues["GDMTO"].prices.ordinary = GDMTO.ordinaryPrice;        
+        state.cfeValues["GDMTO"].prices.capacity = GDMTO.capacityPrice;
+        state.cfeValues["GDMTO"].prices.distribution = GDMTO.distributionPrice;        
     },
-    [mutation.GET_CURRENT_CFE_VALUES](state, {basePrice, middlePrice, peakPrice, capacityPrice, distributionPrice }) {
-        state.cfeValues.currentPrices = {
-            base: basePrice,
-            middle: middlePrice,
-            peak: peakPrice,
-            capacity: capacityPrice,
-            distribution: distributionPrice
-        }
+    [mutation.GET_CURRENT_CFE_VALUES](state, cfeValues) {
+        state.cfeValues.currentPrices = cfeValues;
     },
     [mutation.UPDATE_METER_AVAILABLE](state, isAvailable) {
         state.isAvailable = isAvailable;

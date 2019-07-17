@@ -1,6 +1,7 @@
 /* eslint-disable */
 import designatedMeters from '@/services/designatedMeters'
-import VCfe from '@/app/components/VCfe';
+import VCfeGDMTH from '@/app/components/VCfeGDMTH';
+import VCfeGDMTO from '@/app/components/VCfeGDMTO';
 import ReadingCard from '@/app/components/ReadingCard';
 import meters from '@/services/meters'
 import VTable from '@/app/components/VTable.vue'
@@ -154,7 +155,8 @@ export default {
         VueHighcharts ,
         VueHighChartsComponent,
         DashboardAdmin,
-        VCfe,
+        VCfeGDMTH,
+        VCfeGDMTO,
         ReadingCard
     },
 
@@ -212,6 +214,10 @@ export default {
             return this.$store.state.socket.epimpHistory;
         },
 
+        tariffType() {
+            return this.$store.state.user.company.tariff_type;
+        },
+
         distribution() {
             let prettyDist = this.prettifyNumbers(this.$store.state.socket.distribution);
             return prettyDist;
@@ -222,7 +228,7 @@ export default {
         },
 
         distributionCost() {
-            return (this.cfePrices.distribution * parseFloat(this.distribution)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.distributionPrice * parseFloat(this.distribution)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         distributionCharge() {
@@ -236,7 +242,7 @@ export default {
         },
 
         distributionMonthCost() {
-            return (this.cfePrices.distribution * parseFloat(this.distributionMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.distributionPrice * parseFloat(this.distributionMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         odometer() {
@@ -253,7 +259,7 @@ export default {
         },
 
         capacityCost() {
-            return (this.cfePrices.capacity * parseFloat(this.capacity)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.capacityPrice * parseFloat(this.capacity)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         capacityMonth() {
@@ -261,7 +267,7 @@ export default {
         },
 
         capacityMonthCost() {
-            return (this.cfePrices.capacity * parseFloat(this.capacityMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.capacityPrice * parseFloat(this.capacityMonth)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         consumptionMonth() {
@@ -500,7 +506,7 @@ export default {
                     if(metersCount > 0 && this.serviceSelected !== '') {
                         let currService = this.meters[0].services.filter(service => service.serviceName === this.serviceSelected)[0];
                         this.edsId = this.meters[0].meter_id;
-
+                        
                         this.$store.dispatch('socket/odometerReading', currService.dp);
                         this.$store.dispatch('socket/dailyReading', currService.dailyReadings);
                         this.$store.dispatch('socket/monthlyReading', currService.monthlyReadings);

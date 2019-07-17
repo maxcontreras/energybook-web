@@ -23,33 +23,11 @@
             </span>
         </div>
         <b-form-group
-            label="Precio base:"
-            label-for="base_price">
+            label="Precio ordinario:"
+            label-for="ordinary">
             <b-form-input
-                v-model="base"
-                id="base_price"
-                :disabled="!isEditing"
-                step="any"
-                type="text">
-            </b-form-input>
-        </b-form-group>
-        <b-form-group
-            label="Precio media:"
-            label-for="middle_price">
-            <b-form-input
-                v-model="middle"
-                id="middle_price"
-                :disabled="!isEditing"
-                step="any"
-                type="text">
-            </b-form-input>
-        </b-form-group>
-        <b-form-group
-            label="Precio punta:"
-            label-for="peak_price">
-            <b-form-input
-                v-model="peak"
-                id="peak_price"
+                v-model="ordinary"
+                id="ordinary"
                 :disabled="!isEditing"
                 step="any"
                 type="text">
@@ -100,9 +78,7 @@ export default {
 
     data() {
         return {
-            base: null,
-            middle: null,
-            peak: null,
+            ordinary: null,
             capacity: null,
             distribution: null,
             isEditing: false
@@ -111,28 +87,27 @@ export default {
 
     beforeMount() {
         this.resetPrices();
+        this.$store.dispatch('meter/getCurrentCfePeriod', this.userCompany);
     },
 
     computed: {
-        basePrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].base;
-        },
-        middlePrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].middle;
-        },
-        peakPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].peak;
+        ordinaryPrice() {
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.ordinaryPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTO.prices.ordinary;
         },
         capacityPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].capacity;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.capacityPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTO.prices.capacity;
         },
         distributionPrice() {
-            let priceType = (this.forceCurrentMonth)? 'currentPrices':'prices';
-            return this.$store.state.meter.cfeValues[priceType].distribution;
+            if(this.forceCurrentMonth) {
+                return this.$store.state.meter.cfeValues.currentPrices.distributionPrice;
+            }
+            return this.$store.state.meter.cfeValues.GDMTO.prices.distribution;
         },
         userCompany() {
             return this.$store.getters['user/getUserCompany'];
@@ -149,14 +124,8 @@ export default {
     },
 
     watch: {
-        basePrice(newValue) {
-            this.base = newValue;
-        },
-        middlePrice(newValue) {
-            this.middle = newValue;
-        },
-        peakPrice(newValue) {
-            this.peak = newValue;
+        ordinaryPrice(newValue) {
+            this.ordinary = newValue;
         },
         capacityPrice(newValue) {
             this.capacity = newValue;
@@ -166,7 +135,7 @@ export default {
         },
         userCompany(company) {
             if (this.forceCurrentMonth) {
-                this.$store.dispatch('meter/getCurrentCfePeriod', company.city);
+                this.$store.dispatch('meter/getCurrentCfePeriod', company);
             } else {
                 this.$store.dispatch('meter/changeCfePeriod', {date: {years: 0, months: 0}, city: company.city});
             }
@@ -176,17 +145,13 @@ export default {
 
     methods: {
         savePrices() {
-            if (!isNaN(this.base) && parseFloat(this.base) > 0 &&
-                !isNaN(this.middle) && parseFloat(this.middle) > 0 &&
-                !isNaN(this.peak) && parseFloat(this.peak) > 0 &&
+            if (!isNaN(this.ordinary) && parseFloat(this.ordinary) > 0 &&
                 !isNaN(this.capacity) && parseFloat(this.capacity) > 0 &&
                 !isNaN(this.distribution) && parseFloat(this.distribution) > 0) {
                 let payload = {
-                    base: this.base,
-                    middle: this.middle,
-                    peak: this.peak,
-                    capacity: this.capacity,
-                    distribution: this.distribution
+                    ordinary: parseFloat(this.ordinary),
+                    capacity: parseFloat(this.capacity),
+                    distribution: parseFloat(this.distribution)
                 }
                 let city = '';
                 if (this.isAdmin) {
@@ -194,7 +159,7 @@ export default {
                 } else {
                     city = this.userCompany.city;
                 }
-                this.$store.dispatch('meter/setCfePrices', {city, payload})
+                this.$store.dispatch('meter/setCfePrices', {city, payload, tariffType:"GDMTO"})
                     .then(() => {
                         this.$notify({
                             group: 'notification',
@@ -221,9 +186,7 @@ export default {
             }
         },
         resetPrices() {
-            this.base = this.basePrice;
-            this.middle = this.middlePrice;
-            this.peak = this.peakPrice;
+            this.ordinary = this.ordinaryPrice;
             this.capacity = this.capacityPrice;
             this.distribution = this.distributionPrice;
         },

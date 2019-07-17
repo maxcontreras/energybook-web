@@ -190,10 +190,10 @@ export default {
             return this.$store.getters['meter/getCfePrices'];
         },
         distributionCost() {
-            return (this.cfePrices.distribution * parseFloat(this.data.distribution)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.distributionPrice * parseFloat(this.data.distribution)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         capacityCost() {
-            return (this.cfePrices.capacity * parseFloat(this.data.capacity)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (this.cfePrices.capacityPrice * parseFloat(this.data.capacity)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     },
     methods: {
