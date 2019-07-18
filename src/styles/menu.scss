@@ -3,6 +3,7 @@ $egreen1: rgb(152, 214, 16);
 $light: rgba(241, 241, 241, 0.582);
 $lightgray: rgb(143, 143, 143);
 $darkgray: #485658;
+$darkgray1: #2a3435;
 
 $egray2: #8D8D8D;
 
@@ -136,10 +137,10 @@ $egray2: #8D8D8D;
         border-right: 3px solid #fcfcfc;
 
         &:hover, &.current-view {
-            border-color: $egreen;
+            border-color: $egreen1;
 
             i {
-                color: $egreen1;
+                color: $darkgray1;
             }
 
             .nav-link {
