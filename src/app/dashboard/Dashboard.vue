@@ -232,10 +232,13 @@
                                             </b-row>
                                         </b-col>
                                         <b-btn
+                                            style="display:inline-block"
                                             :disabled="refreshingData"
                                             class="refresh-btn"
-                                            :class="refreshingData?'disable-refresh':'enable-refresh'"
-                                            @click="refresh()">
+                                            @click="refresh()"
+                                            variant="success">
+                                            <img style="width:30px" :src="refreshingData?'/assets/images/Refresh_off.svg':'/assets/images/Refresh-on.svg'">
+                                            <p style="display:inline-block;">Actualizar</p>
                                         </b-btn>
                                     </b-row>
                                 </b-card>
