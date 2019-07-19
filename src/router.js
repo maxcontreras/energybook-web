@@ -21,6 +21,7 @@ import Calendar from '@/app/calendar/Calendar.vue';
 import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue';
 import UserDetail from '@/app/userDetail/UserDetail.vue';
 import Graphs from '@/app/graphs/Graphs.vue';
+import Settings from '@/app/settings/Settings.vue';
 
 Vue.use(VueRouter)
 
@@ -172,6 +173,14 @@ const router = new VueRouter({
                     name: 'costs',
                     components: {
                         default: Graphs
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/configuracion',
+                    name: 'settings',
+                    components: {
+                        default: Settings
                     },
                     meta: { requiresAuth: true }
                 }

@@ -110,6 +110,9 @@
                                     @click="goTo('profile')">
                                     <i class="far fa-user"></i> Perfil
                                 </b-dropdown-item>
+                                <b-dropdown-item @click="goTo('settings')">
+                                    <i class="fas fa-cogs"></i> Configuración
+                                </b-dropdown-item>
                                 <b-dropdown-item @click="logout()">
                                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                                 </b-dropdown-item>
