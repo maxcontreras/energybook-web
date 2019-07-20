@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Notification from './components/Notification.vue';
+import Notification from '../components/settings/Notification.vue';
 
 export default {
   data() {
