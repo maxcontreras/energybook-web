@@ -86,6 +86,15 @@ export default {
                     });
             }
         },
+        updateUser({commit}, id) {
+            eUsers.findById({ id })
+            .then(user => {
+                commit('setUser', user);
+            }).catch(() => {
+                loopback.removeToken()
+                router.push({ name: 'login' })
+            })
+        },
         logout({}) {
             eUsers.logout().then(() => {
                 websockets.cleanSocket();
