@@ -19,6 +19,7 @@
 
 <script>
 import MaximumProperty from './maximumProperty.vue'
+import eUsers from '@/services/eUsers';
 
 export default {
   data () {
@@ -62,12 +63,62 @@ export default {
   },
   methods: {
     onSubmit() {
+      let newMaximums = {}
       for (var key in this.form) {
         if (this.form.hasOwnProperty(key)) {
           if (this.form[key].activated) {
-            console.log(key);
-            console.log(this.form[key].value);
+            newMaximums[key] = this.form[key].value; 
           }
+        }
+      }
+      let id = this.$store.state.user.user.id;
+      eUsers.updateMaximums(id, newMaximums)
+      .then((res) => {
+        if (!res) {
+          this.$notify({
+            group: 'notification',
+            type: 'error',
+            title: "Error al guardar",
+            text: "los valores máximos no se han podido guardar"
+          })
+          return;
+        }
+        res = res.response;
+        if (res.status === 200) {
+          this.$notify({
+            group: 'notification',
+            type: 'success',
+            title: "Éxito al guardar",
+            text: "los valores máximos han sido modificados exitósamente"
+          })
+          this.$store.dispatch('user/updateUser', id);
+        } else {
+          this.$notify({
+            group: 'notification',
+            type: 'error',
+            title: "Error al guardar",
+            text: "los valores máximos no se han podido guardar"
+          })
+        }
+      })
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.user? this.$store.state.user.user : null;
+    }
+  },
+  watch: {
+    user: {
+      immediate: true,
+      handler(newVal, oldVal)  {
+        if (!newVal) return;
+        
+        let settings = newVal.settings
+        
+        for (let key in settings) {
+          this.form[key].activated = true;
+          this.form[key].value = settings[key]; 
         }
       }
     }
