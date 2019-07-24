@@ -3,7 +3,7 @@
     <b-col>
       <h1>Configuración</h1>
       <hr>
-      <b-row class="settings-container" style="height: 750px; margin:1rem;">
+      <b-row class="settings-container" style="min-height: 750px; margin:1rem;">
         <b-col cols="2" class="settings-nav">
           <div @click="selectedSettings='notifications'" :class="{'current-view': selectedSettings === 'notifications' }">
             <i class="fas fa-bell"></i> Notificaciones
