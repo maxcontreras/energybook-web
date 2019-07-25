@@ -5,5 +5,10 @@ export default {
         return {
 
         }
+    },
+    methods: {
+        goTo(route) {
+            this.$router.push({name: route});
+        }
     }
 }

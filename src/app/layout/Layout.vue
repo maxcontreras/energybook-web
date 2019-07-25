@@ -92,11 +92,7 @@
                         src="/assets/images/conection-error.svg"
                         alt="Medidor no disponible">
                     <p class="current-date">{{date}}</p>
-                    <b-btn
-                        class="alert"
-                        variant="outline-secondary">
-                        <i class="far fa-bell"></i>
-                    </b-btn>
+                    <Notification></Notification>
                     <b-collapse
                         is-nav
                         id="nav_dropdown_collapse"
@@ -124,9 +120,6 @@
             </b-navbar>
             <router-view></router-view>
         </div>
-        <notifications 
-            group="notification"
-            position="top right"/>
     </div>
 </template>
 
@@ -262,24 +255,6 @@ export default {
         },
         toggleMeters() {
             //$('.meters-submenu').toggle();
-        },
-        toggleNotificationPanel() {
-            this.toggle = !this.toggle;
-            let $dropdown = $('#notification');
-
-            if(this.toggle) {
-
-                $dropdown.stop().css({
-                    'display': 'block',
-                    'top': 20,
-                    'opacity': 0
-                }).animate({
-                    top:  35,
-                    opacity: 1
-                }, 300);
-            } else {
-                $dropdown.css({ 'display' : 'none'});
-            }
         },
         getMeters() {
             let companyId = JSON.parse(localStorage.getItem('user')).company_id;

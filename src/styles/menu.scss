@@ -7,6 +7,24 @@ $darkgray1: #2a3435;
 
 $egray2: #8D8D8D;
 
+.notification {
+    width: 30rem;
+    height: 3.5rem;
+    background-color: #ffffff;
+
+    &:hover, &:focus, &:active {
+        background-color: #f8f9fa;
+    }
+    
+    .dropdown-item {
+        &:focus {
+            background-color: $light;
+            color: black;
+            box-shadow: none;
+        }
+    }
+}
+
 .navbar {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.05), 0 0px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px -1px rgba(0, 0, 0, 0.05);
 }
@@ -43,14 +61,19 @@ $egray2: #8D8D8D;
     .alert {
         margin-bottom: 0;
         text-align: center;
-        font-size: 18px;
-        padding: 5px 10px;
-        color: $egreen1;
+        padding: 0;
+
+        i {
+            color: $egreen1;
+        }
 
         &:hover {
             background-color: $egreen;
-            color: #ffffff;
             border-color: #ffffff;
+            
+            i {
+                color: #ffffff;
+            }
         }
 
         &:focus {
