@@ -26,8 +26,8 @@ let eUsers = Object.assign({}, {
     resetPassword(userId) {
         return loopback.post('/eUsers/resetPassword', {userId});
     },
-    updateMaximums(id, maximums) {
-        return loopback.put('eUsers/updateMaximums', {id, maximums});
+    updateMaximums(id, maximums, service, device) {
+        return loopback.put('eUsers/updateMaximums', {id, maximums, service, device});
     }
 }, modelObject);
 
