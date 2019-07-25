@@ -123,7 +123,7 @@
                                             <h5>Periodo de facturación</h5>
                                         </b-col>
                                         <b-col>
-                                            <h5 class="billable-period">
+                                            <h5 class="billable-period" style="text-align: right">
                                                 {{ billablePeriod }}
                                             </h5>
                                         </b-col>
