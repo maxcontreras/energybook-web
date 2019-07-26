@@ -22,6 +22,7 @@ import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue';
 import UserDetail from '@/app/userDetail/UserDetail.vue';
 import Graphs from '@/app/graphs/Graphs.vue';
 import Settings from '@/app/settings/Settings.vue';
+import Notifications from '@/app/notifications/Notifications.vue';
 
 Vue.use(VueRouter)
 
@@ -181,6 +182,14 @@ const router = new VueRouter({
                     name: 'settings',
                     components: {
                         default: Settings
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/notificationes',
+                    name: 'notifications',
+                    components: {
+                        default: Notifications
                     },
                     meta: { requiresAuth: true }
                 }

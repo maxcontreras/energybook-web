@@ -21,7 +21,13 @@
             font-size: 1rem;
             height: 1rem;
             margin: 0 0 0.3rem 0;
-            "><a href="#">Ver más</a></p>
+            ">
+                <a @click="goTo('notifications')"
+                    style="cursor: pointer;
+                    ">
+                    Ver más
+                </a>
+            </p>
         </b-dropdown-text>
     </b-dropdown>
 </template>
