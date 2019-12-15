@@ -96,6 +96,10 @@ export default {
             if (this.password !== this.passwordConfirm) {
                 return { valid: false, message: 'La contraseña debe ser la misma' };
             }
+            if (this.checkbox == false){
+                return {valid: false, message: 'Debe de aceptar nuestro aviso de privacidad'}
+
+            }
             return { valid: true, message: '' };
         },
 

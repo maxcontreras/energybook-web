@@ -21,6 +21,7 @@ import Calendar from '@/app/calendar/Calendar.vue';
 import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue';
 import UserDetail from '@/app/userDetail/UserDetail.vue';
 import Graphs from '@/app/graphs/Graphs.vue';
+import partners from '@/app/partners/partners.vue'
 
 Vue.use(VueRouter)
 
@@ -94,6 +95,15 @@ const router = new VueRouter({
                         default: Meters
                     },
                     meta: { requiresAuth: true }
+                },
+                {
+                    path: '/partners',
+                    name: 'partners',
+                    components: {
+                        default: partners
+                    },
+                    meta: { requiresAuth: true }
+
                 },
                 {
                     path: '/valoresCFE',

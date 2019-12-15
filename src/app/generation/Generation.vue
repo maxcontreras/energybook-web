@@ -8,6 +8,7 @@
                             <b-form-select
                                 v-model="metersFilter.selected"
                                 :options="metersFilter.options" class="mb-3" />
+                            
                         </div>
                     </b-row>
                     <b-row>
@@ -199,6 +200,7 @@ export default {
     methods: {
         getServerData() {
             let tmpArr = this.metersFilter.selected.split("*"); 
+            console.log(tmpArr)
             let serviceName;
             let deviceName;
             if(tmpArr.length === 3) {
@@ -208,6 +210,8 @@ export default {
                 //its device 
                 deviceName = tmpArr[1];
             }
+
+
             designatedMeters.getGeneration(this.companyId, serviceName, deviceName)
             .then(res => {
                 res = res.response;
@@ -219,7 +223,7 @@ export default {
                 this.generationValue = parseFloat(res.generationValue.toFixed(2));
                 this.selfConsumptionValue = parseFloat(res.selfConsumptionValue.toFixed(2));
                 this.netInjectionValue = parseFloat(res.networkInjectionValue.toFixed(2));
-                // console.log(res);
+                 console.log(res);
             })
             .catch(err => {
                 console.log(err);

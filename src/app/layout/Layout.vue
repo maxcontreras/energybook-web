@@ -6,9 +6,14 @@
             </div>
             <b-nav vertical class="w-100">
                 <b-nav-item
-                    v-if="isAdmin"
+                    v-if="(isAdmin) && (!isadminNormal) "
                     v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
                     <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
+                </b-nav-item>
+                <b-nav-item
+                    v-else-if="(isAdmin) && (isadminNormal) "
+                    v-bind:class="{'current-view': currentView === 'partners'}" @click="goTo('partners')">
+                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Partners
                 </b-nav-item>
                 <div v-else>
                     <b-nav-item
@@ -29,14 +34,13 @@
                         </b-nav-item>
                     </b-collapse>
                 </div>
-
-                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
+                <b-nav-item v-if="(isAdmin) && (!isadminNormal) " v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>
-                <b-nav-item v-if="!isUser" v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
+                <b-nav-item v-if="(isAdmin) && (!isadminNormal)" v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
                     <div class="menu-icon-container"><i class="fas fa-solar-panel"></i></div> Medidores
                 </b-nav-item>
-                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'cfeValues'}" @click="goTo('cfeValues')">
+                <b-nav-item v-if="(isAdmin) && (!isadminNormal)" v-bind:class="{'current-view': currentView === 'cfeValues'}" @click="goTo('cfeValues')">
                     <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> CFE
                 </b-nav-item>
                 <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')">
@@ -57,7 +61,7 @@
                 <b-nav-item v-if="isManager" v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')">
                    <div class="menu-icon-container"> <i class="fas fa-dollar-sign"></i></div> Facturación
                 </b-nav-item>
-                <b-nav-item v-if="isAdmin" v-bind:class="{'current-view': currentView === 'customize'}" @click="goTo('customize')">
+                <b-nav-item v-if="(isAdmin) && (!isadminNormal) " v-bind:class="{'current-view': currentView === 'customize'}" @click="goTo('customize')">
                     <div class="menu-icon-container"><i class="fas fa-cogs"></i></div> Personalizar
                 </b-nav-item>
                 <b-nav-item v-bind:class="{'current-view': currentView === 'generation'}" @click="goTo('generation')" v-if="isUser">
@@ -97,6 +101,7 @@
                         variant="outline-secondary">
                         <i class="far fa-bell"></i>
                     </b-btn>
+
                     <b-collapse
                         is-nav
                         id="nav_dropdown_collapse"
@@ -134,6 +139,7 @@ import designatedMeters from '@/services/designatedMeters';
 import eUsers from '@/services/eUsers';
 import VWeather from '@/app/components/Weather/VWeather.vue';
 import constants from '@/constants.json'; 
+import axios from 'axios';
 
 export default {
     components: {
@@ -151,7 +157,9 @@ export default {
             },
             showCollapse: false,
             services: [],
-            trialDaysLeft: ''
+            trialDaysLeft: '',
+            notificaciones: [],
+           notificacion2: []
         }
     },
 
@@ -164,6 +172,13 @@ export default {
         },
         selectedService() {
             return this.$store.state.selectedService;
+        },
+        isadminNormal() {
+            if (JSON.parse(localStorage.getItem('user')).Administrando == undefined) {
+                return this.$store.state.isadminNormal = false
+            } else {
+                return this.$store.state.isadminNormal = true 
+            }
         },
         isAdmin() {
             return JSON.parse(localStorage.getItem('user')).role_id === 1;
@@ -200,6 +215,9 @@ export default {
     },
 
     created() {
+
+    this.fetchnotificaciones ()
+    ,
         this.$store.watch(
             () => {
                 return this.$store.state.currentView;
@@ -211,6 +229,8 @@ export default {
     },
 
     beforeMount() {
+            this.isadminNormal
+
         if (!this.isAdmin) {
             this.getMeters();
         } else {
@@ -238,6 +258,25 @@ export default {
     },
 
     methods: {
+
+ fetchnotificaciones () {
+                    axios({
+              method: 'get',
+              url: 'http://localhost:3000/api/notificaciones',
+            })
+              .then((response) => {
+                console.log(response.data[0].mensaje)
+
+     var mensajes = response.data[1].mensaje.split(',')
+                
+                this.notificaciones =  'El consumo de tus servicios ' + response.data[1].tipo +' son los siguientes '+ response.data[1].mensaje
+                this.notificacion2 =  'El consumo de tus servicios ' + response.data[5].tipo +' son los siguientes '+ response.data[5].mensaje
+              }).catch(error => {
+                  console.log(error)
+              })
+              
+              ;
+        },
         toggleShowCollapse() {
             this.showCollapse = !this.showCollapse;
         },
@@ -312,4 +351,3 @@ export default {
 <style lang="scss">
 @import '../../styles/menu.scss';
 </style>
-g

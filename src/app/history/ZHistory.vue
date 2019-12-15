@@ -10,6 +10,7 @@
                 <b-row class="card-body">
                     <b-col cols="12">
                         <b-row>
+                           {{this.state}} 
                             <b-col cols="12">
                                 <div class="service-selector text-center">
                                    <b-form-select v-model="service" :options="services"/>
@@ -138,6 +139,7 @@
                                     </div>
                                 </div>
                             </b-col>
+                            
                         </b-row>
                     </b-col>
                 </b-row>
@@ -156,6 +158,8 @@ export default {
     data() {
         return {
             date: moment().startOf('month').subtract(1, 'month').format(),
+
+            
             service: 0,
             isLoading: false,
             data: {},

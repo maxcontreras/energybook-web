@@ -23,6 +23,9 @@ let eUsers = Object.assign({}, {
     delete(id) {
         return loopback.delete(`/eUsers/${id}`);
     },
+    PATCH(IdUser,data){
+        return loopback.patch(`/eUsers/${IdUser}`, data);
+    },
     resetPassword(userId) {
         return loopback.post('/eUsers/resetPassword', {userId});
     }
