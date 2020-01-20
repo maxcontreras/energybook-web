@@ -52,7 +52,8 @@ export default {
                     { variables: ['Ia', 'Ib', 'Ic'], name: 'Amperaje' },
                     { variables: ['THDIa', 'THDIb', 'THDIc'], name: 'THD' },
                     { variables: ['Vunbl', 'lunbl'], name: 'Desbalance' },
-                    { variables: ['Ssist'], name: 'kVA' }
+                    { variables: ['Ssist'], name: 'kVA' },
+                    { variables: ['FPa', 'FPb', 'FPc'], name: 'FP' }
                 ]
             },
             graphInterval: {
@@ -60,7 +61,8 @@ export default {
                 options: [
                     {text: '1 hora', value: 3600},
                     {text: '30 minutos', value: 1800},
-                    {text: '15 minutos', value: 900}
+                    {text: '15 minutos', value: 900},
+                    {text: '5 minutos', value: 300}
                 ],
             }
         }

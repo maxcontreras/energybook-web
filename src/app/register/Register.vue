@@ -42,8 +42,9 @@
                     </b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col md="6">
-                        <b-alert show variant="info">Tus datos están protegidos</b-alert>
+                    <b-col md="6">     
+                          <b-alert show variant="info">Tus datos están protegidos</b-alert>
+                          <b-form-checkbox v-model= "checkbox" > <a href="../../Aviso de privacidad.pdf" download> Acepto el Aviso de privacidad</a></b-form-checkbox>
                     </b-col>
                     <b-col md="6">
                         <b-button type="submit" variant="primary" class="btn-register">Registrarse</b-button>

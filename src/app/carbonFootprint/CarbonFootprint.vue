@@ -101,7 +101,10 @@
                         class="margin-bottom-1"
                         v-show="metersFilter.selected !== null">
                         <v-columns :meterId="metersFilter.selected"/>
+                     
+                
                     </b-card>
+                
                 </b-col>
             </b-row>
         </b-col>

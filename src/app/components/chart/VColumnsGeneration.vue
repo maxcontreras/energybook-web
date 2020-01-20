@@ -384,9 +384,10 @@ export default {
             let meter_device = (meter[1] === "EDS")? undefined:meter[1];
             let service = (meter[1] === "EDS")? meter[2]: undefined;
 
+console.log(this.graphType.selected)
             meters.getGenerationReadings(meter_id, meter_device, service, filter, interval, this.graphType.selected, this.date_custom)
             .then(res => {
-                //console.log(res);
+                console.log(res);
                 let data = [];
                 let tickInterval;
                 let xAxis = res.map(item => {

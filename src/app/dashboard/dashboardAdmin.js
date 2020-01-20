@@ -3,6 +3,9 @@ import VHeader from '@/app/components/VHeader.vue';
 import companies from '@/services/companies';
 import VTable from '@/app/components/VTable.vue';
 import {gmapApi} from 'vue2-google-maps';
+import { uncompensateScroll } from 'fullcalendar';
+import users from '@/services/eUsers';
+
 
 export default {
     components: {
@@ -34,23 +37,44 @@ export default {
         }
     },
 
-    beforeMount() {
-        companies.find({}).then(res => {
+ beforeMount() {
+    var bandera = 0;
+    companies
+        .find({})
+        .then(res => {
             let companiesArr = res;
             this.companies = res;
             companiesArr.forEach((company, index) => {
-                this.items.push({
-                    'Nombre': company.company_name,
-                    'Fecha de Registro': moment(company.created_at).format('LL')
-                });
-                if (company.location && this.google) {
-                    this.setMarkers(company.location, index);
-                }
+                users
+                    .find({})
+                    .then(Tusuarios => {
+                        Tusuarios.forEach(usuario => {
+                            if (usuario.Administrando != undefined) {
+                                var x = 0
+                                for (x in usuario.Administrando) {
+
+                                    if (usuario.Administrando[x] == company.id) {
+                                        this
+                                            .items
+                                            .push({
+                                                'Nombre': company.company_name,
+                                                'Administrador': usuario.name + ' ' + usuario.lastname,
+                                                'Fecha de Registro': moment(company.created_at).format('LL')
+                                            });
+                                        if (company.location && this.google) {
+                                            this.setMarkers(company.location, index);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    })
             });
-        }).catch(err => {
+        })
+        .catch(err => {
             console.log('error al traer compañias', err);
         });
-    },
+},
 
     data() {
         return {
@@ -58,6 +82,7 @@ export default {
             items: [],
             fields: [
                 {key: 'Nombre', sortable: true},
+                'Administrador',
                 'Fecha de Registro'
             ],
             markers: [],
