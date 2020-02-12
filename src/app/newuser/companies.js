@@ -2,9 +2,9 @@
 import companies from '@/services/companies';
 import VHeader from '@/app/components/VHeader.vue';
 import VTable from '@/app/components/VTable.vue';
-import CompaniesForm from '@/app/companies/CompaniesForm.vue';
+import CompaniesForm from '@/app/newuser/AdminForm.vue';
 import Constants from '@/constants';
-import users from '@/services/eUsers';
+
 
 const companyStatus = Constants.Companies.status
 
@@ -15,9 +15,6 @@ export default {
     data() {
         return {
             companies: [],
-            admins: [
-                {value: 0, text: 'Selecciona una compañía'}
-            ],
             items: [],
             fields: [
                 {key: 'name', sortable: true, label: 'Nombre'},
@@ -43,8 +40,7 @@ export default {
             newManager: {
                 name: '',
                 lastname: '',
-                email: '',
-                Administrando: ['Ninguno']
+                email: ''
             },
             newUser: {
                 name: '',
@@ -60,13 +56,12 @@ export default {
 
     beforeMount() {
         this.getCompanies();
-  
     },
 
     computed: {
         cities() {
             return Constants.Cities.map((city, index) => ({value: index, text: city}));
-        },
+        }
     },
 
     methods: {
@@ -80,7 +75,6 @@ export default {
                     lon: ''
                 },
                 city: 0,
-                domain: '',
                 created_at: new Date(),
                 legal_name: '',
                 address: ''
@@ -90,22 +84,7 @@ export default {
             companies.find({}).then(res => {
                 this.companies = res;
                 this.companies.forEach(company => {
-                    if(company.administra ==null){
-
-               
                     this.addCompany(company);
-                }
-                });
-            });
-        },        
-        getAdmins(){
-            users.find({
-            })
-            .then(user => {
-                user.forEach(usuario => {
-                    if(usuario.role_id == 1 && usuario.Administrando){
-                        this.admins.push({ value: usuario.id, text: usuario.name + usuario.lastname} )
-                    }
                 });
             });
         },
@@ -115,8 +94,7 @@ export default {
             this.newCompany.location.lon = parseFloat(this.newCompany.location.lon);
             if (!this.newCompany.company_name || !this.newCompany.phone || !this.newCompany.legal_name || !this.newCompany.address) return false;
             if (!this.newManager.name || !this.newManager.lastname || !this.newManager.email) return false; 
-            if(!this.newCompany.domain) return false;
-            return true;
+            return false;
         },
         createCompany() {
             if (!this.verifyData()) {
@@ -129,7 +107,6 @@ export default {
             }
             this.newCompany.city = this.cities[this.newCompany.city].text;
             this.newCompany.company_type = 1;
-            this.newCompany.administra = true;
             companies.create({data:this.newCompany})
             .then(newCompany => {
                 this.addCompany(newCompany);
@@ -158,7 +135,7 @@ export default {
             if(this.newUser.email !== ""){
                 data.user = this.newUser;
             }
-            companies.addAdmins({data: data}).then(() => {
+            companies.addUsers({data: data}).then(() => {
                 this.$notify({
                     group: 'notification',
                     type: 'success',
@@ -181,8 +158,7 @@ export default {
                 size: company.size,
                 type: company.company_type,
                 status: companyStatus[company.status],
-                id: company.id,
-                domain: company.domain,
+                id: company.id
             });
         }
     }

@@ -244,7 +244,15 @@
                                     @cancel="() => showPasswordResetModal = false"
                                     @hidden="() => showPasswordResetModal = false"
                                     @accept="resetPassword">
-                                    <p>Se restablecerá la contraseña del usuario {{selectedUser.Nombre}} a Password123</p>
+                                    <b-form>
+                                            <b-form-group
+                                        label="Password"
+                                        label-for="password">
+                                          <b-form-input type="text" id="password" v-model="password"/>
+                                    </b-form-group>
+                                    
+                                    <p>Se restablecerá la contraseña del usuario {{selectedUser.Nombre}}. <br> Esta seguro?</p> 
+                                    </b-form>
                                 </confirmation-dialog>
                                 <div class="text-right mb-5 mt-2">
                                     <b-button
@@ -259,13 +267,6 @@
                                     @reset-password="showPasswordReset"
                                     @delete="deleteUser"/>
                             </b-tab>
-                            <b-tab
-                                title="Medidores"
-                                v-if="isCompanyProfile">
-                                <v-table
-                                    :items="items.meters"
-                                    :fields="fields.meters"/>
-                            </b-tab>
                         </b-tabs>
                     </b-card>
                 </b-col>
@@ -274,4 +275,14 @@
     </b-row>
 </template>
 
-<script src="./userDetail"></script>
+<script src="./userDetail">
+
+
+/*                             <b-tab
+                                title="Medidores"
+                                v-if="isCompanyProfile">
+                                <v-table
+                                    :items="items.meters"
+                                    :fields="fields.meters"/>
+                            </b-tab>
+                            */</script>

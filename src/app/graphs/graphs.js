@@ -219,12 +219,34 @@ export default {
         },
         getData() {
             const meter = this.metersFilter.selected.split("*");
+            console.log(meter)
             const meter_id = meter[0];
             const meter_device = (meter[1] === "EDS")? '':meter[1];
             const service = (meter[1] === "EDS")? meter[2]: '';
+            console.log(meter_id)
+            console.log(meter_device)
+            console.log(service)
+            console.log(this.currentVariableSelected)
+            console.log(this.graphPeriod.selected)
+            console.log(this.graphInterval.selected)
+            console.log(this.date_custom)
             
             meters.getStandardReadings(meter_id, meter_device, service, this.currentVariableSelected, this.graphPeriod.selected, this.graphInterval.selected, this.date_custom).then(res => {
                 if(res){
+                    if(res == ''){
+                        console.log(res)
+                        this.notify('Problema al intentar sacar informacion del meter', 'Accediendo a la base de datos en busca de valores', 'warn');
+
+                       this.graphPeriod= {
+                            selected: 1,
+                            options: [
+                                {value: 1, text: 'Ayer'}
+                            ]
+                        }
+
+                        
+                    }else{
+                    console.log(res)
                     let { xAxis, tickInterval, data, zones } = this.parseMeterValues(res);
                     const update_data = {
                         xAxis: { categories: xAxis, tickInterval, tickmarkPlacement: "on" }
@@ -232,6 +254,7 @@ export default {
                     const series = [{ data, zones, name: this.currentVariableNameSelected, color: '#2f7ed8' }]
                     this.currentChart.updateChart(update_data);
                     this.currentChart.updateSeries(series);
+                }
                 }
             }).catch(error => {
                 console.log(error);

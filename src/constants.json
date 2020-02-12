@@ -102,5 +102,10 @@
         "co2eLimit": "/assets/images/emissionLimit.svg",
         "selfConsumption": "/assets/images/selfConsumption.svg",
         "netInjection": "/assets/images/networkInjection.svg"
-    }
+    },
+    "tarifas": [
+        "Gran demanda media tensión horaria",
+        "Gran demanda media tensión ordinaria "
+    ]
+
 }

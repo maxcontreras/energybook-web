@@ -13,6 +13,13 @@ export default {
     },
 
     computed: {
+        getcompanies(){
+         companies.find({}).then(res => {
+                    res.forEach(company => {
+                        if(company.id == this.$store.state.companyId){
+                        return company.Administrando
+                            }})});
+        },
         google: gmapApi
     },
 
@@ -21,7 +28,7 @@ export default {
             if (newValue.length !== oldValue) {
                 newValue.forEach((company, index) => {
                     if (company.location && this.google) {
-                        this.setMarkers(company.location, index, company.company_name);
+                        this.setMarkers(company.location, index);
                     }
                 });
             }
@@ -30,7 +37,7 @@ export default {
             if (newVal) {
                 this.companies.forEach((company, index) => {
                     if (company.location) {
-                        this.setMarkers(company.location, index, company.company_name);
+                        this.setMarkers(company.location, index);
                     }
                 });
             }
@@ -38,45 +45,47 @@ export default {
     },
 
  beforeMount() {
-    var bandera = 0;
     companies
-        .find({  filter: {
-            where: {administra : true }
-        }})
+        .find({id: this.$store.state.companyId})
         .then(res => {
-            let companiesArr = res;
+            companies.find({}).then(compañias =>{
+            compañias.forEach((compañia, index) => {
+                var x = 0
+                    for( x in res.Administrando){
+                        if(res.Administrando[x]== compañia.id){
+                            this
+                                        .items
+                                        .push({
+                                            'Nombre': compañia.company_name,
+                                            'Fecha de Registro': moment(compañia.created_at).format('LL')
+                                        });
+                                        if (compañia.location && this.google) {
+                                            this.setMarkers(compañia.location, index, compañia.company_name);
+                                        }
+                        }
+                    }
+            });
+            })
+           /* let companiesArr = res;
             this.companies = res;
             companiesArr.forEach((company, index) => {
-
-                    var empresasAdministradas = company
-                        .Administrando
-
-                    empresasAdministradas.forEach(empresaAdministrada => {
-                        companies
-                            .find({
-                                filter: {
-                                    where: {
-                                        id: empresaAdministrada
+                                    CompañiasAdministradas.forEach(company_id => {
+                                        if(company.id == company_id)
+                                        this
+                                        .items
+                                        .push({
+                                            'Nombre': company.company_name,
+                                            'Fecha de Registro': moment(company.created_at).format('LL')
+                                        });
+                                    if (company.location && this.google) {
+                                        this.setMarkers(company.location, index);
                                     }
-                                }
-                            })
-                            .then((empresa, index) => {
-                                this
-                                    .items
-                                    .push({
-                                        'Nombre': empresa[0].company_name,
-                                        'Administrador': company.company_name + ' (Admin)',
-                                        'Fecha de Registro': moment(empresa[0].created_at).format('LL')
-                                    });
-                                if (empresa[0].location && this.google) {
-                                    this.setMarkers(empresa[0].location, index, empresa[0].company_name);
-                                }
-
-                            })
-
-                    });
-                    });
+                });
+                              */
+                                 
                     })
+         
+      //  })
         .catch(err => {
             console.log('error al traer compañias', err);
         });
@@ -88,7 +97,7 @@ export default {
             items: [],
             fields: [
                 {key: 'Nombre', sortable: true},
-                'Administrador',
+                
                 'Fecha de Registro'
             ],
             markers: [],

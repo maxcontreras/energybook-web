@@ -37,6 +37,43 @@ export function loadAssignedMeters({commit}, isAdmin = false) {
     });
 }
 
+export function LOADINGMETERS({commit}, {isAdmin = false, administrando}) {
+ 
+    return new Promise((resolve, reject) => {
+        let filter = {
+            include: ['meter','company', 'services']
+        }
+        if(!isAdmin) {
+            filter.where = {
+                company_id: this.companyId
+            }
+        }
+        designatedMeters.find({filter})
+            .then(meters => {
+                commit(mutation.DELETE_ALL_ASSIGNED);
+                meters.forEach(meter => {
+                    administrando.forEach(company_id => {
+                        if(company_id == meter.company_id){
+                            meter.company_name = meter.company.company_name;
+                            meter.serial_number = meter.meter.serial_number;
+                            meter.status = meter.company.status ? true : false;
+                            delete meter.company;
+                            delete meter.meter;
+                            commit(mutation.ADD_ASSIGNED, meter);
+                        }
+                        
+                    });
+                   
+
+                });
+                resolve();
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
+
 export function createMeter({dispatch}, meter) {
     return new Promise((resolve, reject) => {
         companies.addDesignatedMeter({data: meter})

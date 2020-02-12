@@ -24,6 +24,22 @@
                 <i v-show="data.item.status" style="color: #2d9b14; font-size: 15px" class="fas fa-check-circle"></i>
                 <i v-show="!data.item.status" style="color: #ba0d0d; font-size: 15px" class="fas fa-times-circle"></i>
             </template>
+                  <template
+                slot="botonEliminarCompany"
+                slot-scope="data">
+                            <button
+                    class="btn icon-btn delete"
+                    type="button"
+                    @click.stop="$emit('delete-company', data.item.id)">
+                    <i class="far fa-trash-alt"></i>
+                    
+                </button>
+            </template>
+              <template
+                slot="botonEditCompany"
+                slot-scope="data">
+                <editcompany :DataCompany="data.item"></editcompany>
+            </template>
             <template
                 slot="pdf"
                 slot-scope="data">
@@ -83,7 +99,11 @@
 </template>
 
 <script>
+import editcompany from './editCompany';
 export default {
+  components: {
+      'editcompany': editcompany
+  },
     props: {
         items: {
             type: Array,

@@ -5,7 +5,10 @@ import VueRouter from 'vue-router';
 import Login from '@/app/login/Login.vue';
 import Register from '@/app/register/Register.vue';
 import Dashboard from '@/app/dashboard/Dashboard.vue';
+import Dashboard2 from '@/app/dashboard/Dashboard2.vue';
 import Layout from '@/app/layout/Layout.vue';
+import Notificaciones from '@/app/notificaciones/notificaciones.vue';
+import NewUser from '@/app/newuser/NewUser.vue';
 import Companies from '@/app/companies/Companies.vue';
 import Costs from '@/app/costs/Costs.vue';
 import History from '@/app/history/ZHistory.vue';
@@ -41,10 +44,26 @@ const router = new VueRouter({
                     meta: { requiresAuth: true }
                 },
                 {
+                    path: '/Admin',
+                    name: 'Dashboard2',
+                    components: {
+                        default: Dashboard2
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
                     path: '/companias',
                     name: 'companies',
                     components: {
                         default: Companies
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/notificaciones',
+                    name: 'notificaciones',
+                    components: {
+                        default: Notificaciones
                     },
                     meta: { requiresAuth: true }
                 },

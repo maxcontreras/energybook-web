@@ -28,6 +28,10 @@ let eUsers = Object.assign({}, {
     },
     resetPassword(userId) {
         return loopback.post('/eUsers/resetPassword', {userId});
+    },
+    resetPasswordEdited(userId, password) {
+        console.log('si se llamó')
+        return loopback.post('/eUsers/resetPasswordEdited', {userId, password});
     }
 }, modelObject);
 

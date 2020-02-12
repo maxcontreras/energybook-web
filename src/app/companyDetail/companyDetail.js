@@ -48,6 +48,7 @@ export default {
     }).then(company => {
       this.company = company
       this.originalData = JSON.parse(JSON.stringify(this.company))
+      console.log(company)
     })
   },
 

@@ -11,9 +11,17 @@ let companies = Object.assign({}, {
     register(contactData, user) {
         return loopback.post(`/Companies/register`, { contactData, user });
     },
-
+    PATCH(IdUser,data){
+        return loopback.patch(`/Companies/${IdUser}`, data);
+    },
     addUsers(data) {
         return loopback.post(`/Companies/addUsers`, data);
+    },
+    addAdmins(data) {
+        return loopback.post(`/Companies/addAdmins`, data);
+    },
+    delete(id) {
+        return loopback.delete(`/Companies/${id}`);
     },
 
     addUser(companyId, user) {
@@ -23,6 +31,9 @@ let companies = Object.assign({}, {
     addDesignatedMeter(data) {
         return loopback.post(`/Companies/addDesignatedMeter`, data);
     },
+    updateData(data){
+        return loopback.post(`/Companies/updateData`, data);
+    }
 
 }, modelObject);
 
