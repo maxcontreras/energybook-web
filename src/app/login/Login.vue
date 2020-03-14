@@ -50,7 +50,7 @@
                             <br>
                                 <p>iEnergybook
                                     <br>
-                                        <font size="1">Version 3.01</font>
+                                        <font size="1">Version 3.03</font>
                                     </p>
                                 </b-col>
                                 <b-col >

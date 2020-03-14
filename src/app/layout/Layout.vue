@@ -73,6 +73,9 @@
                 <b-nav-item v-bind:class="{'current-view': currentView === 'information'}" @click="goTo('information')" v-if="isUser">
                     <div class="menu-icon-container"><i class="fas fa-info-circle"></i></div> Información
                 </b-nav-item>
+                    <b-nav-item v-bind:class="{'current-view': currentView === 'eficiencia'}" @click="goTo('eficiencia')" v-if="isUser">
+                    <div class="menu-icon-container"><i class="far fa-calendar-plus"></i></div> Eficiencia 
+                </b-nav-item>
             </b-nav>
         </div>
         <div id="main">
