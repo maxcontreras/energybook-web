@@ -75,10 +75,10 @@
               <hr>
                 <p>demanda </p>  {{DemandaKwh}} KwH    
                     <hr>
-                <p>Produccion </p>   <b-input type="number" v-model="Produccion_Mensual"></b-input>
+                <p>Produccion </p>   
 
               <br>
-              resultado {{Produccion_Mensual}}
+              resultado {{ProduccionDelMes}}
               
                </b-card>
                
@@ -104,7 +104,7 @@
                     <b-card
                         class="margin-bottom-1"
                         v-show="metersFilter.selected !== null">
-                        <v-columns :meterId="metersFilter.selected"/>
+                        <v-columns fecha="2020-03-13"  :meterId="metersFilter.selected"/>
                     </b-card>
                     <b-alert
                         show
@@ -141,6 +141,7 @@ import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
       const maxDate = new Date(today)
 
       return {
+          ProduccionDelMes: '',
         max: maxDate,
         DiaDemandaKwh: '',
         DiaConsumoKwh: '',
@@ -329,11 +330,11 @@ designatedmeters
       GuardarValor(produccion) {
       eficiencia
           .eficiency()
-          .then(res => {
+          .then(res => { 
               var id_eficiencia_a_cambiar = 0;
               var bandera = 0
               res.forEach(dia => {
-                  if (dia.UserId == this.$store.state.user.user.id && dia.Dia == this.selectedYMD && bandera == 0) {
+                  if (dia.UserId == this.$store.state.user.user.id && dia.Dia == this.selectedYMD && bandera == 0) { 
                       console.log("desde produciendo");
                       this.valorMuestra = produccion;
                       bandera = 1;
@@ -404,11 +405,14 @@ catch(err => {
         this.info = ctx.selectedFormatted
         
 this.seleccionado = ctx.selectedYMD; // guardado en base de datos
+  
 
 if(this.designatedmeter != '')
 {
+
   this.DiaKwhConsumo();
   this.DiaKwhDemanda();
+
 }
 
  
@@ -421,11 +425,7 @@ this.mes = month[3];
 this.anio = month[5];
 this.selectedYMD = ctx.selectedYMD;
 
-     /* console.log(day[0]) // el verdadero  mier sab etc
-      console.log(month[1]) // el numero de dia 
-      console.log(month[3]) // el mes 
-      console.log(month[5]) // el año */
-    
+      this.produccionMensual();
 
 eficiencia
     .eficiency()
@@ -467,6 +467,19 @@ eficiencia
 
                                   console.log(err);
                               });
+      },
+
+      produccionMensual(){
+          eficiencia.ProduccionMes(this.$store.state.user.user.id, this.selectedYMD
+
+          ).then(res=>{
+        
+            this.ProduccionDelMes = res["Resultado"];
+
+          }).catch(err=>{
+               console.log(err)
+          })
+
       },
 
       DiaKwhDemanda(){

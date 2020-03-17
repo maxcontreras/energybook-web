@@ -13,6 +13,12 @@ let eficiencia = Object.assign(
     },
     guardar(UserId, Dia, valor, id) {
       return loopback.put("/eficiencia", { UserId, Dia, valor, id });
+    },
+    ProduccionMes(UserId, MesyAno) {
+      return loopback.post("/eficiencia/ProduccionUsuarioMensual", {
+        UserId,
+        MesyAno
+      });
     }
   },
   modelObject

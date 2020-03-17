@@ -132,6 +132,10 @@ export default {
     meterId: {
       type: String,
       required: true
+    },
+    fecha: {
+      type: String,
+      required: true
     }
   },
 
@@ -155,7 +159,7 @@ export default {
         selected: -1,
         options: [{ value: -1, text: "Calendario" }]
       },
-      currentPeriod: 0,
+      currentPeriod: -1,
       dangerAlert: false,
       colors: {
         Base: "#eddc49",
@@ -206,6 +210,7 @@ export default {
     }
   },
 
+  mounted() {},
   beforeMount() {
     this.plot.name = "Costos";
   },
@@ -256,6 +261,7 @@ export default {
     },
 
     setCustomDate() {
+      console.log(this.date_custom.from);
       if (this.date_custom.from && this.date_custom.until && !this.isLoading) {
         const { isValid, errorMessage } = this.validateDates();
         if (isValid) {
