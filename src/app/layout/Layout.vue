@@ -11,9 +11,9 @@
                     <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                 </b-nav-item>
                 <b-nav-item
-                    v-else-if="(isAdmin) && (isadminNormal) "
-                    v-bind:class="{'current-view': currentView === 'partners'}" @click="goTo('partners')">
-                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Partners
+                    v-else-if="(isAdmin) && (isadminNormal)"
+                    v-bind:class="{'current-view': currentView === 'dashboard2'}" @click="goTo('Dashboard2')">
+                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
                 </b-nav-item>
                 <div v-else>
                     <b-nav-item
@@ -37,11 +37,14 @@
                 <b-nav-item v-if="(isAdmin) && (!isadminNormal) " v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
                     <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
                 </b-nav-item>
-                <b-nav-item v-if="(isAdmin) && (!isadminNormal)" v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
+                <b-nav-item v-if="(isAdmin) " v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
                     <div class="menu-icon-container"><i class="fas fa-solar-panel"></i></div> Medidores
                 </b-nav-item>
                 <b-nav-item v-if="(isAdmin) && (!isadminNormal)" v-bind:class="{'current-view': currentView === 'cfeValues'}" @click="goTo('cfeValues')">
                     <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> CFE
+                </b-nav-item>
+                  <b-nav-item v-if="(isAdmin) && (isadminNormal)" v-bind:class="{'current-view': currentView === 'partners'}" @click="goTo('partners')">
+                    <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> Partners
                 </b-nav-item>
                 <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')">
                     <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
@@ -69,6 +72,9 @@
                 </b-nav-item>
                 <b-nav-item v-bind:class="{'current-view': currentView === 'information'}" @click="goTo('information')" v-if="isUser">
                     <div class="menu-icon-container"><i class="fas fa-info-circle"></i></div> Información
+                </b-nav-item>
+                    <b-nav-item v-bind:class="{'current-view': currentView === 'eficiencia'}" @click="goTo('eficiencia')" v-if="isUser">
+                    <div class="menu-icon-container"><i class="far fa-calendar-plus"></i></div> Eficiencia 
                 </b-nav-item>
             </b-nav>
         </div>
@@ -98,10 +104,13 @@
                     <p class="current-date">{{date}}</p>
                     <b-btn
                         class="alert"
+                         @click="goTo('notificaciones')"
                         variant="outline-secondary">
-                        <i class="far fa-bell"></i>
+                        <i class="far fa-bell"> </i> <b-badge>{{notificacion}}</b-badge> 
                     </b-btn>
-
+                            <b-btn v-b-modal.modal-videos class="alert" variant="outline-secondary">
+                                    <i class="fas fa-cogs"></i>
+                            </b-btn>
                     <b-collapse
                         is-nav
                         id="nav_dropdown_collapse"
@@ -129,7 +138,51 @@
         <notifications 
             group="notification"
             position="top right"/>
-    </div>
+                
+                
+                              <b-modal id="modal-videos" title="Ayuda"  hide-footer >
+                              
+                            <div> <b-btn v-b-modal.video-1  class="alert" variant="outline-secondary"  >
+                                          Titulo 1 de video    
+                                            
+                                    </b-btn>      
+                                    
+                            </div>
+                
+                            <hr>
+                
+                             <div>
+                                 <b-btn v-b-modal.video-2  class="alert" variant="outline-secondary"  >
+                                     Titulo 2 de video
+                                         </b-btn>  
+                                         </div>
+                
+                            <hr>
+                              <div><b-btn v-b-modal.video-3  class="alert" variant="outline-secondary"  >
+                                     titulo de 3 de video
+                                         </b-btn>  </div>
+                
+                
+                  </b-modal>
+                  <b-modal  id="video-1" hide-footer  > 
+                  
+                  
+                <iframe width="450" height="350" src="https://www.youtube.com/embed/84znrPmOePc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    
+                  </b-modal>
+                
+                    <b-modal id="video-2" hide-footer> 
+                      <iframe width="450" height="350" src="https://www.youtube.com/embed/84znrPmOePc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                
+                  </b-modal>
+                
+                    <b-modal id="video-3" hide-footer > 
+                      <iframe width="450" height="350" src="https://www.youtube.com/embed/84znrPmOePc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                
+                  </b-modal>
+                    </div>
+                
+                    
 </template>
 
 <script>
@@ -140,6 +193,7 @@ import eUsers from '@/services/eUsers';
 import VWeather from '@/app/components/Weather/VWeather.vue';
 import constants from '@/constants.json'; 
 import axios from 'axios';
+import notificaciones from '@/services/notificaciones';
 
 export default {
     components: {
@@ -177,8 +231,13 @@ export default {
             if (JSON.parse(localStorage.getItem('user')).Administrando == undefined) {
                 return this.$store.state.isadminNormal = false
             } else {
+                this.goTo('Dashboard2')
                 return this.$store.state.isadminNormal = true 
             }
+        },
+        companyId(){
+            this.$store.state.companyId= JSON.parse(localStorage.getItem('user')).company_id;
+
         },
         isAdmin() {
             return JSON.parse(localStorage.getItem('user')).role_id === 1;
@@ -200,6 +259,9 @@ export default {
         },
         meterAvailable() {
             return this.$store.state.meter.isAvailable;
+        },
+        notificacion() {
+            return this.$store.state.notificaciones;
         }
     },
 
@@ -229,6 +291,7 @@ export default {
     },
 
     beforeMount() {
+        this.companyId
             this.isadminNormal
 
         if (!this.isAdmin) {
@@ -259,24 +322,20 @@ export default {
 
     methods: {
 
- fetchnotificaciones () {
-                    axios({
-              method: 'get',
-              url: 'http://localhost:3000/api/notificaciones',
-            })
-              .then((response) => {
-                console.log(response.data[0].mensaje)
-
-     var mensajes = response.data[1].mensaje.split(',')
-                
-                this.notificaciones =  'El consumo de tus servicios ' + response.data[1].tipo +' son los siguientes '+ response.data[1].mensaje
-                this.notificacion2 =  'El consumo de tus servicios ' + response.data[5].tipo +' son los siguientes '+ response.data[5].mensaje
-              }).catch(error => {
-                  console.log(error)
-              })
-              
-              ;
-        },
+ fetchnotificaciones() {
+      
+    var Company_ID = JSON
+        .parse(localStorage.getItem('user'))
+        .company_id;
+    var User_id = JSON
+        .parse(localStorage.getItem('user'))
+        .id;
+    notificaciones
+        .verNotificaciones(User_id, Company_ID)
+        .then(notificaciones => {
+           return  this.$store.state.notificaciones= notificaciones.Resultado[0].length
+        })
+},
         toggleShowCollapse() {
             this.showCollapse = !this.showCollapse;
         },

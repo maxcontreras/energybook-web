@@ -22,6 +22,9 @@
                 placeholder="Número de Serie">
             </b-form-input>
         </b-form-group>
+                <b-form-group   
+                    label="    Indica el valor mínimo y máximo de demanda contratada">
+                </b-form-group >
         <b-row>
             <b-col>
                 <b-form-group>
@@ -53,6 +56,8 @@
 <script>
 
 export default {
+
+
     props: {
         companies: {
             type: Array,
@@ -63,5 +68,6 @@ export default {
             required: true
         }
     }
+    
 }
 </script>

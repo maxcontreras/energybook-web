@@ -12,10 +12,11 @@ import 'vue-weather-widget/dist/css/vue-weather-widget.css'
 import VueHighcharts from 'vue2-highcharts'
 import VueHighChartsComponent from '@/app/components/chart/VueHighCharts.vue'
 import Highcharts from 'highcharts'
-import DashboardAdmin from '@/app/dashboard/DashboardAdmin.vue'
+import DashboardAdmin from '@/app/dashboard/DashboardAdminNormal.vue'
 import solidGauge from 'highcharts/modules/solid-gauge'
 import highchartsMore from 'highcharts/highcharts-more'
 import Constants from '@/constants.json';
+import companies from '../companies/companies';
 
 highchartsMore(Highcharts);
 solidGauge(Highcharts)
@@ -203,9 +204,10 @@ export default {
                 return this.$store.state.isadminNormal = false
             } else {
                 return this.$store.state.isadminNormal = true 
-            }},
-
+            }
+        },
         isAdmin() {
+            
             return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard';
         },
 
@@ -216,7 +218,6 @@ export default {
         cfePrices() {
             return this.$store.getters['meter/getCfePrices'];
         },
-
         epimpHistory() {
             return this.$store.state.socket.epimpHistory;
         },
@@ -233,6 +234,7 @@ export default {
         dailyLastUpdatedTime() {
             return this.$store.state.socket.lastUpdated;
         },
+    
 
         distributionCost() {
             return (this.cfePrices.distributionPrice * parseFloat(this.distribution)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -358,6 +360,8 @@ export default {
     },
 
     beforeMount() {
+ 
+         
         if(this.isAdmin) return;
         this.getMeters()
             .then(() => {
@@ -377,9 +381,9 @@ export default {
             $('.user-dashboard').remove()
             return;
         }
-        if(this.isadminNormal){
-            this.goTo('DashboardAdmin')
-        }
+  
+
+
 
         $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
 

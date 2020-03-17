@@ -25,6 +25,7 @@ function getLocalStorageItem(key) {
 
 export default new Vuex.Store({
 	state: {
+        notificaciones: 0,
         isadminNormal: false,
         currentView: '',
         services: [],
@@ -34,6 +35,7 @@ export default new Vuex.Store({
         isUser: false,
         isAccounting: false,
         company_id: '',
+        company_Administration: '',
         currentCompanyDetailId: getLocalStorageItem('currentCompanyDetailId')
 	},
 

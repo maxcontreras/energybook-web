@@ -27,6 +27,7 @@
                 :formSubmit="createCompany"
                 :company="newCompany"
                 :cities="cities"
+                :tarifas ="tarifas"
                 :availableUser="toggle.newUser"
                 :user="newUser"
                 :availableManager="toggle.newManager"

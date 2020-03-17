@@ -44,6 +44,17 @@ export default {
         isAdmin() {
             return this.$store.state.isAdmin
         },
+        isAdminNormal(){
+            if (JSON.parse(localStorage.getItem('user')).Administrando == undefined) {
+                return this.$store.state.isadminNormal = false
+            } else {
+                return this.$store.state.isadminNormal = true 
+            }
+
+        },
+        CompañiasAdministradas(){
+            return JSON.parse(localStorage.getItem('user')).Administrando 
+        },
         companyId() {
             // TODO check this computed propertie
             return this.$store.state.company_id
@@ -52,7 +63,9 @@ export default {
             return this.$store.getters['meter/getAssignatedMeters'];
         },
         metersAssignedFormatted() {
+            // quitar el foreach y hacerlo manual si no funciona mover mediante banderas el let f_meter afuera del
             return this.metersAssigned.map(meter => {
+
                 let f_meter = {
                     'Compañía': meter.company_name,
                     'Nombre': meter.device_name,
@@ -64,6 +77,7 @@ export default {
                     meter_id: meter.meter_id
                 }
                 return f_meter;
+            
             });
         }
     },
@@ -84,18 +98,66 @@ export default {
     methods: {
 
         getDesignatedMeters() {
-            this.$store.dispatch('meter/loadAssignedMeters', true)
+            if(JSON.parse(localStorage.getItem('user')).Administrando!= null){
+            var companyID = JSON.parse(localStorage.getItem('user')).company_id;
+            companies.find({   filter: {
+                where: { id: companyID }
+            }}).then(empresa=>{
+           
+                this.$store.dispatch('meter/LOADINGMETERS', {isAdmin: true, administrando: empresa[0].Administrando})
                 .catch(err => {
                     console.log(err);
                 });
+
+            })
+            
+           
+            }else{
+                this.$store.dispatch('meter/loadAssignedMeters', true)
+                .catch(err => {
+                    console.log(err);
+                });
+
+            }
         },
 
         getCompanies() {
-            companies.find({}).then(companies => {
-                companies.forEach(company => {
-                    this.companies.push({ value: company.id, text: company.company_name} )
+            if(JSON.parse(localStorage.getItem('user')).Administrando!= null){
+                let companyId = JSON.parse(localStorage.getItem('user')).company_id;
+                companies.find({
+                    filter: {
+                        where: { id: companyId }
+                    }
+                }).then(compañias =>{
+                   
+                    var administrando = compañias[0].Administrando
+                    companies.find({}).then(companies => {
+                        companies.forEach(company => {
+                            administrando.forEach(companyid => {
+                                if(companyid==company.id){
+    
+                                    this.companies.push({ value: company.id, text: company.company_name} )
+                                }
+                            });
+                            
+                            
+                        })
+                    })
+
                 })
-            })
+ 
+            }else{
+                companies.find({}).then(companies => {
+                    companies.forEach(company => {
+                        if(company.administra == null){
+                            this.companies.push({ value: company.id, text: company.company_name} )
+                        }
+                
+                    })
+                })
+
+            }
+
         },
 
         createMeter(meter) {

@@ -10,7 +10,7 @@
                         type="text"
                         v-model="company.company_name"
                         required
-                        placeholder="Nombre comercial">
+                        placeholder="Nombre comerciales">
                     </b-form-input>
                 </b-form-group>
                 <b-form-group>
@@ -31,17 +31,6 @@
                 </b-form-group>
                 <b-form-group label="Ciudad">
                     <b-form-select v-model="company.city" :options="cities"/>
-                </b-form-group>
-                   <b-form-group label="Tarifa">
-                    <b-form-select v-model="company.tariff_type"  :options="options"/>
-                </b-form-group>
-                    <b-form-group label="Dominio">
-                    <b-form-input
-                    type="string"
-                    v-model="company.domain"
-                    required 
-                    placeholder="Dominio"
-                    />
                 </b-form-group>
                 <b-form-group label="coordenadas">
                     <b-form-input
@@ -167,26 +156,12 @@ export default {
         cities: {
             type: Array,
             required: true
-        },
-        tarifas: {
-            type: Array,
-            required: true
         }
     },
     data() {
-  this.company.tariff_type = "GDMTH"
-        return {
-        options: [
-        { value: 'GDMTH', text: 'Gran demanda media tensión horaria (GDMTH)' },
-        { value: 'GDMTO', text: 'Gran demanda media tensión ordinaria (GDMTO)' },
-        { value: 'GDMTO', text: 'Gran demanda baja tensió (GDBT)', disabled: true },
-        { value: 'GDMTO', text: 'Pequeña demanda baja tensión (PDBT)', disabled: true}
-        ]
-
-        }
+        return {}
     }
 }
-
 </script>
 
 <style scss>

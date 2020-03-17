@@ -32,6 +32,14 @@
                 <b-form-group label="Ciudad">
                     <b-form-select v-model="company.city" :options="cities"/>
                 </b-form-group>
+                  <b-form-group label="Dominio">
+                    <b-form-input
+                    type="string"
+                    v-model="company.domain"
+                    required 
+                    placeholder="Dominio"
+                    />
+                </b-form-group>
                 <b-form-group label="coordenadas">
                     <b-form-input
                         class="company-position"
@@ -156,6 +164,11 @@ export default {
         cities: {
             type: Array,
             required: true
+        },
+        admins:{
+            type: Array,
+            required: true
+
         }
     },
     data() {

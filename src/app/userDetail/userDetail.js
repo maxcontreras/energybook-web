@@ -57,7 +57,8 @@ export default {
                 email: '',
                 password: ''
             },
-            selectedUser: ''
+            selectedUser: '',
+            password: '',
         }
     },
 
@@ -312,7 +313,7 @@ export default {
 
         resetPassword() {
             this.showPasswordResetModal = false;
-            eUsers.resetPassword(this.selectedUser.id)
+            eUsers.resetPasswordEdited(this.selectedUser.id, this.password)
                 .then(() => {
                     this.$notify({
                         group: 'notification',
