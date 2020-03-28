@@ -68,12 +68,12 @@
   >
               <b-card>
               
-              <h2 class="text-right"> {{mes}}  </h2> 
+              <h2 class="text-right"> {{mes}} </h2> 
               <hr> 
 
-              <p>consumo </p>     {{ EpimpKwh }}    KwH   ${{consumoDinero}}
+              <p>Consumo </p>     {{ EpimpKwh }}      {{consumoDinero}}
               <hr>
-                <p>demanda </p>  {{DemandaKwh}} KwH    
+                <p>Demanda </p>  {{DemandaKwh}}   
                     <hr>
                 <p>Produccion </p>   
 
@@ -142,6 +142,7 @@ import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
 
       return {
           ProduccionDelMes: '',
+          today: now,
         max: maxDate,
         DiaDemandaKwh: '',
         DiaConsumoKwh: '',
@@ -205,76 +206,7 @@ designatedmeters
                 console.log(designatedmeter.meter_id)
                 this.designatedmeter = designatedmeter.meter_id;
 
-                meter
-                    .getConsumptionCostsByFilter(
-                        designatedmeter.meter_id,
-                        '',
-                        'Servicio 1',
-                        3,
-                        3600,
-                        {}
-                    )
-                    .then(respuesta => {
-                        console.log(respuesta)
-                        var costo_total = []
-                        respuesta.forEach(respuestas => {
-                            costo_total.push(respuestas.cost);
-
-                        });
-
-                        var Costo_Dispositivo = costo_total
-                            .reduce((a, b) => a + b, 0) //Sumando los valores
-                            .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
-
-                        this.consumoDinero = Costo_Dispositivo
-
-                    })
-                    .catch(err => {
-
-                        console.log(err);
-                    });
-
-                        meter
-                  .getStandardReadings(designatedmeter.meter_id, '', 'Servicio 1', 'DP', 3, 3600, {})
-                              .then(respuesta => {
-                                  var kwh = []
-                                  respuesta.forEach(respuestas => {
-                                      kwh.push(respuestas.value);
-
-                                  });
-                                  var kwhTotal = kwh
-                                      .reduce((a, b) => a + b, 0) //Sumando los valores
-                                      .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
-
-                                  this.DemandaKwh = kwhTotal
-
-                              })
-                              .catch(err => {
-
-                                  console.log(err);
-                              });
-
-
-
-                               meter
-                  .getStandardReadings(designatedmeter.meter_id, '', 'Servicio 1', 'EPimp', 3, 3600, {})
-                              .then(respuesta => {
-                                  var khwConsumo = []
-                                  respuesta.forEach(respuestas => {
-                                      khwConsumo.push(respuestas.value);
-
-                                  });
-                                  var khwConsumoTotal = khwConsumo
-                                      .reduce((a, b) => a + b, 0) //Sumando los valores
-                                      .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
-
-                                  this.EpimpKwh = String(khwConsumoTotal) + "Kwh"
-
-                              })
-                              .catch(err => {
-
-                                  console.log(err);
-                              });
+             
 
                       }
 
@@ -335,7 +267,6 @@ designatedmeters
               var bandera = 0
               res.forEach(dia => {
                   if (dia.UserId == this.$store.state.user.user.id && dia.Dia == this.selectedYMD && bandera == 0) { 
-                      console.log("desde produciendo");
                       this.valorMuestra = produccion;
                       bandera = 1;
                       id_eficiencia_a_cambiar = dia
@@ -399,8 +330,116 @@ catch(err => {
 
       },
 */
-      
+      mesconsumo(){
+          console.log(this.designatedmeter)
+          
+                        var f = new Date();
+                    var dia = f.getFullYear() + "-"+f.getDate()+ "-" + f.getMonth();
+                    console.log(dia)
+
+                    var fecha = this.selectedYMD.split("-")
+                    var anio = fecha[0]
+                    var mes = fecha[1]
+
+                    if(mes == "undefined"){
+                        console.log("indefinido compa")
+                    }else{
+
+               
+
+                             var inicio = anio +"-" + mes + "-01"
+                             var final = anio + "-" + mes +"-30"
+                             console.log(inicio)
+                             console.log(final)
+
+                            
+
+
+
+
+
+             meter
+                    .getConsumptionCostsByFilter(
+                        this.designatedmeter,
+                        '',
+                        'Servicio 1',
+                        -1,
+                        3600,
+                        {from: inicio, until: final}
+                    )
+                    .then(respuesta => {
+                        console.log(respuesta)
+                        var costo_total = []
+                        respuesta.forEach(respuestas => {
+                            costo_total.push(respuestas.cost);
+
+                        });
+
+                        var Costo_Dispositivo = costo_total
+                            .reduce((a, b) => a + b, 0) //Sumando los valores
+                            .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
+
+                        this.consumoDinero = '$' + String(Costo_Dispositivo)
+
+                    })
+                    .catch(err => {
+                        this.consumoDinero = "Vuelva a intentarlo"
+
+                        console.log(err);
+                    });
+
+
+
+                        meter
+                  .getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'DP', -1, 3600, {from:inicio , until: final})
+                              .then(respuesta => {
+                                  var kwh = []
+                                  respuesta.forEach(respuestas => {
+                                      kwh.push(respuestas.value);
+
+                                  });
+                                  var kwhTotal = kwh
+                                      .reduce((a, b) => a + b, 0) //Sumando los valores
+                                      .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
+
+                                  this.DemandaKwh = kwhTotal
+
+                              })
+                              .catch(err => {
+    this.DemandaKwh = "Vuelva a intentarlo"
+                                  console.log(err);
+                              });
+
+
+
+                               meter
+                  .getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'EPimp', -1, 3600, {from:inicio, until: fecha})
+                              .then(respuesta => {
+                                  var khwConsumo = []
+                                  respuesta.forEach(respuestas => {
+                                      khwConsumo.push(respuestas.value);
+
+                                  });
+                                  var khwConsumoTotal = khwConsumo
+                                      .reduce((a, b) => a + b, 0) //Sumando los valores
+                                      .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
+
+                                  this.EpimpKwh = String(khwConsumoTotal) + " Kwh"
+
+                              })
+                              .catch(err => {
+   this.EpimpKwh = "Vuelva a intentarlo"
+                                  console.log(err);
+                              });
+                                   }
+
+      },
       onContext(ctx) {
+          this.EpimpKwh= '';
+          this.DemandaKwh= '';
+           this.consumoDinero  = ''
+
+
         this.context = ctx
         this.info = ctx.selectedFormatted
         
@@ -412,6 +451,7 @@ if(this.designatedmeter != '')
 
   this.DiaKwhConsumo();
   this.DiaKwhDemanda();
+  this.mesconsumo();
 
 }
 
@@ -424,6 +464,7 @@ this.numero = month[1];
 this.mes = month[3];
 this.anio = month[5];
 this.selectedYMD = ctx.selectedYMD;
+
 
       this.produccionMensual();
 
@@ -470,9 +511,7 @@ eficiencia
       },
 
       produccionMensual(){
-          eficiencia.ProduccionMes(this.$store.state.user.user.id, this.selectedYMD
-
-          ).then(res=>{
+          eficiencia.ProduccionMes(this.$store.state.user.user.id, this.selectedYMD ).then(res=>{
         
             this.ProduccionDelMes = res["Resultado"];
 
