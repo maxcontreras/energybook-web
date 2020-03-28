@@ -75,10 +75,10 @@
               <hr>
                 <p>Demanda </p>  {{DemandaKwh}}   
                     <hr>
-                <p>Produccion </p>   
+                <p>Produccion   {{ProduccionDelMes}} </p>   
 
               <br>
-              resultado {{ProduccionDelMes}}
+            
               
                </b-card>
                
