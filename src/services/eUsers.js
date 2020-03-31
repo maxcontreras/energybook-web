@@ -1,38 +1,40 @@
 /* eslint-disable */
-import loopback from '@/services/loopback';
-import modelObject from '@/services/lb-services';
+import loopback from "@/services/loopback";
+import modelObject from "@/services/lb-services";
 
-modelObject.setModel('eUsers');
+modelObject.setModel("eUsers");
 
-let eUsers = Object.assign({}, {
+let eUsers = Object.assign(
+  {},
+  {
+    relation: "",
 
-    relation: '',
-
-    getCurrentId(){
-        return JSON.parse(localStorage.getItem('loopback-token')).userId;
+    getCurrentId() {
+      return JSON.parse(localStorage.getItem("loopback-token")).userId;
     },
     login(data) {
-        return loopback.post(`/eUsers/login`, data);
+      return loopback.post(`/eUsers/login`, data);
     },
     getTrialDaysLeft(id) {
-        return loopback.get(`/eUsers/trialDaysLeft`,{ params: { id } });
+      return loopback.get(`/eUsers/trialDaysLeft`, { params: { id } });
     },
     logout() {
-        return loopback.post(`/eUsers/logout`);
+      return loopback.post(`/eUsers/logout`);
     },
     delete(id) {
-        return loopback.delete(`/eUsers/${id}`);
+      return loopback.delete(`/eUsers/${id}`);
     },
-    PATCH(IdUser,data){
-        return loopback.patch(`/eUsers/${IdUser}`, data);
+    PATCH(IdUser, data) {
+      return loopback.patch(`/eUsers/${IdUser}`, data);
     },
     resetPassword(userId) {
-        return loopback.post('/eUsers/resetPassword', {userId});
+      return loopback.post("/eUsers/resetPassword", { userId });
     },
     resetPasswordEdited(userId, password) {
-        console.log('si se llamó')
-        return loopback.post('/eUsers/resetPasswordEdited', {userId, password});
+      return loopback.post("/eUsers/resetPasswordEdited", { userId, password });
     }
-}, modelObject);
+  },
+  modelObject
+);
 
 export default eUsers;

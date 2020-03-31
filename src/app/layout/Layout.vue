@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div id="app-layout">
     <div id="side-nav" class="menu d-none d-sm-block d-xs-block">
       <div class="nav-logo-container">
@@ -41,6 +42,86 @@
               @click="changeSelectedService(service)"
             >{{service}}</b-nav-item>
           </b-collapse>
+=======
+    <div id="app-layout">
+        <div id="side-nav" class="menu d-none d-sm-block d-xs-block">
+            <div class="nav-logo-container">
+                <img src="/assets/logo.png" />
+            </div>
+            <b-nav vertical class="w-100">
+                <b-nav-item
+                    v-if="(isAdmin) && (!isadminNormal) "
+                    v-bind:class="{'current-view': currentView === 'dashboard'}" @click="goTo('dashboard')">
+                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
+                </b-nav-item>
+                <b-nav-item
+                    v-else-if="(isAdmin) && (isadminNormal)"
+                    v-bind:class="{'current-view': currentView === 'dashboard2'}" @click="goTo('Dashboard2')">
+                    <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
+                </b-nav-item>
+                <div v-else>
+                    <b-nav-item
+                        v-b-toggle.serviceSelection
+                        v-bind:class="{'current-view': currentView === 'dashboard'}"
+                        @click="toggleShowCollapse">
+                        <div class="menu-icon-container"><i class="fas fa-tachometer-alt"></i></div>Dashboard
+                    </b-nav-item>
+                    <b-collapse
+                        id="serviceSelection"
+                        v-if="showCollapse">
+                        <b-nav-item
+                            v-for="(service, index) in services"
+                            :key="index"
+                            :class="{'currentService': selectedService === service}"
+                            @click="changeSelectedService(service)">
+                            {{service}}
+                        </b-nav-item>
+                    </b-collapse>
+                </div>
+                <b-nav-item v-if="(isAdmin) && (!isadminNormal) " v-bind:class="{'current-view': currentView === 'companies' || currentView === 'companyDetail' || currentView === 'companyProfile'}" @click="goTo('companies')">
+                    <div class="menu-icon-container"><i class="far fa-building"></i></div> Compañías
+                </b-nav-item>
+                <b-nav-item v-if="(isAdmin) " v-bind:class="{'current-view': currentView === 'meters'}" @click="goTo('meters')">
+                    <div class="menu-icon-container"><i class="fas fa-solar-panel"></i></div> Medidores
+                </b-nav-item>
+                <b-nav-item v-if="(isAdmin) && (!isadminNormal)" v-bind:class="{'current-view': currentView === 'cfeValues'}" @click="goTo('cfeValues')">
+                    <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> CFE
+                </b-nav-item>
+                  <b-nav-item v-if="(isAdmin) && (isadminNormal)" v-bind:class="{'current-view': currentView === 'partners'}" @click="goTo('partners')">
+                    <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> Partners
+                </b-nav-item>
+                <b-nav-item v-if="!isAdmin" v-bind:class="{'current-view': currentView === 'graphs'}" @click="goTo('graphs')">
+                    <div class="menu-icon-container"><i class="fas fa-chart-line"></i></div> Gráficas
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'userCosts'}" @click="goTo('userCosts')">
+                    <div class="menu-icon-container"><i class="fas fa-coins"></i></div> Costos
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'netCode'}" @click="goTo('netCode')">
+                    <div class="menu-icon-container"><i class="fas fa-gavel"></i></div> Código de red
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'history'}" @click="goTo('history')">
+                    <div class="menu-icon-container"><i class="fas fa-history"></i></div> Historial
+                </b-nav-item>
+                <b-nav-item v-if="isUser" v-bind:class="{'current-view': currentView === 'carbonFootprint'}" @click="goTo('carbonFootprint')">
+                    <div class="menu-icon-container"><i class="fas fa-shoe-prints"></i></div> Huella de carbono
+                </b-nav-item>
+                <b-nav-item v-if="isManager" v-bind:class="{'current-view': currentView === 'payments'}" @click="goTo('payments')">
+                   <div class="menu-icon-container"> <i class="fas fa-dollar-sign"></i></div> Facturación
+                </b-nav-item>
+                <b-nav-item v-if="(isAdmin) && (!isadminNormal) " v-bind:class="{'current-view': currentView === 'customize'}" @click="goTo('customize')">
+                    <div class="menu-icon-container"><i class="fas fa-cogs"></i></div> Personalizar
+                </b-nav-item>
+                <b-nav-item v-bind:class="{'current-view': currentView === 'generation'}" @click="goTo('generation')" v-if="isUser">
+                    <div class="menu-icon-container"><i class="fas fa-bolt"></i></div> Generación
+                </b-nav-item>
+                <b-nav-item v-bind:class="{'current-view': currentView === 'information'}" @click="goTo('information')" v-if="isUser">
+                    <div class="menu-icon-container"><i class="fas fa-info-circle"></i></div> Información
+                </b-nav-item>
+                    <b-nav-item v-bind:class="{'current-view': currentView === 'eficiencia'}" @click="goTo('eficiencia')" v-if="isUser">
+                    <div class="menu-icon-container"><i class="far fa-calendar-plus"></i></div> Eficiencia 
+                </b-nav-item>
+            </b-nav>
+>>>>>>> d76d3952a8ce50f2c5900da7d6e729e17b09d998
         </div>
         <b-nav-item
           v-if="(isAdmin) && (!isadminNormal) "
