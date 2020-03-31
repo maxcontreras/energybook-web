@@ -14,7 +14,7 @@ Vue.use(BootstrapVue)
 Vue.use(Notifications)
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyBBkQHeDuyANETUPLQ9tvgKaQzSHLiaj2k',
+    key: 'AIzaSyBBkQHeDuyANETUPLQ9tvgKaQzSHLiaj2k', 
     libraries: 'places'
   }
 })

@@ -138,6 +138,7 @@ export default {
                 companies.register(contactData, newUser)
                     .then(() => {
                         this.notify('Éxito', 'Usuario de prueba creado exitosamente. Inicia sesión para comenzar', 'success');
+                         router.push('login');
                         this.resetValues();
                     }) 
                     .catch(() => {

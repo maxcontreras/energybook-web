@@ -25,7 +25,7 @@ import CompanyDetail from '@/app/companyDetail/CompanyDetail.vue';
 import UserDetail from '@/app/userDetail/UserDetail.vue';
 import Graphs from '@/app/graphs/Graphs.vue';
 import partners from '@/app/partners/partners.vue'
-
+import eficiencia from '@/app/eficiencia/eficiencia.vue';
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -40,6 +40,14 @@ const router = new VueRouter({
                     name: 'dashboard',
                     components: {
                         default: Dashboard
+                    },
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/',
+                    name: 'eficiencia',
+                    components: {
+                        default: eficiencia
                     },
                     meta: { requiresAuth: true }
                 },
