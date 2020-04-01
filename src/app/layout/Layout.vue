@@ -6,12 +6,15 @@
       </div>
       <b-nav vertical class="w-100">
         <b-nav-item
+
           v-if="isAdmin && !isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'dashboard' }"
+
           @click="goTo('dashboard')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-tachometer-alt"></i>
+
           </div>
           Dashboard
         </b-nav-item>
@@ -22,24 +25,31 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-tachometer-alt"></i>
+
           </div>
           Dashboard
+
         </b-nav-item>
         <div v-else>
           <b-nav-item
             v-b-toggle.serviceSelection
+
             v-bind:class="{ 'current-view': currentView === 'dashboard' }"
+
             @click="toggleShowCollapse"
           >
             <div class="menu-icon-container">
               <i class="fas fa-tachometer-alt"></i>
+
             </div>
             Dashboard
+
           </b-nav-item>
           <b-collapse id="serviceSelection" v-if="showCollapse">
             <b-nav-item
               v-for="(service, index) in services"
               :key="index"
+
               :class="{ currentService: selectedService === service }"
               @click="changeSelectedService(service)"
               >{{ service }}</b-nav-item
@@ -54,146 +64,176 @@
               currentView === 'companyDetail' ||
               currentView === 'companyProfile'
           }"
+
           @click="goTo('companies')"
         >
           <div class="menu-icon-container">
             <i class="far fa-building"></i>
+
           </div>
           Compañías
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin"
           v-bind:class="{ 'current-view': currentView === 'meters' }"
+
           @click="goTo('meters')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-solar-panel"></i>
+
           </div>
           Medidores
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && !isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'cfeValues' }"
+
           @click="goTo('cfeValues')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
+
           </div>
           CFE
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'partners' }"
+
           @click="goTo('partners')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
+
           </div>
           Partners
         </b-nav-item>
         <b-nav-item
           v-if="!isAdmin"
           v-bind:class="{ 'current-view': currentView === 'graphs' }"
+
           @click="goTo('graphs')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-chart-line"></i>
+
           </div>
           Gráficas
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
           v-bind:class="{ 'current-view': currentView === 'userCosts' }"
+
           @click="goTo('userCosts')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-coins"></i>
+
           </div>
           Costos
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
           v-bind:class="{ 'current-view': currentView === 'netCode' }"
+
           @click="goTo('netCode')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-gavel"></i>
+
           </div>
           Código de red
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
           v-bind:class="{ 'current-view': currentView === 'history' }"
+
           @click="goTo('history')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-history"></i>
+
           </div>
           Historial
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
           v-bind:class="{ 'current-view': currentView === 'carbonFootprint' }"
+
           @click="goTo('carbonFootprint')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-shoe-prints"></i>
+
           </div>
           Huella de carbono
         </b-nav-item>
         <b-nav-item
           v-if="isManager"
           v-bind:class="{ 'current-view': currentView === 'payments' }"
+
           @click="goTo('payments')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-dollar-sign"></i>
+
           </div>
           Facturación
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && !isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'customize' }"
+
           @click="goTo('customize')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-cogs"></i>
+
           </div>
           Personalizar
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'generation' }"
+
           @click="goTo('generation')"
           v-if="isUser"
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
+
           </div>
           Generación
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'information' }"
+
           @click="goTo('information')"
           v-if="isUser"
         >
           <div class="menu-icon-container">
             <i class="fas fa-info-circle"></i>
+
           </div>
           Información
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'eficiencia' }"
+
           @click="goTo('eficiencia')"
           v-if="isUser"
         >
           <div class="menu-icon-container">
             <i class="far fa-calendar-plus"></i>
+
           </div>
           Eficiencia
+
         </b-nav-item>
       </b-nav>
     </div>
     <div id="main">
+
       <b-navbar
         id="top-bar"
         :sticky="true"
@@ -214,6 +254,7 @@
               {{ getTrialDaysLeft() }}{{ trialDaysLeft }} días restantes de
               prueba
             </p>
+
           </template>
           <img
             v-show="!meterAvailable"
@@ -223,6 +264,7 @@
             src="/assets/images/conection-error.svg"
             alt="Medidor no disponible"
           />
+
           <p class="current-date">{{ date }}</p>
           <b-btn
             class="alert"
@@ -231,14 +273,17 @@
           >
             <i class="far fa-bell"></i>
             <b-badge>{{ notificacion }}</b-badge>
+
           </b-btn>
 
           <b-collapse is-nav id="nav_dropdown_collapse" class="menu-dropdown">
             <b-navbar-nav>
+
               <b-nav-item-dropdown
                 :text="user.user.name + ' ' + user.user.lastname"
                 right
               >
+
                 <b-dropdown-item v-if="!isAccounting" @click="goTo('profile')">
                   <i class="far fa-user"></i> Perfil
                 </b-dropdown-item>
@@ -497,4 +542,6 @@ export default {
 
 <style lang="scss">
 @import "../../styles/menu.scss";
+
 </style>
+

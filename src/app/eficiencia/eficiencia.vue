@@ -67,8 +67,9 @@
   >
               <b-card>
               
-              <h2 class="text-right"> {{mes}}  </h2> 
+              <h2 class="text-right"> {{mes}} </h2> 
               <hr> 
+
 
               <p>consumo </p>     {{ EpimpKwh }}      ${{consumoDinero}}
               <hr>
@@ -79,6 +80,7 @@
 
               <br>
            
+
               
                </b-card>
                
@@ -147,8 +149,10 @@ import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
       return {
           fecha: '',
           ProduccionDelMes: '',
+
           today: today,
           resultado1: '',
+
         max: maxDate,
         DiaDemandaKwh: '',
         DiaConsumoKwh: '',
@@ -219,7 +223,7 @@ designatedmeters
                 console.log(designatedmeter.meter_id)
                 this.designatedmeter = designatedmeter.meter_id;
 
-           
+
 
                       }
 
@@ -280,7 +284,6 @@ designatedmeters
               var bandera = 0
               res.forEach(dia => {
                   if (dia.UserId == this.$store.state.user.user.id && dia.Dia == this.selectedYMD && bandera == 0) { 
-                      console.log("desde produciendo");
                       this.valorMuestra = produccion;
                       bandera = 1;
                       id_eficiencia_a_cambiar = dia
@@ -578,7 +581,14 @@ var dateString =
 
 
       },
+
+
       onContext(ctx) {
+          this.EpimpKwh= '';
+          this.DemandaKwh= '';
+           this.consumoDinero  = ''
+
+
         this.context = ctx
         this.info = ctx.selectedFormatted
         
@@ -590,6 +600,7 @@ if(this.designatedmeter != '')
 
   this.DiaKwhConsumo();
   this.DiaKwhDemanda();
+  this.mesconsumo();
 
 }
 
@@ -603,13 +614,14 @@ this.mes = month[3];
 this.anio = month[5];
 this.selectedYMD = ctx.selectedYMD;
 
+
       this.produccionMensual();
 
 eficiencia
     .eficiency()
     .then(res => {
            var bandera = 0
-        res.forEach(dia => {
+        res.dia
          
             if (dia.UserId == this.$store.state.user.user.id && dia.Dia == ctx.selectedYMD) {
                 this.valorMuestra = dia.valor;
@@ -648,9 +660,7 @@ eficiencia
       },
 
       produccionMensual(){
-          eficiencia.ProduccionMes(this.$store.state.user.user.id, this.selectedYMD
-
-          ).then(res=>{
+          eficiencia.ProduccionMes(this.$store.state.user.user.id, this.selectedYMD ).then(res=>{
         
             this.ProduccionDelMes = res["Resultado"];
 
