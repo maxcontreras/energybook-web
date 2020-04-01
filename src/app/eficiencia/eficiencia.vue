@@ -581,62 +581,6 @@ var dateString =
 
 
       },
-
-
-      onContext(ctx) {
-          this.EpimpKwh= '';
-          this.DemandaKwh= '';
-           this.consumoDinero  = ''
-
-
-        this.context = ctx
-        this.info = ctx.selectedFormatted
-        
-this.seleccionado = ctx.selectedYMD; // guardado en base de datos
-  
-
-if(this.designatedmeter != '')
-{
-
-  this.DiaKwhConsumo();
-  this.DiaKwhDemanda();
-  this.mesconsumo();
-
-}
-
- 
-      var day =  this.info.split(",");
-      var month = this.info.split(" ");
-
-this.dia = day[0];
-this.numero = month[1];
-this.mes = month[3];
-this.anio = month[5];
-this.selectedYMD = ctx.selectedYMD;
-
-
-      this.produccionMensual();
-
-eficiencia
-    .eficiency()
-    .then(res => {
-           var bandera = 0
-        res.dia
-         
-            if (dia.UserId == this.$store.state.user.user.id && dia.Dia == ctx.selectedYMD) {
-                this.valorMuestra = dia.valor;
-                bandera = 1;
-            } else {
-                if (bandera == 1) {} else {
-                    this.valorMuestra = 0;
-                }
-            }
-
-        });
-     }).catch(err => {
-                    console.log(err);
-                });
-      },
       DiaKwhConsumo(){
 
         meter.getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'EPimp', -1, 3600, {from: this.date_custom , until: this.date_custom })
