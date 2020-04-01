@@ -1,7 +1,11 @@
 <template>
   <b-row id="company-details" class="main">
     <b-col>
-      <v-header :title="company.company_name" :action="'Ver Perfil'" :route="'companyProfile'" />
+      <v-header
+        :title="company.company_name"
+        :action="'Ver Perfil'"
+        :route="'companyProfile'"
+      />
       <b-row class="list">
         <b-col>
           <b-card no-body>
@@ -13,19 +17,22 @@
                 <Graphs :companyIdProp="companyId" />
               </b-tab>
               <b-tab title="Costos">
-                <div>{{companyId}}</div>
+                <div>
+                  <costtab :companyIdProp="companyId"> </costtab>
+                </div>
               </b-tab>
               <b-tab title="Código de red">
-                <div>{{companyId}}</div>
+                <netcodetab :companyIdProp="companyId"> </netcodetab>
               </b-tab>
               <b-tab title="Historial">
-                <div>{{companyId}}</div>
+                <historytab :companyIdProp="companyId"> </historytab>
               </b-tab>
               <b-tab title="Huella de carbono">
-                <div>{{companyId}}</div>
+                <carbonfootprintab :companyIdProp="companyId">
+                </carbonfootprintab>
               </b-tab>
               <b-tab title="Generacion">
-                <div>{{companyId}}</div>
+                <generationtab :companyIdProp="companyId"> </generationtab>
               </b-tab>
             </b-tabs>
           </b-card>
