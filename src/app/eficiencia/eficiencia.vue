@@ -17,11 +17,20 @@
               <br>
               <br>
           <div> 
-              <h6>Consumo</h6>    <p>{{DiaConsumoKwh}}</p>
+                          <div class="d-flex justify-content-around">
+              <p style="font-size: 17px;">Consumo</p>      <p style="font-size: 17px;">{{DiaConsumoKwh}}</p> 
+            </div>
+               
+              <hr>          
+              <div class="d-flex justify-content-around">
+               <p style="font-size: 17px;">Demanda</p>       <p style="font-size: 17px;">{{DiaDemandaKwh}}</p>
+            </div>
+              
               <hr>
-              <h6>Demanda</h6>     <p>{{DiaDemandaKwh}}</p>
-              <hr>
-              <h6>Produccion</h6>     <p>{{ valorMuestra }}</p>   
+                <div class="d-flex justify-content-around">
+               <p style="font-size: 17px;" >Produccion</p>      <p style="font-size: 17px;">{{ valorMuestra }}</p>   
+            </div>
+               
 
 
 
@@ -35,7 +44,7 @@
 
           </div>
                   </h2> 
-          <h5 v-if="numero==''">Escoja un dia de la semana  </h5> 
+          <h5 v-if="numero==''">Cargando ... </h5> 
 
 
 
@@ -70,13 +79,41 @@
               <h2 class="text-right"> {{mes}} </h2> 
               <hr> 
 
+                   <div class="d-flex justify-content-around">
+              <p>Consumo </p>     <p>{{ EpimpKwh }}  </p>     <p>${{consumoDinero}}</p>
+            </div>
 
-              <p>consumo </p>     {{ EpimpKwh }}      ${{consumoDinero}}
+
+           
               <hr>
-                <p>demanda </p>  {{DemandaKwh}} 
+
+                      <div class="d-flex justify-content-around">
+               <p>Demanda </p>  <p>{{DemandaKwh}} </p>  <p>&nbsp; </p>
+            </div>
+
+
+           
                     <hr>
-                <p>Produccion Mensual  {{ProduccionDelMes}} </p>   
-                {{resultado1}}
+
+                          <div class="d-flex justify-content-around">
+               <p>Produccion Mensual</p>    <p> {{ProduccionDelMes}} </p>    <p>&nbsp; </p>
+            </div>
+            <hr>
+                      <div class="d-flex justify-content-around">
+  <p>   {{resultado1}}</p>
+                    </div>
+              
+              
+             
+                <br v-if="DisplayFormula!=''">
+                    <div class="d-flex justify-content-around">
+  {{DisplayFormula2}} 
+                    </div>
+         
+              
+                
+
+
 
               <br>
            
@@ -147,6 +184,7 @@ import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
       const maxDate = new Date(today)
 
       return {
+          DisplayFormula2: '',
           fecha: '',
           ProduccionDelMes: '',
 
@@ -201,18 +239,70 @@ import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
     },
 
        watch: {
+           designatedmeter: function(val, oldval){
+ var m = new Date();
+var dateString =
+    m.getFullYear() + "-" +
+    ("0" + (m.getMonth()+1)).slice(-2) + "-" +
+    ("0" + (m.getDate()-1)).slice(-2) 
+this.date_custom = dateString
+
+this.setCustomDate();
+
+   
+
+           },
+
+           consumoDinero: function (val, oldVal){
+
+           var monthcostCpacidad =  this.capacityMonthCost;  // Capacidad
+            var  distributionMonthCost = this.distributionMonthCost // month costo
+            var Consumodinero = this.consumoDinero
+          var convertidoconsumo =  parseInt(Consumodinero); // convirtiendo a int 
+    
+
+            var total =  convertidoconsumo + distributionMonthCost + monthcostCpacidad; // sumando 
+
+            var formula2 = total / this.ProduccionDelMes
+
+            this.DisplayFormula2 = formula2.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " $/Unidad"
+
+           },
+
+
         companyId() {
             this.getMeters()
         }
     },
 
     computed: {
+        distributionMonth() {
+            let prettyDistribution = this.prettifyNumbers(this.$store.state.socket.distributionMonth);
+            return parseFloat(prettyDistribution);
+        },
+
+        distributionMonthCost() {
+            return (this.cfePrices.distributionPrice * parseFloat(this.distributionMonth));
+        },
+                capacityMonth() {
+            return this.$store.state.socket.capacityMonth;
+        },
+
+        capacityMonthCost() {
+            return (this.cfePrices.capacityPrice * parseFloat(this.capacityMonth));
+        },
+
+        cfePrices() {
+            return this.$store.getters['meter/getCfePrices'];
+        },
         companyId() {
             return this.$store.state.company_id
         }
     },
 
     beforeMount() {
+
+      
           this.getMeters();
 designatedmeters
     .get()
@@ -235,13 +325,13 @@ designatedmeters
                   });
 
 
-   
-
-
   
 
     },
     methods: {
+                    prettifyNumbers(number){
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
 
         getMeters() {
             designatedmeters.find({
@@ -350,6 +440,7 @@ Cleaning(){
   },
       setCustomDate() {
           this.Cleaning();
+          console.log(this.date_custom)
         this.selectedYMD = this.date_custom;
       
      
@@ -486,7 +577,7 @@ var dateString =
                                       .reduce((a, b) => a + b, 0) //Sumando los valores
                                       .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
 
-                                  this.EpimpKwh = String(khwConsumoTotal) + "Kwh"
+                                  this.EpimpKwh = String(khwConsumoTotal) + " kWh"
 
                               })
                               .catch(err => {
@@ -562,7 +653,7 @@ var dateString =
 
                                   this.EpimpKwh = String(khwConsumoTotal) + "Kwh"
 
-                                  this.resultado1 = khwConsumoTotal / parseInt(this.produccionMensual)
+                                  this.resultado1 = khwConsumoTotal / parseInt(this.ProduccionDelMes) + " kWh/unidad"
                                 
 
                               })
@@ -582,6 +673,7 @@ var dateString =
 
       },
       DiaKwhConsumo(){
+          console.log(this.designatedmeter)
 
         meter.getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'EPimp', -1, 3600, {from: this.date_custom , until: this.date_custom })
                               .then(respuesta => {
@@ -595,7 +687,7 @@ var dateString =
                                       .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
 
 
-                                   this.DiaConsumoKwh = String(khwConsumoTotalDia) + " Kwh"; 
+                                   this.DiaConsumoKwh = String(khwConsumoTotalDia) + " kWh"; 
                               })
                               .catch(err => {
 
@@ -628,7 +720,7 @@ var dateString =
                                       .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
 
 
-                                   this.DiaDemandaKwh =   String(khwConsumoTotalDia) + " Kwh"; 
+                                   this.DiaDemandaKwh =   String(khwConsumoTotalDia) + " kWh"; 
                               })
                               .catch(err => {
 

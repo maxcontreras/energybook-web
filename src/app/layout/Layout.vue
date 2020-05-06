@@ -6,17 +6,13 @@
       </div>
       <b-nav vertical class="w-100">
         <b-nav-item
-
           v-if="isAdmin && !isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'dashboard' }"
-
           @click="goTo('dashboard')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-tachometer-alt"></i>
-
-          </div>
-          Dashboard
+          </div>Dashboard
         </b-nav-item>
         <b-nav-item
           v-else-if="isAdmin && isadminNormal"
@@ -25,35 +21,25 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-tachometer-alt"></i>
-
-          </div>
-          Dashboard
-
+          </div>Dashboard
         </b-nav-item>
         <div v-else>
           <b-nav-item
             v-b-toggle.serviceSelection
-
             v-bind:class="{ 'current-view': currentView === 'dashboard' }"
-
             @click="toggleShowCollapse"
           >
             <div class="menu-icon-container">
               <i class="fas fa-tachometer-alt"></i>
-
-            </div>
-            Dashboard
-
+            </div>Dashboard
           </b-nav-item>
           <b-collapse id="serviceSelection" v-if="showCollapse">
             <b-nav-item
               v-for="(service, index) in services"
               :key="index"
-
               :class="{ currentService: selectedService === service }"
               @click="changeSelectedService(service)"
-              >{{ service }}</b-nav-item
-            >
+            >{{ service }}</b-nav-item>
           </b-collapse>
         </div>
         <b-nav-item
@@ -64,189 +50,136 @@
               currentView === 'companyDetail' ||
               currentView === 'companyProfile'
           }"
-
           @click="goTo('companies')"
         >
           <div class="menu-icon-container">
             <i class="far fa-building"></i>
-
-          </div>
-          Compañías
+          </div>Compañías
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin"
           v-bind:class="{ 'current-view': currentView === 'meters' }"
-
           @click="goTo('meters')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-solar-panel"></i>
-
-          </div>
-          Medidores
+          </div>Medidores
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && !isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'cfeValues' }"
-
           @click="goTo('cfeValues')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
-
-          </div>
-          CFE
+          </div>CFE
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'partners' }"
-
           @click="goTo('partners')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
-
-          </div>
-          Partners
+          </div>Partners
         </b-nav-item>
         <b-nav-item
           v-if="!isAdmin"
           v-bind:class="{ 'current-view': currentView === 'graphs' }"
-
           @click="goTo('graphs')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-chart-line"></i>
-
-          </div>
-          Gráficas
+          </div>Gráficas
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
           v-bind:class="{ 'current-view': currentView === 'userCosts' }"
-
           @click="goTo('userCosts')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-coins"></i>
-
-          </div>
-          Costos
+          </div>Costos
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
           v-bind:class="{ 'current-view': currentView === 'netCode' }"
-
           @click="goTo('netCode')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-gavel"></i>
-
-          </div>
-          Código de red
+          </div>Código de red
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
           v-bind:class="{ 'current-view': currentView === 'history' }"
-
           @click="goTo('history')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-history"></i>
-
-          </div>
-          Historial
+          </div>Historial
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
           v-bind:class="{ 'current-view': currentView === 'carbonFootprint' }"
-
           @click="goTo('carbonFootprint')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-shoe-prints"></i>
-
-          </div>
-          Huella de carbono
+          </div>Huella de carbono
         </b-nav-item>
         <b-nav-item
           v-if="isManager"
           v-bind:class="{ 'current-view': currentView === 'payments' }"
-
           @click="goTo('payments')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-dollar-sign"></i>
-
-          </div>
-          Facturación
+          </div>Facturación
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && !isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'customize' }"
-
           @click="goTo('customize')"
         >
           <div class="menu-icon-container">
             <i class="fas fa-cogs"></i>
-
-          </div>
-          Personalizar
+          </div>Personalizar
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'generation' }"
-
           @click="goTo('generation')"
           v-if="isUser"
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
-
-          </div>
-          Generación
+          </div>Generación
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'information' }"
-
           @click="goTo('information')"
           v-if="isUser"
         >
           <div class="menu-icon-container">
             <i class="fas fa-info-circle"></i>
-
-          </div>
-          Información
+          </div>Información
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'eficiencia' }"
-
           @click="goTo('eficiencia')"
           v-if="isUser"
         >
           <div class="menu-icon-container">
             <i class="far fa-calendar-plus"></i>
-
-          </div>
-          Eficiencia
-
+          </div>Eficiencia
         </b-nav-item>
       </b-nav>
     </div>
     <div id="main">
-
-      <b-navbar
-        id="top-bar"
-        :sticky="true"
-        type="light"
-        variant="light"
-        :toggleable="false"
-      >
+      <b-navbar id="top-bar" :sticky="true" type="light" variant="light" :toggleable="false">
         <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
         <b-col xl="4" md="6">
-          <v-weather
-            :lat="position ? position.lat : 0"
-            :lon="position ? position.lon : 0"
-          />
+          <v-weather :lat="position ? position.lat : 0" :lon="position ? position.lon : 0" />
         </b-col>
         <b-col xl="8" md="6" class="text-right">
           <template v-if="user.user.free_trial">
@@ -254,7 +187,6 @@
               {{ getTrialDaysLeft() }}{{ trialDaysLeft }} días restantes de
               prueba
             </p>
-
           </template>
           <img
             v-show="!meterAvailable"
@@ -267,23 +199,18 @@
 
           <p class="current-date">{{ date }}</p>
           <b-btn
+            v-if="isAdmin && isadminNormal || !isAdmin && !isadminNormal"
             class="alert"
             @click="goTo('notificaciones')"
             variant="outline-secondary"
           >
             <i class="far fa-bell"></i>
             <b-badge>{{ notificacion }}</b-badge>
-
           </b-btn>
 
           <b-collapse is-nav id="nav_dropdown_collapse" class="menu-dropdown">
             <b-navbar-nav>
-
-              <b-nav-item-dropdown
-                :text="user.user.name + ' ' + user.user.lastname"
-                right
-              >
-
+              <b-nav-item-dropdown :text="user.user.name + ' ' + user.user.lastname" right>
                 <b-dropdown-item v-if="!isAccounting" @click="goTo('profile')">
                   <i class="far fa-user"></i> Perfil
                 </b-dropdown-item>
@@ -376,6 +303,38 @@ export default {
       return this.$store.getters["user/getUserCompany"].location;
     },
     meterAvailable() {
+      if (this.$store.state.user.user.company_id) {
+         if (this.$store.state.meter.isAvailable == false) {
+
+        var Fecha = Date.now();
+
+        eUsers
+          .find({
+            filter: {
+              where: {
+                company_id: this.$store.state.user.user.company_id
+              }
+            }
+          })
+          .then(users => {
+            notificaciones
+              .post({
+                Dispositivos: ["Error"],
+                Servicios: ["Error"],
+                company_id: this.$store.state.user.user.company_id,
+                tipo: "Desconexion",
+                intervalo: "Error",
+                En_Correo: false,
+                Fecha: Fecha,
+                Descripcion: "Desconexion de medidor",
+                usuarios: users
+              })
+              .then(response => {
+
+              });
+          });
+      }
+      }
       return this.$store.state.meter.isAvailable;
     },
     notificacion() {
@@ -542,6 +501,5 @@ export default {
 
 <style lang="scss">
 @import "../../styles/menu.scss";
-
 </style>
 

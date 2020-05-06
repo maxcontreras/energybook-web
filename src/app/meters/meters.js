@@ -27,7 +27,8 @@ export default {
                 {key: 'Num. de serie'},
                 {key: 'Asignado el'},
                 {key: 'Status', label: 'Estado'},
-                {key: 'Delete', label: 'Eliminar medidor'}
+                {key: 'Delete', label: 'Eliminar medidor'},
+                {key: 'Max', label: "Maximo y minimos"}
             ],
             companies: [
                 {value: null, text: 'Selecciona una compañía'}
@@ -48,12 +49,12 @@ export default {
             if (JSON.parse(localStorage.getItem('user')).Administrando == undefined) {
                 return this.$store.state.isadminNormal = false
             } else {
-                return this.$store.state.isadminNormal = true 
+                return this.$store.state.isadminNormal = true
             }
 
         },
         CompañiasAdministradas(){
-            return JSON.parse(localStorage.getItem('user')).Administrando 
+            return JSON.parse(localStorage.getItem('user')).Administrando
         },
         companyId() {
             // TODO check this computed propertie
@@ -77,7 +78,7 @@ export default {
                     meter_id: meter.meter_id
                 }
                 return f_meter;
-            
+
             });
         }
     },
@@ -103,15 +104,15 @@ export default {
             companies.find({   filter: {
                 where: { id: companyID }
             }}).then(empresa=>{
-           
+
                 this.$store.dispatch('meter/LOADINGMETERS', {isAdmin: true, administrando: empresa[0].Administrando})
                 .catch(err => {
                     console.log(err);
                 });
 
             })
-            
-           
+
+
             }else{
                 this.$store.dispatch('meter/loadAssignedMeters', true)
                 .catch(err => {
@@ -129,30 +130,30 @@ export default {
                         where: { id: companyId }
                     }
                 }).then(compañias =>{
-                   
+
                     var administrando = compañias[0].Administrando
                     companies.find({}).then(companies => {
                         companies.forEach(company => {
                             administrando.forEach(companyid => {
                                 if(companyid==company.id){
-    
+
                                     this.companies.push({ value: company.id, text: company.company_name} )
                                 }
                             });
-                            
-                            
+
+
                         })
                     })
 
                 })
- 
+
             }else{
                 companies.find({}).then(companies => {
                     companies.forEach(company => {
                         if(company.administra == null){
                             this.companies.push({ value: company.id, text: company.company_name} )
                         }
-                
+
                     })
                 })
 

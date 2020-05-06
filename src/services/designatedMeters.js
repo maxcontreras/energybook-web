@@ -68,7 +68,12 @@ let designatedMeters = Object.assign(
       return loopback.post("DesignatedMeters/deleteMeterWithServices", {
         meterId
       });
+    },
+    PATCH(meterId,data){
+      return loopback.patch(`/DesignatedMeters/${meterId}`, data);
+      
     }
+    
   },
   modelObject
 );

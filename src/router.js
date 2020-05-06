@@ -44,7 +44,7 @@ const router = new VueRouter({
           meta: { requiresAuth: true }
         },
         {
-          path: "/",
+          path: "/eficiencia",
           name: "eficiencia",
           components: {
             default: eficiencia

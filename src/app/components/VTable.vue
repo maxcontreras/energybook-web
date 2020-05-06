@@ -11,7 +11,7 @@
       :per-page="perPage"
       @row-clicked="rowClickHandler"
     >
-      <template v-slot:cell(status)="data">
+      <template slot="status" slot-scope="data">
         <i
           v-show="data.item.status"
           style="color: #2d9b14; font-size: 15px"
@@ -23,7 +23,7 @@
           class="fas fa-times-circle"
         ></i>
       </template>
-      <template v-slot:cell(botonEliminarCompany)="data">
+      <template slot="botonEliminarCompany" slot-scope="data">
         <button
           class="btn icon-btn delete"
           type="button"
@@ -32,7 +32,28 @@
           <i class="far fa-trash-alt"></i>
         </button>
       </template>
-      <template v-slot:cell(botonEditCompany)="data">
+
+      <template slot="Descripcion" slot-scope="data">{{data.item.Descripcion}}</template>
+
+      <template slot="usuarios" slot-scope="data">
+        <button
+          class="btn icon-btn delete"
+          type="button"
+          @click.stop="$emit('delete-notification', data.item.id)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
+      </template>
+
+      <template slot="Fecha" slot-scope="data">{{data.item.Fecha}}</template>
+
+      <template slot="id" slot-scope="data">
+        <vernotificacion :DataNotificacion="data.item"></vernotificacion>
+      </template>
+
+      <template slot="Dispositivos">{{dispositivo}}</template>
+
+      <template slot="botonEditCompany" slot-scope="data">
         <editcompany :DataCompany="data.item"></editcompany>
       </template>
       <template slot="pdf" slot-scope="data">
@@ -49,13 +70,21 @@
           {{ data.item.Status ? 'Activo' : 'Inactivo' }}
         </b-button>
       </template>
-      <template v-slot:cell(Reset)="data">
+
+
+         <template slot="Max" slot-scope="data">
+ <MaximosYminimos :DataDesignated="data.item">  </MaximosYminimos>
+
+       </template>
+
+
+      <template slot="Reset" slot-scope="data">
         <b-button
           @click.stop="$emit('reset-password', data.item)"
           variant="primary"
         >{{ 'Restaurar' }}</b-button>
       </template>
-      <template v-slot:cell(Delete)="data">
+      <template slot="Delete" slot-scope="data">
         <button class="btn icon-btn delete" type="button" @click.stop="$emit('delete', data.item)">
           <i class="far fa-trash-alt"></i>
         </button>
@@ -79,9 +108,16 @@
 
 <script>
 import editcompany from "./editCompany";
+import vernotificacion from "./vernotificacion";
+import designatedMeters from "@/services/designatedMeters";
+import MaximosYminimos from "./MaximosYminimos";
+
+
 export default {
   components: {
-    editcompany: editcompany
+    MaximosYminimos : MaximosYminimos,
+    editcompany: editcompany,
+    vernotificacion: vernotificacion
   },
   props: {
     items: {
@@ -105,9 +141,14 @@ export default {
       default: function() {}
     }
   },
+  beforeMount() {
+    this.company();
+  },
 
   data() {
     return {
+      fixedDate: "",
+      dispositivo: "",
       currentPage: 1,
       perPage: 10,
       pageOptions: [5, 10, 15]
@@ -121,6 +162,20 @@ export default {
   },
 
   methods: {
+    company() {
+      let idEmpresa = JSON.parse(localStorage.getItem("user")).company_id;
+      designatedMeters
+        .find({
+          filter: {
+            where: { company_id: idEmpresa }
+          }
+        })
+        .then(eds => {
+          this.dispositivo = eds[0].device_name;
+          console.log(eds[0].device_name);
+          console.log(eds);
+        });
+    },
     // TODO delete this method, replace with prop function
     rowClickHandler(record, index) {
       if (this.route) {

@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import adminValues from "@/services/adminValues.js";
 import VueHighcharts from "vue2-highcharts";
 import meters from "@/services/meters";
 import datePicker from "vue-bootstrap-datetimepicker";
@@ -178,6 +179,7 @@ export default {
 
   watch: {
     meterId() {
+      console.log("holameterid");
       this.changeMeter();
     }
   },
@@ -204,6 +206,7 @@ export default {
     },
 
     showMeditionIntervals() {
+      console.log("hola shoemedition bla");
       return this.currentPeriod > 1 || this.currentPeriod === -1;
     },
 
@@ -212,8 +215,12 @@ export default {
     }
   },
 
+  mounted() {
+    this.changePeriod();
+  },
+
   beforeMount() {
-    this.plot.name = "Costos";
+    this.plot.name = "CFE";
   },
 
   methods: {
@@ -224,6 +231,7 @@ export default {
     },
 
     load() {
+      console.log("hola load");
       let columnCharts = this.$refs.columnCharts;
       columnCharts.addSeries(this.plot);
       columnCharts.hideLoading();
@@ -231,6 +239,8 @@ export default {
     },
 
     changeMeter() {
+      console.log("hola change meter");
+
       if (this.dangerAlert) this.dangerAlert = false;
       setTimeout(() => {
         this.changePeriod(0);
@@ -295,6 +305,7 @@ export default {
     },
 
     changePeriod(period) {
+      console.log("hola change period");
       if (this.isLoading) {
         this.$notify({
           group: "notification",
@@ -322,34 +333,35 @@ export default {
     },
 
     renderChartWithData() {
+      console.log("hola renderchartwithdata");
+
       let chart = this.$refs.columnCharts.getChart();
       let columnCharts = this.$refs.columnCharts;
 
       if (!chart.renderer.forExport) {
-        this.showLoading();
-        columnCharts.removeSeries();
+        console.log("por aqui pasas 1");
+        // this.showLoading();
+        // columnCharts.removeSeries();
         if (this.currentPeriod !== -1 && this.currentPeriod < 2) {
+          console.log("por aqui pasas 2");
           this.getData(this.currentPeriod, 0, chart);
         } else {
+          console.log("por aqui pasas 3");
           this.getData(this.currentPeriod, this.currentMeditionInterval, chart);
         }
       }
     },
 
     getData(filter, interval, chart) {
-      const meter = this.meterId.split("*");
-      let meter_id = meter[0];
-      let meter_device = meter[1] === "EDS" ? "" : meter[1];
-      let service = meter[1] === "EDS" ? meter[2] : "";
-      meters
-        .getConsumptionCostsByFilter(
-          meter_id,
-          meter_device,
-          service,
-          filter,
-          interval,
-          this.date_custom
-        )
+      console.log("hola getdata");
+      adminValues
+        .get({
+          filter: {
+            where: {
+              city: this.selected
+            }
+          }
+        })
         .then(res => {
           if (res) {
             let data = [];

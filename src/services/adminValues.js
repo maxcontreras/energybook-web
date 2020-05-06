@@ -1,21 +1,31 @@
 /* eslint-disable */
-import modelObject from '@/services/lb-services';
-import loopback from '@/services/loopback';
+import modelObject from "@/services/lb-services";
+import loopback from "@/services/loopback";
 
-modelObject.setModel('AdminValue');
+modelObject.setModel("AdminValue");
 
-let adminValue = Object.assign({}, {
+let adminValue = Object.assign(
+  {},
+  {
+    relation: "",
+    get() {
+      return loopback.get("/AdminValues");
+    },
 
-    relation: '',
-
-    findByDate(ISOdate, city) {
-        return loopback.post('/AdminValues/findByDate', {date: ISOdate, city});
+    findByDate(ISOdate, division) {
+      return loopback.post("/AdminValues/findByDate", { date: ISOdate, division });
     },
 
     createOrUpdatePrices(date, city, payload, tariffType) {
-        return loopback.post('/AdminValues/createOrUpdatePrices', {date, city, payload, tariffType});
-    }
-
-}, modelObject);
+      return loopback.post("/AdminValues/createOrUpdatePrices", {
+        date,
+        city,
+        payload,
+        tariffType,
+      });
+    },
+  },
+  modelObject
+);
 
 export default adminValue;

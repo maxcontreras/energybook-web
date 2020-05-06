@@ -32,32 +32,32 @@ Highcharts.setOptions({
 
 var dataLine = {
     chart: {
-      type: 'spline'
+        type: 'spline'
     },
     title: {
-      text: null
+        text: null
     },
     xAxis: {
-      categories: monthLabels
+        categories: monthLabels
     },
     yAxis: {
-      title: {
-        text: null
-      }
+        title: {
+            text: null
+        }
     },
     tooltip: {
-      crosshairs: true,
-      shared: true
+        crosshairs: true,
+        shared: true
     },
     credits: {
-      enabled: false
+        enabled: false
     },
     plotOptions: {
-      spline: {
-        marker: {
-          enabled: false
+        spline: {
+            marker: {
+                enabled: false
+            }
         }
-      }
     },
     series: []
 }
@@ -120,7 +120,7 @@ var asyncData = {
     name: 'Consumo',
     color: '#2f7ed8',
     data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
-      y: 26.5
+        y: 26.5
     }, 23.3, 18.3, 13.9, 9.6]
 }
 
@@ -152,7 +152,7 @@ export default {
         VTable,
         Weather,
         PieChart,
-        VueHighcharts ,
+        VueHighcharts,
         VueHighChartsComponent,
         DashboardAdmin,
         VCfeGDMTH,
@@ -169,20 +169,21 @@ export default {
 
     data() {
         return {
+            InyeccionMensual: '',
             meters: [],
             dpVal: 0,
             epimpVal: 0,
             chartData: {
                 datasets: [{
                     data: [],
-                    backgroundColor: ['#229954', '#3498DB', '#1ABC9C', '#F1C40F', '#E67E22', '#2980B9', '#E74C3C','#8E44AD','#138D75']
+                    backgroundColor: ['#229954', '#3498DB', '#1ABC9C', '#F1C40F', '#E67E22', '#2980B9', '#E74C3C', '#8E44AD', '#138D75']
                 }],
                 labels: []
             },
             chartOptions: {
                 legend: {
                     labels: {
-                    fontSize: 25
+                        fontSize: 25
                     }
                 },
                 tooltips: {
@@ -202,8 +203,9 @@ export default {
             if (JSON.parse(localStorage.getItem('user')).Administrando == undefined) {
                 return this.$store.state.isadminNormal = false
             } else {
-                return this.$store.state.isadminNormal = true 
-            }},
+                return this.$store.state.isadminNormal = true
+            }
+        },
 
         isAdmin() {
             return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard';
@@ -292,6 +294,7 @@ export default {
         },
 
         reactives() {
+            console.log(this.$store.state.socket)
             return parseInt(this.$store.state.socket.reactive).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
@@ -318,7 +321,7 @@ export default {
         },
 
         companyId() {
-            if(this.isCompanyDetail) return this.companyIdProp
+            if (this.isCompanyDetail) return this.companyIdProp
             return JSON.parse(localStorage.getItem('user')).company_id
         },
 
@@ -358,7 +361,7 @@ export default {
     },
 
     beforeMount() {
-        if(this.isAdmin) return;
+        if (this.isAdmin) return;
         this.getMeters()
             .then(() => {
                 this.getConsumptionCost(Constants.Meters.filters.today)
@@ -368,20 +371,20 @@ export default {
                     .catch(err => {
                         console.log(err);
                     })
-                
+
             });
     },
 
     mounted() {
-        if(this.isAdmin) {
+        if (this.isAdmin) {
             $('.user-dashboard').remove()
             return;
         }
-        if(this.isadminNormal){
+        if (this.isadminNormal) {
             this.goTo('DashboardAdmin')
         }
 
-        $('.dashboard-history .highcharts-container').css({'max-width': '1149px', 'width': 'auto'})
+        $('.dashboard-history .highcharts-container').css({ 'max-width': '1149px', 'width': 'auto' })
 
         this.load();
         this.updatePieChart();
@@ -391,18 +394,18 @@ export default {
         getConsumptionCost(period) {
             return new Promise((resolve, reject) => {
                 meters.getConsumptionCostsByFilter(this.edsId, '', this.serviceSelected, period, 86400, {})
-                .then(res => {
-                    let cost = (res.reduce((prev, curr) => {
-                        return prev + parseFloat(curr.cost);
-                    }, 0)).toFixed(2);
-                    if (period === Constants.Meters.filters.today) {
-                        this.consumptionCost = cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    } else if (period === Constants.Meters.filters.month) {
-                        this.consumptionMonthCost = cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    }
-                    resolve();
-                })
-                .catch(() => reject());
+                    .then(res => {
+                        let cost = (res.reduce((prev, curr) => {
+                            return prev + parseFloat(curr.cost);
+                        }, 0)).toFixed(2);
+                        if (period === Constants.Meters.filters.today) {
+                            this.consumptionCost = cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        } else if (period === Constants.Meters.filters.month) {
+                            this.consumptionMonthCost = cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                        resolve();
+                    })
+                    .catch(() => reject());
             });
         },
         refresh() {
@@ -432,7 +435,7 @@ export default {
                     text: 'Verifica que tus medidores estén funcionando correctamente '
                 });
             }); */
-            
+
             designatedMeters.odometerReadings(this.companyId)
                 .finally(() => {
                     return designatedMeters.dailyReadings(this.companyId);
@@ -457,7 +460,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                     this.refreshingData = false;
-                    
+
                     this.$notify({
                         group: 'notification',
                         type: 'error',
@@ -467,7 +470,7 @@ export default {
                 });
         },
 
-        load(){
+        load() {
             let lineCharts = this.$refs.lineCharts
             lineCharts.delegateMethod('showLoading', 'Loading...')
             chartSpeed = Highcharts.chart('container-odometer', Highcharts.merge(gaugeOptions, {
@@ -489,7 +492,7 @@ export default {
                     dataLabels: {
                         format: '<div style="text-align:center"><span style="font-size:25px;color:' +
                             ('#485658') + '">{y}</span><br/>' +
-                               '<span style="font-size:12px;color:#ADADAD">kW</span></div>'
+                            '<span style="font-size:12px;color:#ADADAD">kW</span></div>'
                     },
                     tooltip: {
                         valueSuffix: ' kW'
@@ -497,9 +500,9 @@ export default {
                 }]
 
             }));
-            if(this.odometer > 0) this.updateOdometerChart()
-            if(this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
-            if(this.consumptionSummary.length > 0) this.updatePieChart()
+            if (this.odometer > 0) this.updateOdometerChart()
+            if (this.epimpHistory.length > 0) this.updateEpimpHistoryChart()
+            if (this.consumptionSummary.length > 0) this.updatePieChart()
         },
         getMeters() {
             return new Promise((resolve, reject) => {
@@ -513,10 +516,10 @@ export default {
                 }).then(res => {
                     this.meters = res;
                     let metersCount = this.meters.length;
-                    if(metersCount > 0 && this.serviceSelected !== '') {
+                    if (metersCount > 0 && this.serviceSelected !== '') {
                         let currService = this.meters[0].services.filter(service => service.serviceName === this.serviceSelected)[0];
                         this.edsId = this.meters[0].meter_id;
-                        
+
                         this.$store.dispatch('socket/odometerReading', currService.dp);
                         this.$store.dispatch('socket/dailyReading', currService.dailyReadings);
                         this.$store.dispatch('socket/monthlyReading', currService.monthlyReadings);
@@ -525,7 +528,7 @@ export default {
                         this.$store.dispatch('socket/powerFactor', currService.fp);
                         this.$store.dispatch('socket/reactive', currService.reactive);
 
-                        meters.consumptionMaxMinValues({id: this.edsId}).then((values)=> {
+                        meters.consumptionMaxMinValues({ id: this.edsId }).then((values) => {
                             chartSpeed.update({
                                 yAxis: {
                                     min: values.min,
@@ -534,6 +537,7 @@ export default {
                             });
                         });
                         resolve();
+                        this.autoconsumo();
                     }
                 }).catch(err => {
                     reject(err);
@@ -568,14 +572,41 @@ export default {
             this.chartData.datasets[0].data = [];
             this.chartData.labels = [];
             Object.values(this.consumptionSummary).forEach(device => {
-                if(device.value > 0){
+                if (device.value > 0) {
                     this.chartData.datasets[0].data.push(device.value);
                     this.chartData.labels.push(device.device);
                 }
             });
         },
-        prettifyNumbers(number){
+        prettifyNumbers(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+        autoconsumo() {
+
+
+            meters
+                .getGenerationReadings(
+                    this.edsId,
+                    "",
+                    "Servicio 1",
+                    3,
+                    3600,
+                    2,
+                    {}
+                ) // Inyeccion a la red
+                .then(res => {
+
+                    var sumatoriaInyeccion = 0;
+                    res.forEach(elemento => {
+                        sumatoriaInyeccion = sumatoriaInyeccion + elemento.value;
+                    });
+
+                    this.InyeccionMensual = sumatoriaInyeccion
+                        .toFixed(2)
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " kWh";
+                });
+
+
         }
     }
 }

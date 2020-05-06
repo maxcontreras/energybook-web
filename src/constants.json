@@ -1,5 +1,5 @@
 {
-    "Companies":{
+    "Companies": {
         "status": {
             "0": "Eliminada",
             "1": "Activa",
@@ -27,8 +27,8 @@
     },
     "Meters": {
         "active": {
-            "1":"Activo",
-            "0":"Inactivo"
+            "1": "Activo",
+            "0": "Inactivo"
         },
         "designated": {
             "active": {
@@ -82,7 +82,7 @@
             "prices": {
                 "ordinary": 1.269,
                 "distribution": 150,
-                "capacity":  269.65
+                "capacity": 269.65
             }
         }
     },
@@ -91,6 +91,25 @@
         "Jaconá Michoacán",
         "Purepero Michoacán",
         "Ciudad Guzmán"
+    ],
+    "Divisiones": [
+        "Jalisco",
+        "Bajio",
+        "Baja California",
+        "Baja California Sur",
+        "Centro Occidente",
+        "Centro Oriente",
+        "Centro Sur",
+        "Golfo Centro",
+        "Golfo Norte",
+        "Noroeste",
+        "Norte",
+        "Oriente",
+        " Peninsular",
+        "Sureste",
+        "Valle de Mexico Norte",
+        "Valle de Mexico Centro",
+        "Valle de Mexico Sur"
     ],
     "images": {
         "consumption": "/assets/images/consumption.svg",
@@ -107,5 +126,4 @@
         "Gran demanda media tensión horaria",
         "Gran demanda media tensión ordinaria "
     ]
-
 }
