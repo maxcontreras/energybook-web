@@ -24,7 +24,7 @@
 </template>
 
 <script>
-/* eslint-disable */
+
 import designatedMeters from "@/services/designatedMeters";
 import meters from "@/services/meters";
 import VColumns from "@/app/components/chart/VColumns.vue";

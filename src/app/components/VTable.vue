@@ -11,7 +11,9 @@
       :per-page="perPage"
       @row-clicked="rowClickHandler"
     >
-      <template slot="status" slot-scope="data">
+
+    
+      <template v-slot:cell(status)="data" >
         <i
           v-show="data.item.status"
           style="color: #2d9b14; font-size: 15px"
@@ -23,7 +25,7 @@
           class="fas fa-times-circle"
         ></i>
       </template>
-      <template slot="botonEliminarCompany" slot-scope="data">
+      <template v-slot:cell(botonEliminarCompany)="data" >
         <button
           class="btn icon-btn delete"
           type="button"
@@ -33,9 +35,9 @@
         </button>
       </template>
 
-      <template slot="Descripcion" slot-scope="data">{{data.item.Descripcion}}</template>
+      <template v-slot:cell(Descripcion)="data" >{{data.item.Descripcion}}</template>
 
-      <template slot="usuarios" slot-scope="data">
+      <template  v-slot:cell(usuarios)="data" >
         <button
           class="btn icon-btn delete"
           type="button"
@@ -45,21 +47,21 @@
         </button>
       </template>
 
-      <template slot="Fecha" slot-scope="data">{{data.item.Fecha}}</template>
+      <template v-slot:cell(Fecha)="data" >{{data.item.Fecha}}</template>
 
-      <template slot="id" slot-scope="data">
+      <template v-slot:cell(id)="data" >
         <vernotificacion :DataNotificacion="data.item"></vernotificacion>
       </template>
 
-      <template slot="Dispositivos">{{dispositivo}}</template>
+      <template v-slot:cell(Dispositivos)  >{{dispositivo}}</template>
 
-      <template slot="botonEditCompany" slot-scope="data">
+      <template v-slot:cell(botonEditCompany)="data"  >
         <editcompany :DataCompany="data.item"></editcompany>
       </template>
-      <template slot="pdf" slot-scope="data">
+      <template  v-slot:cell(pdf)="data" >
         <a class="btn btn-primary" :href="data.item.pdf" target="_blank">Ver PDF</a>
       </template>
-      <template slot="Status" slot-scope="data">
+      <template  v-slot:cell(Status)="data" >
         <b-button
           title="Click para cambiar estado"
           @click.stop="statusChange(data.item.id, data.item.Status)"
@@ -72,19 +74,19 @@
       </template>
 
 
-         <template slot="Max" slot-scope="data">
+         <template   v-slot:cell(Max)="data">
  <MaximosYminimos :DataDesignated="data.item">  </MaximosYminimos>
 
        </template>
 
 
-      <template slot="Reset" slot-scope="data">
+      <template v-slot:cell(Reset)="data" >
         <b-button
           @click.stop="$emit('reset-password', data.item)"
           variant="primary"
         >{{ 'Restaurar' }}</b-button>
       </template>
-      <template slot="Delete" slot-scope="data">
+      <template  v-slot:cell(Delete)="data" >
         <button class="btn icon-btn delete" type="button" @click.stop="$emit('delete', data.item)">
           <i class="far fa-trash-alt"></i>
         </button>
