@@ -83,8 +83,8 @@
                     <b-col>
                       <h5>Periodo de facturación</h5>
                     </b-col>
-                    <b-col cols="3">
-                      <h5 class="billable-period">{{ billablePeriod }}</h5>
+                    <b-col cols="4.5">
+                      <h5 >{{ billablePeriod }} </h5>
                     </b-col>
                   </b-row>
                   <b-row class="general-body">
@@ -161,14 +161,19 @@
                           </div>
                           <div class="analysis-item--cat">
                             <div class="icon-container">
-                              <img class="dashboard-image" src="/assets/images/reactives.svg" />
+                              <img class="dashboard-image" src="/assets/images/networkInjection.svg" />
                             </div>
                             <div class="data-container">
-                              <p>EPexp</p>
+                              <p>Inyección a la red </p>
                               <b-row>
                                 <b-col cols="6">
                                   <h5>{{InyeccionMensual ? InyeccionMensual : 0 }}</h5>
                                   <span></span>
+                                </b-col>
+                                <b-col>
+                                  <span>$</span>
+                                  <h5>{{ CostNet ? CostNet : '' }}</h5>
+                                  {{valuedemanda}}
                                 </b-col>
                               </b-row>
                             </div>

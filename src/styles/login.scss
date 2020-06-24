@@ -17,6 +17,20 @@ $egray: #485658;
         position: fixed;
     }
 
+    #banner2 {
+        position: absolute;
+        right: 60%;
+        left: 30%;
+        top: 70%;
+    }
+
+    #banner1 {
+        position: absolute;
+        right: 75%;
+        left: 16%;
+        top: 70%;
+    }
+
     #login-container {
         width: 350px;
         top: 15%;
@@ -97,6 +111,10 @@ $egray: #485658;
 
 }
 
+
+
+
+
 #login .btn-primary {
     padding: 0.5rem 3rem;
     background-color: $egray;
@@ -127,5 +145,9 @@ $egray: #485658;
 }
 
 #login-container h5 {
+    margin-bottom: 1rem;
+}
+
+#banner2 h5 {
     margin-bottom: 1rem;
 }

@@ -7,12 +7,11 @@
       class="btn"
     >
 
-
-      <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+<img src="/assets/images/editar.svg" height="20" width="20">
     </button>
 
 
-    <b-modal :id="DataDesignated.id">
+    <b-modal :id="DataDesignated.id" >
       <div slot="modal-title" class="clearfix">
 {{DataDesignated.Compañía}}
       </div>
@@ -20,26 +19,80 @@
 
 
   <b-row>
-    <b-col>  <p> Maximo Costo por dia</p>  </b-col>
-    <b-col><p>Minimo Costo por dia </p></b-col>
   </b-row>
 
     <b-row>
         
-    <b-col>        
+    <b-col>      
+
+      <b-form-group label="Costo Maximo">
         <b-form-input
           v-model="max"
           required
           type="number"
           placeholder="Max"
         ></b-form-input>
+
+           </b-form-group>
          </b-col>
-    <b-col>      <b-form-input
-          v-model="min"
+    <b-col>     
+      <b-form-group label="Amperaje Maximo">
+       <b-form-input
+          v-model="Amperajemax"
           required
           type="number"
-          placeholder="Max"
-        ></b-form-input> </b-col>
+          placeholder="Amperaje max"
+        ></b-form-input> 
+        </b-form-group>
+        
+         </b-col>
+  </b-row>
+
+
+      <b-row>
+        
+    <b-col>      
+      
+      <b-form-group label="Desbalance Maximo">
+        <b-form-input
+        v-model="DesbalanceMax"
+          required
+          type="number"
+          placeholder="Desbalance max"
+        ></b-form-input>
+            </b-form-group>
+         </b-col>
+    <b-col>     
+             <b-form-group label="THD Maximo">
+       <b-form-input
+            v-model="Thdmax"
+          required
+          type="number"
+          placeholder="THD Max"
+        ></b-form-input> 
+              </b-form-group>
+        
+        </b-col>
+  </b-row>
+
+      <b-row>
+        
+    <b-col>      
+      
+           <b-form-group label="Voltaje Maximo">
+        <b-form-input
+          v-model="VoltajeMax"
+          required
+          type="number"
+          placeholder="Voltaje Max"
+        ></b-form-input>
+          </b-form-group>
+         </b-col>
+    <b-col>     
+
+        
+        
+        </b-col>
   </b-row>
 
 <br>
@@ -50,10 +103,7 @@
     <b-col>  </b-col>
 
     <b-col> 
-        <b-button    
-        @click="guardar(DataDesignated.id,min,max), $bvModal.hide(DataDesignated.id)"   title="Click para Cambiar "
-      variant="secondary"
-      class="btn"> Aceptar cambios </b-button> 
+       
     </b-col>
        <b-col>  </b-col>
   </b-row>
@@ -66,7 +116,20 @@
     
 
       <div slot="modal-footer">
-        <b-button @click="$bvModal.hide(DataDesignated.id)">Salir</b-button>
+
+        <b-row>
+          <b-col>
+           <b-button    
+        @click="guardar(DataDesignated.id,min,max), $bvModal.hide(DataDesignated.id)"   title="Click para Cambiar "
+      variant="secondary"
+      class="btn"> Aceptar cambios </b-button> 
+
+      </b-col>
+      <b-col>
+            <b-button @click="$bvModal.hide(DataDesignated.id)">Salir</b-button>
+   </b-col>
+        </b-row>
+    
       </div>
     </b-modal>
 
@@ -92,7 +155,6 @@ export default {
                 }
             }}).then(
                 respuesta =>{
-                    respuesta[0].min_value = min
                      respuesta[0].max_value = max
                          respuesta[0].id = undefined
                          respuesta[0].generationDevices = undefined
@@ -147,7 +209,11 @@ this.min = respuesta[0].min_value;
   },
    data() {
     return {
-        min: '',
+      DesbalanceMax: 0,
+      VoltajeMax: 0,
+      Amperajemax: 0,
+      Thdmax: 0,
+        min: 0,
         max: '',
       company: {
         company_name: "",

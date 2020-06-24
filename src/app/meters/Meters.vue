@@ -13,23 +13,17 @@
                     </b-btn>
                 </b-col>
             </b-row>
-            <b-row class="list">
+
+
+             <b-row>
                 <b-col>
-                    <b-card
-                        v-if="isAdmin"
-                        no-body>
-                        <b-tabs pills card>
-                            <b-tab
-                                title="Medidores"
-                                active>
-                                <v-table
+                    <b-card>
+                         <v-table
                                     :items="metersAssignedFormatted"
                                     :fields="fieldsDesignated"
                                     @clicked="openEDSDataModal"
                                     @delete="deleteMeter"
                                     :alertMessage="'No hay medidores asignados.'"/>
-                            </b-tab>
-                        </b-tabs>
                     </b-card>
                 </b-col>
             </b-row>

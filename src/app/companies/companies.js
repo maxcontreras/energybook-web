@@ -49,7 +49,10 @@ export default {
             newUser: {
                 name: '',
                 lastname: '',
-                email: ''
+                email: '',
+                contraseña: '',
+                celular: '',
+                puesto: ''
             },
             toggle: {
                 newManager: true,
@@ -83,18 +86,19 @@ export default {
                 domain: '',
                 created_at: new Date(),
                 legal_name: '',
-                address: ''
+                address: '',
+                licencia: ''
             };
         },
         getCompanies() {
             companies.find({}).then(res => {
                 this.companies = res;
                 this.companies.forEach(company => {
-                    if(company.administra ==null){
+                
 
                
                     this.addCompany(company);
-                }
+                
                 });
             });
         },        
@@ -110,12 +114,18 @@ export default {
             });
         },
         verifyData() {
-            if (isNaN(this.newCompany.location.lat) || isNaN(this.newCompany.location.lon)) return false;
+console.log("nuevaempresa")
+            console.log(this.newCompany)
+            console.log("nuevousuario")
+            console.log(this.newUser)
+
+         /*   if (isNaN(this.newCompany.location.lat) || isNaN(this.newCompany.location.lon)) return false;
             this.newCompany.location.lat = parseFloat(this.newCompany.location.lat);
             this.newCompany.location.lon = parseFloat(this.newCompany.location.lon);
             if (!this.newCompany.company_name || !this.newCompany.phone || !this.newCompany.legal_name || !this.newCompany.address) return false;
             if (!this.newManager.name || !this.newManager.lastname || !this.newManager.email) return false; 
             if(!this.newCompany.domain) return false;
+            */
             return true;
         },
         createCompany() {
@@ -127,7 +137,7 @@ export default {
                 });
                 return;
             }
-            this.newCompany.city = this.cities[this.newCompany.city].text;
+           // this.newCompany.city = this.cities[this.newCompany.city].text;
             this.newCompany.company_type = 1;
             this.newCompany.administra = true;
             companies.create({data:this.newCompany})
@@ -158,6 +168,7 @@ export default {
             if(this.newUser.email !== ""){
                 data.user = this.newUser;
             }
+            console.log("corriste?")
             companies.addAdmins({data: data}).then(() => {
                 this.$notify({
                     group: 'notification',

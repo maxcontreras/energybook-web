@@ -27,8 +27,8 @@ export default {
                 {key: 'Num. de serie'},
                 {key: 'Asignado el'},
                 {key: 'Status', label: 'Estado'},
-                {key: 'Delete', label: 'Eliminar medidor'},
-                {key: 'Max', label: "Maximo y minimos"}
+                {key: 'Delete', label: 'Eliminar'},
+                {key: 'Max', label: "Código de red"}
             ],
             companies: [
                 {value: null, text: 'Selecciona una compañía'}
@@ -165,9 +165,13 @@ export default {
             this.hideMeterForm();
             this.$store.dispatch('meter/createMeter', meter)
                 .then(res => {
+                    console.log(res)
                     this.notify('', 'Medidor creado exitosamente', 'success');
                 })
-                .catch(() => {
+                .catch((err) => {
+                    console.log(err)
+       
+                  
                     this.notify('', 'Error al crear medidor', 'error');
                 });
         },

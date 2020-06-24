@@ -86,16 +86,16 @@
             <b-col xl="4" lg="6">
               <reading-card :style="cardStyle">
                 <template v-slot:right-header>
-                  <h5>{{ currentDay }}</h5>
+                  <h5>{{ currentmonth }} </h5>
                 </template>
                 <template v-slot:body>
                   <b-row class="properties">
                     <b-col cols="12">
                       <v-property
-                        property-name="Eco2E"
+                        property-name="Generación"
                         :property-value="Eco2EMensual"
-                        property-unit="t"
-                        :property-image="images.co2e"
+                        property-unit="$"
+                        :property-image="images.generation"
                       />
                     </b-col>
                     <b-col cols="12">
@@ -193,6 +193,13 @@ export default {
     };
   },
   computed: {
+    currentmonth(){
+      moment().locale();
+   
+
+
+      return  moment().format("MMMM")
+    },
     companyId() {
       return this.$store.state.company_id;
     },
@@ -204,7 +211,6 @@ export default {
   methods: {
     getServerData() {
       let tmpArr = this.metersFilter.selected.split("*");
-      console.log(tmpArr);
       let serviceName;
       let deviceName;
       if (tmpArr.length === 3) {
@@ -219,7 +225,6 @@ export default {
         .getCo2e(tmpArr[0], deviceName, serviceName, 3, 3600, {})
         .then(res => {
           var sumatoria = 0;
-          console.log(res);
           res.forEach(elemento => {
             sumatoria = sumatoria + elemento.co2e;
           });
@@ -239,6 +244,7 @@ export default {
           {}
         ) // autoconsumo
         .then(res => {
+        
           var sumatoriaautoconsumo = 0;
           res.forEach(elemento => {
             sumatoriaautoconsumo = sumatoriaautoconsumo + elemento.value;
@@ -252,6 +258,24 @@ export default {
             ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
           }
         });
+
+        meters
+        .getGenerationReadings(
+          //Autoconsumo
+          tmpArr[0],
+          deviceName,
+          serviceName,
+          3,
+          3600,
+          0,
+          {}
+        ) // generacion
+        .then(res => {
+          console.log(res) 
+
+      
+        });
+
 
       meters
         .getGenerationReadings(

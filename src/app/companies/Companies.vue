@@ -3,7 +3,7 @@
         <b-col>
             <v-header
                 :title="'Compañías'"
-                :action="'Agregar Compañía'"
+                :action="'Agregar partner'"
                 :modalId="'companyModal'"
                 />
             <b-row>
@@ -21,7 +21,7 @@
         <b-modal
             id="companyModal"
             size="lg"
-            title="Compañía Nueva"
+            title="Nuevo partner"
             @ok="createCompany">
             <companies-form
                 :formSubmit="createCompany"

@@ -3,7 +3,7 @@
 import meters from '@/services/meters';
 import designatedMeters from '@/services/designatedMeters';
 import adminValues from '@/services/adminValues';
-
+import companies from '@/services/companies';
 import moment from 'moment';
 
 import _l from 'lodash';
@@ -59,6 +59,12 @@ export function LOADINGMETERS({ commit }, { isAdmin = false, administrando }) {
                             meter.company_name = meter.company.company_name;
                             meter.serial_number = meter.meter.serial_number;
                             meter.status = meter.company.status ? true : false;
+                        if(meter.active ==1){
+                            meter.status = true;
+                        }
+                        if(meter.active == 0){
+                            meter.status = false;
+                        }
                             delete meter.company;
                             delete meter.meter;
                             commit(mutation.ADD_ASSIGNED, meter);

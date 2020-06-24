@@ -160,7 +160,8 @@ export default {
 
         },
         verifyData() {
-            if (isNaN(this.newCompany.location.lat) || isNaN(this.newCompany.location.lon))
+            
+           /* if (isNaN(this.newCompany.location.lat) || isNaN(this.newCompany.location.lon))
                 return false;
             this.newCompany.location.lat = parseFloat(this.newCompany.location.lat);
             this.newCompany.location.lon = parseFloat(this.newCompany.location.lon);
@@ -168,6 +169,10 @@ export default {
                 return false;
             if (!this.newManager.name || !this.newManager.lastname || !this.newManager.email)
                 return false;
+
+                */
+
+
             return true;
         },
         createCompany() {
@@ -177,9 +182,7 @@ export default {
                 );
                 return;
             }
-            this.newCompany.city = this
-                .cities[this.newCompany.city]
-                .text;
+            //this.newCompany.city = this.cities[this.newCompany.city].text;
             this.newCompany.Division = this.divisiones[this.newCompany.Division].text;
             this.newCompany.company_type = 1;
             this.newCompany.administrador = JSON.parse(localStorage.getItem('user')).id;

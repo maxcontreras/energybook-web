@@ -169,6 +169,7 @@ export default {
 
     data() {
         return {
+            valuedemanda: '',
             InyeccionMensual: '',
             meters: [],
             dpVal: 0,
@@ -209,6 +210,47 @@ export default {
 
         isAdmin() {
             return JSON.parse(localStorage.getItem('user')).role_id === 1 && this.$route.name === 'dashboard';
+        },
+        CostNet(){
+            if(this.edsId){
+
+      
+
+console.log(this.edsId)
+console.log(this.serviceSelected)
+
+            meters.getStandardReadings(this.edsId, '',  this.serviceSelected, "EPexp", 3, 86400, {}).then(resultado =>{
+                var costo_total = [];
+console.log(resultado)
+resultado.forEach(valor => {
+    costo_total.push(valor.value);
+});
+            
+               var Costo_Dispositivo = costo_total
+               .reduce((a, b) => a + b, 0) //Sumando los valores
+               .toFixed(2); //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
+
+           /*  var formatter = new Intl.NumberFormat("en-US", {
+               style: "currency",
+               currency: "USD",
+             });
+             
+             var Costo_Dispositivo = formatter.format(Costo_Dispositivo);
+
+             */
+                console.log(Costo_Dispositivo)
+             this.valuedemanda = Costo_Dispositivo
+            
+            })
+
+
+
+
+    }
+
+
+
+
         },
 
         isCompanyDetail() {
@@ -294,7 +336,7 @@ export default {
         },
 
         reactives() {
-            console.log(this.$store.state.socket)
+        
             return parseInt(this.$store.state.socket.reactive).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
@@ -410,6 +452,9 @@ export default {
         },
         refresh() {
             this.refreshingData = true;
+ 
+        
+            this.$store.dispatch('socket/odometerReading', this.valuedemanda);
 
             /* Promise.all([
                 designatedMeters.odometerReadings(this.companyId),
@@ -455,6 +500,7 @@ export default {
                 .then(() => {
                     this.getMeters();
                     this.load();
+                    this.updateOdometerChart();
                     this.refreshingData = false;
                 })
                 .catch(error => {
@@ -520,7 +566,19 @@ export default {
                         let currService = this.meters[0].services.filter(service => service.serviceName === this.serviceSelected)[0];
                         this.edsId = this.meters[0].meter_id;
 
+
+                        if(currService.dp <= 0){ // Mostrar numero 0 cuando son valores negativos
+                            console.log("menor a 0 ")
+                        this.$store.dispatch('socket/odometerReading', 0);
+                        this.valedemanda = 0;
+
+                        }else{// numeros positivos
+                            
                         this.$store.dispatch('socket/odometerReading', currService.dp);
+                        this.valuedemanda = 0;
+                        }
+                       
+
                         this.$store.dispatch('socket/dailyReading', currService.dailyReadings);
                         this.$store.dispatch('socket/monthlyReading', currService.monthlyReadings);
                         this.$store.dispatch('socket/epimpHistoryReading', currService.epimp);
@@ -566,6 +624,7 @@ export default {
         },
         updateOdometerChart() {
             let point = chartSpeed.series[0].points[0]
+            console.log(  point)
             point.update(this.odometer)
         },
         updatePieChart() {

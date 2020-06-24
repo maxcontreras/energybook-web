@@ -16,7 +16,7 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-modal id="companyModal" size="lg" title="Compañía Nueva" @ok="createCompany">
+    <b-modal id="companyModal" size="lg" title="Nuevo Cliente" @ok="createCompany">
       <companies-form
         :formSubmit="createCompany"
         :company="newCompany"

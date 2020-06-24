@@ -48,7 +48,7 @@
 
 
 
-  
+
 </b-card>
       
      <!-- <pre class="small">{{context}} </pre> -->
@@ -88,7 +88,7 @@
               <hr>
 
                       <div class="d-flex justify-content-around">
-               <p>Demanda </p>  <p>{{DemandaKwh}} </p>  <p>&nbsp; </p>
+               <p>Demanda </p>  <p>{{DemandaKwh}} </p>  <p>{{costodemandamensual}} </p>
             </div>
 
 
@@ -105,9 +105,10 @@
               
               
              
-                <br v-if="DisplayFormula!=''">
-                    <div class="d-flex justify-content-around">
+                <br >
+                    <div v-if="DisplayFormula2!=''"  class="d-flex justify-content-around">
   {{DisplayFormula2}} 
+  <img  src="/assets/images/manufactura.svg" alt="" width="50" height="50">
                     </div>
          
               
@@ -183,7 +184,13 @@ import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
          const minDate = new Date(today)
       const maxDate = new Date(today)
 
+      
+      const fecha = new Date();
+      const DiasDelmes = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0).getDate();
+
       return {
+          costodemandamensual:'',
+          DiasDelmes: DiasDelmes,
           DisplayFormula2: '',
           fecha: '',
           ProduccionDelMes: '',
@@ -238,6 +245,7 @@ import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
       }
     },
 
+
        watch: {
            designatedmeter: function(val, oldval){
  var m = new Date();
@@ -260,10 +268,12 @@ this.setCustomDate();
             var Consumodinero = this.consumoDinero
           var convertidoconsumo =  parseInt(Consumodinero); // convirtiendo a int 
     
-
+            this.costodemandamensual = distributionMonthCost + monthcostCpacidad;
             var total =  convertidoconsumo + distributionMonthCost + monthcostCpacidad; // sumando 
 
             var formula2 = total / this.ProduccionDelMes
+
+            
 
             this.DisplayFormula2 = formula2.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " $/Unidad"
 
@@ -409,6 +419,7 @@ designatedmeters
                       .then(res => {
 
                           console.log(res)
+                           location.reload();
                       })
                       .catch(err => {
                           console.log(err);
@@ -419,6 +430,10 @@ designatedmeters
           .catch(err => {
               console.log(err);
           });
+
+    
+
+
   },
 Cleaning(){
      this.DiaConsumoKwh = ""; 
@@ -473,9 +488,6 @@ Cleaning(){
                 });
         //Consumo por dia en KWH
          this.DiaKwhConsumo();
-         //Consumo por dia en DEMANDA
-           this.DiaKwhDemanda();
-           // CHIALE 
            this.produccionMensual();
            // producciones mensuales aber
            this.ValoresMensuales();
@@ -551,11 +563,12 @@ var dateString =
                                       kwh.push(respuestas.value);
 
                                   });
-                                  var kwhTotal = kwh
-                                      .reduce((a, b) => a + b, 0) //Sumando los valores
-                                      .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
+                                var kwhtotal = Math.max(...kwh)
 
-                                  this.DemandaKwh = kwhTotal
+                                 console.log(" HOLA SOY MAXIMO DE DP MENSUAL   ")
+                                 console.log(kwhtotal)
+
+                                //  this.DemandaKwh = kwhTotal + " kW"
 
                               })
                               .catch(err => {
@@ -579,6 +592,15 @@ var dateString =
 
                                   this.EpimpKwh = String(khwConsumoTotal) + " kWh"
 
+
+                       
+                          this.DemandaKwh =  khwConsumoTotal / (24 * 30 * 0.57) 
+
+
+
+
+
+
                               })
                               .catch(err => {
                              console.log(err);
@@ -586,7 +608,7 @@ var dateString =
                         
 
                                 
-                            }else{
+                            }else{ // normal
                     
                                      meter
                     .getConsumptionCostsByFilter(
@@ -617,28 +639,6 @@ var dateString =
                         console.log(err);
                     });
 
-                        meter
-                  .getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'DP', 3, 3600,   {})
-                              .then(respuesta => {
-                                  var kwh = []
-                                  respuesta.forEach(respuestas => {
-                                      kwh.push(respuestas.value);
-
-                                  });
-                                  var kwhTotal = kwh
-                                      .reduce((a, b) => a + b, 0) //Sumando los valores
-                                      .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
-
-                                  this.DemandaKwh = kwhTotal
-
-                              })
-                              .catch(err => {
-
-                                  console.log(err);
-                              });
-
-
-
                                meter
                   .getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'EPimp', 3, 3600,   {})
                               .then(respuesta => {
@@ -652,8 +652,14 @@ var dateString =
                                       .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
 
                                   this.EpimpKwh = String(khwConsumoTotal) + "Kwh"
+                    
 
-                                  this.resultado1 = khwConsumoTotal / parseInt(this.ProduccionDelMes) + " kWh/unidad"
+                        
+                                    this.DemandaKwh =   String((khwConsumoTotal / (24 * this.DiasDelmes * 0.57)).toFixed(2)) + " kW"
+
+                                  this.resultado1 =String( (khwConsumoTotal / parseInt(this.ProduccionDelMes)).toFixed(2)) + " kWh/unidad"
+
+
                                 
 
                               })
@@ -673,7 +679,7 @@ var dateString =
 
       },
       DiaKwhConsumo(){
-          console.log(this.designatedmeter)
+
 
         meter.getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'EPimp', -1, 3600, {from: this.date_custom , until: this.date_custom })
                               .then(respuesta => {
@@ -687,7 +693,17 @@ var dateString =
                                       .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
 
 
+
+           
+
                                    this.DiaConsumoKwh = String(khwConsumoTotalDia) + " kWh"; 
+
+                                   this.DiaDemandaKwh =  String( (khwConsumoTotalDia / (24 * 1 * 0.57)).toFixed(2) ) + " kW  ";
+
+
+
+
+
                               })
                               .catch(err => {
 
@@ -705,29 +721,6 @@ var dateString =
           })
 
       },
-
-      DiaKwhDemanda(){
-
-        meter.getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'DP', -1, 3600, {from: this.date_custom , until: this.date_custom })
-                              .then(respuesta => {
-                              var  khwConsumoDia = [];
-                                   respuesta.forEach(respuestas => {
-                                      khwConsumoDia.push(respuestas.value);
-
-                                  });
-                                      var khwConsumoTotalDia = khwConsumoDia
-                                      .reduce((a, b) => a + b, 0) //Sumando los valores
-                                      .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
-
-
-                                   this.DiaDemandaKwh =   String(khwConsumoTotalDia) + " kWh"; 
-                              })
-                              .catch(err => {
-
-                                  console.log(err);
-                              });
-
-      }
 
     }
   }

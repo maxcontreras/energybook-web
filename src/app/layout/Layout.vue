@@ -54,10 +54,10 @@
         >
           <div class="menu-icon-container">
             <i class="far fa-building"></i>
-          </div>Compañías
+          </div>Partners
         </b-nav-item>
         <b-nav-item
-          v-if="isAdmin"
+          v-if="isAdmin && isadminNormal"
           v-bind:class="{ 'current-view': currentView === 'meters' }"
           @click="goTo('meters')"
         >
@@ -81,7 +81,7 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
-          </div>Partners
+          </div>Clientes
         </b-nav-item>
         <b-nav-item
           v-if="!isAdmin"
@@ -198,15 +198,14 @@
           />
 
           <p class="current-date">{{ date }}</p>
-          <b-btn
-            v-if="isAdmin && isadminNormal || !isAdmin && !isadminNormal"
-            class="alert"
-            @click="goTo('notificaciones')"
-            variant="outline-secondary"
-          >
-            <i class="far fa-bell"></i>
-            <b-badge>{{ notificacion }}</b-badge>
-          </b-btn>
+       &nbsp; 
+  <b-button  
+  v-if="isAdmin && isadminNormal || !isAdmin && !isadminNormal"  
+  class="notificacion" variant="outline-secondary"   
+   @click="goTo('notificaciones')" >  
+    <i class="far fa-bell"></i>
+         <b-badge variant="dark">{{ notificacion }}</b-badge>
+    </b-button>
 
           <b-collapse is-nav id="nav_dropdown_collapse" class="menu-dropdown">
             <b-navbar-nav>
@@ -306,7 +305,7 @@ export default {
       if (this.$store.state.user.user.company_id) {
          if (this.$store.state.meter.isAvailable == false) {
 
-        var Fecha = Date.now();
+      var Fecha =   moment().format('L') + " " + moment().format('LTS')
 
         eUsers
           .find({
@@ -472,6 +471,10 @@ export default {
           }
         })
         .then(designatedMeters => {
+          console.log(designatedMeters)
+          if(designatedMeters[0].active == 0){
+        this.logout();
+          }
           this.meters = designatedMeters;
           this.$store.dispatch(
             "meter/setMeterAvailability",

@@ -32,7 +32,18 @@ let notificaciones = Object.assign(
         usuarios
 
       })
+    },
+    registrarcorreo(Email, password, nombre){
+      return loopback.post(`/notificaciones/SendRegistro`,{
+        Email,
+        password,
+        nombre,
+      })
+
     }
+
+
+
   },
   modelObject
 );

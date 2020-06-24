@@ -3,7 +3,7 @@
      
             <v-header
                 :title="'Compañías'"
-                :action="'Agregar compañia'"
+                :action="'Agregar Cliente'"
                 :modalId="'companyModal'"
                 />
             <b-row>

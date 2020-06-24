@@ -38,6 +38,25 @@ $egray2: #8D8D8D;
         color: red;
         white-space: pre;
     }
+    .notificacion {
+
+        margin-bottom: 0;
+        text-align: center;
+        font-size: 18px;
+        padding: 5px 10px;
+        color: $lightgray;
+
+        &:hover {
+            background-color: $egray2;
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+
+    }
 
     .alert {
         margin-bottom: 0;

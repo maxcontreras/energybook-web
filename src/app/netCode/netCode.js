@@ -227,9 +227,11 @@ export default {
             var resJson = Object.values(res);
             resJson.forEach((Arreglo) => {
               Arreglo.forEach((valor) => {
-                this.array.push(parseInt(valor.value));
+              
+                this.array.push(parseFloat(valor.value));
               });
             });
+
             var primerdia = resJson[0][0].date;
             var ultimodia = resJson[0].pop().date;
 
@@ -250,7 +252,7 @@ export default {
               "-" +
               String(arrayultimodia[2]) +
               String(arrayultimodia[3]);
-
+console.log(this.array)
             this.maximo = String(Math.max(...this.array));
             this.minimo = String(Math.min(...this.array));
 

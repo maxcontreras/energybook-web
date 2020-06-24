@@ -1,6 +1,9 @@
 <template>
   <div class="list">
-    <b-alert v-if="items.length <= 0" show class="margin-top-1" variant="success">{{ alertMessage }}</b-alert>
+
+    <img  v-if="items.length <= 0" show class="center" src="../../assets/images/loading.gif" width="300" height="300" border="0">
+
+
     <b-table
       v-else
       responsive
@@ -64,7 +67,7 @@
       <template  v-slot:cell(Status)="data" >
         <b-button
           title="Click para cambiar estado"
-          @click="hola(data.item.Status , data.item)"
+          @click.stop="statusChange(data.item.id, data.item.Status)"
           :pressed.sync="data.item.Status"
           variant="primary"
         >
@@ -158,72 +161,20 @@ export default {
   },
 
   computed: {
+    mensaje(){
+                  setTimeout(function(){
+                  console.log("ya pasaron dos segundos")
+                  if(this.items.length <= 0){
+                    console.log("no hay elementos")
+                  }
+                }, 2000);
+    },
     status() {
       return data.item.Status ? "Activo" : "Inactivo";
     }
   },
 
   methods: {
-
-    hola(status, seleccionado){ // activo o inactivo 
-
-    designatedMeters
-        .find({
-          filter: {
-            where: { meter_id: seleccionado.meter_id }
-          }
-        }).then(eds =>{
-
-              if(status == false){
-    var valor = 0;
-
-
-    }
-        if(status == true){
-     var valor = 1;
-    }
-
-
-              eds[0].active = valor;
-                       eds[0].id = undefined
-                         eds[0].generationDevices = undefined
-
-            designatedMeters.PATCH(seleccionado.id, eds[0]).then(respuesta=>{
-
-                              this.$notify({ 
-                    group: 'notification',
-                    type: 'success',
-                    text: 'Se hicieron los cambios correctamente'
-                });
-
-            }).catch(err =>{
-
-                      this.$notify({ 
-                    group: 'notification',
-                    type: 'error',
-                    text: 'no se hicieron los cambios correctamente'
-                });
-
-            })
-              ;
-
-
-        }).catch(err =>
-        {
-
-            this.$notify({ 
-                    group: 'notification',
-                    type: 'error',
-                    text: 'no se hicieron los cambios correctamente'
-                });
-        });
-
-
-
-
-
-
-    },
     company() {
       let idEmpresa = JSON.parse(localStorage.getItem("user")).company_id;
       designatedMeters

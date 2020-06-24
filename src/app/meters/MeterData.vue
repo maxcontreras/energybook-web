@@ -23,18 +23,9 @@
             </b-form-input>
         </b-form-group>
                 <b-form-group   
-                    label="    Indica el valor mínimo y máximo de demanda contratada">
+                    label="   Indica la demanda máxima contratada">
                 </b-form-group >
         <b-row>
-            <b-col>
-                <b-form-group>
-                    <b-form-input
-                        placeholder="Valor mínimo"
-                        type="number"
-                        v-model="meter.min_value">
-                    </b-form-input>
-                </b-form-group>
-            </b-col>
             <b-col>
                 <b-form-group>
                     <b-form-input
@@ -50,12 +41,34 @@
                 :options="companies"
                 v-model="meter.company_id" />
         </b-form-group>
+        <b-form-group      label="    Indica el tipo de meter que se esta utilizando">
+            {{meter}}
+              
+
+           <b-form-select v-model="meter.tipo" :options="options"  class="mt-3"></b-form-select>
+    
+        </b-form-group>
     </div>
 </template>
 
 <script>
 
 export default {
+    data(){
+return {
+
+        options: [
+          { value: "EDS DELUXE", text: 'EDS Deluxe' },
+          { value: "AcuLink 810", text: 'AcuLink 810' },
+          { value: "Acuvim II", text: 'Acuvim II' },
+        ]
+
+
+}
+
+
+
+    },
 
 
     props: {

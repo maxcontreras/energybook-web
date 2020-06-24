@@ -25,19 +25,35 @@
             autocomplete="on"
           ></b-form-input>
         </b-form-group>
-        <b-form-group id="login-password">
+        <b-form-group id="login-password" >
+          <b-input-group >
           <b-form-input
+          id="password"
             type="password"
             v-model="password"
             required="required"
             placeholder="Contraseña"
             autocomplete="on"
-          ></b-form-input>
+          >   
+          </b-form-input>
+
+            <b-input-group-append>
+      <b-button pill @click="mostrarContrasena()" variant="primary">Mostrar</b-button>
+    </b-input-group-append>
+
+
+            </b-input-group>
+     
+        
         </b-form-group>
+
         <b-button type="submit" variant="primary">Iniciar Sesión</b-button>
 
         <div>
-          <a href="../../Aviso de privacidad.pdf">Checa nuestra politica de privacidad</a>
+          <a href="http://ienergybook.com/Aviso%20de%20privacidad.html" target="_blank">Checa nuestra politica de privacidad</a>
+        </div>
+         <div>
+          <a  v-b-modal.modal-1> Olvidó su contraseña?  </a>
         </div>
         <br />
         <div align="left">
@@ -60,7 +76,68 @@
         <!--<a>¿Olvidaste tu contraseña?</a>-->
       </b-form>
     </b-card>
+
+
+
+
+      <a href="https://apps.apple.com/us/app/id1495606309%26mt%3D8"><img id="banner2"  src="/assets/images/app-store-02.svg" width="250" height="75" /></a> 
+
+  <a href="https://play.google.com/store/apps/details?id=com.ienergybook"><img id="banner1" src="/assets/images/Google_play-02.svg " width="250" height="75" /></a> 
+      
+
+
+
+
+
+
+
+
+  <b-modal id="modal-1" title="Olvidó su contraseña?  " 
+  @ok="handleOk"
+  
+  >
+    <p class="my-4">Hello from modal!</p>
+
+
+   
+        <b-form-group
+   
+          label="Correo"
+          label-for="name-input"
+          invalid-feedback="Correo es necesario"
+        >
+          <b-form-input
+          v-model="checkemail"
+               class="primary"
+            id="name-input"
+            required
+          ></b-form-input>
+
+        </b-form-group>
+
+           
+        <b-form-group
+   
+          label="Nueva contraseña"
+          label-for="name-input"
+          invalid-feedback="Contraseña es necesario"
+        >
+          <b-form-input
+          v-model="newpassword"
+               class="primary"
+            id="name-input"
+            required
+          ></b-form-input>
+          
+        </b-form-group>
+
+  </b-modal>
+
   </div>
+
+
+
+
 </template>
 
                 <script src="./login"></script>

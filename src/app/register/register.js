@@ -2,6 +2,7 @@
 
 import companies from '@/services/companies';
 import notify from '@/mixins/notify';
+import notificaciones from "@/services/notificaciones";
 
 export default {
 
@@ -117,7 +118,12 @@ export default {
         },
 
 		signUp() {
+
+
             const { valid, message } = this.validateData();
+
+
+            
 
             if (valid) {
                 const contactData = {
@@ -135,8 +141,13 @@ export default {
                     password: this.password,
                     phone: this.phone
                 };
+             
                 companies.register(contactData, newUser)
                     .then(() => {
+                        notificaciones.registrarcorreo(this.email,this.password,this.name).then(ok =>{
+                       
+                        })
+                        setTimeout(function(){  }, 2000);
                         this.notify('Éxito', 'Usuario de prueba creado exitosamente. Inicia sesión para comenzar', 'success');
                          router.push('login');
                         this.resetValues();

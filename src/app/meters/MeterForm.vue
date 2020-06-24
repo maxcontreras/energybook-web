@@ -1,5 +1,6 @@
 <template>
     <confirmation-dialog
+    title="Nuevo Medidor"
         :show="showForm"
         acceptText="Crear"
         @accept="validateData"
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+
 import ConfirmationDialog from '@/app/components/ConfirmationDialog.vue';
 import _l from 'lodash';
 import MeterData from './MeterData.vue';
@@ -41,8 +43,9 @@ export default {
                 serial_number: '',
                 hostname: '',
                 max_value: '',
-                min_value: '',
-                company_id: null
+                min_value: 0,
+                company_id: null,
+                tipo: "EDS DELUXE"
             }
         };
     },
@@ -56,6 +59,8 @@ export default {
             const hostnameValid = httpRegexp.test(this.meter.hostname);
             if (valuesValid && hostnameValid) {
                     this.$emit('create', _l.cloneDeep(this.meter));
+                        
+
                     this.resetMeter();
             } else {
                 this.notify('', 'Verifica que los campos estén llenados correctamente', 'warn');
@@ -71,7 +76,8 @@ export default {
                 device_name: '',
                 max_value: '',
                 min_value: '',
-                company_id: null
+                company_id: null,
+                 tipo: ''
             }
         }
     }

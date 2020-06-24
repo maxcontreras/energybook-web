@@ -20,7 +20,7 @@
                             <b-form-input :type="'password'" v-model="password" placeholder="Contraseña"></b-form-input>
                         </b-form-group>
                         <b-form-group>
-                            <b-form-input :type="'password'" v-model="passwordConfirm" placeholder="Confirmar Contraseña"></b-form-input>
+                            <b-form-input :type="'password'" v-model="passwordConfirm" placeholder="Contraseña"></b-form-input>
                         </b-form-group>
                     </b-col>
                     <b-col md="6">
@@ -49,7 +49,7 @@
                         <b-button type="submit" variant="primary" class="btn-register">Registrarse</b-button>
                         <p>¿Ya tienes tu cuenta? <a><router-link to="login">Inicia sesión</router-link></a>           
                         </p>
-                      <b-alert show variant="info"><b-form-checkbox v-model= "checkbox" > <a href="../../Aviso de privacidad.pdf" download> Acepto el Aviso de privacidad</a></b-form-checkbox>
+                      <b-alert show variant="info"><b-form-checkbox v-model= "checkbox" > <a href="http://ienergybook.com/Aviso%20de%20privacidad.html" target="_blank"> Acepto el Aviso de privacidad</a></b-form-checkbox>
                       </b-alert>           
                     </b-col>
                 </b-row>

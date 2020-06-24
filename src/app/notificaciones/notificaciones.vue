@@ -3,13 +3,19 @@
     <b-col>
       <b-row class="header">
         <b-col md="12">
-          <b-button class="left" @click="MostarTodas" :variant="'success'">Mostrar Todas</b-button>
-          <b-button class="left" @click="Consumo" :variant="'success'">Consumo</b-button>
-          <b-button class="left" @click="Costo" :variant="'success'">Costo</b-button>
-          <b-button class="left" @click="generacion" :variant="'success'">Generacion</b-button>
-          <b-button class="left" @click="Demanda" :variant="'success'">Demanda</b-button>
-          <b-button class="left" @click="Desconexion" :variant="'success'">Desconexion</b-button>
-          <b-button class="left" @click="Horarios" :variant="'success'">Horarios</b-button>
+
+      
+          <b-button class="btn-outline-success" variant="outline-dark" @click="MostarTodas" >Mostrar Todas</b-button>
+          <b-button class="btn-outline-success" variant="outline-dark" @click="Consumo" >Consumo</b-button>
+          <b-button class="btn-outline-success" variant="outline-dark" @click="Costo" >Costo</b-button>
+          <b-button class="btn-outline-success" variant="outline-dark" @click="generacion" >Generacion</b-button>
+          <b-button class="btn-outline-success" variant="outline-dark" @click="Demanda" >Demanda</b-button>
+          <b-button class="btn-outline-success" variant="outline-dark" @click="Desconexion" >Desconexion</b-button>
+          <b-button class="btn-outline-success" variant="outline-dark"  @click="CODIGO" >Código de Red</b-button>
+         
+
+
+
         </b-col>
       </b-row>
       <b-row>
@@ -29,7 +35,7 @@ import designatedMeters from "@/services/designatedMeters";
 import meters from "@/services/meters";
 import VColumns from "@/app/components/chart/VColumns.vue";
 import notificaciones from "@/services/notificaciones";
-import VTable from "@/app/components/VTable.vue";
+import VTable from "@/app/components/VTableNotificaciones.vue";
 import VHeader from "@/app/components/VHeader.vue";
 
 export default {
@@ -40,6 +46,8 @@ export default {
 
   data() {
     return {
+      myToggle: true,
+      
       fields: [
         { key: "Fecha", sortable: true, label: "Fecha" },
         { key: "Dispositivos", label: "Dispositivos" },
@@ -109,8 +117,15 @@ export default {
         }
       });
     },
-    Horarios() {
-      // FILTRAR POR HORARIOS
+    CODIGO() {
+
+       this.items = [];
+      this.itemsrespaldo.forEach(element => {
+        if (element.tipo == "Código de Red") {
+          this.items.push(element);
+        }
+      });
+
     },
 
     DeleteNotification(id) {
@@ -136,7 +151,7 @@ export default {
             notificaciones.Resultado[0].push(element);
           });
 
-          this.items = notificaciones.Resultado[0];
+          this.items = notificaciones.Resultado[0].reverse();
           this.itemsrespaldo = notificaciones.Resultado[0];
           this.viejas = notificaciones.Resultado[1];
         });
