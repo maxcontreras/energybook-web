@@ -39,7 +39,7 @@
           </b-form-input>
 
             <b-input-group-append>
-      <b-button pill @click="mostrarContrasena()" variant="link"> <img src="/assets/ojo.svg" alt="" width="30" height="30"></b-button>
+      <b-button pill @click="mostrarContrasena()" variant="link"> <img src="/assets/ojo.svg" alt="Mostrar contraseña" width="30" height="30"></b-button>
     </b-input-group-append>
 
 

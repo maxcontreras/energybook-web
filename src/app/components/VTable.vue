@@ -11,7 +11,6 @@
       :per-page="perPage"
       @row-clicked="rowClickHandler"
     >
-
     
       <template v-slot:cell(status)="data" >
         <i
@@ -144,6 +143,7 @@ export default {
     }
   },
   beforeMount() {
+   
     this.company();
   },
 

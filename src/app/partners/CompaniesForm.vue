@@ -146,7 +146,6 @@
       </b-col>
     </b-row>
 
-    {{this.company}}
   </b-form>
 </template>
 
