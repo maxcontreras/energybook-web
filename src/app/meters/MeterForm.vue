@@ -75,9 +75,9 @@ export default {
                 serial_number: '',
                 device_name: '',
                 max_value: '',
-                min_value: '',
+                min_value: 0,
                 company_id: null,
-                 tipo: ''
+                 tipo: 'EDS DELUXE'
             }
         }
     }

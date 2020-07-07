@@ -205,8 +205,9 @@ export default {
    methods: {
         ActualizarMunicipios(){
    this.estadomunicipio[this.company.state].map((city, index) => ({value: city, text: city}))
-this.Municipios = this.estadomunicipio[this.company.state].map((city, index) => ({value: index, text: city}))
-this.company.city = 0;
+this.Municipios = this.estadomunicipio[this.company.state].map((city, index) => ({value: city, text: city}))
+
+this.company.city = this.Municipios[0].value;
     
     
         },
@@ -214,7 +215,6 @@ this.company.city = 0;
 
          setCustomDate() {
             this.company.facturacion = this.date_custom
-console.log(this.date_custom)
 
 
 

@@ -2,11 +2,12 @@
   <div id="login">
     <notifications group="login" />
     <div class="info-container">
+         <img src="/assets/logo.png" width="80" height="80" />
       <h3>
-        MONITOREA, ANALIZA Y AHORRA
-        <br />ENERGÍA
+        Descubre el poder de la 
+        <br />información
       </h3>
-      <h5>Crea tu cuenta gratis</h5>
+      <h5>¡Crea tu cuenta gratis!</h5>
       <b-button variant="primary" @click="openRegister">Regístrate</b-button>
     </div>
 
@@ -38,7 +39,7 @@
           </b-form-input>
 
             <b-input-group-append>
-      <b-button pill @click="mostrarContrasena()" variant="primary">Mostrar</b-button>
+      <b-button pill @click="mostrarContrasena()" variant="link"> <img src="/assets/ojo.svg" alt="" width="30" height="30"></b-button>
     </b-input-group-append>
 
 
@@ -78,12 +79,31 @@
     </b-card>
 
 
+<div id="banner2"  >
+<h3>Descarga la app</h3>
+   
+   <div class="d-flex justify-content-around" >
+
+       <img src="/assets/tableta.svg" alt="IOS/ANDROID" width="100" height="100">
+       
+
+      <div id="div" class="d-flex justify-content-around"  >
 
 
-      <a href="https://apps.apple.com/us/app/id1495606309%26mt%3D8"><img id="banner2"  src="/assets/images/app-store-02.svg" width="250" height="75" /></a> 
 
-  <a href="https://play.google.com/store/apps/details?id=com.ienergybook"><img id="banner1" src="/assets/images/Google_play-02.svg " width="250" height="75" /></a> 
+
+
+             <a href="https://apps.apple.com/us/app/id1495606309%26mt%3D8" target="_blank"><img  src="/assets/images/app-store-02.svg" width="250" height="75" /></a> 
+
+  <a href="https://play.google.com/store/apps/details?id=com.ienergybook" target="_blank"><img  src="/assets/images/Google_play-02.svg " width="250" height="75" /></a> 
+
+      </div>
+
+</div>
       
+</div>
+
+   
 
 
 

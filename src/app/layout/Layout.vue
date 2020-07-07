@@ -302,6 +302,7 @@ export default {
       return this.$store.getters["user/getUserCompany"].location;
     },
     meterAvailable() {
+      if(!this.isAdmin){
       if (this.$store.state.user.user.company_id) {
          if (this.$store.state.meter.isAvailable == false) {
 
@@ -335,6 +336,10 @@ export default {
       }
       }
       return this.$store.state.meter.isAvailable;
+    }else{
+      return true
+
+    }
     },
     notificacion() {
       return this.$store.state.notificaciones;

@@ -42,7 +42,6 @@
                 v-model="meter.company_id" />
         </b-form-group>
         <b-form-group      label="    Indica el tipo de meter que se esta utilizando">
-            {{meter}}
               
 
            <b-form-select v-model="meter.tipo" :options="options"  class="mt-3"></b-form-select>

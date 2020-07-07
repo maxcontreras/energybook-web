@@ -84,8 +84,10 @@ export function LOADINGMETERS({ commit }, { isAdmin = false, administrando }) {
 
 export function createMeter({ dispatch }, meter) {
     return new Promise((resolve, reject) => {
+        console.log(meter)
         companies.addDesignatedMeter({ data: meter })
             .then(() => {
+                console.log(meter)
                 dispatch('loadAssignedMeters', true);
                 resolve();
             })

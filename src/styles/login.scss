@@ -18,10 +18,31 @@ $egray: #485658;
     }
 
     #banner2 {
+     div {
+         
+            
+            width: fit-content;
+            align-items: flex-end;
+            height: 100px;
+        
+     }
+        text-align: center;
+        color: $darkgray;
+        width: fit-content;
+
+    h3 {
+        position: relative;
+        
+        font-weight: 600;
+        letter-spacing: 1px;
+    
+    }
+
+
+        
         position: absolute;
-        right: 60%;
-        left: 30%;
-        top: 70%;
+        right: 52%;
+        top: 65%;
     }
 
     #banner1 {
@@ -44,7 +65,7 @@ $egray: #485658;
     #login .info-container {
         display: inline-block;
         position: absolute;
-        top: 40%;
+        top: 30%;
         left: 10%;
     }
 
