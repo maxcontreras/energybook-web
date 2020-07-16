@@ -106,10 +106,13 @@
 </template>
 
 <script>
+
+import notify from '@/mixins/notify';
 import companies from '../../services/companies.js';
 import datePicker from 'vue-bootstrap-datetimepicker';
 import { parseDate, parseDateTime, parseDayName, parseMonth } from '@/utils/dateTime';
 export default {
+    	mixins: [notify('notification')],
       components: {
         datePicker
     },
@@ -184,11 +187,15 @@ companies.updateData({ data: {
 
 
 }}}).then(msg => {
-    console.log(msg);
+ 
+    this.notify('RECARGANDO!', 'Se hizo el cambio exitosamente, Recargando', 'success');
+    setTimeout(function(){ location.reload(); }, 2000);
+    
 }).catch(err => {
-    console.log(err)
+  
+     this.notify('ERROR', 'No Se hizo el cambio exitosamente', 'error');
 })
-    location.reload();
+
         },
 
       showModal() {

@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+
+
 import notify from '@/mixins/notify';
 import users from '@/services/eUsers';
 export default {
@@ -14,6 +16,9 @@ export default {
 		};
 	},
 	methods: {
+		hola(){
+			console.log("cambiando algo ")
+		},
 		login() {
 			this.$store.dispatch('user/login', {
 				email: this.email,
@@ -24,6 +29,7 @@ export default {
 			this.$router.push({name: 'register'})
 		},
 	 mostrarContrasena(){
+		 
 			  var tipo = document.getElementById("password");
 			  if(tipo.type == "password"){
 				  tipo.type = "text";

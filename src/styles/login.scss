@@ -4,6 +4,18 @@ $lightgray: #fdfeff;
 $darkgray: #485658;
 $egray: #485658;
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+
+    -webkit-box-shadow: 0 0 0px 1000px #f8f9fa inset;
+    transition:  background-color #f8f9fa ;
+
+
+}
+
+
 @media only screen and (max-width: 1023px) {
     #login-container, #register-container {
         width: 100%;
@@ -43,6 +55,12 @@ $egray: #485658;
         position: absolute;
         right: 52%;
         top: 65%;
+    }
+
+    #hola {
+      //  background-color: #e8f0fe;
+      background-color: #f8f9fa;
+        padding-bottom: 2px;
     }
 
     #banner1 {

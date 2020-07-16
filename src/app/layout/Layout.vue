@@ -478,6 +478,7 @@ export default {
         .then(designatedMeters => {
           console.log(designatedMeters)
           if(designatedMeters[0].active == 0){
+            alert("ESTA INACTIVO SU MEDIDOR")
         this.logout();
           }
           this.meters = designatedMeters;
