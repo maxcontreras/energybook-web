@@ -16,6 +16,8 @@ input:-webkit-autofill:active  {
 }
 
 
+
+
 @media only screen and (max-width: 1023px) {
     #login-container, #register-container {
         width: 100%;
@@ -29,32 +31,27 @@ input:-webkit-autofill:active  {
         position: fixed;
     }
 
-    #banner2 {
-     div {
-         
-            
-            width: fit-content;
-            align-items: flex-end;
-            height: 100px;
-        
-     }
+    #login .banner2 {
+        width: fit-content;
+        align-items: flex-end;
+        height: 120px;
+        margin-top: 150px;
+        margin-left: 120px;
         text-align: center;
         color: $darkgray;
         width: fit-content;
-
-    h3 {
-        position: relative;
-        
-        font-weight: 600;
-        letter-spacing: 1px;
-    
     }
 
-
-        
-        position: absolute;
-        right: 52%;
-        top: 65%;
+    #login .H3Descarga{
+        margin-top: 150px;
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: black;
+        letter-spacing: 1.5px;
+        text-align: left;
+    }
+    #template {
+        background-color: white;
     }
 
     #hola {
@@ -82,19 +79,22 @@ input:-webkit-autofill:active  {
 
     #login .info-container {
         display: inline-block;
-        position: absolute;
-        top: 30%;
-        left: 10%;
+        margin-left: 100px;
+        margin-top: 100px;
+        margin-bottom: 20px;
     }
 
 }
 
-#login,
-#register {
+
+#template,#login,#register {
+
     background-image: url("/assets/login_background.png");
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    background-color: white;
     background-size: cover;
+    background-attachment: fixed;
+    background-repeat: repeat-y;/* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
     height: 100vh;
 }
 
@@ -168,18 +168,26 @@ input:-webkit-autofill:active  {
     text-decoration: none;
 }
 
+#login .h3Descubre {
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 8rem;
+    color: black;
+
+}
+
+
 #login .info-container {
     
     color: $darkgray;
 
-    h3 {
-        font-weight: 600;
-        letter-spacing: 1px;
-        margin-bottom: 2rem;
-    }
+
 
     h5 {
         margin-bottom: 1rem;
+        font-weight: bold;
+        color: $darkgray;
+        font-size: 1.5rem;
     }
 }
 
