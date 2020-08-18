@@ -185,6 +185,17 @@
                   <b-form-group label="Password" label-for="userPassword">
                     <b-form-input type="text" id="userPassword" v-model="newUser.password" />
                   </b-form-group>
+                  <b-form-group label="Puesto">
+                    <b-form-select v-model="newUser.puesto" :options="options" />
+                  </b-form-group>
+                  <b-form-group label="Telefono">
+                    <b-form-input
+                      type="text"
+                      v-model="newUser.celular"
+                      required
+                      placeholder="10 digitos"
+                    ></b-form-input>
+                  </b-form-group>
                 </confirmation-dialog>
                 <confirmation-dialog
                   title="Atención"

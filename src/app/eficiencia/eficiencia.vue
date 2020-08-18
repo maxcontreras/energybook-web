@@ -88,7 +88,7 @@
               <hr>
 
                       <div class="d-flex justify-content-around">
-               <p>Demanda </p>  <p>{{DemandaKwh}} </p>  <p>{{costodemandamensual}} </p>
+               <p>Demanda </p>  <p>{{DemandaKwh}} </p>  <p>${{costodemandamensual}} </p>
             </div>
 
 
@@ -267,8 +267,8 @@ this.setCustomDate();
             var  distributionMonthCost = this.distributionMonthCost // month costo
             var Consumodinero = this.consumoDinero
           var convertidoconsumo =  parseInt(Consumodinero); // convirtiendo a int 
-    
-            this.costodemandamensual = distributionMonthCost + monthcostCpacidad;
+    var suma =  distributionMonthCost + monthcostCpacidad; 
+            this.costodemandamensual = suma.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
             var total =  convertidoconsumo + distributionMonthCost + monthcostCpacidad; // sumando 
 
             var formula2 = total / this.ProduccionDelMes
@@ -589,8 +589,8 @@ var dateString =
                                   var khwConsumoTotal = khwConsumo
                                       .reduce((a, b) => a + b, 0) //Sumando los valores
                                       .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
-
-                                  this.EpimpKwh = String(khwConsumoTotal) + " kWh"
+                            
+                                  this.EpimpKwh = khwConsumoTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " kWh"
 
 
                        
@@ -651,14 +651,18 @@ var dateString =
                                       .reduce((a, b) => a + b, 0) //Sumando los valores
                                       .toFixed(2) //redondearlo a dos punto  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") Mostrarlo de manera bonita
 
-                                  this.EpimpKwh = String(khwConsumoTotal) + "Kwh"
+                                  this.EpimpKwh =  khwConsumoTotal .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")  + "  kWh"
                     
 
                         
                                     this.DemandaKwh =   String((khwConsumoTotal / (24 * this.DiasDelmes * 0.57)).toFixed(2)) + " kW"
+                                        if(parseInt(this.ProduccionDelMes) != 0 ){
 
+                                       
                                   this.resultado1 =String( (khwConsumoTotal / parseInt(this.ProduccionDelMes)).toFixed(2)) + " kWh/unidad"
-
+ }else{
+        this.resultado1 ="No tiene dato de produccion de mes. "
+ }
 
                                 
 
