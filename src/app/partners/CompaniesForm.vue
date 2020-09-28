@@ -76,14 +76,14 @@
         <b-form-group label="coordenadas">
           <b-form-input
             class="company-position"
-            type="text"
+            type="number"
             v-model="company.location.lat"
             required
             placeholder="Latitud"
           ></b-form-input>
           <b-form-input
             class="company-position"
-            type="text"
+            type="number"
             v-model="company.location.lon"
             required
             placeholder="Longitud"

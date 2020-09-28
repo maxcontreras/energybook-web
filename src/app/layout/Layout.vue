@@ -12,7 +12,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-tachometer-alt"></i>
-          </div>Dashboard
+          </div>
+          Dashboard
         </b-nav-item>
         <b-nav-item
           v-else-if="isAdmin && isadminNormal"
@@ -21,7 +22,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-tachometer-alt"></i>
-          </div>Dashboard
+          </div>
+          Dashboard
         </b-nav-item>
         <div v-else>
           <b-nav-item
@@ -31,7 +33,8 @@
           >
             <div class="menu-icon-container">
               <i class="fas fa-tachometer-alt"></i>
-            </div>Dashboard
+            </div>
+            Dashboard
           </b-nav-item>
           <b-collapse id="serviceSelection" v-if="showCollapse">
             <b-nav-item
@@ -39,7 +42,8 @@
               :key="index"
               :class="{ currentService: selectedService === service }"
               @click="changeSelectedService(service)"
-            >{{ service }}</b-nav-item>
+              >{{ service }}</b-nav-item
+            >
           </b-collapse>
         </div>
         <b-nav-item
@@ -48,13 +52,14 @@
             'current-view':
               currentView === 'companies' ||
               currentView === 'companyDetail' ||
-              currentView === 'companyProfile'
+              currentView === 'companyProfile',
           }"
           @click="goTo('companies')"
         >
           <div class="menu-icon-container">
             <i class="far fa-building"></i>
-          </div>Partners
+          </div>
+          Partner
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && isadminNormal"
@@ -63,7 +68,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-solar-panel"></i>
-          </div>Medidores
+          </div>
+          Medidores
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && !isadminNormal"
@@ -72,7 +78,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
-          </div>CFE
+          </div>
+          CFE
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && isadminNormal"
@@ -81,7 +88,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
-          </div>Clientes
+          </div>
+          Clientes
         </b-nav-item>
         <b-nav-item
           v-if="!isAdmin"
@@ -90,7 +98,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-chart-line"></i>
-          </div>Gráficas
+          </div>
+          Gráficas
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
@@ -99,7 +108,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-coins"></i>
-          </div>Costos
+          </div>
+          Costos
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
@@ -108,7 +118,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-gavel"></i>
-          </div>Código de red
+          </div>
+          Código de red
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
@@ -117,7 +128,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-history"></i>
-          </div>Historial
+          </div>
+          Historial
         </b-nav-item>
         <b-nav-item
           v-if="isUser"
@@ -126,7 +138,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-shoe-prints"></i>
-          </div>Huella de carbono
+          </div>
+          Huella de carbono
         </b-nav-item>
         <b-nav-item
           v-if="isManager"
@@ -135,7 +148,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-dollar-sign"></i>
-          </div>Facturación
+          </div>
+          Facturación
         </b-nav-item>
         <b-nav-item
           v-if="isAdmin && !isadminNormal"
@@ -144,7 +158,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-cogs"></i>
-          </div>Personalizar
+          </div>
+          Personalizar
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'generation' }"
@@ -153,7 +168,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-bolt"></i>
-          </div>Generación
+          </div>
+          Generación
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'information' }"
@@ -162,7 +178,8 @@
         >
           <div class="menu-icon-container">
             <i class="fas fa-info-circle"></i>
-          </div>Información
+          </div>
+          Información
         </b-nav-item>
         <b-nav-item
           v-bind:class="{ 'current-view': currentView === 'eficiencia' }"
@@ -171,15 +188,25 @@
         >
           <div class="menu-icon-container">
             <i class="far fa-calendar-plus"></i>
-          </div>Eficiencia
+          </div>
+          Eficiencia
         </b-nav-item>
       </b-nav>
     </div>
     <div id="main">
-      <b-navbar id="top-bar" :sticky="true" type="light" variant="light" :toggleable="false">
+      <b-navbar
+        id="top-bar"
+        :sticky="true"
+        type="light"
+        variant="light"
+        :toggleable="false"
+      >
         <b-navbar-toggle target="nav_dropdown_collapse"></b-navbar-toggle>
         <b-col xl="4" md="6">
-          <v-weather :lat="position ? position.lat : 0" :lon="position ? position.lon : 0" />
+          <v-weather
+            :lat="position ? position.lat : 0"
+            :lon="position ? position.lon : 0"
+          />
         </b-col>
         <b-col xl="8" md="6" class="text-right">
           <template v-if="user.user.free_trial">
@@ -198,18 +225,23 @@
           />
 
           <p class="current-date">{{ date }}</p>
-       &nbsp; 
-  <b-button  
-  v-if="isAdmin && isadminNormal || !isAdmin && !isadminNormal"  
-  class="notificacion" variant="outline-secondary"   
-   @click="goTo('notificaciones')" >  
-    <i class="far fa-bell"></i>
-         <b-badge variant="dark">{{ notificacion }}</b-badge>
-    </b-button>
+          &nbsp;
+          <b-button
+            v-if="(isAdmin && isadminNormal) || (!isAdmin && !isadminNormal)"
+            class="notificacion"
+            variant="outline-secondary"
+            @click="goTo('notificaciones')"
+          >
+            <i class="far fa-bell"></i>
+            <b-badge variant="dark">{{ notificacion }}</b-badge>
+          </b-button>
 
           <b-collapse is-nav id="nav_dropdown_collapse" class="menu-dropdown">
             <b-navbar-nav>
-              <b-nav-item-dropdown :text="user.user.name + ' ' + user.user.lastname" right>
+              <b-nav-item-dropdown
+                :text="user.user.name + ' ' + user.user.lastname"
+                right
+              >
                 <b-dropdown-item v-if="!isAccounting" @click="goTo('profile')">
                   <i class="far fa-user"></i> Perfil
                 </b-dropdown-item>
@@ -227,6 +259,7 @@
   </div>
 </template>
 
+
 <script>
 import Notification from "@/app/components/notificationPanel/NotificationPanel.vue";
 import designatedMeters from "@/services/designatedMeters";
@@ -239,7 +272,7 @@ import notificaciones from "@/services/notificaciones";
 export default {
   components: {
     Notification,
-    VWeather
+    VWeather,
   },
   data() {
     return {
@@ -248,13 +281,13 @@ export default {
       date: moment().format("LLL"),
       position: {
         lat: 0,
-        lon: 0
+        lon: 0,
       },
       showCollapse: false,
       services: [],
       trialDaysLeft: "",
       notificaciones: [],
-      notificacion2: []
+      notificacion2: [],
     };
   },
 
@@ -263,7 +296,7 @@ export default {
       get() {
         return this.$store.state.currentView;
       },
-      set() {}
+      set() {},
     },
     selectedService() {
       return this.$store.state.selectedService;
@@ -302,59 +335,55 @@ export default {
       return this.$store.getters["user/getUserCompany"].location;
     },
     meterAvailable() {
-      if(!this.isAdmin){
-      if (this.$store.state.user.user.company_id) {
-         if (this.$store.state.meter.isAvailable == false) {
+      if (!this.isAdmin) {
+        if (this.$store.state.user.user.company_id) {
+          if (this.$store.state.meter.isAvailable == false) {
+            var Fecha = moment().format("L") + " " + moment().format("LTS");
 
-      var Fecha =   moment().format('L') + " " + moment().format('LTS')
-
-        eUsers
-          .find({
-            filter: {
-              where: {
-                company_id: this.$store.state.user.user.company_id
-              }
-            }
-          })
-          .then(users => {
-            notificaciones
-              .post({
-                Dispositivos: ["Error"],
-                Servicios: ["Error"],
-                company_id: this.$store.state.user.user.company_id,
-                tipo: "Desconexion",
-                intervalo: "Error",
-                En_Correo: false,
-                Fecha: Fecha,
-                Descripcion: "Desconexion de medidor",
-                usuarios: users
+            eUsers
+              .find({
+                filter: {
+                  where: {
+                    company_id: this.$store.state.user.user.company_id,
+                  },
+                },
               })
-              .then(response => {
-
+              .then((users) => {
+                notificaciones
+                  .post({
+                    Dispositivos: ["Error"],
+                    Servicios: ["Error"],
+                    company_id: this.$store.state.user.user.company_id,
+                    tipo: "Desconexion",
+                    intervalo: "Error",
+                    En_Correo: false,
+                    Fecha: Fecha,
+                    Descripcion: "Desconexion de medidor",
+                    usuarios: users,
+                  })
+                  .then((response) => {});
               });
-          });
+          }
+        }
+        return this.$store.state.meter.isAvailable;
+      } else {
+        return true;
       }
-      }
-      return this.$store.state.meter.isAvailable;
-    }else{
-      return true
-
-    }
     },
     notificacion() {
       return this.$store.state.notificaciones;
-    }
+    },
   },
 
   watch: {
-    location: function() {
+    location: function () {
       this.position = this.location;
     },
-    currentView: function(newVal) {
+    currentView: function (newVal) {
       if (newVal !== "dashboard") {
         this.showCollapse = false;
       }
-    }
+    },
   },
 
   created() {
@@ -363,7 +392,7 @@ export default {
         () => {
           return this.$store.state.currentView;
         },
-        newState => {
+        (newState) => {
           this.currentView = newState;
         }
       );
@@ -387,18 +416,18 @@ export default {
     if (this.isAdmin) {
       this.position = { lat: 20.659698, lon: -103.349609 };
       navigator.geolocation.getCurrentPosition(
-        position => {
+        (position) => {
           this.position = {
             lon: position.coords.longitude,
-            lat: position.coords.latitude
+            lat: position.coords.latitude,
           };
         },
-        error => {
+        (error) => {
           console.log(error.message);
         },
         {
           enableHighAccuracy: true,
-          timeout: 5000
+          timeout: 5000,
         }
       );
     }
@@ -410,7 +439,7 @@ export default {
       var User_id = JSON.parse(localStorage.getItem("user")).id;
       notificaciones
         .verNotificaciones(User_id, Company_ID)
-        .then(notificaciones => {
+        .then((notificaciones) => {
           return (this.$store.state.notificaciones =
             notificaciones.Resultado[0].length);
         });
@@ -451,12 +480,12 @@ export default {
           .css({
             display: "block",
             top: 20,
-            opacity: 0
+            opacity: 0,
           })
           .animate(
             {
               top: 35,
-              opacity: 1
+              opacity: 1,
             },
             300
           );
@@ -470,41 +499,56 @@ export default {
         .find({
           filter: {
             where: {
-              company_id: companyId
+              company_id: companyId,
             },
-            include: ["services"]
-          }
+            include: ["services"],
+          },
         })
-        .then(designatedMeters => {
-          console.log(designatedMeters)
-          if(designatedMeters[0].active == 0){
-            alert("ESTA INACTIVO SU MEDIDOR")
-        this.logout();
+        .then((designatedMeters) => {
+          if (designatedMeters[0].tipo == "Acuvim II") {
+            console.log(designatedMeters[0], "warn");
+            this.$store.commit("mode", "ACUVIM");
+            this.services = designatedMeters[0].devices.map(
+              (service) => service.name
+            );
+            console.log(this.services);
+            this.$store.commit(
+              "setServiceSelected",
+              this.services ? this.services[0] : ""
+            );
+            this.$store.commit("setUserServices", this.services);
+          } else {
+            this.$store.commit("mode", "EDS");
+
+            if (designatedMeters[0].active == 0) {
+              alert("ESTA INACTIVO SU MEDIDOR");
+              this.logout();
+            }
+            this.meters = designatedMeters;
+            this.$store.dispatch(
+              "meter/setMeterAvailability",
+              this.meters[0].isAvailable
+            );
+            this.services = this.meters[0].services.map(
+              (service) => service.serviceName
+            );
+            this.$store.commit(
+              "setServiceSelected",
+              this.services ? this.services[0] : ""
+            );
+            this.$store.commit("setUserServices", this.services);
           }
-          this.meters = designatedMeters;
-          this.$store.dispatch(
-            "meter/setMeterAvailability",
-            this.meters[0].isAvailable
-          );
-          this.services = this.meters[0].services.map(
-            service => service.serviceName
-          );
-          this.$store.commit(
-            "setServiceSelected",
-            this.services ? this.services[0] : ""
-          );
-          this.$store.commit("setUserServices", this.services);
         });
     },
     getTrialDaysLeft() {
-      eUsers.getTrialDaysLeft(this.user.user.id).then(res => {
+      eUsers.getTrialDaysLeft(this.user.user.id).then((res) => {
         if (res.days < 0) {
           this.logout();
         }
         this.trialDaysLeft = res.days;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

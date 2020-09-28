@@ -243,33 +243,45 @@ export default {
       const index = this.metersAssigned.findIndex(
         (meter) => meter.id == value.id
       );
-      let meter = this.metersAssigned[index];
-      this.shownMeter = Object.assign({}, meter);
 
-      this.shownServices = this.shownMeter.services.map((service) => {
-        const selected = service.devices.slice(1).map((device) => device.name);
-        const options = this.shownMeter.devices.slice(1).map((device) => ({
+      let meter = this.metersAssigned[index];
+
+      if (meter.tipo == "Acuvim II") {
+        this.connectedDevices = meter.devices.map((device) => ({
           text: device.description,
           value: device.name,
         }));
-        return { name: service.serviceName, selected, options };
-      });
+        this.$refs.edsDataModal.show();
+      } else {
+        this.shownMeter = Object.assign({}, meter);
 
-      this.generationDevices = this.shownMeter.generationDevices;
+        this.shownServices = this.shownMeter.services.map((service) => {
+          const selected = service.devices
+            .slice(1)
+            .map((device) => device.name);
+          const options = this.shownMeter.devices.slice(1).map((device) => ({
+            text: device.description,
+            value: device.name,
+          }));
+          return { name: service.serviceName, selected, options };
+        });
 
-      this.connectedDevices = {};
-      this.$refs.edsDataModal.show();
+        this.generationDevices = this.shownMeter.generationDevices;
 
-      meters.connectedDevices({ id: value.id }).then((devices) => {
-        if (devices) {
-          this.connectedDevices = devices
-            .map((device) => ({
-              text: device.description,
-              value: device.name,
-            }))
-            .filter((device, idx) => idx !== 0);
-        }
-      });
+        this.connectedDevices = {};
+        this.$refs.edsDataModal.show();
+
+        meters.connectedDevices({ id: value.id }).then((devices) => {
+          if (devices) {
+            this.connectedDevices = devices
+              .map((device) => ({
+                text: device.description,
+                value: device.name,
+              }))
+              .filter((device, idx) => idx !== 0);
+          }
+        });
+      }
     },
 
     deleteMeter(meter) {

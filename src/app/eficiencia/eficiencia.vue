@@ -170,6 +170,7 @@ import eficiencia from '@/services/eficiencia';
 import meter from '@/services/meters';
 import designatedmeters from '@/services/designatedMeters';
 import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
+import Minutesss from "@/services/Minutes";
 
 //import eficiencia from '../../services/eficiencia.js';
 
@@ -209,6 +210,7 @@ import VColumns from '@/app/components/chart/VColumnsEficiencia.vue';
         useCurrent: false
       },
         designatedmeter: '',
+        designatedmeterid: "",
         metersFilter: {
                 selected: "",
                 options: []
@@ -320,9 +322,8 @@ designatedmeters
         res.forEach(designatedmeter => {
 
             if (designatedmeter.company_id == this.$store.state.user.user.company_id) {
-                console.log(designatedmeter.meter_id)
                 this.designatedmeter = designatedmeter.meter_id;
-
+                this.designatedmeterid = designatedmeter.id;
 
 
                       }
@@ -344,6 +345,12 @@ designatedmeters
             },
 
         getMeters() {
+
+            if(this.$store.state.mode == "ACUVIM" ){
+console.log("HOLAAAAAAA ")
+            }else{
+
+         
             designatedmeters.find({
                 filter: {
                     include: ['services'],
@@ -374,6 +381,7 @@ designatedmeters
                     this.metersFilter.selected = this.metersFilter.options[0].value;
                 });
             });
+               }
         },
 
       GuardarValor(produccion) {
@@ -457,10 +465,21 @@ Cleaning(){
           this.Cleaning();
           console.log(this.date_custom)
         this.selectedYMD = this.date_custom;
-      
-     
-      
 
+     console.log(this.$store.state.mode)
+      
+          if(this.$store.state.mode == "ACUVIM"){
+              console.log("entre")
+console.log("this.desginated", this.designatedmeter)
+ Minutesss.EficienciaDiario(this.designatedmeter,"22/09/2020" ).then(hola=>{
+     console.log(hola, "se intento compa")
+ } ).catch(err =>{
+     console.log(err)
+ })
+
+
+
+          }
          this.fecha = this.selectedYMD.split("-");
            this.diseño();
       
@@ -504,6 +523,19 @@ Cleaning(){
 
       },
       ValoresMensuales(){
+
+
+          if(this.$store.state.mode == "ACUVIM"){
+
+
+
+
+
+          }else{
+
+      
+
+   
         
                             var inicio = this.fecha[0] + "-"+ this.fecha[1] + "-01"
                             var Comparador = this.fecha[0] + "-"+ this.fecha[1] + "-30"
@@ -528,7 +560,7 @@ var dateString =
                             if(seleccionador < m && parseInt(meshoy)!= parseInt(messeleccionado) ){
                                   meter
                     .getConsumptionCostsByFilter(
-                        this.designatedmeter,
+                       p,
                         '',
                         'Servicio 1',
                         -1,
@@ -680,9 +712,10 @@ var dateString =
               
                      
 
-
+       }
       },
       DiaKwhConsumo(){
+          
 
 
         meter.getStandardReadings(this.designatedmeter, '', 'Servicio 1', 'EPimp', -1, 3600, {from: this.date_custom , until: this.date_custom })

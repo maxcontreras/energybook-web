@@ -6,6 +6,7 @@ import meters from "@/services/meters";
 import axisParser from "@/mixins/axisParser";
 import notify from "@/mixins/notify";
 import datesValidator from "@/mixins/datesValidator";
+import Minutesss from "@/services/Minutes";
 
 const warnTitle = "Petición en proceso";
 const warnText = "Por favor, espera mientras los datos de la gráfica se cargan";
@@ -143,29 +144,41 @@ export default {
         .then((eds) => {
           if (eds.length > 0) {
             this.eds = eds[0];
-            if (this.eds.services) {
-              this.eds.services.forEach((service) => {
+
+            if (eds[0].tipo == "Acuvim II") {
+              this.eds.devices.forEach((service) => {
                 this.metersFilter.options.push({
-                  value: `${this.eds.meter_id}*EDS*${service.serviceName}`,
-                  text: service.serviceName,
+                  value: `${service.name}*${service.id}`,
+                  text: service.name,
                 });
               });
-            }
-            meters
-              .connectedDevices({
-                id: this.eds.id,
-              })
-              .then((devices) => {
-                devices.forEach((device, index) => {
-                  // Ignore first device. EDS
-                  if (index === 0) return;
+              this.metersFilter.selected = this.metersFilter.options[0].value;
+            } else {
+              if (this.eds.services) {
+                this.eds.services.forEach((service) => {
                   this.metersFilter.options.push({
-                    value: `${this.eds.meter_id}*${device.name}`,
-                    text: device.description,
+                    value: `${this.eds.meter_id}*EDS*${service.serviceName}`,
+                    text: service.serviceName,
                   });
                 });
-                this.metersFilter.selected = this.metersFilter.options[0].value;
-              });
+              }
+
+              meters
+                .connectedDevices({
+                  id: this.eds.id,
+                })
+                .then((devices) => {
+                  devices.forEach((device, index) => {
+                    // Ignore first device. EDS
+                    if (index === 0) return;
+                    this.metersFilter.options.push({
+                      value: `${this.eds.meter_id}*${device.name}`,
+                      text: device.description,
+                    });
+                  });
+                  this.metersFilter.selected = this.metersFilter.options[0].value;
+                });
+            }
           }
         });
     },
@@ -244,114 +257,191 @@ export default {
       const meter_id = meter[0];
       const meter_device = meter[1] === "EDS" ? "" : meter[1];
       const service = meter[1] === "EDS" ? meter[2] : "";
-      console.log(meter_id);
-      console.log(meter_device);
-      console.log(service);
-      console.log(this.currentVariableSelected);
-      console.log(this.graphPeriod.selected);
-      console.log(this.graphInterval.selected);
-      console.log(this.date_custom);
 
-      meters
-        .getStandardReadings(
-          meter_id,
-          meter_device,
-          service,
-          this.currentVariableSelected,
+      if (this.$store.state.mode == "ACUVIM") {
+        console.log("HOLA SOY ACUVIM");
+        console.log(
+          this.graphType.options[this.graphType.selected].variables[0]
+        );
+        Minutesss.StandardReadings(
+          meter[1],
           this.graphPeriod.selected,
           this.graphInterval.selected,
-          this.date_custom
-        )
-        .then((res) => {
-          if (res) {
-            if (res == "") {
+          this.graphType.options[this.graphType.selected].variables[0]
+        ).then((res) => {
+          console.log(res);
+
+          this.array = [];
+          res.response.forEach((value) => {
+            this.array.push(value.value);
+          });
+          var primerdia = res.response[0];
+          var ultimodia = res.response.pop();
+
+          var arrayprimerdia = primerdia.date.match(/.{1,2}/g);
+          var arrayultimodia = ultimodia.date.match(/.{1,2}/g);
+
+          this.fechas =
+            String(arrayprimerdia[0]) +
+            "-" +
+            String(arrayprimerdia[1]) +
+            "-" +
+            String(arrayprimerdia[2]) +
+            String(arrayprimerdia[3]) +
+            " a " +
+            String(arrayultimodia[0]) +
+            "-" +
+            String(arrayultimodia[1]) +
+            "-" +
+            String(arrayultimodia[2]) +
+            String(arrayultimodia[3]);
+
+          if (this.graphType.selected == 1) {
+            // consumo
+
+            this.unidades = " kWh";
+          }
+          if (this.graphType.selected == 0) {
+            // Demanada
+
+            this.unidades = " kW";
+          }
+
+          this.maximo = String(Math.max(...this.array));
+          this.minimo = String(Math.min(...this.array));
+          this.promedio =
+            String(
+              (this.array.reduce((a, b) => a + b, 0) / this.array.length)
+                .toFixed(2)
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            ) + " kWh";
+
+          let { xAxis, tickInterval, data, zones } = this.parseMeterValues(
+            res.response
+          );
+          const update_data = {
+            xAxis: {
+              categories: xAxis,
+              tickInterval,
+              tickmarkPlacement: "on",
+            },
+          };
+          const series = [
+            {
+              data,
+              zones,
+              name: this.currentVariableNameSelected,
+              color: "#2f7ed8",
+            },
+          ];
+          this.currentChart.updateChart(update_data);
+          this.currentChart.updateSeries(series);
+        });
+      } else {
+        meters
+          .getStandardReadings(
+            meter_id,
+            meter_device,
+            service,
+            this.currentVariableSelected,
+            this.graphPeriod.selected,
+            this.graphInterval.selected,
+            this.date_custom
+          )
+          .then((res) => {
+            if (res) {
               console.log(res);
-              this.notify(
-                "Problema al intentar sacar informacion del meter",
-                "Accediendo a la base de datos en busca de valores",
-                "warn"
-              );
+              if (res == "") {
+                console.log(res);
+                this.notify(
+                  "Problema al intentar sacar informacion del meter",
+                  "Accediendo a la base de datos en busca de valores",
+                  "warn"
+                );
 
-              this.graphPeriod = {
-                selected: 1,
-                options: [{ value: 1, text: "Ayer" }],
-              };
-            } else {
-              this.array = [];
-              res.forEach((value) => {
-                this.array.push(value.value);
-              });
-              var primerdia = res[0];
-              var ultimodia = res.pop();
+                this.graphPeriod = {
+                  selected: 1,
+                  options: [{ value: 1, text: "Ayer" }],
+                };
+              } else {
+                this.array = [];
+                res.forEach((value) => {
+                  this.array.push(value.value);
+                });
+                var primerdia = res[0];
+                var ultimodia = res.pop();
 
-              var arrayprimerdia = primerdia.date.match(/.{1,2}/g);
-              var arrayultimodia = ultimodia.date.match(/.{1,2}/g);
+                var arrayprimerdia = primerdia.date.match(/.{1,2}/g);
+                var arrayultimodia = ultimodia.date.match(/.{1,2}/g);
 
-              this.fechas =
-                String(arrayprimerdia[0]) +
-                "-" +
-                String(arrayprimerdia[1]) +
-                "-" +
-                String(arrayprimerdia[2]) +
-                String(arrayprimerdia[3]) +
-                " a " +
-                String(arrayultimodia[0]) +
-                "-" +
-                String(arrayultimodia[1]) +
-                "-" +
-                String(arrayultimodia[2]) +
-                String(arrayultimodia[3]);
+                this.fechas =
+                  String(arrayprimerdia[0]) +
+                  "-" +
+                  String(arrayprimerdia[1]) +
+                  "-" +
+                  String(arrayprimerdia[2]) +
+                  String(arrayprimerdia[3]) +
+                  " a " +
+                  String(arrayultimodia[0]) +
+                  "-" +
+                  String(arrayultimodia[1]) +
+                  "-" +
+                  String(arrayultimodia[2]) +
+                  String(arrayultimodia[3]);
 
-              if (this.graphType.selected == 1) { // consumo 
+                if (this.graphType.selected == 1) {
+                  // consumo
 
-                this.unidades = " kWh"
+                  this.unidades = " kWh";
+                }
+                if (this.graphType.selected == 0) {
+                  // Demanada
 
-              }
-              if (this.graphType.selected == 0) { // Demanada 
+                  this.unidades = " kW";
+                }
 
-                this.unidades = " kW"
+                this.maximo = String(Math.max(...this.array));
+                this.minimo = String(Math.min(...this.array));
+                this.promedio =
+                  String(
+                    (this.array.reduce((a, b) => a + b, 0) / this.array.length)
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ) + " kWh";
 
-              }
-
-
-
-              this.maximo = String(Math.max(...this.array));
-              this.minimo = String(Math.min(...this.array));
-              this.promedio =
-                String(
-                  (this.array.reduce((a, b) => a + b, 0) / this.array.length)
-                    .toFixed(2)
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                ) + " kWh";
-
-              let { xAxis, tickInterval, data, zones } = this.parseMeterValues(
-                res
-              );
-              const update_data = {
-                xAxis: {
-                  categories: xAxis,
+                let {
+                  xAxis,
                   tickInterval,
-                  tickmarkPlacement: "on",
-                },
-              };
-              const series = [
-                {
                   data,
                   zones,
-                  name: this.currentVariableNameSelected,
-                  color: "#2f7ed8",
-                },
-              ];
-              this.currentChart.updateChart(update_data);
-              this.currentChart.updateSeries(series);
+                } = this.parseMeterValues(res);
+                const update_data = {
+                  xAxis: {
+                    categories: xAxis,
+                    tickInterval,
+                    tickmarkPlacement: "on",
+                  },
+                };
+                const series = [
+                  {
+                    data,
+                    zones,
+                    name: this.currentVariableNameSelected,
+                    color: "#2f7ed8",
+                  },
+                ];
+                console.log(zones);
+                this.currentChart.updateChart(update_data);
+                this.currentChart.updateSeries(series);
+              }
             }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          this.dangerAlert = true;
-          this.currentChart.load();
-        });
+          })
+          .catch((error) => {
+            console.log(error);
+            this.dangerAlert = true;
+            this.currentChart.load();
+          });
+      }
     },
     parseMeterValues(values) {
       const dates = [];

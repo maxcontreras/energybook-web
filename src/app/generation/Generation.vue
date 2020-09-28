@@ -86,7 +86,7 @@
             <b-col xl="4" lg="6">
               <reading-card :style="cardStyle">
                 <template v-slot:right-header>
-                  <h5>{{ currentmonth }} </h5>
+                  <h5>{{ currentmonth }}</h5>
                 </template>
                 <template v-slot:body>
                   <b-row class="properties">
@@ -144,7 +144,7 @@ export default {
   components: {
     ReadingCard,
     VProperty,
-    VColumns
+    VColumns,
   },
 
   data() {
@@ -154,11 +154,11 @@ export default {
       Eco2EMensual: "",
       metersFilter: {
         selected: "",
-        options: []
+        options: [],
       },
       eds: [],
       cardStyle: {
-        height: "205px"
+        height: "205px",
       },
       generation: 0,
       generationValue: 0,
@@ -171,34 +171,32 @@ export default {
       images: {
         generation: {
           src: Constants.images.generationCircle,
-          alt: "generation img"
+          alt: "generation img",
         },
         selfConsumption: {
           src: Constants.images.selfConsumption,
-          alt: "self consumption img"
+          alt: "self consumption img",
         },
         netInjection: {
           src: Constants.images.netInjection,
-          alt: "net injection img"
+          alt: "net injection img",
         },
         co2e: {
           src: Constants.images.co2e,
-          alt: "co2e img"
+          alt: "co2e img",
         },
         emissionFactor: {
           src: Constants.images.emissionFactor,
-          alt: "emission factor image"
-        }
-      }
+          alt: "emission factor image",
+        },
+      },
     };
   },
   computed: {
-    currentmonth(){
+    currentmonth() {
       moment().locale();
-   
 
-
-      return  moment().format("MMMM")
+      return moment().format("MMMM");
     },
     companyId() {
       return this.$store.state.company_id;
@@ -206,7 +204,7 @@ export default {
     currentDay() {
       moment().locale();
       return moment().format("dddd D [de] MMMM");
-    }
+    },
   },
   methods: {
     getServerData() {
@@ -221,168 +219,176 @@ export default {
         deviceName = tmpArr[1];
       }
 
-      meters
-        .getCo2e(tmpArr[0], deviceName, serviceName, 3, 3600, {})
-        .then(res => {
-          var sumatoria = 0;
-          res.forEach(elemento => {
-            sumatoria = sumatoria + elemento.co2e;
-          });
+      if (this.$store.state.mode == "ACUVIM") {
+      } else {
+        meters
+          .getCo2e(tmpArr[0], deviceName, serviceName, 3, 3600, {})
+          .then((res) => {
+            var sumatoria = 0;
+            res.forEach((elemento) => {
+              sumatoria = sumatoria + elemento.co2e;
+            });
 
-          this.Eco2EMensual = sumatoria.toFixed(2);
-        });
-
-      meters
-        .getGenerationReadings(
-          //Autoconsumo
-          tmpArr[0],
-          deviceName,
-          serviceName,
-          3,
-          3600,
-          1,
-          {}
-        ) // autoconsumo
-        .then(res => {
-        
-          var sumatoriaautoconsumo = 0;
-          res.forEach(elemento => {
-            sumatoriaautoconsumo = sumatoriaautoconsumo + elemento.value;
+            this.Eco2EMensual = sumatoria.toFixed(2);
           });
-          if (Math.sign(sumatoriaautoconsumo) == -1) {
-            // si es negativo dejarlo en 0
-            this.AutoconsumoMensual = 0;
-          } else {
-            this.AutoconsumoMensual = parseFloat(
-              sumatoriaautoconsumo.toFixed(2)
-            ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-        });
 
         meters
-        .getGenerationReadings(
-          //Autoconsumo
-          tmpArr[0],
-          deviceName,
-          serviceName,
-          3,
-          3600,
-          0,
-          {}
-        ) // generacion
-        .then(res => {
-          console.log(res) 
-
-      
-        });
-
-
-      meters
-        .getGenerationReadings(
-          tmpArr[0],
-          deviceName,
-          serviceName,
-          3,
-          3600,
-          2,
-          {}
-        ) // Inyeccion a la red
-        .then(res => {
-          var sumatoriaInyeccion = 0;
-          res.forEach(elemento => {
-            sumatoriaInyeccion = sumatoriaInyeccion + elemento.value;
+          .getGenerationReadings(
+            //Autoconsumo
+            tmpArr[0],
+            deviceName,
+            serviceName,
+            3,
+            3600,
+            1,
+            {}
+          ) // autoconsumo
+          .then((res) => {
+            var sumatoriaautoconsumo = 0;
+            res.forEach((elemento) => {
+              sumatoriaautoconsumo = sumatoriaautoconsumo + elemento.value;
+            });
+            if (Math.sign(sumatoriaautoconsumo) == -1) {
+              // si es negativo dejarlo en 0
+              this.AutoconsumoMensual = 0;
+            } else {
+              this.AutoconsumoMensual = parseFloat(
+                sumatoriaautoconsumo.toFixed(2)
+              ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
           });
 
-          this.InyeccionMensual = sumatoriaInyeccion
-            .toFixed(2)
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        });
+        meters
+          .getGenerationReadings(
+            //Autoconsumo
+            tmpArr[0],
+            deviceName,
+            serviceName,
+            3,
+            3600,
+            0,
+            {}
+          ) // generacion
+          .then((res) => {
+            console.log(res);
+          });
 
-      designatedMeters
-        .getGeneration(this.companyId, serviceName, deviceName)
-        .then(res => {
-          console.log(this.companyId, serviceName, deviceName);
-          console.log(res);
-          res = res.response;
-          this.co2e = parseFloat(res.co2e.toFixed(2));
-          this.generation = parseFloat(res.generation.toFixed(2));
+        meters
+          .getGenerationReadings(
+            tmpArr[0],
+            deviceName,
+            serviceName,
+            3,
+            3600,
+            2,
+            {}
+          ) // Inyeccion a la red
+          .then((res) => {
+            var sumatoriaInyeccion = 0;
+            res.forEach((elemento) => {
+              sumatoriaInyeccion = sumatoriaInyeccion + elemento.value;
+            });
 
-          if (Math.sign(res.selfConsumption) == -1) {
-            // si es negativo dejarlo en 0
-            this.selfConsumption = 0;
-          } else {
-            this.selfConsumption = parseFloat(res.selfConsumption.toFixed(2));
-          }
-          this.netInjection = parseFloat(res.networkInjection.toFixed(2));
-          this.emissionFactor = parseFloat(res.emissionFactor.toFixed(2));
-          this.generationValue = parseFloat(res.generationValue.toFixed(2));
+            this.InyeccionMensual = sumatoriaInyeccion
+              .toFixed(2)
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          });
 
-          if (Math.sign(res.selfConsumptionValue) == -1) {
-            // si es negativo dejarlo en 0
-            this.selfConsumptionValue = 0;
-          } else {
-            this.selfConsumptionValue = parseFloat(
-              res.selfConsumptionValue.toFixed(2)
+        designatedMeters
+          .getGeneration(this.companyId, serviceName, deviceName)
+          .then((res) => {
+            console.log(this.companyId, serviceName, deviceName);
+            console.log(res);
+            res = res.response;
+            this.co2e = parseFloat(res.co2e.toFixed(2));
+            this.generation = parseFloat(res.generation.toFixed(2));
+
+            if (Math.sign(res.selfConsumption) == -1) {
+              // si es negativo dejarlo en 0
+              this.selfConsumption = 0;
+            } else {
+              this.selfConsumption = parseFloat(res.selfConsumption.toFixed(2));
+            }
+            this.netInjection = parseFloat(res.networkInjection.toFixed(2));
+            this.emissionFactor = parseFloat(res.emissionFactor.toFixed(2));
+            this.generationValue = parseFloat(res.generationValue.toFixed(2));
+
+            if (Math.sign(res.selfConsumptionValue) == -1) {
+              // si es negativo dejarlo en 0
+              this.selfConsumptionValue = 0;
+            } else {
+              this.selfConsumptionValue = parseFloat(
+                res.selfConsumptionValue.toFixed(2)
+              );
+            }
+            this.netInjectionValue = parseFloat(
+              res.networkInjectionValue.toFixed(2)
             );
-          }
-          this.netInjectionValue = parseFloat(
-            res.networkInjectionValue.toFixed(2)
-          );
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     updateServices() {
       designatedMeters
         .find({
           filter: {
             include: ["services"],
-            where: { company_id: this.companyId }
-          }
+            where: { company_id: this.companyId },
+          },
         })
-        .then(eds => {
+        .then((eds) => {
           if (!eds[0]) return;
           this.eds = eds[0];
-          if (this.eds.services) {
-            this.eds.services.forEach(service => {
-              this.metersFilter.options.push({
-                value: `${this.eds.meter_id}*EDS*${service.serviceName}`,
-                text: service.serviceName
-              });
+          console.log(eds);
+          if (eds[0].tipo == "Acuvim II") {
+            this.metersFilter.options.push({
+              value: `${this.eds.meter_id}*${this.eds.id}`,
+              text: this.eds.device_name,
             });
-          }
-          this.eds.services;
-          meters
-            .connectedDevices({
-              id: this.eds.id
-            })
-            .then(devices => {
-              devices.forEach((device, index) => {
-                // Ignore first device. EDS
-                if (index === 0) return;
+            this.metersFilter.selected = this.metersFilter.options[0].value;
+          } else {
+            if (this.eds.services) {
+              this.eds.services.forEach((service) => {
                 this.metersFilter.options.push({
-                  value: `${this.eds.meter_id}*${device.name}`,
-                  text: device.description
+                  value: `${this.eds.meter_id}*EDS*${service.serviceName}`,
+                  text: service.serviceName,
                 });
               });
-              this.metersFilter.selected = this.metersFilter.options[0].value;
-            });
+            }
+            this.eds.services;
+            meters
+              .connectedDevices({
+                id: this.eds.id,
+              })
+              .then((devices) => {
+                devices.forEach((device, index) => {
+                  // Ignore first device. EDS
+                  if (index === 0) return;
+                  this.metersFilter.options.push({
+                    value: `${this.eds.meter_id}*${device.name}`,
+                    text: device.description,
+                  });
+                });
+                this.metersFilter.selected = this.metersFilter.options[0].value;
+              });
+          }
         });
-    }
+    },
   },
   watch: {
     companyId() {
       this.updateServices();
     },
-    "metersFilter.selected": function() {
+    "metersFilter.selected": function () {
       this.getServerData();
-    }
+    },
   },
   mounted() {
     this.updateServices();
-  }
+  },
 };
 </script>
 

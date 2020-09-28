@@ -71,85 +71,85 @@ import VueHighcharts from "vue2-highcharts";
 import meters from "@/services/meters";
 import datePicker from "vue-bootstrap-datetimepicker";
 import { parseDate, parseDateTime, parseDayName } from "@/utils/dateTime";
-
+import Minutesss from "@/services/Minutes";
 const colors = {
   base: "#eddc49",
   middle: "#1dd6c0",
   peak: "#db3c1c",
   diario: "#f48c42",
-  ordinary: "#1dd6c0"
+  ordinary: "#1dd6c0",
 };
 
 var dataColumn = {
   chart: {
-    type: "column"
+    type: "column",
   },
   title: {
-    text: null
+    text: null,
   },
   xAxis: {
-    categories: []
+    categories: [],
   },
   yAxis: {
     title: {
-      text: null
-    }
+      text: null,
+    },
   },
   tooltip: {
     crosshairs: true,
     shared: true,
     pointFormat:
       '<span style="color:{point.color}">\u25CF</span> Costo: <b>${point.y}</b><br/>',
-    valueSuffix: " MXN"
+    valueSuffix: " MXN",
   },
   credits: {
-    enabled: false
+    enabled: false,
   },
   plotOptions: {
     column: {
-      groupPadding: 0
+      groupPadding: 0,
     },
     series: {
       colorByPoint: true,
       pointPadding: 0,
-      groupPadding: 0
-    }
+      groupPadding: 0,
+    },
   },
   series: [
     {
-      data: []
-    }
-  ]
+      data: [],
+    },
+  ],
 };
 
 export default {
   components: {
     VueHighcharts,
-    datePicker
+    datePicker,
   },
 
   props: {
     meterId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       date_custom: {
         from: null,
-        until: null
+        until: null,
       },
       dateConfig: {
         format: "YYYY-MM-DD",
-        useCurrent: false
+        useCurrent: false,
       },
       showDatePicker: false,
       ColumnOptions: dataColumn,
       plot: {
         name: "",
-        data: []
+        data: [],
       },
       buttons: {
         selected: 0,
@@ -158,8 +158,8 @@ export default {
           { value: 0, text: "Hoy" },
           { value: 1, text: "Ayer" },
           { value: 2, text: "Esta Semana" },
-          { value: 3, text: "Este Mes" }
-        ]
+          { value: 3, text: "Este Mes" },
+        ],
       },
       currentPeriod: 0,
       dangerAlert: false,
@@ -168,18 +168,18 @@ export default {
         Intermedia: "#1dd6c0",
         Punta: "#db3c1c",
         Diario: "#f48c42",
-        Ordinario: "#1dd6c0"
+        Ordinario: "#1dd6c0",
       },
       meditionIntervals: ["Cada hora", "Cada día"],
       currentMeditionInterval: 0,
-      isLoading: false
+      isLoading: false,
     };
   },
 
   watch: {
     meterId() {
       this.changeMeter();
-    }
+    },
   },
 
   computed: {
@@ -209,7 +209,7 @@ export default {
 
     company() {
       return this.$store.state.user.company;
-    }
+    },
   },
 
   beforeMount() {
@@ -243,17 +243,17 @@ export default {
       if (moment(this.date_custom.until).isBefore(this.date_custom.from)) {
         errorMessage = {
           title: "Fecha incorrecta",
-          text: "La fecha de inicio no puede ser mayor a la final"
+          text: "La fecha de inicio no puede ser mayor a la final",
         };
       } else if (this.dayDifference > 31) {
         errorMessage = {
           title: "Periodo muy grande",
-          text: "El periodo no puede exceder más de 31 días"
+          text: "El periodo no puede exceder más de 31 días",
         };
       } else if (moment().isBefore(this.date_custom.from)) {
         errorMessage = {
           title: "Periodo inexistente",
-          text: "La fecha de inicio no puede ser mayor a la actual"
+          text: "La fecha de inicio no puede ser mayor a la actual",
         };
       } else {
         isValid = true;
@@ -271,7 +271,7 @@ export default {
             group: "notification",
             type: "warn",
             title: errorMessage.title,
-            text: errorMessage.text
+            text: errorMessage.text,
           });
         }
       }
@@ -283,7 +283,7 @@ export default {
           group: "notification",
           type: "warn",
           title: "Petición en proceso",
-          text: "Por favor, espera mientras los datos de la gráfica se cargan"
+          text: "Por favor, espera mientras los datos de la gráfica se cargan",
         });
         return;
       }
@@ -300,7 +300,7 @@ export default {
           group: "notification",
           type: "warn",
           title: "Petición en proceso",
-          text: "Por favor, espera mientras los datos de la gráfica se cargan"
+          text: "Por favor, espera mientras los datos de la gráfica se cargan",
         });
         return;
       }
@@ -313,7 +313,7 @@ export default {
         }
         this.date_custom = {
           from: null,
-          until: null
+          until: null,
         };
         this.showDatePicker = false;
 
@@ -337,54 +337,112 @@ export default {
     },
 
     getData(filter, interval, chart) {
+      // aqui es bro
       const meter = this.meterId.split("*");
       let meter_id = meter[0];
       let meter_device = meter[1] === "EDS" ? "" : meter[1];
       let service = meter[1] === "EDS" ? meter[2] : "";
-      meters
-        .getConsumptionCostsByFilter(
-          meter_id,
-          meter_device,
-          service,
-          filter,
-          interval,
-          this.date_custom
-        )
-        .then(res => {
-          if (res) {
-            let data = [];
-            let tickInterval;
-            let xAxis = res.map(item => {
-              let time = parseDateTime(item.date);
-              data.push(
-                this.formatData(item.date, item.cost, item.rate, item.rateCosts)
-              );
-              let result = this.formatxAxis(item.date);
-              tickInterval = result.tickInterval;
-              return result.res;
-            });
-            let plotOptions = this.formatPlotOptions(
-              this.currentPeriod,
-              res.length
-            );
-            let tooltip = this.formatTooltip(
-              this.currentMeditionInterval,
-              this.currentPeriod
-            );
+      console.log(this.$store.state.mode);
+      console.log(
+        meter_id,
+        meter_device,
+        service,
+        filter,
+        interval,
+        this.date_custom
+      );
 
-            chart.update({
-              xAxis: { categories: xAxis, tickInterval },
-              plotOptions: plotOptions,
-              tooltip
-            });
-            this.updateSeries(data);
+      if (this.$store.state.mode == "ACUVIM") {
+        Minutesss.ConsumptionCostFilter(meter[1], filter, interval).then(
+          (res) => {
+            if (res) {
+              console.log(res);
+              let data = [];
+              let tickInterval;
+              let xAxis = res.response.map((item) => {
+                let time = parseDateTime(item.date);
+                data.push(
+                  this.formatData(
+                    item.date,
+                    item.cost,
+                    item.rate,
+                    item.rateCosts
+                  )
+                );
+                let result = this.formatxAxis(item.date);
+                tickInterval = result.tickInterval;
+                return result.res;
+              });
+              let plotOptions = this.formatPlotOptions(
+                this.currentPeriod,
+                res.response.length
+              );
+              let tooltip = this.formatTooltip(
+                this.currentMeditionInterval,
+                this.currentPeriod
+              );
+
+              chart.update({
+                xAxis: { categories: xAxis, tickInterval },
+                plotOptions: plotOptions,
+                tooltip,
+              });
+              this.updateSeries(data);
+            }
           }
-        })
-        .catch(err => {
-          console.log(err);
-          this.dangerAlert = true;
-          this.load();
-        });
+        );
+      } else {
+        meters
+          .getConsumptionCostsByFilter(
+            meter_id,
+            meter_device,
+            service,
+            filter,
+            interval,
+            this.date_custom
+          )
+          .then((res) => {
+            if (res) {
+              console.log(res);
+              let data = [];
+              let tickInterval;
+              let xAxis = res.map((item) => {
+                let time = parseDateTime(item.date);
+                data.push(
+                  this.formatData(
+                    item.date,
+                    item.cost,
+                    item.rate,
+                    item.rateCosts
+                  )
+                );
+                let result = this.formatxAxis(item.date);
+                tickInterval = result.tickInterval;
+                return result.res;
+              });
+              let plotOptions = this.formatPlotOptions(
+                this.currentPeriod,
+                res.length
+              );
+              let tooltip = this.formatTooltip(
+                this.currentMeditionInterval,
+                this.currentPeriod
+              );
+
+              chart.update({
+                xAxis: { categories: xAxis, tickInterval },
+                plotOptions: plotOptions,
+                tooltip,
+              });
+              this.updateSeries(data);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.dangerAlert = true;
+            this.load();
+          });
+      }
     },
 
     updateSeries(data) {
@@ -403,12 +461,12 @@ export default {
             '<span style="color:{point.color}">\u25CF</span> Costo Total: <b>${point.y}</b><br>\
                         <span style="color:{point.colors.base}">\u25CF</span> Base: <b>$ {point.rateCosts.base}</b><br>\
                         <span style="color:{point.colors.middle}">\u25CF</span> Media: <b>$ {point.rateCosts.middle}</b><br>\
-                        <span style="color:{point.colors.peak}">\u25CF</span> Punta: <b>$ {point.rateCosts.peak}</b><br>'
+                        <span style="color:{point.colors.peak}">\u25CF</span> Punta: <b>$ {point.rateCosts.peak}</b><br>',
         };
       } else {
         return {
           pointFormat:
-            '<span style="color:{point.color}">\u25CF</span> Costo: <b>${point.y}</b><br/>'
+            '<span style="color:{point.color}">\u25CF</span> Costo: <b>${point.y}</b><br/>',
         };
       }
     },
@@ -418,15 +476,15 @@ export default {
         return {
           series: {
             pointPadding: 0,
-            groupPadding: 0
-          }
+            groupPadding: 0,
+          },
         };
       } else {
         return {
           series: {
             pointPadding: 0.05,
-            groupPadding: 0.05
-          }
+            groupPadding: 0.05,
+          },
         };
       }
     },
@@ -470,7 +528,7 @@ export default {
           y: parseFloat(cost.toFixed(2)),
           color: colors[rate],
           rateCosts,
-          colors
+          colors,
         };
       } else if (
         this.currentMeditionInterval === 1 &&
@@ -481,29 +539,29 @@ export default {
           y: parseFloat(cost.toFixed(2)),
           color: colors[rate],
           rateCosts,
-          colors
+          colors,
         };
       }
       if (this.currentPeriod === 2) {
         return {
           name: `${rate} - ${day} ${time}`,
           y: parseFloat(cost.toFixed(2)),
-          color: colors[rate]
+          color: colors[rate],
         };
       } else if (this.currentPeriod === 3) {
         return {
           name: `${rate} - ${dat} ${time}`,
           y: parseFloat(cost.toFixed(2)),
-          color: colors[rate]
+          color: colors[rate],
         };
       } else {
         return {
           name: `${rate} - ${time}`,
           y: parseFloat(cost.toFixed(2)),
-          color: colors[rate]
+          color: colors[rate],
         };
       }
-    }
-  }
+    },
+  },
 };
 </script>

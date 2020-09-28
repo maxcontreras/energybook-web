@@ -6,7 +6,7 @@ import meters from "@/services/meters";
 import axisParser from "@/mixins/axisParser";
 import notify from "@/mixins/notify";
 import datesValidator from "@/mixins/datesValidator";
-
+import Minutess from "@/services/Minutes";
 const warnTitle = "Petición en proceso";
 const warnText = "Por favor, espera mientras los datos de la gráfica se cargan";
 
@@ -122,21 +122,32 @@ export default {
         .then((eds) => {
           if (!eds[0]) return;
           this.eds = eds[0];
-          meters
-            .connectedDevices({
-              id: this.eds.id,
-            })
-            .then((devices) => {
-              devices.forEach((device, index) => {
-                // Ignore first device. EDS
-                if (index === 0) return;
-                this.metersFilter.options.push({
-                  value: `${this.eds.meter_id} ${device.name}`,
-                  text: device.description,
-                });
+          console.log(eds);
+          if (eds[0].tipo == "Acuvim II") {
+            this.eds.devices.forEach((service) => {
+              this.metersFilter.options.push({
+                value: `${service.name}*${service.id}`,
+                text: service.name,
               });
-              this.metersFilter.selected = this.metersFilter.options[0].value;
             });
+            this.metersFilter.selected = this.metersFilter.options[0].value;
+          } else {
+            meters
+              .connectedDevices({
+                id: this.eds.id,
+              })
+              .then((devices) => {
+                devices.forEach((device, index) => {
+                  // Ignore first device. EDS
+                  if (index === 0) return;
+                  this.metersFilter.options.push({
+                    value: `${this.eds.meter_id} ${device.name}`,
+                    text: device.description,
+                  });
+                });
+                this.metersFilter.selected = this.metersFilter.options[0].value;
+              });
+          }
         });
     },
     setCustomDate() {
@@ -209,32 +220,31 @@ export default {
         });
     },
     getData() {
-      let meter = this.metersFilter.selected.split(" ");
+      let meter = this.metersFilter.selected.split("*");
       let meter_id = meter[0];
       let meter_device = meter[1] === "EDS" ? "" : meter[1];
-      meters
-        .getNetCodeReadings(
-          meter_id,
-          meter_device,
+      console.log(meter);
+      console.log(meter_id, meter_device);
+      console.log(this.$store.state);
+      if (this.$store.state.mode == "ACUVIM") {
+        console.log("soy acuvim");
+        Minutess.NetCodeReadings(
+          meter[1],
           this.graphPeriod.selected,
           this.graphType.options[this.graphType.selected].variables,
-          this.graphInterval.selected,
-          this.date_custom
+          this.graphInterval.selected
         )
-        .then((res) => {
-          if (res) {
+          .then((res) => {
             this.array = [];
-            var resJson = Object.values(res);
+            var resJson = Object.values(res.response);
             resJson.forEach((Arreglo) => {
               Arreglo.forEach((valor) => {
-              
                 this.array.push(parseFloat(valor.value));
               });
             });
 
             var primerdia = resJson[0][0].date;
             var ultimodia = resJson[0].pop().date;
-
             var arrayprimerdia = primerdia.match(/.{1,2}/g);
             var arrayultimodia = ultimodia.match(/.{1,2}/g);
 
@@ -252,27 +262,28 @@ export default {
               "-" +
               String(arrayultimodia[2]) +
               String(arrayultimodia[3]);
-console.log(this.array)
+            console.log(this.array);
+
             this.maximo = String(Math.max(...this.array));
             this.minimo = String(Math.min(...this.array));
 
             if (this.graphType.selected == 0) {
-              this.unidades = " V"
+              this.unidades = " V";
             }
             if (this.graphType.selected == 1) {
-              this.unidades = " A"
+              this.unidades = " A";
             }
             if (this.graphType.selected == 2) {
-              this.unidades = " A"
+              this.unidades = " A";
             }
             if (this.graphType.selected == 3) {
-              this.unidades = " %"
+              this.unidades = " %";
             }
             if (this.graphType.selected == 4) {
-              this.unidades = " kVA "
+              this.unidades = " kVA ";
             }
             if (this.graphType.selected == 5) {
-              this.unidades = " %"
+              this.unidades = " %";
             }
 
             this.promedio = String(
@@ -281,21 +292,10 @@ console.log(this.array)
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             );
 
-            /*      //Checaremos que primero se este tratando del tipo que queremos
-            if (res["Vab"]) {//Voltaje 
-              console.log("se trata de voltaje");
-            }
-            if(res["Ia"]){ // Amperaje Ib e Ic
-console.log("Amperaje")
-            }
-            if(res["THDIa"]){// THDIb THDIc
-                console.log("eres THD")
-            }
-            if(res["Vunbl"])
             console.log(res);
-
-            */
-            let { xAxis, tickInterval, data } = this.parseMeterValues(res);
+            let { xAxis, tickInterval, data } = this.parseMeterValues(
+              res.response
+            );
             const update_data = {
               xAxis: {
                 categories: xAxis,
@@ -312,13 +312,120 @@ console.log("Amperaje")
               });
             }
             this.currentChart.updateSeries(seriesData);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          this.dangerAlert = true;
-          this.currentChart.load();
-        });
+          })
+          .catch((errors) => {
+            console.log(errors);
+          });
+      } else {
+        meters
+          .getNetCodeReadings(
+            meter_id,
+            meter_device,
+            this.graphPeriod.selected,
+            this.graphType.options[this.graphType.selected].variables,
+            this.graphInterval.selected,
+            this.date_custom
+          )
+          .then((res) => {
+            if (res) {
+              this.array = [];
+              var resJson = Object.values(res);
+              resJson.forEach((Arreglo) => {
+                Arreglo.forEach((valor) => {
+                  this.array.push(parseFloat(valor.value));
+                });
+              });
+              console.log(resJson);
+
+              var primerdia = resJson[0][0].date;
+              var ultimodia = resJson[0].pop().date;
+              console.log(primerdia);
+              var arrayprimerdia = primerdia.match(/.{1,2}/g);
+              var arrayultimodia = ultimodia.match(/.{1,2}/g);
+              console.log(arrayprimerdia);
+              this.fechas =
+                String(arrayprimerdia[0]) +
+                "-" +
+                String(arrayprimerdia[1]) +
+                "-" +
+                String(arrayprimerdia[2]) +
+                String(arrayprimerdia[3]) +
+                " a " +
+                String(arrayultimodia[0]) +
+                "-" +
+                String(arrayultimodia[1]) +
+                "-" +
+                String(arrayultimodia[2]) +
+                String(arrayultimodia[3]);
+              console.log(this.array);
+              this.maximo = String(Math.max(...this.array));
+              this.minimo = String(Math.min(...this.array));
+
+              if (this.graphType.selected == 0) {
+                this.unidades = " V";
+              }
+              if (this.graphType.selected == 1) {
+                this.unidades = " A";
+              }
+              if (this.graphType.selected == 2) {
+                this.unidades = " A";
+              }
+              if (this.graphType.selected == 3) {
+                this.unidades = " %";
+              }
+              if (this.graphType.selected == 4) {
+                this.unidades = " kVA ";
+              }
+              if (this.graphType.selected == 5) {
+                this.unidades = " %";
+              }
+
+              this.promedio = String(
+                (this.array.reduce((a, b) => a + b, 0) / this.array.length)
+                  .toFixed(2)
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              );
+
+              /*      //Checaremos que primero se este tratando del tipo que queremos
+            if (res["Vab"]) {//Voltaje 
+              console.log("se trata de voltaje");
+            }
+            if(res["Ia"]){ // Amperaje Ib e Ic
+console.log("Amperaje")
+            }
+            if(res["THDIa"]){// THDIb THDIc
+                console.log("eres THD")
+            }
+            if(res["Vunbl"])
+            console.log(res);
+
+            */
+              console.log(res);
+              let { xAxis, tickInterval, data } = this.parseMeterValues(res);
+              const update_data = {
+                xAxis: {
+                  categories: xAxis,
+                  tickInterval,
+                  tickmarkPlacement: "on",
+                },
+              };
+              this.currentChart.updateChart(update_data);
+              let seriesData = [];
+              for (const key in data) {
+                seriesData.push({
+                  name: key,
+                  data: data[key],
+                });
+              }
+              this.currentChart.updateSeries(seriesData);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            this.dangerAlert = true;
+            this.currentChart.load();
+          });
+      }
     },
     parseMeterValues(values) {
       let dates = [];
